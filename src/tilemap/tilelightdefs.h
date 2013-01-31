@@ -1,0 +1,13 @@
+#ifndef __TILEMAP_TILELIGHTDEFS_H_INCLUDED__
+#define __TILEMAP_TILELIGHTDEFS_H_INCLUDED__
+
+#include "../framework/common.h"
+
+typedef uint8_t TILE_LIGHT_VALUE;
+
+const TILE_LIGHT_VALUE TILE_LIGHT_VALUE_MAX = 15;
+const TILE_LIGHT_VALUE TILE_LIGHT_VALUE_SKY = TILE_LIGHT_VALUE_MAX;
+
+
+#endif
+
