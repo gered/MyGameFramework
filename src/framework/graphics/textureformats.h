@@ -1,0 +1,16 @@
+#ifndef __FRAMEWORK_GRAPHICS_TEXTUREFORMATS_H_INCLUDED__
+#define __FRAMEWORK_GRAPHICS_TEXTUREFORMATS_H_INCLUDED__
+
+/**
+ * Constant values to refer to different kinds of texture data formats.
+ */
+enum TEXTURE_FORMAT
+{
+	TEXTURE_FORMAT_NONE = 0,
+	TEXTURE_FORMAT_RGB = 1,
+	TEXTURE_FORMAT_RGBA = 2,
+	TEXTURE_FORMAT_ALPHA = 3,
+	TEXTURE_FORMAT_DEPTH = 4
+};
+
+#endif
