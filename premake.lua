@@ -4,6 +4,8 @@ SDL_ROOT = os.getenv("SDL_ROOT")
 if not SDL_ROOT and string.find(_ACTION, "vs") then
 	printf("ERROR: Environment variable SDL_ROOT is not set.")
 	os.exit()
+elseif not SDL_ROOT then
+	SDL_ROOT = ""
 end
 
 if _ACTION == "clean" then
