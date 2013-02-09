@@ -13,7 +13,8 @@
 /*.pdb
 /*.dll
 /*.log
+/*.app
 /stdout.txt
 /stderr.txt
-/enginetest
+/MyGameFramework
 /build
