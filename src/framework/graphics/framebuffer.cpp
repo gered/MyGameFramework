@@ -449,7 +449,7 @@ Texture* Framebuffer::GetTexture(FRAMEBUFFER_DATA_TYPE type) const
 	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return NULL;
 	
 	Texture *result = NULL;
 	
@@ -475,7 +475,7 @@ Renderbuffer* Framebuffer::GetRenderbuffer(FRAMEBUFFER_DATA_TYPE type) const
 	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return NULL;
 	
 	Renderbuffer *result = NULL;
 	
