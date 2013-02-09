@@ -12,11 +12,11 @@ if _ACTION == "clean" then
 	os.rmdir(BUILD_DIR)
 end
 
-solution "EngineTest"
+solution "MyGameFramework"
 	configurations { "Debug", "Release" }
 	location (BUILD_DIR .. "/" .. _ACTION)
 	
-project "EngineTest"
+project "MyGameFramework"
 	kind "WindowedApp"
 	language "C++"
 	location (BUILD_DIR .. "/" .. _ACTION)
