@@ -64,6 +64,8 @@ BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *
 	Resize(source->GetNumElements());
 	
 	memcpy(&m_buffer[0], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());	
+	
+	return TRUE;
 }
 
 void IndexBuffer::Set(const uint16_t *indices, uint32_t numIndices)
