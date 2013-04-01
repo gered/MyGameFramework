@@ -16,6 +16,8 @@
 
 #include "vertexattribs.h"
 
+class GraphicsDevice;
+
 /**
  * Wraps management of an array of vertices stored either completely
  * in main memory (client-side) or in video memory.
@@ -23,75 +25,67 @@
 class VertexBuffer : public BufferObject
 {
 public:
-	/**
-	 * Creates an uninitialized vertex buffer object.
-	 * @param usage the expected usage pattern of this vertex buffer
-	 */
-	VertexBuffer(BUFFEROBJECT_USAGE usage);
-
-	/**
-	 * Creates a vertex buffer.
-	 * @param source the source buffer to copy during creation of this buffer
-	 */
-	VertexBuffer(const VertexBuffer *source);
-
+	VertexBuffer();
 	virtual ~VertexBuffer();
-
+	
 	/**
-	 * Adds an attribute to the vertex buffer.
-	 * @param size the size of the attribute's data (specified in number of floats)
-	 * @param standardType the standard type mapping for ease of use (allowing
-	 *                      use of special get/set methods for type safety)
+	 * Initializes the vertex buffer.
+	 * @param attributes the vertex attributes this buffer will contain
+	 * @param numAttributes the number of vertex attributes
+	 * @param numVertices the initial number of vertices this buffer will contain
+	 * @param usage the expected usage pattern of this vertex buffer
 	 * @return TRUE if successful, FALSE if not
 	 */
-	BOOL AddAttribute(uint32_t size, VERTEX_ATTRIBS standardType = VERTEX_GENERIC);
+	BOOL Initialize(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage);
 
 	/**
-	 * Adds an attribute to the vertex buffer.
-	 * @param size the size of the attribute's data
-	 * @param standardType the standard type mapping for ease of use (allowing
-	 *                      use of special get/set methods for type safety)
+	 * Initializes the vertex buffer.
+	 * @param graphicsDevice the graphics device to use to create this buffer
+	 *                       on the GPU
+	 * @param attributes the vertex attributes this buffer will contain
+	 * @param numAttributes the number of vertex attributes
+	 * @param numVertices the initial number of vertices this buffer will contain
+	 * @param usage the expected usage pattern of this vertex buffer
 	 * @return TRUE if successful, FALSE if not
 	 */
-	BOOL AddAttribute(VERTEX_ATTRIB_SIZES size, VERTEX_ATTRIBS standardType = VERTEX_GENERIC);
+	BOOL Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage);
+	
+	/**
+	 * Initializes the vertex buffer.
+	 * @param source the source buffer to create this buffer from. it's
+	 *               properties and vertex data will be used to create this one
+	 * @return TRUE if successful, FALSE if not
+	 */
+	BOOL Initialize(const VertexBuffer *source);
 
 	/**
-	 * Adds an attribute which will be used for one of the standard types of
-	 * data (e.g. 2D/3D vertex position, color, texture coordinates, etc). The
-	 * other attribute information, like size, will be automatically set.
-	 * @param standardType the standard type of the attribute. Cannot be 
-	 *                     VERTEX_GENERIC.
+	 * Initializes the vertex buffer.
+	 * @param graphicsDevice the graphics device to use to create this buffer
+	 *                       on the GPU
+	 * @param source the source buffer to create this buffer from. it's
+	 *               properties and vertex data will be used to create this one
 	 * @return TRUE if successful, FALSE if not
 	 */
-	BOOL AddAttribute(VERTEX_ATTRIBS standardType);
-
-	/**
-	 * Sets this vertex buffer's attributes to match those from a source
-	 * vertex buffer. Any existing attribute information that has been set
-	 * in this vertex buffer will be cleared.
-	 * @param source the source buffer to copy attribute information from
-	 * @return TRUE if successful, FALSE if not
-	 */
-	BOOL CopyAttributesFrom(const VertexBuffer *source);
+	BOOL Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer *source);
 
 	/**
 	 * @return the number of attributes in this vertex buffer
 	 */
-	uint32_t GetNumAttributes() const                      { return m_attribs.size(); }
+	uint32_t GetNumAttributes() const                                           { return m_numAttributes; }
 
 	/**
 	 * Returns information about the specified attribute.
 	 * @param index the index of the attribute to get information about
 	 * @return the attribute's information
 	 */
-	const VertexBufferAttribute* GetAttributeInfo(uint32_t index) const { return &m_attribs[index]; }
+	const VertexBufferAttribute* GetAttributeInfo(uint32_t index) const         { return &m_attribs[index]; }
 
 	/**
 	 * @return the standard attributes included in this buffer's data. Note
 	 *         that this is not necessarily all of the attributes contained in
 	 *         this buffer.
 	 */
-	uint32_t GetStandardAttribs() const                    { return m_standardTypeAttribs; }
+	uint32_t GetStandardAttribs() const                                         { return m_standardTypeAttribs; }
 
 	/**
 	 * Checks whether this buffer's vertex data includes the specified standard
@@ -100,93 +94,74 @@ public:
 	 * @return TRUE if the vertex data in this buffer contains this standard
 	 *              attribute
 	 */
-	BOOL HasStandardAttrib(VERTEX_ATTRIBS standardAttrib) const { return (m_standardTypeAttribs & standardAttrib) > 0; }
+	BOOL HasStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const        { return (m_standardTypeAttribs & (uint32_t)standardAttrib) > 0; }
 
 	/**
 	 * Returns the index of the specified standard attribute.
 	 * @param standardAttrib the standard attribute to get the index of
 	 * @return the index of the attribute, or -1 if it is not present
 	 */
-	int32_t GetIndexOfStandardAttrib(VERTEX_ATTRIBS standardAttrib) const;
-
-	/**
-	 * Allocates the client-side memory buffer for this vertex buffer. All
-	 * attributes must have been added via AddAttribute() before this call. No
-	 * more can be added after this call.
-	 * @param numVertices the initial number of vertices this buffer should hold
-	 * @return TRUE if successful, FALSE if not
-	 */
-	BOOL Create(uint32_t numVertices);
-
-	/**
-	 * Sets up attributes and data to match a source vertex buffer, making an
-	 * exact copy. Any existing attribute definitions made via AddAttribute()
-	 * before this call will be ignored. No more attributes can be added after
-	 * this call.
-	 * @param source the source buffer to copy
-	 * @return TRUE if successful, FALSE if not
-	 */
-	BOOL CreateCopyOf(const VertexBuffer *source);
+	int32_t GetIndexOfStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const;
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the 
 	 * color attribute starts at (in floats)
 	 */
-	uint32_t GetColorOffset() const                        { return m_colorOffset; }
+	uint32_t GetColorOffset() const                                             { return m_colorOffset; }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the 
 	 * 3D position attribute starts at (in floats)
 	 */
-	uint32_t GetPosition3Offset() const                    { return m_position3Offset; }
+	uint32_t GetPosition3Offset() const                                         { return m_position3Offset; }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the 
 	 * 2D position attribute starts at (in floats)
 	 */
-	uint32_t GetPosition2Offset() const                    { return m_position2Offset; }
+	uint32_t GetPosition2Offset() const                                         { return m_position2Offset; }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the 
 	 * normal attribute starts at (in floats)
 	 */
-	uint32_t GetNormalOffset() const                       { return m_normalOffset; }
+	uint32_t GetNormalOffset() const                                            { return m_normalOffset; }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the 
 	 * texture coordinate attribute starts at (in floats)
 	 */
-	uint32_t GetTexCoordOffset() const                     { return m_texCoordOffset; }
+	uint32_t GetTexCoordOffset() const                                          { return m_texCoordOffset; }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the
 	 * color attribute starts at (in bytes)
 	 */
-	uint32_t GetColorOffsetBytes() const                   { return m_colorOffset * sizeof(float); }
+	uint32_t GetColorOffsetBytes() const                                        { return m_colorOffset * sizeof(float); }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the
 	 * 3D position attribute starts at (in bytes)
 	 */
-	uint32_t GetPosition3OffsetBytes() const               { return m_position3Offset * sizeof(float); }
+	uint32_t GetPosition3OffsetBytes() const                                    { return m_position3Offset * sizeof(float); }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the
 	 * 2D position attribute starts at (in bytes)
 	 */
-	uint32_t GetPosition2OffsetBytes() const               { return m_position2Offset * sizeof(float); }
+	uint32_t GetPosition2OffsetBytes() const                                    { return m_position2Offset * sizeof(float); }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the
 	 * normal attribute starts at (in bytes)
 	 */
-	uint32_t GetNormalOffsetBytes() const                  { return m_normalOffset * sizeof(float); }
+	uint32_t GetNormalOffsetBytes() const                                       { return m_normalOffset * sizeof(float); }
 
 	/**
 	 * @return the offset from the start of a single vertex's data that the
 	 * texture coordinate attribute starts at (in bytes)
 	 */
-	uint32_t GetTexCoordOffsetBytes() const                { return m_texCoordOffset * sizeof(float); }
+	uint32_t GetTexCoordOffsetBytes() const                                     { return m_texCoordOffset * sizeof(float); }
 
 	/**
 	 * @param index the vertex to get the color data for
@@ -237,27 +212,27 @@ public:
 	/**
 	 * @return the current vertex's color data
 	 */
-	Color GetCurrentColor() const                          { return GetColor(GetCurrentPosition()); }
+	Color GetCurrentColor() const                                               { return GetColor(GetCurrentPosition()); }
 
 	/**
 	 * @return the current vertex's 3D position data
 	 */
-	Vector3 GetCurrentPosition3() const                    { return GetPosition3(GetCurrentPosition()); }
+	Vector3 GetCurrentPosition3() const                                         { return GetPosition3(GetCurrentPosition()); }
 
 	/**
 	 * @return the current vertex's 2D position data
 	 */
-	Vector2 GetCurrentPosition2() const                    { return GetPosition2(GetCurrentPosition()); }
+	Vector2 GetCurrentPosition2() const                                         { return GetPosition2(GetCurrentPosition()); }
 
 	/**
 	 * @return the current vertex's normal data
 	 */
-	Vector3 GetCurrentNormal() const                       { return GetNormal(GetCurrentPosition()); }
+	Vector3 GetCurrentNormal() const                                            { return GetNormal(GetCurrentPosition()); }
 
 	/**
 	 * @return the current vertex's texture coordinate data
 	 */
-	Vector2 GetCurrentTexCoord() const                     { return GetTexCoord(GetCurrentPosition()); }
+	Vector2 GetCurrentTexCoord() const                                          { return GetTexCoord(GetCurrentPosition()); }
 
 	void GetCurrent1f(uint32_t attrib, float &x) const                               { Get1f(attrib, GetCurrentPosition(), x); }
 	float GetCurrent1f(uint32_t attrib) const                                        { return Get1f(attrib, GetCurrentPosition()); }
@@ -377,7 +352,7 @@ public:
 	 * Sets the current vertex's color attribute.
 	 * @param color the new color attribute to set
 	 */
-	void SetCurrentColor(const Color &color)                  { SetColor(GetCurrentPosition(), color); }
+	void SetCurrentColor(const Color &color)                                    { SetColor(GetCurrentPosition(), color); }
 
 	/**
 	 * Sets the current vertex's color attribute.
@@ -385,7 +360,7 @@ public:
 	 * @param g green component of the color attribute to set
 	 * @param b blue component of the color attribute to set
 	 */
-	void SetCurrentColor(float r, float g, float b)           { SetColor(GetCurrentPosition(), r, g, b); }
+	void SetCurrentColor(float r, float g, float b)                             { SetColor(GetCurrentPosition(), r, g, b); }
 
 	/**
 	 * Sets the current vertex's color attribute.
@@ -394,13 +369,13 @@ public:
 	 * @param b blue component of the color attribute to set
 	 * @param a alpha component of the color attribute to set
 	 */
-	void SetCurrentColor(float r, float g, float b, float a)  { SetColor(GetCurrentPosition(), r, g, b, a); }
+	void SetCurrentColor(float r, float g, float b, float a)                    { SetColor(GetCurrentPosition(), r, g, b, a); }
 
 	/**
 	 * Sets the current vertex's 3D position attribute.
 	 * @param position the new 3D position attribute to set
 	 */
-	void SetCurrentPosition3(const Vector3 &position)         { SetPosition3(GetCurrentPosition(), position); }
+	void SetCurrentPosition3(const Vector3 &position)                           { SetPosition3(GetCurrentPosition(), position); }
 
 	/**
 	 * Sets the current vertex's 3D position attribute.
@@ -408,26 +383,26 @@ public:
 	 * @param y Y coordinate of the 3D position attribute to set
 	 * @param z Z coordinate of the 3D position attribute to set
 	 */
-	void SetCurrentPosition3(float x, float y, float z)       { SetPosition3(GetCurrentPosition(), x, y, z); }
+	void SetCurrentPosition3(float x, float y, float z)                         { SetPosition3(GetCurrentPosition(), x, y, z); }
 
 	/**
 	 * Sets the current vertex's 2D position attribute.
 	 * @param position the new 2D position attribute to set
 	 */
-	void SetCurrentPosition2(const Vector2 &position)         { SetPosition2(GetCurrentPosition(), position); }
+	void SetCurrentPosition2(const Vector2 &position)                           { SetPosition2(GetCurrentPosition(), position); }
 
 	/**
 	 * Sets the current vertex's 2D position attribute.
 	 * @param x X coordinate of the 2D position attribute to set
 	 * @param y Y coordinate of the 2D position attribute to set
 	 */
-	void SetCurrentPosition2(float x, float y)                { SetPosition2(GetCurrentPosition(), x, y); }
+	void SetCurrentPosition2(float x, float y)                                  { SetPosition2(GetCurrentPosition(), x, y); }
 
 	/**
 	 * Sets the current vertex's normal attribute.
 	 * @param position the new normal attribute to set
 	 */
-	void SetCurrentNormal(const Vector3 &normal)              { SetNormal(GetCurrentPosition(), normal); }
+	void SetCurrentNormal(const Vector3 &normal)                                { SetNormal(GetCurrentPosition(), normal); }
 
 	/**
 	 * Sets the current vertex's normal attribute.
@@ -435,30 +410,30 @@ public:
 	 * @param y Y coordinate of the normal attribute to set
 	 * @param z Z coordinate of the normal attribute to set
 	 */
-	void SetCurrentNormal(float x, float y, float z)          { SetNormal(GetCurrentPosition(), x, y, z); }
+	void SetCurrentNormal(float x, float y, float z)                            { SetNormal(GetCurrentPosition(), x, y, z); }
 
 	/**
 	 * Sets the current vertex's texture coordinate attribute.
 	 * @param texCoord the new texture coordinate attribute to set
 	 */
-	void SetCurrentTexCoord(const Vector2 &texCoord)          { SetTexCoord(GetCurrentPosition(), texCoord); }
+	void SetCurrentTexCoord(const Vector2 &texCoord)                            { SetTexCoord(GetCurrentPosition(), texCoord); }
 
 	/**
 	 * Sets the current vertex's texture coordinate attribute.
 	 * @param x U coordinate of the texture coordinate attribute to set
 	 * @param y V coordinate of the texture coordinate attribute to set
 	 */
-	void SetCurrentTexCoord(float x, float y)                 { SetTexCoord(GetCurrentPosition(), x, y); }
+	void SetCurrentTexCoord(float x, float y)                                   { SetTexCoord(GetCurrentPosition(), x, y); }
 
-	void SetCurrent1f(uint32_t attrib, float x)                            { Set1f(attrib, GetCurrentPosition(), x); }
-	void SetCurrent2f(uint32_t attrib, float x, float y)                   { Set2f(attrib, GetCurrentPosition(), x, y); }
-	void SetCurrent2f(uint32_t attrib, const Vector2 &v)                   { Set2f(attrib, GetCurrentPosition(), v); }
-	void SetCurrent3f(uint32_t attrib, float x, float y, float z)          { Set3f(attrib, GetCurrentPosition(), x, y, z); }
-	void SetCurrent3f(uint32_t attrib, const Vector3 &v)                   { Set3f(attrib, GetCurrentPosition(), v); }
-	void SetCurrent4f(uint32_t attrib, float x, float y, float z, float w) { Set4f(attrib, GetCurrentPosition(), x, y, z, w); }
-	void SetCurrent4f(uint32_t attrib, const Color &c)                     { Set4f(attrib, GetCurrentPosition(), c); }
-	void SetCurrent9f(uint32_t attrib, const Matrix3x3 &m)                 { Set9f(attrib, GetCurrentPosition(), m); }
-	void SetCurrent16f(uint32_t attrib, const Matrix4x4 &m)                { Set16f(attrib, GetCurrentPosition(), m); }
+	void SetCurrent1f(uint32_t attrib, float x)                                 { Set1f(attrib, GetCurrentPosition(), x); }
+	void SetCurrent2f(uint32_t attrib, float x, float y)                        { Set2f(attrib, GetCurrentPosition(), x, y); }
+	void SetCurrent2f(uint32_t attrib, const Vector2 &v)                        { Set2f(attrib, GetCurrentPosition(), v); }
+	void SetCurrent3f(uint32_t attrib, float x, float y, float z)               { Set3f(attrib, GetCurrentPosition(), x, y, z); }
+	void SetCurrent3f(uint32_t attrib, const Vector3 &v)                        { Set3f(attrib, GetCurrentPosition(), v); }
+	void SetCurrent4f(uint32_t attrib, float x, float y, float z, float w)      { Set4f(attrib, GetCurrentPosition(), x, y, z, w); }
+	void SetCurrent4f(uint32_t attrib, const Color &c)                          { Set4f(attrib, GetCurrentPosition(), c); }
+	void SetCurrent9f(uint32_t attrib, const Matrix3x3 &m)                      { Set9f(attrib, GetCurrentPosition(), m); }
+	void SetCurrent16f(uint32_t attrib, const Matrix4x4 &m)                     { Set16f(attrib, GetCurrentPosition(), m); }
 
 	/**
 	 * Moves the current vertex position to the next position.
@@ -487,18 +462,18 @@ public:
 	/**
 	 * Moves the current vertex position to the beginning of the buffer.
 	 */
-	void MoveToStart()                                     { m_currentVertex = 0; }
+	void MoveToStart()                                                          { m_currentVertex = 0; }
 
 	/**
 	 * Moves the current vertex position to the end of the buffer.
 	 */
-	void MoveToEnd()                                       { m_currentVertex = GetNumElements() - 1; }
+	void MoveToEnd()                                                            { m_currentVertex = GetNumElements() - 1; }
 
 	/**
 	 * Moves the current vertex position to the position specified.
 	 * @param index the position to move to
 	 */
-	void MoveTo(uint32_t index)                            { m_currentVertex = index; }
+	void MoveTo(uint32_t index)                                                 { m_currentVertex = index; }
 
 	/**
 	 * Resizes the buffer capacity to hold the specified number of vertices.
@@ -525,39 +500,41 @@ public:
 	/**
 	 * @return the number of vertices contained in this buffer
 	 */
-	uint32_t GetNumElements() const                        { return m_numVertices; }
+	uint32_t GetNumElements() const                                             { return m_numVertices; }
 
 	/**
 	 * @return the size in bytes of each vertex in this buffer object
 	 */
-	size_t GetElementWidthInBytes() const                  { return m_elementWidth * sizeof(float); }
+	size_t GetElementWidthInBytes() const                                       { return m_elementWidth * sizeof(float); }
 
 	/**
 	 * @return pointer to this buffer object's raw data
 	 */
-	const void* GetBuffer() const                          { return &m_buffer[0]; }
+	const void* GetBuffer() const                                               { return &m_buffer[0]; }
 
 	/**
 	 * @return the current position in the buffer
 	 */
-	uint32_t GetCurrentPosition() const                    { return m_currentVertex; }
+	uint32_t GetCurrentPosition() const                                         { return m_currentVertex; }
 
 	/**
 	 * @return the number of vertex spaces left between the current position
 	 *         and the end of the buffer
 	 */
-	uint32_t GetRemainingSpace() const                     { return (GetNumElements() - 1) - GetCurrentPosition(); }
+	uint32_t GetRemainingSpace() const                                          { return (GetNumElements() - 1) - GetCurrentPosition(); }
 
 private:
-	BOOL IsBufferAllocated() const                         { return m_buffer.size() > 0; }
+	BOOL SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes);
+	
+	BOOL IsBufferAllocated() const                                              { return m_buffer.size() > 0; }
 
-	uint32_t GetVertexPosition(uint32_t index) const                         { return (index * m_elementWidth); }
-	uint32_t GetColorBufferPosition(uint32_t index) const                    { return GetVertexPosition(index) + m_colorOffset; }
-	uint32_t GetPosition3BufferPosition(uint32_t index) const                { return GetVertexPosition(index) + m_position3Offset; }
-	uint32_t GetPosition2BufferPosition(uint32_t index) const                { return GetVertexPosition(index) + m_position2Offset; }
-	uint32_t GetNormalBufferPosition(uint32_t index) const                   { return GetVertexPosition(index) + m_normalOffset; }
-	uint32_t GetTexCoordBufferPosition(uint32_t index) const                 { return GetVertexPosition(index) + m_texCoordOffset; }
-	uint32_t GetGenericBufferPosition(uint32_t attrib, uint32_t index) const { return GetVertexPosition(index) + m_attribs[attrib].offset; }
+	uint32_t GetVertexPosition(uint32_t index) const                            { return (index * m_elementWidth); }
+	uint32_t GetColorBufferPosition(uint32_t index) const                       { return GetVertexPosition(index) + m_colorOffset; }
+	uint32_t GetPosition3BufferPosition(uint32_t index) const                   { return GetVertexPosition(index) + m_position3Offset; }
+	uint32_t GetPosition2BufferPosition(uint32_t index) const                   { return GetVertexPosition(index) + m_position2Offset; }
+	uint32_t GetNormalBufferPosition(uint32_t index) const                      { return GetVertexPosition(index) + m_normalOffset; }
+	uint32_t GetTexCoordBufferPosition(uint32_t index) const                    { return GetVertexPosition(index) + m_texCoordOffset; }
+	uint32_t GetGenericBufferPosition(uint32_t attrib, uint32_t index) const    { return GetVertexPosition(index) + m_attribs[attrib].offset; }
 
 	uint32_t m_numVertices;
 	uint32_t m_currentVertex;
@@ -572,15 +549,11 @@ private:
 	uint32_t m_texCoordOffset;
 	// ---
 
-	stl::vector<VertexBufferAttribute> m_attribs;
+	VertexBufferAttribute *m_attribs;
+	uint32_t m_numAttributes;
 	uint32_t m_numGPUAttributeSlotsUsed;
 	stl::vector<float> m_buffer;
 };
-
-inline BOOL VertexBuffer::AddAttribute(VERTEX_ATTRIB_SIZES size, VERTEX_ATTRIBS standardType)
-{
-	return AddAttribute((uint32_t)size, standardType);
-}
 
 inline Color VertexBuffer::GetColor(uint32_t index) const
 {

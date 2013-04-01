@@ -7,8 +7,7 @@
 const unsigned int FLOATS_PER_GPU_ATTRIB_SLOT = 4;
 const unsigned int MAX_GPU_ATTRIB_SLOTS = 8;
 
-VertexBuffer::VertexBuffer(BUFFEROBJECT_USAGE usage)
-	: BufferObject(BUFFEROBJECT_TYPE_VERTEX, usage)
+VertexBuffer::VertexBuffer()
 {
 	STACK_TRACE;
 	m_numVertices = 0;
@@ -20,6 +19,8 @@ VertexBuffer::VertexBuffer(BUFFEROBJECT_USAGE usage)
 	m_position3Offset = 0;
 	m_normalOffset = 0;
 	m_texCoordOffset = 0;
+	m_numAttributes = 0;
+	m_attribs = NULL;
 	m_numGPUAttributeSlotsUsed = 0;
 }
 
@@ -28,200 +29,186 @@ VertexBuffer::~VertexBuffer()
 	STACK_TRACE;
 }
 
-BOOL VertexBuffer::AddAttribute(uint32_t size, VERTEX_ATTRIBS standardType)
+BOOL VertexBuffer::Initialize(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage)
 {
 	STACK_TRACE;
-	ASSERT(standardType == VERTEX_GENERIC || HasStandardAttrib(standardType) == FALSE);
-	ASSERT(size <= 16);
+	return Initialize(NULL, attributes, numAttributes, numVertices, usage);
+}
 
-	if (standardType != VERTEX_GENERIC && HasStandardAttrib(standardType))
+BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage)
+{
+	STACK_TRACE;
+	ASSERT(m_buffer.size() == 0);
+	if (m_buffer.size() > 0)
 		return FALSE;
-	if (size > 16)
+	
+	if (!BufferObject::Initialize(graphicsDevice, BUFFEROBJECT_TYPE_VERTEX, usage))
 		return FALSE;
-
-	// using integer division that rounds up (so given size = 13, result is 4, not 3)
-	uint32_t numGPUAttributeSlotsUsed = (size + (FLOATS_PER_GPU_ATTRIB_SLOT - 1)) / FLOATS_PER_GPU_ATTRIB_SLOT;
-	ASSERT(m_numGPUAttributeSlotsUsed + numGPUAttributeSlotsUsed <= MAX_GPU_ATTRIB_SLOTS);
-	if (m_numGPUAttributeSlotsUsed + numGPUAttributeSlotsUsed > MAX_GPU_ATTRIB_SLOTS)
+	
+	if (!SetSizesAndOffsets(attributes, numAttributes))
 		return FALSE;
-
-	VertexBufferAttribute newAttrib;
-	newAttrib.standardType = standardType;
-	newAttrib.size = size;
-	newAttrib.offset = m_elementWidth;
-
-	switch (standardType)
-	{
-	case VERTEX_POS_2D:
-		ASSERT(size == 2);
-		if (size != 2)
-			return FALSE;
-		m_position2Offset = newAttrib.offset;
-		break;
-	case VERTEX_POS_3D:
-		ASSERT(size == 3);
-		if (size != 3)
-			return FALSE;
-		m_position3Offset = newAttrib.offset;
-		break;
-	case VERTEX_NORMAL:
-		ASSERT(size == 3);
-		if (size != 3)
-			return FALSE;
-		m_normalOffset = newAttrib.offset;
-		break;
-	case VERTEX_COLOR:
-		ASSERT(size == 4);
-		if (size != 4)
-			return FALSE;
-		m_colorOffset = newAttrib.offset;
-		break;
-	case VERTEX_TEXCOORD:
-		ASSERT(size == 2);
-		if (size != 2)
-			return FALSE;
-		m_texCoordOffset = newAttrib.offset;
-		break;
-	case VERTEX_GENERIC:
-		break;
-	}
-
-	m_attribs.push_back(newAttrib);
-
-	m_elementWidth += size;
-	m_numGPUAttributeSlotsUsed += numGPUAttributeSlotsUsed;
-	SetBit(standardType, m_standardTypeAttribs);
-
+	
+	Resize(numVertices);
+	
 	return TRUE;
 }
 
-BOOL VertexBuffer::AddAttribute(VERTEX_ATTRIBS standardType)
+BOOL VertexBuffer::Initialize(const VertexBuffer *source)
 {
 	STACK_TRACE;
-	ASSERT(standardType != VERTEX_GENERIC);
-	if (standardType == VERTEX_GENERIC)
-		return FALSE;
-
-	ASSERT(HasStandardAttrib(standardType) == FALSE);
-	if (HasStandardAttrib(standardType))
-		return FALSE;
-
-	BOOL result = FALSE;
-
-	switch (standardType)
-	{
-	case VERTEX_POS_2D:
-		result = AddAttribute(ATTRIB_SIZE_VEC2, VERTEX_POS_2D);
-		break;
-	case VERTEX_POS_3D:
-		result = AddAttribute(ATTRIB_SIZE_VEC3, VERTEX_POS_3D);
-		break;
-	case VERTEX_NORMAL:
-		result = AddAttribute(ATTRIB_SIZE_VEC3, VERTEX_NORMAL);
-		break;
-	case VERTEX_COLOR:
-		result = AddAttribute(ATTRIB_SIZE_VEC4, VERTEX_COLOR);
-		break;
-	case VERTEX_TEXCOORD:
-		result = AddAttribute(ATTRIB_SIZE_VEC2, VERTEX_TEXCOORD);
-		break;
-	case VERTEX_GENERIC:
-		break;
-	}
-
-	return result;
+	return Initialize(NULL, source);
 }
 
-BOOL VertexBuffer::CopyAttributesFrom(const VertexBuffer *source)
+BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer *source)
 {
 	STACK_TRACE;
-	ASSERT(source != NULL);
-	if (source == NULL)
-		return FALSE;
-
-	ASSERT(source->GetNumAttributes() != 0);
 	ASSERT(m_buffer.size() == 0);
-
-	if (source->GetNumAttributes() == 0)
-		return FALSE;
 	if (m_buffer.size() > 0)
 		return FALSE;
 
-	m_attribs.clear();
-	for (uint32_t i = 0; i < source->GetNumAttributes(); ++i)
+	ASSERT(source != NULL);
+	if (source == NULL)
+		return FALSE;
+	
+	ASSERT(source->GetNumElements() > 0);
+	if (source->GetNumElements() == 0)
+		return FALSE;
+	
+	if (!BufferObject::Initialize(graphicsDevice, BUFFEROBJECT_TYPE_VERTEX, source->GetUsage()))
+		return FALSE;
+	
+	uint32_t numAttribs = source->GetNumAttributes();
+	VERTEX_ATTRIBS *attribs = new VERTEX_ATTRIBS[numAttribs];
+	for (uint32_t i = 0; i < numAttribs; ++i)
+		attribs[i] = source->GetAttributeInfo(i)->standardType;
+	
+	BOOL success = SetSizesAndOffsets(attribs, numAttribs);
+	if (success)
 	{
-		const VertexBufferAttribute *sourceAttrib = source->GetAttributeInfo(i);
-		AddAttribute(sourceAttrib->size, sourceAttrib->standardType);
+		Resize(source->GetNumElements());
+		Copy(source, 0);
 	}
-
-	return TRUE;
+	
+	SAFE_DELETE_ARRAY(attribs);
+	
+	return success;
 }
 
-int32_t VertexBuffer::GetIndexOfStandardAttrib(VERTEX_ATTRIBS standardAttrib) const
+BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes)
 {
 	STACK_TRACE;
-	ASSERT(standardAttrib != VERTEX_GENERIC);
-	if (standardAttrib == VERTEX_GENERIC)
-		return -1;
-
-	for (uint32_t i = 0; i < m_attribs.size(); ++i)
+	ASSERT(attributes != NULL);
+	ASSERT(numAttributes > 0);
+	ASSERT(m_buffer.size() == 0);
+	ASSERT(m_attribs == NULL);
+	
+	if (attributes == NULL)
+		return FALSE;
+	if (numAttributes == 0)
+		return FALSE;
+	if (m_buffer.size() > 0)
+		return FALSE;
+	if (m_attribs != NULL)
+		return FALSE;
+	
+	uint32_t numGpuSlotsUsed = 0;
+	uint32_t offset = 0;
+	
+	VertexBufferAttribute *attribsInfo = new VertexBufferAttribute[numAttributes];
+	BOOL success = TRUE;
+	
+	for (uint32_t i = 0; i < numAttributes; ++i)
 	{
-		if (m_attribs[i].standardType == standardAttrib)
+		VERTEX_ATTRIBS attrib = attributes[i];
+		
+		// TODO: endianness
+		uint8_t size = (uint8_t)attrib;  // low byte
+		uint8_t standardTypeBitMask = (uint8_t)((uint16_t)attrib >> 8);
+		
+		// using integer division that rounds up (so given size = 13, result is 4, not 3)
+		uint32_t thisAttribsGpuSlotSize = ((uint32_t)size + (FLOATS_PER_GPU_ATTRIB_SLOT - 1)) / FLOATS_PER_GPU_ATTRIB_SLOT;
+		ASSERT(numGpuSlotsUsed + thisAttribsGpuSlotSize <= MAX_GPU_ATTRIB_SLOTS);
+		if (numGpuSlotsUsed + thisAttribsGpuSlotSize > MAX_GPU_ATTRIB_SLOTS)
+		{
+			success = FALSE;
+			break;
+		}
+		
+		if (standardTypeBitMask > 0)
+		{
+			// ensure no duplicate standard attribute types are specified
+			ASSERT(IsBitSet(standardTypeBitMask, m_standardTypeAttribs) == FALSE);
+			if (IsBitSet(standardTypeBitMask, m_standardTypeAttribs))
+			{
+				success = FALSE;
+				break;
+			}
+			
+			SetBit(standardTypeBitMask, m_standardTypeAttribs);
+			
+			// record offset position for each standard type attribute
+			switch ((VERTEX_STANDARD_ATTRIBS)attrib)
+			{
+				case VERTEX_STD_POS_2D:     m_position2Offset = offset; break;
+				case VERTEX_STD_POS_3D:     m_position3Offset = offset; break;
+				case VERTEX_STD_NORMAL:     m_normalOffset = offset; break;
+				case VERTEX_STD_COLOR:      m_colorOffset = offset; break;
+				case VERTEX_STD_TEXCOORD:   m_texCoordOffset = offset; break;
+			}
+		}
+
+		// set attribute info
+		attribsInfo[i].offset = offset;
+		attribsInfo[i].size = size;
+		attribsInfo[i].standardType = attrib;
+		
+		// advance to the next spot
+		m_elementWidth += size;
+		offset += size;
+		numGpuSlotsUsed += thisAttribsGpuSlotSize;
+	}
+	
+	if (!success)
+	{
+		SAFE_DELETE_ARRAY(attribsInfo)
+		m_attribs = NULL;
+		m_numAttributes = 0;
+		m_elementWidth = 0;
+		
+		m_position2Offset = 0;
+		m_position3Offset = 0;
+		m_normalOffset = 0;
+		m_colorOffset = 0;
+		m_texCoordOffset = 0;
+	}
+	else
+	{
+		m_attribs = attribsInfo;
+		m_numAttributes = numAttributes;
+	}
+	
+	return success;
+}
+
+int32_t VertexBuffer::GetIndexOfStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const
+{
+	STACK_TRACE;
+	for (uint32_t i = 0; i < m_numAttributes; ++i)
+	{
+		if ((uint32_t)m_attribs[i].standardType == (uint32_t)standardAttrib)
 			return (int32_t)i;
 	}
 
 	return -1;
 }
 
-BOOL VertexBuffer::Create(uint32_t numVertices)
-{
-	STACK_TRACE;
-	ASSERT(m_attribs.size() > 0);
-	ASSERT(m_buffer.size() == 0);
-	ASSERT(m_elementWidth > 0);
-
-	if (m_attribs.size() == 0)
-		return FALSE;
-	if (m_buffer.size() > 0)
-		return FALSE;
-	if (m_elementWidth == 0)
-		return FALSE;
-
-	Resize(numVertices);
-
-	return TRUE;
-}
-
-BOOL VertexBuffer::CreateCopyOf(const VertexBuffer *source)
-{
-	STACK_TRACE;
-	ASSERT(source != NULL);
-	if (source == NULL)
-		return FALSE;
-
-	ASSERT(source->GetNumElements() != 0);
-	ASSERT(m_buffer.size() == 0);
-
-	if (source->GetNumElements() == 0)
-		return FALSE;
-	if (m_buffer.size() > 0)
-		return FALSE;
-
-	BOOL attribCopyResult = CopyAttributesFrom(source);
-	if (!attribCopyResult)
-		return FALSE;
-
-	Resize(source->GetNumElements());
-
-	memcpy(&m_buffer[0], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());
-
-	return TRUE;
-}
-
-
 void VertexBuffer::Resize(uint32_t numVertices)
 {
 	STACK_TRACE;
+	ASSERT(numVertices > 0);
+	if (numVertices == 0)
+		return;
+	
 	m_buffer.resize(numVertices * m_elementWidth, 0.0f);
 	m_numVertices = numVertices;
 
