@@ -27,28 +27,30 @@ class BufferObject : public GraphicsContextResource
 {
 public:
 	BufferObject();
-	virtual ~BufferObject();
+	virtual ~BufferObject()                                                     { Release(); }
+	
+	virtual void Release();
 
 	/**
 	 * @return TRUE if this buffer object is holding client side data only
 	 *              (hasn't been created as a buffer object in video memory)
 	 */
-	BOOL IsClientSideBuffer() const                        { return m_bufferId == 0; }
+	BOOL IsClientSideBuffer() const                                             { return m_bufferId == 0; }
 
 	/**
 	 * @return the type of data this buffer holds
 	 */
-	BUFFEROBJECT_TYPE GetType() const                      { return m_type; }
+	BUFFEROBJECT_TYPE GetType() const                                           { return m_type; }
 
 	/**
 	 * @return the expected usage pattern of this buffer object
 	 */
-	BUFFEROBJECT_USAGE GetUsage() const                    { return m_usage; }
+	BUFFEROBJECT_USAGE GetUsage() const                                         { return m_usage; }
 
 	/**
 	 * @return the size in bytes of this buffer object (including it's data)
 	 */
-	size_t GetSizeInBytes() const                          { return m_sizeInBytes; }
+	size_t GetSizeInBytes() const                                               { return m_sizeInBytes; }
 
 	/**
 	 * @return the number of elements contained in this buffer object
@@ -64,7 +66,7 @@ public:
 	 * @return TRUE if some or all of the buffer data has been changed since
 	 *              the last Update() call
 	 */
-	BOOL IsDirty() const                                   { return m_isDirty; }
+	BOOL IsDirty() const                                                        { return m_isDirty; }
 
 	/**
 	 * Uploads the current buffer data to video memory.
@@ -79,7 +81,7 @@ public:
 	/**
 	 * @return the OpenGL buffer object ID for this buffer
 	 */
-	uint32_t GetBufferId() const                           { return m_bufferId; }
+	uint32_t GetBufferId() const                                                { return m_bufferId; }
 
 	void OnNewContext();
 	void OnLostContext();
@@ -116,7 +118,7 @@ protected:
 	void CreateBufferObject();
 	void FreeBufferObject();
 	void SizeBufferObject();
-	void SetDirty()                                        { m_isDirty = TRUE; }
+	void SetDirty()                                                             { m_isDirty = TRUE; }
 
 private:
 

@@ -14,7 +14,9 @@ class GraphicsContextResource
 {
 public:
 	GraphicsContextResource();
-	virtual ~GraphicsContextResource();
+	virtual ~GraphicsContextResource()                                          { Release(); }
+	
+	virtual void Release();
 	
 	/**
 	 * New OpenGL graphics context creation callback.

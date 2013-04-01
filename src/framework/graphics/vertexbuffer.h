@@ -26,7 +26,12 @@ class VertexBuffer : public BufferObject
 {
 public:
 	VertexBuffer();
-	virtual ~VertexBuffer();
+	virtual ~VertexBuffer()                                                     { Release(); }
+	
+	/**
+	 * Releases all resources associated with this vertex buffer.
+	 */
+	virtual void Release();
 	
 	/**
 	 * Initializes the vertex buffer.

@@ -14,11 +14,19 @@ BufferObject::BufferObject()
 	m_sizeInBytes = 0;
 }
 
-BufferObject::~BufferObject()
+void BufferObject::Release()
 {
 	STACK_TRACE;
 	if (!IsClientSideBuffer())
 		FreeBufferObject();
+
+	m_type = BUFFEROBJECT_TYPE_VERTEX;
+	m_usage = BUFFEROBJECT_USAGE_STATIC;
+	m_bufferId = 0;
+	m_isDirty = FALSE;
+	m_sizeInBytes = 0;
+	
+	GraphicsContextResource::Release();
 }
 
 BOOL BufferObject::Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)

@@ -24,9 +24,26 @@ VertexBuffer::VertexBuffer()
 	m_numGPUAttributeSlotsUsed = 0;
 }
 
-VertexBuffer::~VertexBuffer()
+void VertexBuffer::Release()
 {
 	STACK_TRACE;
+	m_buffer.clear();
+	stl::vector<float>().swap(m_buffer);
+	
+	m_numVertices = 0;
+	m_currentVertex = 0;
+	m_standardTypeAttribs = 0;
+	m_elementWidth = 0;
+	m_colorOffset = 0;
+	m_position2Offset = 0;
+	m_position3Offset = 0;
+	m_normalOffset = 0;
+	m_texCoordOffset = 0;
+	m_numAttributes = 0;
+	m_attribs = NULL;
+	m_numGPUAttributeSlotsUsed = 0;
+	
+	BufferObject::Release();
 }
 
 BOOL VertexBuffer::Initialize(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage)

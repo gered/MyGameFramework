@@ -10,9 +10,13 @@ IndexBuffer::IndexBuffer()
 	m_currentIndex = 0;
 }
 
-IndexBuffer::~IndexBuffer()
+void IndexBuffer::Release()
 {
-	STACK_TRACE;
+	m_buffer.clear();
+	stl::vector<uint16_t>().swap(m_buffer);
+	m_currentIndex = 0;
+	
+	BufferObject::Release();
 }
 
 BOOL IndexBuffer::Initialize(uint32_t numIndices, BUFFEROBJECT_USAGE usage)

@@ -9,11 +9,13 @@ GraphicsContextResource::GraphicsContextResource()
 	m_graphicsDevice = NULL;
 }
 
-GraphicsContextResource::~GraphicsContextResource()
+void GraphicsContextResource::Release()
 {
 	STACK_TRACE;
 	if (m_graphicsDevice != NULL)
 		m_graphicsDevice->UnregisterManagedResource(this);
+	
+	m_graphicsDevice = NULL;
 }
 
 BOOL GraphicsContextResource::Initialize()

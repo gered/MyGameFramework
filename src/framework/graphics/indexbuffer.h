@@ -17,7 +17,12 @@ class IndexBuffer : public BufferObject
 {
 public:
 	IndexBuffer();
-	virtual ~IndexBuffer();
+	virtual ~IndexBuffer()                                                      { Release(); }
+	
+	/**
+	 * Releases all resources associated with this index buffer.
+	 */
+	virtual void Release();
 	
 	/**
 	 * Initializes the index buffer.
@@ -94,24 +99,24 @@ public:
 	/**
 	 * Moves the current index position to the beginning of the buffer.
 	 */
-	void MoveToStart()                                     { m_currentIndex = 0; }
+	void MoveToStart()                                                          { m_currentIndex = 0; }
 
 	/**
 	 * Moves the current index position to the end of the buffer.
 	 */
-	void MoveToEnd()                                       { m_currentIndex = GetNumElements() - 1; }
+	void MoveToEnd()                                                            { m_currentIndex = GetNumElements() - 1; }
 
 	/**
 	 * Moves the current index position to the position specified.
 	 * @param index the position to move to
 	 */
-	void MoveTo(uint32_t index)                            { m_currentIndex = index; }
+	void MoveTo(uint32_t index)                                                 { m_currentIndex = index; }
 
 	/**
 	 * Sets the index at the current position to a new value.
 	 * @param index the new value to set
 	 */
-	void SetCurrent(uint16_t index)                        { SetIndex(m_currentIndex, index); }
+	void SetCurrent(uint16_t index)                                             { SetIndex(m_currentIndex, index); }
 
 	/**
 	 * Resizes the buffer capacity to hold the specified number of indices.
@@ -129,28 +134,28 @@ public:
 	/**
 	 * @return the number of indices contained in this buffer
 	 */
-	uint32_t GetNumElements() const                        { return m_buffer.size(); }
+	uint32_t GetNumElements() const                                             { return m_buffer.size(); }
 
 	/**
 	 * @return the size in bytes of each index in this buffer object
 	 */
-	size_t GetElementWidthInBytes() const                  { return sizeof(uint16_t); }
+	size_t GetElementWidthInBytes() const                                       { return sizeof(uint16_t); }
 
 	/**
 	 * @return pointer to this buffer object's raw data
 	 */
-	const void* GetBuffer() const                          { return &m_buffer[0]; }
+	const void* GetBuffer() const                                               { return &m_buffer[0]; }
 
 	/**
 	 * @return the current position in the buffer
 	 */
-	uint32_t GetCurrentPosition() const                    { return m_currentIndex; }
+	uint32_t GetCurrentPosition() const                                         { return m_currentIndex; }
 
 	/**
 	 * @return the number of index spaces left between the current position
 	 *         and the end of the buffer
 	 */
-	uint32_t GetRemainingSpace() const                     { return (GetNumElements() - 1) - GetCurrentPosition(); }
+	uint32_t GetRemainingSpace() const                                          { return (GetNumElements() - 1) - GetCurrentPosition(); }
 
 private:
 	stl::vector<uint16_t> m_buffer;
