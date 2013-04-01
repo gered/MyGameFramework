@@ -386,6 +386,8 @@ private:
 	Sprite2DShader *m_sprite2dShader;
 	Sprite3DShader *m_sprite3dShader;
 	DebugShader *m_debugShader;
+	
+	BOOL m_hasNewContextRunYet;
 };
 
 inline void GraphicsDevice::SetTextureParameters(const TextureParameters &params)

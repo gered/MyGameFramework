@@ -45,6 +45,8 @@ const unsigned int MAX_GPU_ATTRIB_SLOTS = 8;
 GraphicsDevice::GraphicsDevice(GameWindow *window)
 {
 	STACK_TRACE;
+	m_hasNewContextRunYet = FALSE;
+	
 	m_boundVertexBuffer = NULL;
 	m_boundIndexBuffer = NULL;
 	m_boundShader = NULL;
@@ -147,10 +149,17 @@ void GraphicsDevice::OnNewContext()
 
 	m_debugRenderer = new GeometryDebugRenderer(this);
 
-	m_solidColorTextures->OnNewContext();
-
-	for (ManagedResourceList::iterator i = m_managedResources.begin(); i != m_managedResources.end(); ++i)
-		(*i)->OnNewContext();
+	// don't attempt to restore old graphics resources if this is the first
+	// new context event (meaning, any managed resources will be loaded at this point!)
+	if (m_hasNewContextRunYet)
+	{
+		m_solidColorTextures->OnNewContext();
+		
+		for (ManagedResourceList::iterator i = m_managedResources.begin(); i != m_managedResources.end(); ++i)
+			(*i)->OnNewContext();
+	}
+	
+	m_hasNewContextRunYet = TRUE;
 }
 
 void GraphicsDevice::OnLostContext()
