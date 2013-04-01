@@ -26,23 +26,7 @@ enum BUFFEROBJECT_USAGE
 class BufferObject : public GraphicsContextResource
 {
 public:
-	/**
-	 * Initializes buffer object handling state
-	 * @param type the type of buffer object describing the kind of data that
-	 *             will be stored in it
-	 * @param usage the expected usage pattern of this buffer object
-	 */
-	BufferObject(BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage);
-
-	/**
-	 * Initializes buffer object handling state
-	 * @param graphicsDevice the graphics device this buffer object is for
-	 * @param type the type of buffer object describing the kind of data that
-	 *             will be stored in it
-	 * @param usage the expected usage pattern of this buffer object
-	 */
-	BufferObject(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage);
-
+	BufferObject();
 	virtual ~BufferObject();
 
 	/**
@@ -101,6 +85,15 @@ public:
 	void OnLostContext();
 
 protected:
+	/**
+	 * Initializes buffer object handling state
+	 * @param graphicsDevice the graphics device this buffer object is for
+	 * @param type the type of buffer object describing the kind of data that
+	 *             will be stored in it
+	 * @param usage the expected usage pattern of this buffer object
+	 */
+	BOOL Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage);
+	
 	/**
 	 * Creates a buffer object on the GPU but does not upload this 
 	 * buffer's data there yet. This only allocates the buffer object in

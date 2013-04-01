@@ -14,8 +14,6 @@ class GraphicsContextResource
 {
 public:
 	GraphicsContextResource();
-	GraphicsContextResource(GraphicsDevice *graphicsDevice);
-	
 	virtual ~GraphicsContextResource();
 	
 	/**
@@ -29,6 +27,10 @@ public:
 	virtual void OnLostContext()                                                {}
 	
 	GraphicsDevice* GetGraphicsDevice() const                                   { return m_graphicsDevice; }
+	
+protected:
+	BOOL Initialize();
+	BOOL Initialize(GraphicsDevice *graphicsDevice);
 	
 private:
 	GraphicsDevice *m_graphicsDevice;

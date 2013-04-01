@@ -3,25 +3,12 @@
 #include "bufferobject.h"
 #include "glincludes.h"
 #include "glutils.h"
-#include "graphicsdevice.h"
 
-BufferObject::BufferObject(BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
-	: GraphicsContextResource()
+BufferObject::BufferObject()
 {
 	STACK_TRACE;
-	m_type = type;
-	m_usage = usage;
-	m_bufferId = 0;
-	m_isDirty = FALSE;
-	m_sizeInBytes = 0;
-}
-
-BufferObject::BufferObject(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
-	: GraphicsContextResource(graphicsDevice)
-{
-	STACK_TRACE;
-	m_type = type;
-	m_usage = usage;
+	m_type = BUFFEROBJECT_TYPE_VERTEX;
+	m_usage = BUFFEROBJECT_USAGE_STATIC;
 	m_bufferId = 0;
 	m_isDirty = FALSE;
 	m_sizeInBytes = 0;
@@ -32,6 +19,21 @@ BufferObject::~BufferObject()
 	STACK_TRACE;
 	if (!IsClientSideBuffer())
 		FreeBufferObject();
+}
+
+BOOL BufferObject::Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
+{
+	STACK_TRACE;
+	BOOL success = TRUE;
+	if (graphicsDevice != NULL)
+		success = GraphicsContextResource::Initialize(graphicsDevice);
+	else
+		success = GraphicsContextResource::Initialize();
+	
+	m_type = type;
+	m_usage = usage;
+	
+	return success;
 }
 
 void BufferObject::CreateOnGpu()
