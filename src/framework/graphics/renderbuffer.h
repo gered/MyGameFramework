@@ -15,18 +15,7 @@ class Renderbuffer : public GraphicsContextResource
 {
 public:
 	Renderbuffer();
-	virtual ~Renderbuffer();
-	
-	/**
-	 * Creates a new renderbuffer with the specified properties.
-	 * @param graphicsDevice this graphics device this renderbuffer is
-	 *                       associated with
-	 * @param width the width of the renderbuffer in pixels
-	 * @param height the height of the renderbuffer in pixels
-	 * @param format the type of data this renderbuffer contains
-	 * @return TRUE if the renderbuffer was created successfully
-	 */
-	BOOL Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, FRAMEBUFFER_DATA_TYPE type);
+	virtual ~Renderbuffer()                                                     { Release(); }
 	
 	/**
 	 * Releases the resources associated with this renderbuffer.
@@ -34,29 +23,40 @@ public:
 	void Release();
 	
 	/**
+	 * Initializes the renderbuffer with the specified properties.
+	 * @param graphicsDevice this graphics device this renderbuffer is
+	 *                       associated with
+	 * @param width the width of the renderbuffer in pixels
+	 * @param height the height of the renderbuffer in pixels
+	 * @param format the type of data this renderbuffer contains
+	 * @return TRUE if the renderbuffer was created successfully
+	 */
+	BOOL Initialize(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, FRAMEBUFFER_DATA_TYPE type);
+	
+	/**
 	 * @return the name or ID assigned to this renderbuffer by OpenGL
 	 */
-	uint32_t GetRenderbufferName() const                   { return m_renderbufferName; }
+	uint32_t GetRenderbufferName() const                                        { return m_renderbufferName; }
 	
 	/**
 	 * @return the width of the renderbuffer in pixels
 	 */
-	uint16_t GetWidth() const                              { return m_width; }
+	uint16_t GetWidth() const                                                   { return m_width; }
 	
 	/**
 	 * @return the height of the renderbuffer in pixels
 	 */
-	uint16_t GetHeight() const                             { return m_height; }
+	uint16_t GetHeight() const                                                  { return m_height; }
 	
 	/**
 	 * @return the type of data this renderbuffer contains
 	 */
-	FRAMEBUFFER_DATA_TYPE GetType() const                  { return m_type; }
+	FRAMEBUFFER_DATA_TYPE GetType() const                                       { return m_type; }
 	
 	/**
 	 * @return TRUE if the renderbuffer has been marked as invalid and needs to be recreated
 	 */
-	BOOL IsInvalidated() const                             { return m_renderbufferName == 0; }
+	BOOL IsInvalidated() const                                                  { return m_renderbufferName == 0; }
 		
 	/**
 	 * New OpenGL graphics context creation callback.
@@ -69,7 +69,8 @@ public:
 	void OnLostContext();
 	
 private:
-	GraphicsDevice *m_graphicsDevice;
+	BOOL CreateRenderbuffer();
+	
 	uint32_t m_renderbufferName;
 	uint16_t m_width;
 	uint16_t m_height;

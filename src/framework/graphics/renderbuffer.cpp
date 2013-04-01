@@ -16,24 +16,55 @@ Renderbuffer::Renderbuffer()
 	m_type = FRAMEBUFFER_DATA_NONE;
 }
 
-Renderbuffer::~Renderbuffer()
-{
-	STACK_TRACE;
-	Release();
-}
-
-BOOL Renderbuffer::Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, FRAMEBUFFER_DATA_TYPE type)
+BOOL Renderbuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, FRAMEBUFFER_DATA_TYPE type)
 {
 	STACK_TRACE;
 	ASSERT(m_renderbufferName == 0);
 	if (m_renderbufferName != 0)
 		return FALSE;
 	
-	ASSERT(graphicsDevice != NULL);
+	if (!GraphicsContextResource::Initialize(graphicsDevice))
+		return FALSE;
+	
+	m_width = width;
+	m_height = height;
+	m_type = type;
+	
+	BOOL success = CreateRenderbuffer();
+	if (!success)
+	{
+		m_width = 0;
+		m_height = 0;
+		m_type = FRAMEBUFFER_DATA_NONE;
+	}
+	
+	return success;
+}
+
+void Renderbuffer::Release()
+{
+	STACK_TRACE;
+	if (m_renderbufferName != 0)
+	{
+		GetGraphicsDevice()->UnbindRenderBuffer(this);
+		GL_CALL(glDeleteRenderbuffers(1, &m_renderbufferName));
+	}
+
+	m_renderbufferName = 0;
+	m_width = 0;
+	m_height = 0;
+	
+	GraphicsContextResource::Release();
+}
+
+BOOL Renderbuffer::CreateRenderbuffer()
+{
+	STACK_TRACE;
+	ASSERT(m_renderbufferName == 0);
 	
 	uint32_t format = 0;
 #ifdef MOBILE
-	switch (type)
+	switch (m_type)
 	{
 		case FRAMEBUFFER_DATA_COLOR_RGB:
 			format = GL_RGB565;
@@ -49,7 +80,7 @@ BOOL Renderbuffer::Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16
 		default: break;
 	};
 #else
-	switch (type)
+	switch (m_type)
 	{
 		case FRAMEBUFFER_DATA_COLOR_RGB:
 			format = GL_RGB;
@@ -72,43 +103,24 @@ BOOL Renderbuffer::Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16
 	
 	GL_CALL(glGenRenderbuffers(1, &m_renderbufferName));
 	
-	m_width = width;
-	m_height = height;
-	m_type = type;
-	
-	m_graphicsDevice->BindRenderbuffer(this);
+	GetGraphicsDevice()->BindRenderbuffer(this);
 	
 	// have OpenGL allocate the renderbuffer's storage
-	GL_CALL(glRenderbufferStorage(GL_RENDERBUFFER, format, width, height));
-
+	GL_CALL(glRenderbufferStorage(GL_RENDERBUFFER, format, m_width, m_height));
+	
 	// don't leave this buffer bound, we'll let an associated Framebuffer
 	// object that this will get attached to manage that for itself...
-	m_graphicsDevice->UnbindRenderbuffer();
+	GetGraphicsDevice()->UnbindRenderbuffer();
 	
 	return TRUE;
-}
-
-void Renderbuffer::Release()
-{
-	STACK_TRACE;
-	if (m_renderbufferName != 0)
-	{
-		m_graphicsDevice->UnbindRenderBuffer(this);
-		GL_CALL(glDeleteRenderbuffers(1, &m_renderbufferName));
-	}
-
-	m_graphicsDevice = NULL;
-	m_renderbufferName = 0;
-	m_width = 0;
-	m_height = 0;
 }
 
 void Renderbuffer::OnNewContext()
 {
 	STACK_TRACE;
-	if (m_renderbufferName == 0 && m_graphicsDevice != NULL)
+	if (m_renderbufferName == 0 && GetGraphicsDevice() != NULL)
 	{
-		BOOL success = Create(m_graphicsDevice, m_width, m_height, m_type);
+		BOOL success = CreateRenderbuffer();
 		ASSERT(success == TRUE);
 	}
 }

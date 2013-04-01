@@ -280,7 +280,7 @@ BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 	GetDimensionsForAttachment(width, height);
 	
 	Renderbuffer *attach = new Renderbuffer();
-	BOOL renderbufferSuccess = attach->Create(GetGraphicsDevice(), width, height, type);
+	BOOL renderbufferSuccess = attach->Initialize(GetGraphicsDevice(), width, height, type);
 	ASSERT(renderbufferSuccess == TRUE);
 	if (!renderbufferSuccess)
 	{
@@ -325,7 +325,7 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, 
 	if (releaseFirst)
 		existing->Release();
 
-	BOOL renderbufferSuccess = existing->Create(GetGraphicsDevice(), width, height, existingType);
+	BOOL renderbufferSuccess = existing->Initialize(GetGraphicsDevice(), width, height, existingType);
 	ASSERT(renderbufferSuccess == TRUE);
 	if (!renderbufferSuccess)
 		return FALSE;
