@@ -33,34 +33,65 @@ STATIC_ASSERT(sizeof(Point3) == 3 * sizeof(int32_t));
 Shader::Shader()
 {
 	STACK_TRACE;
-	Initialize();
+	m_isBound = FALSE;
+	m_cachedVertexShaderSource = NULL;
+	m_cachedFragmentShaderSource = NULL;
+	m_vertexShaderCompileStatus = FALSE;
+	m_fragmentShaderCompileStatus = FALSE;
+	m_linkStatus = FALSE;
+	m_vertexShaderId = 0;
+	m_fragmentShaderId = 0;
+	m_programId = 0;
+	m_attributeMapping = NULL;
+	m_numAttributes = 0;
 }
 
-Shader::Shader(const char *vertexShaderSource, const char *fragmentShaderSource)
+BOOL Shader::Initialize(GraphicsDevice *graphicsDevice)
 {
 	STACK_TRACE;
-	ASSERT(vertexShaderSource != NULL);
-	ASSERT(fragmentShaderSource != NULL);
+	if (!GraphicsContextResource::Initialize(graphicsDevice))
+		return FALSE;
+	
+	return TRUE;
+}
 
-	Initialize();
-	LoadCompileAndLink(vertexShaderSource, fragmentShaderSource);
+BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
+{
+	STACK_TRACE;
+	if (!GraphicsContextResource::Initialize(graphicsDevice))
+		return FALSE;
+	
+	ASSERT(vertexShaderSource != NULL);
+	if (vertexShaderSource == NULL)
+		return FALSE;
+	
+	ASSERT(fragmentShaderSource != NULL);
+	if (fragmentShaderSource == NULL)
+		return FALSE;
+
+	if (!LoadCompileAndLink(vertexShaderSource, fragmentShaderSource))
+		return FALSE;
+	
 	CacheShaderSources(vertexShaderSource, fragmentShaderSource);
+	
+	return TRUE;
 }
 
-Shader::Shader(const Text *vertexShaderSource, const Text *fragmentShaderSource)
+BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
 	STACK_TRACE;
-	ASSERT(vertexShaderSource != NULL);
-	ASSERT(vertexShaderSource->GetLength() > 0);
-	ASSERT(fragmentShaderSource != NULL);
-	ASSERT(fragmentShaderSource->GetLength() > 0);
-
-	Initialize();
-	LoadCompileAndLink(vertexShaderSource->GetText(), fragmentShaderSource->GetText());
-	CacheShaderSources(vertexShaderSource->GetText(), fragmentShaderSource->GetText());
+	ASSERT(vertexShaderSource != NULL && vertexShaderSource->GetLength() > 0);
+	if (vertexShaderSource == NULL || vertexShaderSource->GetLength() == 0)
+		return FALSE;
+	
+	ASSERT(fragmentShaderSource != NULL && fragmentShaderSource->GetLength() > 0);
+	if (fragmentShaderSource == NULL && fragmentShaderSource->GetLength() == 0)
+		return FALSE;
+	
+	return Initialize(graphicsDevice, vertexShaderSource->GetText(), fragmentShaderSource->GetText());
 }
 
-Shader::~Shader()
+void Shader::Release()
 {
 	STACK_TRACE;
 	if (m_vertexShaderId)
@@ -75,9 +106,9 @@ Shader::~Shader()
 	{
 		GL_CALL(glDeleteProgram(m_programId));
 	}
-
+	
 	SAFE_DELETE_ARRAY(m_attributeMapping);
-
+	
 	// if these were pointing to the same string, we obviously should only
 	// delete once...
 	if (m_cachedVertexShaderSource == m_cachedFragmentShaderSource)
@@ -90,11 +121,7 @@ Shader::~Shader()
 		SAFE_DELETE_ARRAY(m_cachedVertexShaderSource);
 		SAFE_DELETE_ARRAY(m_cachedFragmentShaderSource);
 	}
-}
 
-void Shader::Initialize()
-{
-	STACK_TRACE;
 	m_isBound = FALSE;
 	m_cachedVertexShaderSource = NULL;
 	m_cachedFragmentShaderSource = NULL;
@@ -106,7 +133,12 @@ void Shader::Initialize()
 	m_programId = 0;
 	m_attributeMapping = NULL;
 	m_numAttributes = 0;
-
+	
+	m_uniforms.clear();
+	m_attributes.clear();
+	m_cachedUniforms.clear();
+	
+	GraphicsContextResource::Release();
 }
 
 BOOL Shader::LoadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource)
