@@ -132,7 +132,7 @@ public:
 	/**
 	 * @return the currently applied texture parameters
 	 */
-	const TextureParameters* GetTextureParameters() const        { return &m_currentTextureParams; }
+	const TextureParameters* GetTextureParameters() const                       { return &m_currentTextureParams; }
 		
 	/**
 	 * Binds a renderbuffer.
@@ -173,7 +173,7 @@ public:
 	/**
 	 * @return the current ViewContext object
 	 */
-	ViewContext* GetViewContext() const                    { return m_activeViewContext; }
+	ViewContext* GetViewContext() const                                         { return m_activeViewContext; }
 	
 	/**
 	 * Sets a new active ViewContext which will be applied immediately.
@@ -295,56 +295,63 @@ public:
 	/**
 	 * @return a debug geometry renderer
 	 */
-	GeometryDebugRenderer* GetDebugRenderer() const        { return m_debugRenderer; }
+	GeometryDebugRenderer* GetDebugRenderer() const                             { return m_debugRenderer; }
 
 	/**
 	 * @return built-in shader
 	 */
-	SimpleColorShader* GetSimpleColorShader() const        { return m_simpleColorShader; }
+	SimpleColorShader* GetSimpleColorShader();
 
 	/**
 	 * @return built-in shader
 	 */
-	SimpleColorTextureShader* GetSimpleColorTextureShader() const { return m_simpleColorTextureShader; }
+	SimpleColorTextureShader* GetSimpleColorTextureShader();
 
 	/**
 	 * @return built-in shader
 	 */
-	SimpleTextureShader* GetSimpleTextureShader() const    { return m_simpleTextureShader; }
+	SimpleTextureShader* GetSimpleTextureShader();
 
 	/**
 	 * @return built-in shader
 	 */
-	Sprite2DShader* GetSprite2DShader() const              { return m_sprite2dShader; }
+	Sprite2DShader* GetSprite2DShader();
 
 	/**
 	 * @return built-in shader
 	 */
-	Sprite3DShader* GetSprite3DShader() const              { return m_sprite3dShader; }
-
-	SimpleTextureVertexLerpShader* GetSimpleTextureVertexLerpShader() const { return m_simpleTextureVertexLerpShader; }
-	SimpleTextureVertexSkinningShader* GetSimpleTextureVertexSkinningShader() const { return m_simpleTextureVertexSkinningShader; }
+	Sprite3DShader* GetSprite3DShader();
 
 	/**
 	 * @return built-in shader
 	 */
-	DebugShader* GetDebugShader() const                    { return m_debugShader; }
+	SimpleTextureVertexLerpShader* GetSimpleTextureVertexLerpShader();
+	
+	/**
+	 * @return built-in shader
+	 */
+	SimpleTextureVertexSkinningShader* GetSimpleTextureVertexSkinningShader();
+
+	/**
+	 * @return built-in shader
+	 */
+	DebugShader* GetDebugShader();
 	
 	/**
 	 * @return TRUE if depth textures are supported
 	 */
-	BOOL IsDepthTextureSupported() const                   { return m_isDepthTextureSupported; }
+	BOOL IsDepthTextureSupported() const                                        { return m_isDepthTextureSupported; }
 	
 	/**
 	 * @return TRUE if textures with dimensions that are not a power of two
 	 *         are supported
 	 */
-	BOOL IsNonPowerOfTwoTextureSupported() const           { return m_isNonPowerOfTwoTextureSupported; }
+	BOOL IsNonPowerOfTwoTextureSupported() const                                { return m_isNonPowerOfTwoTextureSupported; }
 	
 	/**
 	 * @return the parent window object that this graphics device is for
 	 */
-	GameWindow* GetWindow() const                          { return m_window; }
+	GameWindow* GetWindow() const                                               { return m_window; }
 
 private:
 	void BindVBO(VertexBuffer *buffer);

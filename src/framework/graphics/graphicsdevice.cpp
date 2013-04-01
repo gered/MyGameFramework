@@ -84,37 +84,19 @@ GraphicsDevice::GraphicsDevice(GameWindow *window)
 
 	m_solidColorTextures = new SolidColorTextureCache(this);
 
-	m_simpleColorShader = new SimpleColorShader();
-	m_simpleColorTextureShader = new SimpleColorTextureShader();
-	m_simpleTextureShader = new SimpleTextureShader();
-	m_simpleTextureVertexLerpShader = new SimpleTextureVertexLerpShader();
-	m_simpleTextureVertexSkinningShader = new SimpleTextureVertexSkinningShader();
-	m_sprite2dShader = new Sprite2DShader();
-	m_sprite3dShader = new Sprite3DShader();
-	m_debugShader = new DebugShader();
-
-	RegisterManagedResource(m_simpleColorShader);
-	RegisterManagedResource(m_simpleColorTextureShader);
-	RegisterManagedResource(m_simpleTextureShader);
-	RegisterManagedResource(m_simpleTextureVertexLerpShader);
-	RegisterManagedResource(m_simpleTextureVertexSkinningShader);
-	RegisterManagedResource(m_sprite2dShader);
-	RegisterManagedResource(m_sprite3dShader);
-	RegisterManagedResource(m_debugShader);
+	m_simpleColorShader = NULL;
+	m_simpleColorTextureShader = NULL;
+	m_simpleTextureShader = NULL;
+	m_simpleTextureVertexLerpShader = NULL;
+	m_simpleTextureVertexSkinningShader = NULL;
+	m_sprite2dShader = NULL;
+	m_sprite3dShader = NULL;
+	m_debugShader = NULL;
 }
 
 GraphicsDevice::~GraphicsDevice()
 {
 	STACK_TRACE;
-	UnregisterManagedResource(m_simpleColorShader);
-	UnregisterManagedResource(m_simpleColorTextureShader);
-	UnregisterManagedResource(m_simpleTextureShader);
-	UnregisterManagedResource(m_simpleTextureVertexLerpShader);
-	UnregisterManagedResource(m_simpleTextureVertexSkinningShader);
-	UnregisterManagedResource(m_sprite2dShader);
-	UnregisterManagedResource(m_sprite3dShader);
-	UnregisterManagedResource(m_debugShader);
-
 	SAFE_DELETE(m_defaultViewContext);
 	SAFE_DELETE(m_debugRenderer);
 	SAFE_DELETE(m_solidColorTextures);
@@ -127,6 +109,102 @@ GraphicsDevice::~GraphicsDevice()
 	SAFE_DELETE(m_sprite3dShader);
 	SAFE_DELETE(m_debugShader);
 	SAFE_DELETE_ARRAY(m_boundTextures);
+}
+
+SimpleColorShader* GraphicsDevice::GetSimpleColorShader()
+{
+	STACK_TRACE;
+	if (m_simpleColorShader == NULL)
+	{
+		m_simpleColorShader = new SimpleColorShader();
+		m_simpleColorShader->Initialize(this);
+	}
+	
+	return m_simpleColorShader;
+}
+
+SimpleColorTextureShader* GraphicsDevice::GetSimpleColorTextureShader()
+{
+	STACK_TRACE;
+	if (m_simpleColorTextureShader == NULL)
+	{
+		m_simpleColorTextureShader = new SimpleColorTextureShader();
+		m_simpleColorTextureShader->Initialize(this);
+	}
+	
+	return m_simpleColorTextureShader;
+}
+
+SimpleTextureShader* GraphicsDevice::GetSimpleTextureShader()
+{
+	STACK_TRACE;
+	if (m_simpleTextureShader == NULL)
+	{
+		m_simpleTextureShader = new SimpleTextureShader();
+		m_simpleTextureShader->Initialize(this);
+	}
+	
+	return m_simpleTextureShader;
+}
+
+Sprite2DShader* GraphicsDevice::GetSprite2DShader()
+{
+	STACK_TRACE;
+	if (m_sprite2dShader == NULL)
+	{
+		m_sprite2dShader = new Sprite2DShader();
+		m_sprite2dShader->Initialize(this);
+	}
+	
+	return m_sprite2dShader;
+}
+
+Sprite3DShader* GraphicsDevice::GetSprite3DShader()
+{
+	STACK_TRACE;
+	if (m_sprite3dShader == NULL)
+	{
+		m_sprite3dShader = new Sprite3DShader();
+		m_sprite3dShader->Initialize(this);
+	}
+	
+	return m_sprite3dShader;
+}
+
+SimpleTextureVertexLerpShader* GraphicsDevice::GetSimpleTextureVertexLerpShader()
+{
+	STACK_TRACE;
+	if (m_simpleTextureVertexLerpShader == NULL)
+	{
+		m_simpleTextureVertexLerpShader = new SimpleTextureVertexLerpShader();
+		m_simpleTextureVertexLerpShader->Initialize(this);
+	}
+	
+	return m_simpleTextureVertexLerpShader;
+}
+
+SimpleTextureVertexSkinningShader* GraphicsDevice::GetSimpleTextureVertexSkinningShader()
+{
+	STACK_TRACE;
+	if (m_simpleTextureVertexSkinningShader == NULL)
+	{
+		m_simpleTextureVertexSkinningShader = new SimpleTextureVertexSkinningShader();
+		m_simpleTextureVertexSkinningShader->Initialize(this);
+	}
+	
+	return m_simpleTextureVertexSkinningShader;
+}
+
+DebugShader* GraphicsDevice::GetDebugShader()
+{
+	STACK_TRACE;
+	if (m_debugShader == NULL)
+	{
+		m_debugShader = new DebugShader();
+		m_debugShader->Initialize(this);
+	}
+	
+	return m_debugShader;
 }
 
 void GraphicsDevice::OnNewContext()
