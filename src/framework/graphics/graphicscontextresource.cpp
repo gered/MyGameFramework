@@ -28,6 +28,8 @@ BOOL GraphicsContextResource::Initialize(GraphicsDevice *graphicsDevice)
 {
 	STACK_TRACE;
 	ASSERT(graphicsDevice != NULL);
+	if (graphicsDevice == NULL)
+		return FALSE;
 	
 	m_graphicsDevice = graphicsDevice;
 	m_graphicsDevice->RegisterManagedResource(this);
