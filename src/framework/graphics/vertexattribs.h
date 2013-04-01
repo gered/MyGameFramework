@@ -4,32 +4,39 @@
 #include "../common.h"
 
 /**
- * Constant values to refer to different standard types of vertex attributes.
+ * Constant values to refer to the standard vertex attribute types.
+ * High byte of each value = standard type bitmask
+ * Low byte of each value = number of floats needed
  */
-enum VERTEX_ATTRIBS
+enum VERTEX_STANDARD_ATTRIBS
 {
-	VERTEX_POS_2D = 1,
-	VERTEX_POS_3D = 2,
-	VERTEX_NORMAL = 4,
-	VERTEX_COLOR = 8,
-	VERTEX_TEXCOORD = 16,
-	VERTEX_GENERIC = 32
+	VERTEX_STD_POS_2D = 0x0102,
+	VERTEX_STD_POS_3D = 0x0203,
+	VERTEX_STD_NORMAL = 0x0403,
+	VERTEX_STD_COLOR = 0x0804,
+	VERTEX_STD_TEXCOORD = 0x1002
 };
 
 /**
- * Common attribute sizes.
+ * Constant values for vertex attributes.
  */
-enum VERTEX_ATTRIB_SIZES
+enum VERTEX_ATTRIBS
 {
-	ATTRIB_SIZE_1F = 1,
-	ATTRIB_SIZE_2F = 2,
-	ATTRIB_SIZE_VEC2 = 2,
-	ATTRIB_SIZE_3F = 3,
-	ATTRIB_SIZE_VEC3 = 3,
-	ATTRIB_SIZE_4F = 4,
-	ATTRIB_SIZE_VEC4 = 4,
-	ATTRIB_SIZE_MAT3X3 = 9,
-	ATTRIB_SIZE_MAT4x4 = 16
+	VERTEX_POS_2D = VERTEX_STD_POS_2D,
+	VERTEX_POS_3D = VERTEX_STD_POS_3D,
+	VERTEX_NORMAL = VERTEX_STD_NORMAL,
+	VERTEX_COLOR = VERTEX_STD_COLOR,
+	VERTEX_TEXCOORD = VERTEX_STD_TEXCOORD,
+	
+	VERTEX_F1 = 1,
+	VERTEX_F2 = 2,
+	VERTEX_F3 = 3,
+	VERTEX_F4 = 4,
+	VERTEX_V2 = 2,
+	VERTEX_V3 = 3,
+	VERTEX_V4 = 4,
+	VERTEX_M3 = 9,
+	VERTEX_M4 = 16
 };
 
 /**
