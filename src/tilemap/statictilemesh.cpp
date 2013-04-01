@@ -14,9 +14,9 @@ StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlas
 	StaticMeshSubset *subset = mesh->GetSubset(0);
 
 	// copy the source buffer
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STATIC);
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->CreateCopyOf(subset->GetVertices());
+	m_vertices->Initialize(subset->GetVertices());
 
 	SetOpaque(opaqueSides);
 	SetAlpha(alpha);
@@ -48,12 +48,17 @@ StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlas
 	for (uint32_t i = 0; i < numTiles; ++i)
 		numVertices += mesh->GetSubset(i)->GetVertices()->GetNumElements();
 
+	// create a copy of the mesh's vertex attributes as an array
+	const VertexBuffer *meshVertices = mesh->GetSubset(0)->GetVertices();
+	VERTEX_ATTRIBS *attribs = new VERTEX_ATTRIBS[meshVertices->GetNumAttributes()];
+	for (uint32_t i = 0; i < meshVertices->GetNumAttributes(); ++i)
+		attribs[i] = meshVertices->GetAttributeInfo(i)->standardType;
+	
 	// create the vertex buffer using the same attribs as the source mesh
 	// (assuming all subsets have the same attribs in the mesh)
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STATIC);
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->CopyAttributesFrom(mesh->GetSubset(0)->GetVertices());
-	m_vertices->Create(numVertices);
+	m_vertices->Initialize(attribs, meshVertices->GetNumAttributes(), numVertices, BUFFEROBJECT_USAGE_STATIC);
 
 	SetOpaque(opaqueSides);
 	SetAlpha(alpha);

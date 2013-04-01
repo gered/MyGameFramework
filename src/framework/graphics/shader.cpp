@@ -1053,7 +1053,7 @@ void Shader::MapAttributeToVboAttribIndex(const stl::string &name, uint32_t vboA
 	attribute->isTypeBound = TRUE;
 }
 
-void Shader::MapAttributeToStandardAttribType(const stl::string &name, VERTEX_ATTRIBS standardAttribType)
+void Shader::MapAttributeToStandardAttribType(const stl::string &name, VERTEX_STANDARD_ATTRIBS standardAttribType)
 {
 	STACK_TRACE;
 	ShaderAttribute *attribute = GetAttribute(name);

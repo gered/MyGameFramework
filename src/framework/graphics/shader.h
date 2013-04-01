@@ -237,7 +237,7 @@ public:
 	 * @return the standard attribute type mapping associated with this
 	 *         shader attribute
 	 */
-	VERTEX_ATTRIBS GetAttributeMappedStandardType(uint32_t attribIndex) const;
+	VERTEX_STANDARD_ATTRIBS GetAttributeMappedStandardType(uint32_t attribIndex) const;
 
 	/**
 	 * Maps the given shader attribute to an index that will be used to refer
@@ -260,7 +260,7 @@ public:
 	 * @param standardAttribType the standard type to map this shader attribute
 	 *                           to in bound vertex buffer objects
 	 */
-	void MapAttributeToStandardAttribType(const stl::string &name, VERTEX_ATTRIBS standardAttribType);
+	void MapAttributeToStandardAttribType(const stl::string &name, VERTEX_STANDARD_ATTRIBS standardAttribType);
 
 	/**
 	 * New OpenGL graphics context creation callback.
@@ -388,7 +388,7 @@ inline uint32_t Shader::GetAttributeMappedBufferIndex(uint32_t attribIndex) cons
 	return m_attributeMapping[attribIndex].attribIndex;
 }
 
-inline VERTEX_ATTRIBS Shader::GetAttributeMappedStandardType(uint32_t attribIndex) const
+inline VERTEX_STANDARD_ATTRIBS Shader::GetAttributeMappedStandardType(uint32_t attribIndex) const
 {
 	return m_attributeMapping[attribIndex].standardType;
 }

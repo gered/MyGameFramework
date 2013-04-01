@@ -53,14 +53,17 @@ KeyframeMesh::KeyframeMesh(const KeyframeMeshFile *file)
 
 	m_numVerticesPerFrame = file->GetNumVerticesPerFrame();
 
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STREAM);
+	VERTEX_ATTRIBS attribs[] = {
+		VERTEX_V3,       // position for frame 1
+		VERTEX_V3,       // position for frame 2
+		VERTEX_V3,       // normal for frame 1
+		VERTEX_V3,       // normal for frame 2
+		VERTEX_TEXCOORD
+	};
+	
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->AddAttribute(ATTRIB_SIZE_VEC3);  // position for frame 1
-	m_vertices->AddAttribute(ATTRIB_SIZE_VEC3);  // position for frame 2
-	m_vertices->AddAttribute(ATTRIB_SIZE_VEC3);  // normal for frame 1
-	m_vertices->AddAttribute(ATTRIB_SIZE_VEC3);  // normal for frame 2
-	m_vertices->AddAttribute(VERTEX_TEXCOORD);
-	m_vertices->Create(m_numVerticesPerFrame);
+	m_vertices->Initialize(attribs, 5, m_numVerticesPerFrame, BUFFEROBJECT_USAGE_STREAM);
 }
 
 KeyframeMesh::~KeyframeMesh()

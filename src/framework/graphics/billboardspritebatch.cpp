@@ -35,14 +35,17 @@ BillboardSpriteBatch::BillboardSpriteBatch(GraphicsDevice *graphicsDevice)
 	// TODO: default size of 1 is best?
 	m_currentSpriteCapacity = 1;
 	m_currentSpritePointer = 0;
+	
+	VERTEX_ATTRIBS attribs[] = {
+		VERTEX_POS_3D,
+		VERTEX_COLOR,
+		VERTEX_TEXCOORD
+	};
 
 	// size vertices and texture storage to match m_currentSpriteCapacity
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STREAM);
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->AddAttribute(VERTEX_POS_3D);
-	m_vertices->AddAttribute(VERTEX_COLOR);
-	m_vertices->AddAttribute(VERTEX_TEXCOORD);
-	m_vertices->Create(m_currentSpriteCapacity * VERTICES_PER_SPRITE);
+	m_vertices->Initialize(attribs, 3, m_currentSpriteCapacity * VERTICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
 
 	m_textures.resize(m_currentSpriteCapacity);
 

@@ -24,6 +24,7 @@ void SkeletalMeshSubset::Create(const stl::string &name, uint32_t numTriangles, 
 	ASSERT(m_indices == NULL);
 	ASSERT(numTriangles > 0);
 	m_name = name;
-	m_indices = new IndexBuffer(numTriangles * 3, TRUE);
+	m_indices = new IndexBuffer();
+	m_indices->Initialize(numTriangles * 3, BUFFEROBJECT_USAGE_STATIC);
 	m_alpha = alpha;
 }

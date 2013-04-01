@@ -34,16 +34,19 @@ SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
 
 	// TODO: default size of 1 is best?
 	m_currentSpritePointer = 0;
+	
+	VERTEX_ATTRIBS attribs[] = {
+		VERTEX_POS_2D,
+		VERTEX_COLOR,
+		VERTEX_TEXCOORD
+	};
 
 	// size vertices and texture storage to match m_currentSpriteCapacity
 	// HACK: we initialize the buffer to have a size of "1" simply because we
 	//       can't use a size of 0 with the current VertexBuffer implementation
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STREAM);
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->AddAttribute(VERTEX_POS_2D);
-	m_vertices->AddAttribute(VERTEX_COLOR);
-	m_vertices->AddAttribute(VERTEX_TEXCOORD);
-	m_vertices->Create(1);
+	m_vertices->Initialize(attribs, 3, 1, BUFFEROBJECT_USAGE_STREAM);
 
 	m_entities.reserve(1);
 

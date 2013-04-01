@@ -38,15 +38,18 @@ TileChunk::TileChunk(uint32_t x, uint32_t y, uint32_t z, uint32_t width, uint32_
 
 	m_data = new Tile[width * height * depth];
 	ASSERT(m_data != NULL);
+	
+	VERTEX_ATTRIBS attribs[] = {
+		VERTEX_POS_3D,
+		VERTEX_NORMAL,
+		VERTEX_TEXCOORD,
+		VERTEX_COLOR
+	};
 
 	// TODO: is 16 a good starting default size?
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STATIC);
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->AddAttribute(VERTEX_POS_3D);
-	m_vertices->AddAttribute(VERTEX_NORMAL);
-	m_vertices->AddAttribute(VERTEX_TEXCOORD);
-	m_vertices->AddAttribute(VERTEX_COLOR);
-	m_vertices->Create(16);
+	m_vertices->Initialize(attribs, 4, 16, BUFFEROBJECT_USAGE_STATIC);
 	m_numVertices = 0;
 
 	// start off assuming we don't have any alpha vertices
@@ -377,17 +380,20 @@ void TileChunk::EnableAlphaVertices(BOOL enable)
 	{
 		if (m_alphaVertices != NULL)
 			return;
+		
+		VERTEX_ATTRIBS attribs[] = {
+			VERTEX_POS_3D,
+			VERTEX_NORMAL,
+			VERTEX_TEXCOORD,
+			VERTEX_COLOR
+		};
 
 		// need to create the vertex buffer
 		// TODO: is '16' a good default size? it probably isn't likely that
 		//       chunks will have a lot of these. has to be non-zero anyway...
-		m_alphaVertices = new VertexBuffer(BUFFEROBJECT_USAGE_STATIC);
+		m_alphaVertices = new VertexBuffer();
 		ASSERT(m_alphaVertices != NULL);
-		m_alphaVertices->AddAttribute(VERTEX_POS_3D);
-		m_alphaVertices->AddAttribute(VERTEX_NORMAL);
-		m_alphaVertices->AddAttribute(VERTEX_TEXCOORD);
-		m_alphaVertices->AddAttribute(VERTEX_COLOR);
-		m_alphaVertices->Create(16);
+		m_alphaVertices->Initialize(attribs, 4, 16, BUFFEROBJECT_USAGE_STATIC);
 		m_numAlphaVertices = 0;
 	}
 	else

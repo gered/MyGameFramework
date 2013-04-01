@@ -8,12 +8,15 @@
 StaticMeshSubset::StaticMeshSubset(uint32_t numTriangles, Texture *texture)
 {
 	STACK_TRACE;
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STATIC);
+	VERTEX_ATTRIBS attribs[] = {
+		VERTEX_POS_3D,
+		VERTEX_NORMAL,
+		VERTEX_TEXCOORD
+	};
+	
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->AddAttribute(VERTEX_POS_3D);
-	m_vertices->AddAttribute(VERTEX_NORMAL);
-	m_vertices->AddAttribute(VERTEX_TEXCOORD);
-	m_vertices->Create(numTriangles * 3);
+	m_vertices->Initialize(attribs, 3, numTriangles * 3, BUFFEROBJECT_USAGE_STATIC);
 	m_texture = texture;
 }
 

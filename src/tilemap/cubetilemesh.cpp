@@ -59,14 +59,17 @@ CubeTileMesh::CubeTileMesh(CUBE_FACES faces, const RectF *textureAtlasTileBounda
 		m_rightFaceVertexOffset = numVertices;
 		numVertices += CUBE_VERTICES_PER_FACE;
 	}
+	
+	VERTEX_ATTRIBS attribs[] = {
+		VERTEX_POS_3D,
+		VERTEX_NORMAL,
+		VERTEX_COLOR,
+		VERTEX_TEXCOORD
+	};
 
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STATIC);
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->AddAttribute(VERTEX_POS_3D);
-	m_vertices->AddAttribute(VERTEX_NORMAL);
-	m_vertices->AddAttribute(VERTEX_COLOR);
-	m_vertices->AddAttribute(VERTEX_TEXCOORD);
-	m_vertices->Create(numVertices);
+	m_vertices->Initialize(attribs, 4, numVertices, BUFFEROBJECT_USAGE_STATIC);
 
 	SetupFaceVertices(textureAtlasTileBoundaries);
 	SetupCollisionVertices();

@@ -27,12 +27,15 @@ GeometryDebugRenderer::GeometryDebugRenderer(GraphicsDevice *graphicsDevice, BOO
 	ASSERT(m_renderState != NULL);
 	m_renderState->SetDepthTesting(depthTesting);
 	m_renderState->SetLineWidth(2.0f);
+	
+	VERTEX_ATTRIBS attribs[] = {
+		VERTEX_POS_3D,
+		VERTEX_COLOR
+	};
 
-	m_vertices = new VertexBuffer(BUFFEROBJECT_USAGE_STREAM);
+	m_vertices = new VertexBuffer();
 	ASSERT(m_vertices != NULL);
-	m_vertices->AddAttribute(VERTEX_POS_3D);
-	m_vertices->AddAttribute(VERTEX_COLOR);
-	m_vertices->Create(16384);
+	m_vertices->Initialize(attribs, 2, 16384, BUFFEROBJECT_USAGE_STREAM);
 	m_currentVertex = 0;
 
 	m_begunRendering = FALSE;

@@ -492,7 +492,7 @@ void GraphicsDevice::SetShaderVertexAttributes()
 		int32_t bufferAttribIndex = 0;
 		if (m_boundShader->IsAttributeMappedToStandardType(i))
 		{
-			VERTEX_ATTRIBS standardType = m_boundShader->GetAttributeMappedStandardType(i);
+			VERTEX_STANDARD_ATTRIBS standardType = m_boundShader->GetAttributeMappedStandardType(i);
 			bufferAttribIndex = m_boundVertexBuffer->GetIndexOfStandardAttrib(standardType);
 			ASSERT(bufferAttribIndex != -1);
 			if (bufferAttribIndex == -1)

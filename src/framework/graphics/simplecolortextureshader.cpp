@@ -41,9 +41,9 @@ SimpleColorTextureShader::SimpleColorTextureShader()
 	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
 	ASSERT(result == TRUE);
 
-	MapAttributeToStandardAttribType("a_position", VERTEX_POS_3D);
-	MapAttributeToStandardAttribType("a_color", VERTEX_COLOR);
-	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_TEXCOORD);
+	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
+	MapAttributeToStandardAttribType("a_color", VERTEX_STD_COLOR);
+	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
 }
 
 SimpleColorTextureShader::~SimpleColorTextureShader()

@@ -39,7 +39,7 @@ SimpleTextureVertexLerpShader::SimpleTextureVertexLerpShader()
 
 	MapAttributeToVboAttribIndex("a_position1", 0);
 	MapAttributeToVboAttribIndex("a_position2", 1);
-	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_TEXCOORD);
+	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
 }
 
 SimpleTextureVertexLerpShader::~SimpleTextureVertexLerpShader()

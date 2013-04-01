@@ -34,7 +34,7 @@ struct ShaderAttribute
 struct ShaderAttributeMapInfo
 {
 	BOOL usesStandardType;
-	VERTEX_ATTRIBS standardType;
+	VERTEX_STANDARD_ATTRIBS standardType;
 	uint32_t attribIndex;
 };
 

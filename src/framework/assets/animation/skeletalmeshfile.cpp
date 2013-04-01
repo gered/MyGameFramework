@@ -15,6 +15,7 @@
 #include "../../math/vector3.h"
 #include "../../support/animationsequence.h"
 #include <stl/string.h>
+#include <stl/vector.h>
 
 SkeletalMeshFile::SkeletalMeshFile(File *file)
 	: MeshFile(file)
@@ -56,14 +57,18 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	file->Seek(verticesDesc->start, FILESEEK_BEGINNING);
 	mesh->m_numVertices = file->ReadUnsignedInt();
 	
-	mesh->m_vertexBuffer = new VertexBuffer(BUFFEROBJECT_USAGE_STATIC);
-	mesh->m_vertexBuffer->AddAttribute(ATTRIB_SIZE_1F);
-	mesh->m_vertexBuffer->AddAttribute(VERTEX_POS_3D);
+	// lol, lazy way out
+	stl::vector<VERTEX_ATTRIBS> attribs;
+	attribs.reserve(4);
+	attribs.push_back(VERTEX_F1);
+	attribs.push_back(VERTEX_POS_3D);
 	if (hasNormals)
-		mesh->m_vertexBuffer->AddAttribute(VERTEX_NORMAL);
+		attribs.push_back(VERTEX_NORMAL);
 	if (hasTexCoords)
-		mesh->m_vertexBuffer->AddAttribute(VERTEX_TEXCOORD);
-	mesh->m_vertexBuffer->Create(mesh->m_numVertices);
+		attribs.push_back(VERTEX_TEXCOORD);
+	
+	mesh->m_vertexBuffer = new VertexBuffer();
+	mesh->m_vertexBuffer->Initialize(&attribs[0], attribs.size(), mesh->m_numVertices, BUFFEROBJECT_USAGE_STATIC);
 	
 	// read vertices
 	mesh->m_vertices = new Vector3[mesh->m_numVertices];
