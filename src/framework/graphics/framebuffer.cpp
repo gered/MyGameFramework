@@ -92,6 +92,8 @@ void Framebuffer::Release()
 	m_framebufferName = 0;
 	m_fixedWidth = 0;
 	m_fixedHeight = 0;
+	
+	GraphicsContextResource::Release();
 }
 
 void Framebuffer::CreateFramebuffer()
