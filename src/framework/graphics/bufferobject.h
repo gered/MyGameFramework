@@ -4,6 +4,8 @@
 #include "../common.h"
 #include "graphicscontextresource.h"
 
+class GraphicsDevice;
+
 enum BUFFEROBJECT_TYPE
 {
 	BUFFEROBJECT_TYPE_VERTEX = 0,
@@ -31,6 +33,15 @@ public:
 	 * @param usage the expected usage pattern of this buffer object
 	 */
 	BufferObject(BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage);
+
+	/**
+	 * Initializes buffer object handling state
+	 * @param graphicsDevice the graphics device this buffer object is for
+	 * @param type the type of buffer object describing the kind of data that
+	 *             will be stored in it
+	 * @param usage the expected usage pattern of this buffer object
+	 */
+	BufferObject(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage);
 
 	virtual ~BufferObject();
 
@@ -66,25 +77,6 @@ public:
 	virtual size_t GetElementWidthInBytes() const = 0;
 
 	/**
-	 * Creates a buffer object in video memory but does not upload this 
-	 * buffer's data there yet.This only allocates the buffer object in
-	 * video memory.
-	 */
-	void CreateInVRAM();
-
-	/**
-	 * Recreates the buffer object in video memory but does not upload this
-	 * buffer's data there yet. This only reallocates the buffer object in
-	 * video memory.
-	 */
-	void RecreateInVRAM();
-
-	/**
-	 * Frees the buffer object from video memory.
-	 */
-	void FreeFromVRAM();
-
-	/**
 	 * @return TRUE if some or all of the buffer data has been changed since
 	 *              the last Update() call
 	 */
@@ -109,6 +101,25 @@ public:
 	void OnLostContext();
 
 protected:
+	/**
+	 * Creates a buffer object on the GPU but does not upload this 
+	 * buffer's data there yet. This only allocates the buffer object in
+	 * video memory.
+	 */
+	void CreateOnGpu();
+	
+	/**
+	 * Recreates the buffer object the GPU but does not upload this
+	 * buffer's data there yet. This only reallocates the buffer object in
+	 * video memory.
+	 */
+	void RecreateOnGpu();
+	
+	/**
+	 * Frees the buffer object from video memory.
+	 */
+	void FreeFromGpu();
+
 	void CreateBufferObject();
 	void FreeBufferObject();
 	void SizeBufferObject();

@@ -3,8 +3,21 @@
 #include "bufferobject.h"
 #include "glincludes.h"
 #include "glutils.h"
+#include "graphicsdevice.h"
 
 BufferObject::BufferObject(BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
+	: GraphicsContextResource()
+{
+	STACK_TRACE;
+	m_type = type;
+	m_usage = usage;
+	m_bufferId = 0;
+	m_isDirty = FALSE;
+	m_sizeInBytes = 0;
+}
+
+BufferObject::BufferObject(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
+	: GraphicsContextResource(graphicsDevice)
 {
 	STACK_TRACE;
 	m_type = type;
@@ -21,14 +34,14 @@ BufferObject::~BufferObject()
 		FreeBufferObject();
 }
 
-void BufferObject::CreateInVRAM()
+void BufferObject::CreateOnGpu()
 {
 	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == TRUE);
 	CreateBufferObject();
 }
 
-void BufferObject::RecreateInVRAM()
+void BufferObject::RecreateOnGpu()
 {
 	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == FALSE);
@@ -36,7 +49,7 @@ void BufferObject::RecreateInVRAM()
 	CreateBufferObject();
 }
 
-void BufferObject::FreeFromVRAM()
+void BufferObject::FreeFromGpu()
 {
 	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == FALSE);
@@ -153,7 +166,7 @@ void BufferObject::SizeBufferObject()
 void BufferObject::OnNewContext()
 {
 	STACK_TRACE;
-	RecreateInVRAM();
+	RecreateOnGpu();
 }
 
 void BufferObject::OnLostContext()

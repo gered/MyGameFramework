@@ -52,9 +52,6 @@ TileChunk::TileChunk(uint32_t x, uint32_t y, uint32_t z, uint32_t width, uint32_
 	// start off assuming we don't have any alpha vertices
 	m_alphaVertices = NULL;
 	m_numAlphaVertices = 0;
-
-	m_vertices->CreateInVRAM();
-	m_graphicsDevice->RegisterManagedResource(m_vertices);
 }
 
 TileChunk::~TileChunk()
@@ -392,9 +389,6 @@ void TileChunk::EnableAlphaVertices(BOOL enable)
 		m_alphaVertices->AddAttribute(VERTEX_COLOR);
 		m_alphaVertices->Create(16);
 		m_numAlphaVertices = 0;
-
-		m_graphicsDevice->RegisterManagedResource(m_alphaVertices);
-		m_alphaVertices->CreateInVRAM();
 	}
 	else
 	{
@@ -402,8 +396,6 @@ void TileChunk::EnableAlphaVertices(BOOL enable)
 			return;
 
 		// need to free the vertex buffer
-		m_graphicsDevice->RegisterManagedResource(m_alphaVertices);
-		m_alphaVertices->FreeFromVRAM();
 		SAFE_DELETE(m_alphaVertices);
 		m_numAlphaVertices = 0;
 	}
