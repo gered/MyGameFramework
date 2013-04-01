@@ -30,17 +30,26 @@ const char* SimpleColorShader::m_fragmentShaderSource =
 	"}\n";
 
 SimpleColorShader::SimpleColorShader()
-	: StandardShader()
 {
 	STACK_TRACE;
-	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
-	ASSERT(result == TRUE);
-
-	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
-	MapAttributeToStandardAttribType("a_color", VERTEX_STD_COLOR);
 }
 
 SimpleColorShader::~SimpleColorShader()
 {
 	STACK_TRACE;
+}
+
+BOOL SimpleColorShader::Initialize(GraphicsDevice *graphicsDevice)
+{
+	STACK_TRACE;
+	if (!StandardShader::Initialize(graphicsDevice))
+		return FALSE;
+	
+	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
+	ASSERT(result == TRUE);
+
+	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
+	MapAttributeToStandardAttribType("a_color", VERTEX_STD_COLOR);
+	
+	return TRUE;
 }

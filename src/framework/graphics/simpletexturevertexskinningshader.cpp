@@ -49,18 +49,27 @@ const char* SimpleTextureVertexSkinningShader::m_fragmentShaderSource =
 	"}\n";
 
 SimpleTextureVertexSkinningShader::SimpleTextureVertexSkinningShader()
-	: VertexSkinningShader()
 {
 	STACK_TRACE;
+}
+
+SimpleTextureVertexSkinningShader::~SimpleTextureVertexSkinningShader()
+{
+	STACK_TRACE;
+}
+
+BOOL SimpleTextureVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice)
+{
+	STACK_TRACE;
+	if (!VertexSkinningShader::Initialize(graphicsDevice))
+		return FALSE;
+	
 	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
 	ASSERT(result == TRUE);
 	
 	MapAttributeToVboAttribIndex("a_jointIndex", 0);
 	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
 	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
-}
-
-SimpleTextureVertexSkinningShader::~SimpleTextureVertexSkinningShader()
-{
-	STACK_TRACE;
+	
+	return TRUE;
 }

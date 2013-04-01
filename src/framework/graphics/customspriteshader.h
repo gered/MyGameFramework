@@ -3,6 +3,7 @@
 
 #include "spriteshader.h"
 
+class GraphicsDevice;
 class Text;
 
 /**
@@ -12,23 +13,28 @@ class Text;
 class CustomSpriteShader : public SpriteShader
 {
 public:
-	/**
-	 * Creates a new shader object for rendering sprites using the given vertex
-	 * and fragment shader sources.
-	 * @param vertexShaderSource GLSL source for a vertex shader
-	 * @param fragmentShaderSource GLSL source for a vertex shader
-	 */
-	CustomSpriteShader(const char *vertexShaderSource, const char *fragmentShaderSource);
-
-	/**
-	* Creates a new shader object for rendering sprites using the given vertex
-	* and fragment shader sources.
-	 * @param vertexShaderSource GLSL source for a vertex shader
-	 * @param fragmentShaderSource GLSL source for a vertex shader
-	 */
-	CustomSpriteShader(const Text *vertexShaderSource, const Text *fragmentShaderSource);
-
+	CustomSpriteShader();
 	virtual ~CustomSpriteShader();
+	
+	/**
+	 * Initializes the shader object for rendering sprites using the given vertex
+	 * and fragment shader sources.
+	 * @param graphicsDevice the graphics device to associate this shader with
+	 * @param vertexShaderSource GLSL source for a vertex shader
+	 * @param fragmentShaderSource GLSL source for a vertex shader
+	 * @return TRUE if successful, FALSE if not
+	 */
+	BOOL Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource);
+
+	/**
+	 * Initializes the shader object for rendering sprites using the given vertex
+	 * and fragment shader sources.
+	 * @param graphicsDevice the graphics device to associate this shader with
+	 * @param vertexShaderSource GLSL source for a vertex shader
+	 * @param fragmentShaderSource GLSL source for a vertex shader
+	 * @return TRUE if successful, FALSE if not
+	 */
+	BOOL Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource);
 };
 
 #endif

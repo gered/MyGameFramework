@@ -3,11 +3,15 @@
 
 #include "vertexlerpshader.h"
 
+class GraphicsDevice;
+
 class SimpleTextureVertexLerpShader : public VertexLerpShader
 {
 public:
 	SimpleTextureVertexLerpShader();
 	virtual ~SimpleTextureVertexLerpShader();
+	
+	BOOL Initialize(GraphicsDevice *graphicsDevice);
 
 private:
 	static const char *m_vertexShaderSource;

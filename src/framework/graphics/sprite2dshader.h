@@ -3,6 +3,8 @@
 
 #include "spriteshader.h"
 
+class GraphicsDevice;
+
 /**
  * Shader for rendering 2D sprites with vertex color modulation. Includes
  * special support for color modulation using RGB, RGBA, and alpha-only
@@ -13,6 +15,8 @@ class Sprite2DShader : public SpriteShader
 public:
 	Sprite2DShader();
 	virtual ~Sprite2DShader();
+	
+	BOOL Initialize(GraphicsDevice *graphicsDevice);
 
 private:
 	static const char *m_vertexShaderSource;

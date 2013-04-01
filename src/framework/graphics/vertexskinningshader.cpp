@@ -5,7 +5,6 @@
 #include "../math/vector3.h"
 
 VertexSkinningShader::VertexSkinningShader()
-	: StandardShader()
 {
 	STACK_TRACE;
 	SetJointPositionsUniform("u_jointPositions");

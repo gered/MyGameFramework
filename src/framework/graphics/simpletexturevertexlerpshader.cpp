@@ -31,18 +31,27 @@ const char* SimpleTextureVertexLerpShader::m_fragmentShaderSource =
 	"}\n";
 
 SimpleTextureVertexLerpShader::SimpleTextureVertexLerpShader()
-	: VertexLerpShader()
 {
 	STACK_TRACE;
+}
+
+SimpleTextureVertexLerpShader::~SimpleTextureVertexLerpShader()
+{
+	STACK_TRACE;
+}
+
+BOOL SimpleTextureVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice)
+{
+	STACK_TRACE;
+	if (!VertexLerpShader::Initialize(graphicsDevice))
+		return FALSE;
+	
 	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
 	ASSERT(result == TRUE);
 
 	MapAttributeToVboAttribIndex("a_position1", 0);
 	MapAttributeToVboAttribIndex("a_position2", 1);
 	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
-}
-
-SimpleTextureVertexLerpShader::~SimpleTextureVertexLerpShader()
-{
-	STACK_TRACE;
+	
+	return TRUE;
 }

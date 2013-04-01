@@ -4,7 +4,6 @@
 #include "../math/matrix4x4.h"
 
 StandardShader::StandardShader()
-	: Shader()
 {
 	STACK_TRACE;
 	m_inlineVertexShaderSource = NULL;

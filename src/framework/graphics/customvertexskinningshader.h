@@ -3,16 +3,17 @@
 
 #include "vertexskinningshader.h"
 
+class GraphicsDevice;
 class Text;
 
 class CustomVertexSkinningShader : public VertexSkinningShader
 {
 public:
-	CustomVertexSkinningShader(const char *vertexShaderSource, const char *fragmentShaderSource);
-	
-	CustomVertexSkinningShader(const Text *vertexShaderSource, const Text *fragmentShaderSource);
-	
+	CustomVertexSkinningShader();
 	virtual ~CustomVertexSkinningShader();
+	
+	BOOL Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource);
+	BOOL Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource);
 };
 
 #endif

@@ -28,18 +28,28 @@ const char* SimpleTextureShader::m_fragmentShaderSource =
 	"	gl_FragColor = texture2D(u_texture, v_texCoords);\n"
 	"}\n";
 
+
 SimpleTextureShader::SimpleTextureShader()
-	: StandardShader()
 {
 	STACK_TRACE;
-	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
-	ASSERT(result == TRUE);
-
-	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
-	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
 }
 
 SimpleTextureShader::~SimpleTextureShader()
 {
 	STACK_TRACE;
+}
+
+BOOL SimpleTextureShader::Initialize(GraphicsDevice *graphicsDevice)
+{
+	STACK_TRACE;
+	if (!StandardShader::Initialize(graphicsDevice))
+		return FALSE;
+	
+	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
+	ASSERT(result == TRUE);
+
+	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
+	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
+	
+	return TRUE;
 }

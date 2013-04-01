@@ -47,18 +47,27 @@ const char* Sprite3DShader::m_fragmentShaderSource =
 	"}\n";
 
 Sprite3DShader::Sprite3DShader()
-	: SpriteShader()
 {
 	STACK_TRACE;
+}
+
+Sprite3DShader::~Sprite3DShader()
+{
+	STACK_TRACE;
+}
+
+BOOL Sprite3DShader::Initialize(GraphicsDevice *graphicsDevice)
+{
+	STACK_TRACE;
+	if (!SpriteShader::Initialize(graphicsDevice))
+		return FALSE;
+	
 	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
 	ASSERT(result == TRUE);
 
 	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
 	MapAttributeToStandardAttribType("a_color", VERTEX_STD_COLOR);
 	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
-}
-
-Sprite3DShader::~Sprite3DShader()
-{
-	STACK_TRACE;
+	
+	return TRUE;
 }

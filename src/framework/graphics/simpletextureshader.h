@@ -3,6 +3,8 @@
 
 #include "standardshader.h"
 
+class GraphicsDevice;
+
 /**
  * Shader which renders geometry with texturing but no vertex colors.
  */
@@ -11,6 +13,8 @@ class SimpleTextureShader : public StandardShader
 public:
 	SimpleTextureShader();
 	virtual ~SimpleTextureShader();
+	
+	BOOL Initialize(GraphicsDevice *graphicsDevice);
 
 private:
 	static const char *m_vertexShaderSource;

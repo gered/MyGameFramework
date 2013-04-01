@@ -3,7 +3,6 @@
 #include "vertexlerpshader.h"
 
 VertexLerpShader::VertexLerpShader()
-	: StandardShader()
 {
 	STACK_TRACE;
 	SetLerpUniform("u_lerp");

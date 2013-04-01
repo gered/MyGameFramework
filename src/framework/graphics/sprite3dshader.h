@@ -3,6 +3,8 @@
 
 #include "spriteshader.h"
 
+class GraphicsDevice;
+
 /**
  * Shader for rendering 3D billboard sprites with vertex color modulation. 
  * Includes special support for color modulation using RGB, RGBA, and 
@@ -14,6 +16,8 @@ class Sprite3DShader : public SpriteShader
 public:
 	Sprite3DShader();
 	virtual ~Sprite3DShader();
+	
+	BOOL Initialize(GraphicsDevice *graphicsDevice);
 
 private:
 	static const char *m_vertexShaderSource;

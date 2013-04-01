@@ -3,7 +3,6 @@
 #include "spriteshader.h"
 
 SpriteShader::SpriteShader()
-	: StandardShader()
 {
 	STACK_TRACE;
 	SetTextureHasAlphaOnlyUniform("u_textureHasAlphaOnly");
