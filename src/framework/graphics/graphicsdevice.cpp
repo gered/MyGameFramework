@@ -42,22 +42,49 @@
 const unsigned int MAX_BOUND_TEXTURES = 8;
 const unsigned int MAX_GPU_ATTRIB_SLOTS = 8; 
 
-GraphicsDevice::GraphicsDevice(GameWindow *window)
+GraphicsDevice::GraphicsDevice()
 {
 	STACK_TRACE;
 	m_hasNewContextRunYet = FALSE;
-	
 	m_boundVertexBuffer = NULL;
 	m_boundIndexBuffer = NULL;
 	m_boundShader = NULL;
 	m_shaderVertexAttribsSet = FALSE;
-	
-	m_boundTextures = new const Texture*[MAX_BOUND_TEXTURES];
+	m_boundTextures = NULL;
 	m_boundFramebuffer = NULL;
 	m_boundRenderbuffer = NULL;
+	m_activeViewContext = NULL;
+	m_defaultViewContext = NULL;
+	m_debugRenderer = NULL;
+	m_solidColorTextures = NULL;
+	m_simpleColorShader = NULL;
+	m_simpleColorTextureShader = NULL;
+	m_simpleTextureShader = NULL;
+	m_simpleTextureVertexLerpShader = NULL;
+	m_simpleTextureVertexSkinningShader = NULL;
+	m_sprite2dShader = NULL;
+	m_sprite3dShader = NULL;
+	m_debugShader = NULL;
+	m_isDepthTextureSupported = FALSE;
+	m_isNonPowerOfTwoTextureSupported = FALSE;
+	m_window = NULL;
+}
 
-	m_enabledVertexAttribIndices.reserve(MAX_GPU_ATTRIB_SLOTS);
+BOOL GraphicsDevice::Initialize(GameWindow *window)
+{
+	STACK_TRACE;
+	ASSERT(m_window == NULL);
+	if (m_window != NULL)
+		return FALSE;
 	
+	ASSERT(window != NULL);
+	if (window == NULL)
+		return FALSE;
+	
+	m_hasNewContextRunYet = FALSE;
+	m_boundTextures = new const Texture*[MAX_BOUND_TEXTURES];
+	m_enabledVertexAttribIndices.reserve(MAX_GPU_ATTRIB_SLOTS);
+
 #ifdef MOBILE
 	m_isDepthTextureSupported = IsGLExtensionPresent("OES_depth_texture");
 	m_isNonPowerOfTwoTextureSupported = IsGLExtensionPresent("OES_texture_npot");
@@ -70,31 +97,21 @@ GraphicsDevice::GraphicsDevice(GameWindow *window)
 	
 	LOG_INFO(LOGCAT_GRAPHICS, "Support for depth textures was %s.\n", m_isDepthTextureSupported ? "found" : "not found");
 	LOG_INFO(LOGCAT_GRAPHICS, "Support for NPOT textures was %s.\n", m_isNonPowerOfTwoTextureSupported ? "found" : "not found");
-
+	
 	m_window = window;
 
-	m_activeViewContext = NULL;
 	m_defaultViewContext = new ViewContext();
 	m_defaultViewContext->Create(this);
 	m_activeViewContext = m_defaultViewContext;
-
+	
 	m_currentTextureParams = TEXPARAM_DEFAULT;
-
-	m_debugRenderer = NULL;
-
+	
 	m_solidColorTextures = new SolidColorTextureCache(this);
-
-	m_simpleColorShader = NULL;
-	m_simpleColorTextureShader = NULL;
-	m_simpleTextureShader = NULL;
-	m_simpleTextureVertexLerpShader = NULL;
-	m_simpleTextureVertexSkinningShader = NULL;
-	m_sprite2dShader = NULL;
-	m_sprite3dShader = NULL;
-	m_debugShader = NULL;
+	
+	return TRUE;
 }
 
-GraphicsDevice::~GraphicsDevice()
+void GraphicsDevice::Release()
 {
 	STACK_TRACE;
 	SAFE_DELETE(m_defaultViewContext);
@@ -109,6 +126,20 @@ GraphicsDevice::~GraphicsDevice()
 	SAFE_DELETE(m_sprite3dShader);
 	SAFE_DELETE(m_debugShader);
 	SAFE_DELETE_ARRAY(m_boundTextures);
+	m_enabledVertexAttribIndices.clear();
+	m_managedResources.clear();
+	
+	m_hasNewContextRunYet = FALSE;
+	m_boundVertexBuffer = NULL;
+	m_boundIndexBuffer = NULL;
+	m_boundShader = NULL;
+	m_shaderVertexAttribsSet = FALSE;
+	m_boundFramebuffer = NULL;
+	m_boundRenderbuffer = NULL;
+	m_activeViewContext = NULL;
+	m_isDepthTextureSupported = FALSE;
+	m_isNonPowerOfTwoTextureSupported = FALSE;
+	m_window = NULL;
 }
 
 SimpleColorShader* GraphicsDevice::GetSimpleColorShader()

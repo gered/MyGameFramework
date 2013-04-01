@@ -43,14 +43,21 @@ typedef stl::vector<uint32_t> EnabledVertexAttribList;
 class GraphicsDevice
 {
 public:
+	GraphicsDevice();
+	virtual ~GraphicsDevice()                                                   { Release(); }
+	
 	/**
-	 * Creates a graphics device object based on a parent window that is
+	 * Releases all resources associated with this object.
+	 */
+	void Release();
+	
+	/**
+	 * Initializes the graphics device object based on a parent window that is
 	 * hosting the OpenGL context.
 	 * @param window a window with an active OpenGL context associated with it
+	 * @return TRUE if successful, FALSE if not
 	 */
-	GraphicsDevice(GameWindow *window);
-
-	virtual ~GraphicsDevice();
+	BOOL Initialize(GameWindow *window);
 
 	/**
 	 * New OpenGL graphics context creation callback.

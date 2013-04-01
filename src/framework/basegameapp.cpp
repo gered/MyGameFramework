@@ -92,8 +92,9 @@ BOOL BaseGameApp::Initialize(GameWindowParams *windowParams)
 		return FALSE;
 	}
 
-	m_graphics = new GraphicsDevice(m_window);
+	m_graphics = new GraphicsDevice();
 	ASSERT(m_graphics != NULL);
+	m_graphics->Initialize(m_window);
 
 	m_content = new ContentManager(this);
 	ASSERT(m_content != NULL);
