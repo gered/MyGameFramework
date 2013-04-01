@@ -20,15 +20,16 @@ class Framebuffer : public GraphicsContextResource
 	
 public:
 	Framebuffer();
-	virtual ~Framebuffer();
+	virtual ~Framebuffer()                                                      { Release(); }
 	
-	BOOL Create(GraphicsDevice *graphicsDevice);
-	BOOL Create(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, uint16_t fixedHeight);
 	void Release();
 	
-	uint32_t GetFramebufferName() const                    { return m_framebufferName; }
-	BOOL IsInvalidated() const                             { return m_framebufferName == 0; }
-	BOOL IsUsingFixedDimensions() const                    { return (m_fixedWidth != 0 && m_fixedHeight != 0); }
+	BOOL Initialize(GraphicsDevice *graphicsDevice);
+	BOOL Initialize(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, uint16_t fixedHeight);
+	
+	uint32_t GetFramebufferName() const                                         { return m_framebufferName; }
+	BOOL IsInvalidated() const                                                  { return m_framebufferName == 0; }
+	BOOL IsUsingFixedDimensions() const                                         { return (m_fixedWidth != 0 && m_fixedHeight != 0); }
 	
 	BOOL AttachViewContext();
 	BOOL AttachTexture(FRAMEBUFFER_DATA_TYPE type);
@@ -37,7 +38,7 @@ public:
 	BOOL ReleaseTexture(FRAMEBUFFER_DATA_TYPE type);
 	BOOL ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type);
 	
-	ViewContext* GetViewContext() const                    { return m_viewContext; }
+	ViewContext* GetViewContext() const                                         { return m_viewContext; }
 	Texture* GetTexture(FRAMEBUFFER_DATA_TYPE type) const;
 	Renderbuffer* GetRenderbuffer(FRAMEBUFFER_DATA_TYPE type) const;
 	
@@ -49,6 +50,8 @@ private:
 	void OnBind();
 	void OnUnBind();
 	
+	void CreateFramebuffer();
+	
 	BOOL ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL releaseFirst);
 	BOOL ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, BOOL releaseFirst);
 	BOOL RemoveTexture(Texture *texture);
@@ -57,7 +60,6 @@ private:
 	void GetDimensionsForAttachment(uint16_t &width, uint16_t &height) const;
 	
 	uint32_t m_framebufferName;
-	GraphicsDevice *m_graphicsDevice;
 	uint16_t m_fixedWidth;
 	uint16_t m_fixedHeight;
 	ViewContext *m_viewContext;

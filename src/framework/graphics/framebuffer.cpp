@@ -16,30 +16,24 @@
 Framebuffer::Framebuffer()
 {
 	STACK_TRACE;
-	m_graphicsDevice = NULL;
 	m_viewContext = NULL;
 	m_framebufferName = 0;
 	m_fixedWidth = 0;
 	m_fixedHeight = 0;
 }
 
-Framebuffer::~Framebuffer()
+BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
 {
 	STACK_TRACE;
-	Release();
-}
-
-BOOL Framebuffer::Create(GraphicsDevice *graphicsDevice)
-{
-	STACK_TRACE;
-	ASSERT(graphicsDevice != NULL);
+	if (!GraphicsContextResource::Initialize(graphicsDevice))
+		return FALSE;
+	
 	ASSERT(m_framebufferName == 0);
 	if (m_framebufferName != 0)
 		return FALSE;
 	
-	GL_CALL(glGenFramebuffers(1, &m_framebufferName));
+	CreateFramebuffer();
 	
-	m_graphicsDevice = graphicsDevice;
 	m_viewContext = NULL;
 	m_fixedWidth = 0;
 	m_fixedHeight = 0;
@@ -47,7 +41,7 @@ BOOL Framebuffer::Create(GraphicsDevice *graphicsDevice)
 	return TRUE;
 }
 
-BOOL Framebuffer::Create(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, uint16_t fixedHeight)
+BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, uint16_t fixedHeight)
 {
 	STACK_TRACE;
 	ASSERT(fixedWidth != 0);
@@ -55,7 +49,7 @@ BOOL Framebuffer::Create(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, ui
 	if (fixedWidth == 0 || fixedHeight == 0)
 		return FALSE;
 	
-	BOOL createSuccess = Create(graphicsDevice);
+	BOOL createSuccess = Initialize(graphicsDevice);
 	if (!createSuccess)
 		return FALSE;
 	
@@ -87,18 +81,24 @@ void Framebuffer::Release()
 		GL_CALL(glDeleteFramebuffers(1, &m_framebufferName));
 	}
 	
-	if (m_graphicsDevice != NULL)
+	if (GetGraphicsDevice() != NULL)
 	{
-		if (m_graphicsDevice->GetViewContext() == m_viewContext)
-			m_graphicsDevice->SetViewContext(NULL);
+		if (GetGraphicsDevice()->GetViewContext() == m_viewContext)
+			GetGraphicsDevice()->SetViewContext(NULL);
 		
 		SAFE_DELETE(m_viewContext);
 	}
 	
 	m_framebufferName = 0;
-	m_graphicsDevice = NULL;
 	m_fixedWidth = 0;
 	m_fixedHeight = 0;
+}
+
+void Framebuffer::CreateFramebuffer()
+{
+	STACK_TRACE;
+	ASSERT(m_framebufferName == 0);
+	GL_CALL(glGenFramebuffers(1, &m_framebufferName));
 }
 
 BOOL Framebuffer::AttachViewContext()
@@ -115,9 +115,9 @@ BOOL Framebuffer::AttachViewContext()
 	m_viewContext = new ViewContext();
 	BOOL success;
 	if (IsUsingFixedDimensions())
-		success = m_viewContext->Create(m_graphicsDevice, Rect(0, 0, m_fixedWidth, m_fixedHeight));
+		success = m_viewContext->Create(GetGraphicsDevice(), Rect(0, 0, m_fixedWidth, m_fixedHeight));
 	else
-		success = m_viewContext->Create(m_graphicsDevice);
+		success = m_viewContext->Create(GetGraphicsDevice());
 	if (!success)
 	{
 		SAFE_DELETE(m_viewContext);
@@ -148,7 +148,7 @@ BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 	// don't allow unsupported types!
 	if (type == FRAMEBUFFER_DATA_NONE)
 		return FALSE;
-	if (type == FRAMEBUFFER_DATA_DEPTH && !m_graphicsDevice->IsDepthTextureSupported())
+	if (type == FRAMEBUFFER_DATA_DEPTH && !GetGraphicsDevice()->IsDepthTextureSupported())
 		return FALSE;
 	if (type == FRAMEBUFFER_DATA_STENCIL)
 		return FALSE;
@@ -183,7 +183,7 @@ BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 	GetDimensionsForAttachment(width, height);
 	
 	Texture *attach = new Texture();
-	BOOL textureSuccess = attach->Create(m_graphicsDevice, width, height, textureFormat);
+	BOOL textureSuccess = attach->Create(GetGraphicsDevice(), width, height, textureFormat);
 	ASSERT(textureSuccess == TRUE);
 	if (!textureSuccess)
 	{
@@ -191,9 +191,9 @@ BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 		return FALSE;
 	}
 	
-	m_graphicsDevice->BindFramebuffer(this);
+	GetGraphicsDevice()->BindFramebuffer(this);
 	GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, attach->GetTextureName(), 0));
-	m_graphicsDevice->UnbindFramebuffer(this);
+	GetGraphicsDevice()->UnbindFramebuffer(this);
 
 	m_textures[type] = attach;
 	
@@ -227,14 +227,14 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL 
 	if (releaseFirst)
 		existing->Release();
 	
-	BOOL textureSuccess = existing->Create(m_graphicsDevice, width, height, existingFormat);
+	BOOL textureSuccess = existing->Create(GetGraphicsDevice(), width, height, existingFormat);
 	ASSERT(textureSuccess == TRUE);
 	if (!textureSuccess)
 		return FALSE;
 	
-	m_graphicsDevice->BindFramebuffer(this);
+	GetGraphicsDevice()->BindFramebuffer(this);
 	GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, existing->GetTextureName(), 0));
-	m_graphicsDevice->UnbindFramebuffer(this);
+	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
 	return TRUE;
 }
@@ -280,7 +280,7 @@ BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 	GetDimensionsForAttachment(width, height);
 	
 	Renderbuffer *attach = new Renderbuffer();
-	BOOL renderbufferSuccess = attach->Create(m_graphicsDevice, width, height, type);
+	BOOL renderbufferSuccess = attach->Create(GetGraphicsDevice(), width, height, type);
 	ASSERT(renderbufferSuccess == TRUE);
 	if (!renderbufferSuccess)
 	{
@@ -288,9 +288,9 @@ BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 		return FALSE;
 	}
 	
-	m_graphicsDevice->BindFramebuffer(this);	
+	GetGraphicsDevice()->BindFramebuffer(this);	
 	GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, attach->GetRenderbufferName()));
-	m_graphicsDevice->UnbindFramebuffer(this);
+	GetGraphicsDevice()->UnbindFramebuffer(this);
 
 	m_renderbuffers[type] = attach;
 
@@ -325,14 +325,14 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, 
 	if (releaseFirst)
 		existing->Release();
 
-	BOOL renderbufferSuccess = existing->Create(m_graphicsDevice, width, height, existingType);
+	BOOL renderbufferSuccess = existing->Create(GetGraphicsDevice(), width, height, existingType);
 	ASSERT(renderbufferSuccess == TRUE);
 	if (!renderbufferSuccess)
 		return FALSE;
 	
-	m_graphicsDevice->BindFramebuffer(this);	
+	GetGraphicsDevice()->BindFramebuffer(this);	
 	GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, existing->GetRenderbufferName()));
-	m_graphicsDevice->UnbindFramebuffer(this);
+	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
 	return TRUE;
 }
@@ -348,8 +348,8 @@ BOOL Framebuffer::ReleaseViewContext()
 	if (m_viewContext == NULL)
 		return FALSE;
 	
-	if (m_graphicsDevice->GetViewContext() == m_viewContext)
-		m_graphicsDevice->SetViewContext(NULL);
+	if (GetGraphicsDevice()->GetViewContext() == m_viewContext)
+		GetGraphicsDevice()->SetViewContext(NULL);
 	
 	SAFE_DELETE(m_viewContext);
 	
@@ -388,9 +388,9 @@ BOOL Framebuffer::ReleaseTexture(FRAMEBUFFER_DATA_TYPE type)
 	if (attachmentType == 0)
 		return FALSE;
 
-	m_graphicsDevice->BindFramebuffer(this);
+	GetGraphicsDevice()->BindFramebuffer(this);
 	GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, 0, 0));
-	m_graphicsDevice->UnbindFramebuffer(this);
+	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
 	BOOL removeSuccess = RemoveTexture(existing);
 	ASSERT(removeSuccess == TRUE);
@@ -432,9 +432,9 @@ BOOL Framebuffer::ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 	if (attachmentType == 0)
 		return FALSE;
 	
-	m_graphicsDevice->BindFramebuffer(this);
+	GetGraphicsDevice()->BindFramebuffer(this);
 	GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, 0));
-	m_graphicsDevice->UnbindFramebuffer(this);
+	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
 	BOOL removeSuccess = RemoveRenderbuffer(existing);
 	ASSERT(removeSuccess == TRUE);
@@ -499,24 +499,11 @@ Renderbuffer* Framebuffer::GetRenderbuffer(FRAMEBUFFER_DATA_TYPE type) const
 void Framebuffer::OnNewContext()
 {
 	STACK_TRACE;
-	if (m_framebufferName == 0 && m_graphicsDevice != NULL)
+	if (m_framebufferName == 0 && GetGraphicsDevice() != NULL)
 	{
-		// the view context (if one is set) doesn't need to be recreated
-		// but the call to Create() will reset the pointer
-		// TODO: maybe this should call a Recreate() method instead
-		ViewContext *viewContext = m_viewContext;
-		
 		// recreate the framebuffer
-		BOOL createSuccess = Create(m_graphicsDevice);
-		ASSERT(createSuccess == TRUE);
-		if (!createSuccess)
-		{
-			m_framebufferName = 0;
-			m_viewContext = viewContext;
-			return;
-		}
+		CreateFramebuffer();
 		
-		m_viewContext = viewContext;
 		if (m_viewContext != NULL)
 			m_viewContext->OnNewContext();
 		
@@ -561,11 +548,11 @@ void Framebuffer::OnLostContext()
 void Framebuffer::OnResize()
 {
 	STACK_TRACE;
-	if (m_framebufferName != 0 && m_graphicsDevice != NULL)
+	if (m_framebufferName != 0 && GetGraphicsDevice() != NULL)
 	{
 		if (m_viewContext != NULL)
 		{
-			GameWindow *window = m_graphicsDevice->GetWindow();
+			GameWindow *window = GetGraphicsDevice()->GetWindow();
 			m_viewContext->OnResize(window->GetRect(), window->GetScreenOrientation());
 		}
 		
@@ -651,7 +638,7 @@ void Framebuffer::GetDimensionsForAttachment(uint16_t &width, uint16_t &height) 
 		if (m_viewContext != NULL)
 			viewContext = m_viewContext;
 		else
-			viewContext = m_graphicsDevice->GetViewContext();
+			viewContext = GetGraphicsDevice()->GetViewContext();
 
 		ASSERT(viewContext != NULL);
 		width = viewContext->GetViewportWidth();
