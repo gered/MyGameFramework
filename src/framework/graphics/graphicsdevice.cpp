@@ -475,7 +475,7 @@ void GraphicsDevice::BindIBO(IndexBuffer *buffer)
 void GraphicsDevice::BindClientBuffer(IndexBuffer *buffer)
 {
 	STACK_TRACE;
-	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
+	GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
 
 void GraphicsDevice::SetShaderVertexAttributes()
