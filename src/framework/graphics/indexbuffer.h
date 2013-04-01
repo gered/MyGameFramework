@@ -7,6 +7,8 @@
 #include <stdlib.h>        // for abs()
 #include <stl/vector.h>
 
+class GraphicsDevice;
+
 /**
  * Wraps management of an array of vertex indexes to be used for
  * optimized rendering of vertices.
@@ -14,21 +16,42 @@
 class IndexBuffer : public BufferObject
 {
 public:
-	/**
-	 * Creates an index buffer.
-	 * @param numIndices the initial number of indices the buffer should hold
-	 * @param isStatic whether the index data is static or dynamic (used as
-	 *                 a hint for index data stored in video memory)
-	 */
-	IndexBuffer(uint32_t numIndices, BOOL isStatic);
-
-	/**
-	 * Creates an index buffer.
-	 * @param source the source buffer to copy during creation of this buffer
-	 */
-	IndexBuffer(const IndexBuffer *source);
-
+	IndexBuffer();
 	virtual ~IndexBuffer();
+	
+	/**
+	 * Initializes the index buffer.
+	 * @param numIndices the initial number of indices the buffer should hold
+	 * @param usage the expected usage pattern of this index buffer
+	 * @return TRUE if successful, FALSE if not
+	 */
+	BOOL Initialize(uint32_t numIndices, BUFFEROBJECT_USAGE usage);
+	
+	/**
+	 * Initializes the index buffer.
+	 * @param graphicsDevice the graphics device to use to create this buffer
+	 *                       on the GPU
+	 * @param numIndices the initial number of indices the buffer should hold
+	 * @param usage the expected usage pattern of this index buffer
+	 * @return TRUE if successful, FALSE if not
+	 */
+	BOOL Initialize(GraphicsDevice *graphicsDevice, uint32_t numIndices, BUFFEROBJECT_USAGE usage);
+	
+	/**
+	 * Initializes the index buffer.
+	 * @param source the source buffer to copy during creation of this buffer
+	 * @return TRUE if successful, FALSE if not
+	 */
+	BOOL Initialize(const IndexBuffer *source);
+	
+	/**
+	 * Initializes the index buffer.
+	 * @param graphicsDevice the graphics device to use to create this buffer
+	 *                       on the GPU
+	 * @param source the source buffer to copy during creation of this buffer
+	 * @return TRUE if successful, FALSE if not
+	 */
+	BOOL Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *source);
 
 	/**
 	 * Copies the source indices over top of this buffer's existing indices.

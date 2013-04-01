@@ -4,30 +4,66 @@
 
 #include <string.h>
 
-IndexBuffer::IndexBuffer(uint32_t numIndices, BOOL isStatic)
-	: BufferObject(BUFFEROBJECT_TYPE_INDEX, isStatic ? BUFFEROBJECT_USAGE_STATIC : BUFFEROBJECT_USAGE_DYNAMIC)
+IndexBuffer::IndexBuffer()
 {
 	STACK_TRACE;
 	m_currentIndex = 0;
-	Resize(numIndices);
-}
-
-IndexBuffer::IndexBuffer(const IndexBuffer *source)
-	: BufferObject(BUFFEROBJECT_TYPE_INDEX, source->GetUsage())
-{
-	STACK_TRACE;
-	ASSERT(source != NULL);
-	ASSERT(source->GetNumElements() > 0);
-
-	m_currentIndex = 0;
-	Resize(source->GetNumElements());
-
-	memcpy(&m_buffer[0], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());
 }
 
 IndexBuffer::~IndexBuffer()
 {
 	STACK_TRACE;
+}
+
+BOOL IndexBuffer::Initialize(uint32_t numIndices, BUFFEROBJECT_USAGE usage)
+{
+	STACK_TRACE;
+	return Initialize(NULL, numIndices, usage);
+}
+
+BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint32_t numIndices, BUFFEROBJECT_USAGE usage)
+{
+	STACK_TRACE;
+	ASSERT(m_buffer.size() == 0);
+	if (m_buffer.size() > 0)
+		return FALSE;
+
+	ASSERT(numIndices > 0);
+	if (numIndices == 0)
+		return FALSE;
+		
+	if (!BufferObject::Initialize(graphicsDevice, BUFFEROBJECT_TYPE_INDEX, usage))
+		return FALSE;
+	
+	Resize(numIndices);
+	
+	return TRUE;
+}
+
+BOOL IndexBuffer::Initialize(const IndexBuffer *source)
+{
+	STACK_TRACE;
+	return Initialize(NULL, source);
+}
+
+BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *source)
+{
+	STACK_TRACE;
+	ASSERT(m_buffer.size() == 0);
+	if (m_buffer.size() > 0)
+		return FALSE;
+
+	ASSERT(source != NULL);
+	if (source == NULL)
+		return FALSE;
+	
+	ASSERT(source->GetNumElements() > 0);
+	if (source->GetNumElements() == 0)
+		return FALSE;
+	
+	Resize(source->GetNumElements());
+	
+	memcpy(&m_buffer[0], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());	
 }
 
 void IndexBuffer::Set(const uint16_t *indices, uint32_t numIndices)
@@ -39,6 +75,10 @@ void IndexBuffer::Set(const uint16_t *indices, uint32_t numIndices)
 void IndexBuffer::Resize(uint32_t numIndices)
 {
 	STACK_TRACE;
+	ASSERT(numIndices > 0);
+	if (numIndices == 0)
+		return;
+	
 	m_buffer.resize(numIndices, 0);
 
 	if (!IsClientSideBuffer())
