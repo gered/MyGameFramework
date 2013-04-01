@@ -25,11 +25,11 @@ Framebuffer::Framebuffer()
 BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
 {
 	STACK_TRACE;
-	if (!GraphicsContextResource::Initialize(graphicsDevice))
-		return FALSE;
-	
 	ASSERT(m_framebufferName == 0);
 	if (m_framebufferName != 0)
+		return FALSE;
+	
+	if (!GraphicsContextResource::Initialize(graphicsDevice))
 		return FALSE;
 	
 	CreateFramebuffer();
