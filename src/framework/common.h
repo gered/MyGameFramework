@@ -10,6 +10,11 @@ const BOOL TRUE = 1;
 const BOOL FALSE = 0;
 #endif
 
+typedef unsigned long ulong;
+typedef unsigned int uint;
+typedef unsigned short ushort;
+typedef unsigned char uchar;
+
 #ifndef SAFE_RELEASE
 #define SAFE_RELEASE(x)	                                   if (x) { (x)->Release(); (x) = NULL; }
 #endif
