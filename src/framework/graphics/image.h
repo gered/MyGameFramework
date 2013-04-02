@@ -20,10 +20,10 @@ public:
 		static CONTENT_TYPE typeName = "Image";
 		return typeName;
 	}
-	CONTENT_TYPE GetTypeOf() const                         { return GetType(); }
+	CONTENT_TYPE GetTypeOf() const                                              { return GetType(); }
 
 	Image();
-	virtual ~Image();
+	virtual ~Image()                                                            { Release(); }
 	
 	/**
 	 * Creates a empty new image.
@@ -44,13 +44,13 @@ public:
 	/**
 	 * Creates a copy of a subsection of an image.
 	 * @param source the source image object to copy
-	 * @param left left X coordinate of the source region to copy
-	 * @param top top Y coordinate of the source region to copy
-	 * @param right right X coordinate of the source region to copy
-	 * @param bottom bottom Y coordinate of the source region to copy
+	 * @param x left X coordinate of the source region to copy
+	 * @param y top Y coordinate of the source region to copy
+	 * @param width the width of the source region to copy
+	 * @param height the height of the source region to copy
 	 * @return TRUE if successful
 	 */
-	BOOL Create(const Image *source, uint16_t left, uint16_t top, uint16_t right, uint16_t bottom);
+	BOOL Create(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 	
 	/**
 	 * Creates an image from an image file.
@@ -67,7 +67,7 @@ public:
 	/**
 	 * @return pointer to raw image pixel data
 	 */
-	uint8_t* GetPixels() const                             { return m_pixels; }
+	uint8_t* GetPixels() const                                                  { return m_pixels; }
 
 	/**
 	 * @return offset into the raw image pixel data that corresponds
@@ -124,40 +124,40 @@ public:
 	 * given. The source image must fit entirely in this image. No clipping
 	 * is performed.
 	 * @param source the source image to copy
-	 * @param left the left X coordinate of the region to copy from the source image
-	 * @param top the top Y coordinate of the region to copy from the source image
-	 * @param right the right X coordinate of the region to copy from the source image
-	 * @param bottom the bottom Y coordinate of the region to copy from the source image
+	 * @param x the left X coordinate of the region to copy from the source image
+	 * @param y the top Y coordinate of the region to copy from the source image
+	 * @param width the width of the region to copy from the source image
+	 * @param height the height of the region to copy from the source image
 	 * @param destX the X coordinate to copy the source image to on this image
 	 * @param destY the Y coordinate to copy the source image to on this image
 	 */
-	void Copy(const Image *source, uint16_t left, uint16_t top, uint16_t right, uint16_t bottom, uint16_t destX, uint16_t destY);
+	void Copy(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t destX, uint16_t destY);
 
 	/**
 	 * @return the width of this image
 	 */
-	uint16_t GetWidth() const                              { return m_width; }
+	uint16_t GetWidth() const                                                   { return m_width; }
 
 	/**
 	 * @return the height of this image
 	 */
-	uint16_t GetHeight() const                             { return m_height; }
+	uint16_t GetHeight() const                                                  { return m_height; }
 
 	/**
 	 * @return the bits per pixel of this image's pixel data
 	 */
-	uint8_t GetBpp() const                                 { return m_bpp; }
+	uint8_t GetBpp() const                                                      { return m_bpp; }
 
 	/**
 	 * @return the pixel format of this image
 	 */
-	IMAGE_FORMAT GetFormat() const                         { return m_format; }
+	IMAGE_FORMAT GetFormat() const                                              { return m_format; }
 
 	/**
 	 * @return the number of bytes equivalent to one horizontal line 
 	 *         of pixel data
 	 */
-	uint32_t GetPitch() const                              { return m_pitch; }
+	uint32_t GetPitch() const                                                   { return m_pitch; }
 
 	/**
 	 * @return the number of bytes the raw pixel data in this image

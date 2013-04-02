@@ -22,12 +22,6 @@ Image::Image()
 	m_pitch = 0;
 }
 
-Image::~Image()
-{
-	STACK_TRACE;
-	Release();
-}
-
 void Image::Release()
 {
 	STACK_TRACE;
@@ -84,32 +78,34 @@ BOOL Image::Create(const Image *source)
 	if (source == NULL)
 		return FALSE;
 	else
-		return Create(source, 0, 0, source->GetWidth() - 1, source->GetHeight() - 1);
+		return Create(source, 0, 0, source->GetWidth(), source->GetHeight());
 }
 
-BOOL Image::Create(const Image *source, uint16_t left, uint16_t top, uint16_t right, uint16_t bottom)
+BOOL Image::Create(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 {
 	STACK_TRACE;
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
 		return FALSE;
 	
+	ASSERT(source != NULL);
+	if (source == NULL)
+		return FALSE;
+	
 	ASSERT(source->GetPixels() != NULL);
 	if (source->GetPixels() == NULL)
 		return FALSE;
 	
-	ASSERT(right > left);
-	ASSERT(bottom > top);
-	ASSERT(left < source->GetWidth());
-	ASSERT(right < source->GetWidth());
-	ASSERT(top < source->GetHeight());
-	ASSERT(bottom < source->GetHeight());
+	ASSERT(x < source->GetWidth());
+	ASSERT(y < source->GetHeight());
+	ASSERT((x + width) <= source->GetWidth());
+	ASSERT((y + height) <= source->GetHeight());
 	
-	BOOL baseCreateSuccess = Create((right - left) + 1, (bottom - top) + 1, source->GetFormat());
+	BOOL baseCreateSuccess = Create(width, height, source->GetFormat());
 	if (!baseCreateSuccess)
 		return FALSE;
 
-	Copy(source, left, top, right, bottom, 0, 0);
+	Copy(source, x, y, width, height, 0, 0);
 
 	return TRUE;
 }
@@ -236,32 +232,27 @@ void Image::Copy(const Image *source, uint16_t destX, uint16_t destY)
 {
 	STACK_TRACE;
 	ASSERT(source != NULL);
-	Copy(source, 0, 0, source->GetWidth() - 1, source->GetHeight() - 1, destX, destY);
+	Copy(source, 0, 0, source->GetWidth(), source->GetHeight(), destX, destY);
 }
 
-void Image::Copy(const Image *source, uint16_t left, uint16_t top, uint16_t right, uint16_t bottom, uint16_t destX, uint16_t destY)
+void Image::Copy(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t destX, uint16_t destY)
 {
 	STACK_TRACE;
 	ASSERT(source != NULL);
+	if (source == NULL)
+		return;
+	
 	ASSERT(source->GetBpp() == m_bpp);
-	ASSERT(right > left);
-	ASSERT(bottom > top);
-	ASSERT(left < source->GetWidth());
-	ASSERT(right < source->GetWidth());
-	ASSERT(top < source->GetHeight());
-	ASSERT(bottom < source->GetHeight());
-	ASSERT(destX < m_width);
-	ASSERT(destY < m_height);
-	ASSERT((right - left) < m_width);
-	ASSERT((bottom - top) < m_height);
-	ASSERT(destX + (right - left) < m_width);
-	ASSERT(destY + (bottom - top) < m_height);
+	ASSERT((x + width) <= source->GetWidth());
+	ASSERT((y + height) <= source->GetHeight());
+	ASSERT((destX + width) <= m_width);
+	ASSERT((destY + height) <= m_height);
 
-	uint8_t *sourcePixels = source->GetPixels() + source->GetOffsetFor(left, top);
+	uint8_t *sourcePixels = source->GetPixels() + source->GetOffsetFor(x, y);
 	uint8_t *destPixels = m_pixels + GetOffsetFor(destX, destY);
 
-	size_t lineWidthInBytes = ((right - left) + 1) * (m_bpp / 8);
-	uint16_t numLinesToCopy = (bottom - top) + 1;
+	size_t lineWidthInBytes = width * (m_bpp / 8);
+	uint16_t numLinesToCopy = height;
 
 	for (uint16_t i = 0; i < numLinesToCopy; ++i)
 	{
