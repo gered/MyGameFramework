@@ -32,7 +32,7 @@ uint ConvertMsgBoxTypeToSysMsgBoxIcon(MSGBOX_TYPE type);
 	#define WIN32_EXTRA_LEAN
 	#include <windows.h>
 
-	MSGBOX_RESULT SystemMessageBox(const stl::string& message, const stl::string& caption, uint32_t flags);
+	MSGBOX_RESULT SystemMessageBox(const stl::string& message, const stl::string& caption, uint flags);
 
 #elif defined MSGBOX_OSX
 

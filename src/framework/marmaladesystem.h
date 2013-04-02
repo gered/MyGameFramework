@@ -44,7 +44,7 @@ public:
 	Keyboard* GetKeyboard() const                          { return (Keyboard*)m_keyboard; }
 	Touchscreen* GetTouchscreen() const                    { return (Touchscreen*)m_touchscreen; }
 
-	uint GetTicks() const                                  { return (uint32_t)s3eTimerGetMs(); }
+	uint GetTicks() const                                  { return (uint)s3eTimerGetMs(); }
 	void Delay(uint milliseconds) const;
 
 private:

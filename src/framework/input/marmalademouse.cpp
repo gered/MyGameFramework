@@ -5,7 +5,7 @@
 #include "mouselistener.h"
 #include <string.h>
 
-const int32_t NUM_BUTTONS = S3E_POINTER_BUTTON_MAX;
+const int NUM_BUTTONS = S3E_POINTER_BUTTON_MAX;
 
 MarmaladeMouse::MarmaladeMouse()
 {
@@ -29,7 +29,7 @@ void MarmaladeMouse::ResetDeltas()
 
 bool MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 {
-	int button = (int32_t)eventArgs->m_Button;
+	int button = (int)eventArgs->m_Button;
 	bool isDown = (bool)eventArgs->m_Pressed;
 	int x = eventArgs->m_x;
 	int y = eventArgs->m_y;
@@ -44,7 +44,7 @@ bool MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 		//       don't have support for it (yet)
 		for (stl::set<MouseListener*>::iterator i = m_listeners.begin(); i != m_listeners.end(); ++i)
 		{
-			if ((*i)->OnMouseButtonDown((MOUSE_BUTTONS)button, (uint16_t)x, (uint16_t)y))
+			if ((*i)->OnMouseButtonDown((MOUSE_BUTTONS)button, (uint)x, (uint)y))
 				break;
 		}
 	}
@@ -55,7 +55,7 @@ bool MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 		{
 			for (stl::set<MouseListener*>::iterator i = m_listeners.begin(); i != m_listeners.end(); ++i)
 			{
-				if ((*i)->OnMouseButtonUp((MOUSE_BUTTONS)button, (uint16_t)x, (uint16_t)y))
+				if ((*i)->OnMouseButtonUp((MOUSE_BUTTONS)button, (uint)x, (uint)y))
 					break;
 			}
 		}
