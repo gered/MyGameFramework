@@ -19,7 +19,7 @@ enum SIDES
 typedef uint8_t CUBE_FACES;
 typedef uint8_t MESH_SIDES;
 
-const uint32_t CUBE_VERTICES_PER_FACE = 6;
+const uint CUBE_VERTICES_PER_FACE = 6;
 
 #endif
 

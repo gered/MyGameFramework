@@ -23,7 +23,7 @@ SpriteFont::~SpriteFont()
 	SAFE_DELETE(m_texture);
 }
 
-void SpriteFont::Load(Texture *texture, TextureAtlas *glyphs, uint8_t size)
+void SpriteFont::Load(Texture *texture, TextureAtlas *glyphs, uint size)
 {
 	m_texture = texture;
 	m_glyphs = glyphs;
@@ -46,7 +46,7 @@ const TextureAtlasTile& SpriteFont::GetGlyph(unsigned char c) const
 		return m_glyphs->GetTile((int)c - LOW_GLYPH);
 }
 
-void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, const char *format, ...) const
+void SpriteFont::MeasureString(uint *width, uint *height, const char *format, ...) const
 {
 	if (width == NULL && height == NULL)
 		return;
@@ -60,8 +60,8 @@ void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, const char *fo
 
 	size_t textLength = strlen(buffer);
 
-	uint16_t currentMaxWidth = 0;
-	uint16_t left = 0;
+	uint currentMaxWidth = 0;
+	uint left = 0;
 	int numLines = 1;
 
 	for (size_t i = 0; i < textLength; ++i)
@@ -85,10 +85,10 @@ void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, const char *fo
 	if (width != NULL)
 		*width = currentMaxWidth;
 	if (height != NULL)
-		*height = (uint16_t)(numLines * GetLetterHeight());
+		*height = (uint)(numLines * GetLetterHeight());
 }
 
-void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, float scale, const char *format, ...) const
+void SpriteFont::MeasureString(uint *width, uint *height, float scale, const char *format, ...) const
 {
 	if (width == NULL && height == NULL)
 		return;
@@ -127,8 +127,8 @@ void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, float scale, c
 	}
 
 	if (width != NULL)
-		*width = (uint16_t)ceil(currentMaxWidth);
+		*width = (uint)ceil(currentMaxWidth);
 	if (height != NULL)
-		*height = (uint16_t)(numLines * scaledLetterHeight);
+		*height = (uint)(numLines * scaledLetterHeight);
 }
 

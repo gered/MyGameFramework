@@ -8,8 +8,8 @@
  */
 struct StaticMeshTriangle
 {
-	uint32_t vertices[3];
-	uint32_t subMeshIndex;
+	uint vertices[3];
+	uint subMeshIndex;
 };
 
 #endif

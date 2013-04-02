@@ -20,7 +20,7 @@ StaticMeshBuilder::~StaticMeshBuilder()
 	// BuildMesh() will handle passing off the subset objects to a mesh object
 	// if it is called. if it's not called, this will free up the memory since
 	// it was never passed off anywhere else in that case
-	for (uint32_t i = 0; i < m_subsets.size(); ++i)
+	for (uint i = 0; i < m_subsets.size(); ++i)
 		SAFE_DELETE(m_subsets[i]);
 	m_subsets.clear();
 }
@@ -31,7 +31,7 @@ void StaticMeshBuilder::Reset()
 	m_transform = IDENTITY_MATRIX;
 }
 
-uint32_t StaticMeshBuilder::AddSubset(uint32_t numTriangles, Texture *texture)
+uint StaticMeshBuilder::AddSubset(uint numTriangles, Texture *texture)
 {
 	ASSERT(numTriangles > 0);
 	StaticMeshSubset *subset = new StaticMeshSubset(numTriangles, texture);
@@ -43,8 +43,8 @@ uint32_t StaticMeshBuilder::AddSubset(uint32_t numTriangles, Texture *texture)
 }
 
 void StaticMeshBuilder::SetTriangle(
-	uint32_t subsetIndex,
-	uint32_t triangle,
+	uint subsetIndex,
+	uint triangle,
 	const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 	const Vector3 &n1, const Vector3 &n2, const Vector3 &n3, 
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
@@ -56,7 +56,7 @@ void StaticMeshBuilder::SetTriangle(
 	ASSERT(subset != NULL);
 
 	VertexBuffer *vertices = subset->GetVertices();
-	uint32_t bufferIndex = triangle * 3;
+	uint bufferIndex = triangle * 3;
 
 	ASSERT((bufferIndex + 3) <= vertices->GetNumElements());
 
@@ -69,8 +69,8 @@ void StaticMeshBuilder::SetTriangle(
 }
 
 void StaticMeshBuilder::SetTriangle(
-	uint32_t subsetIndex,
-	uint32_t triangle,
+	uint subsetIndex,
+	uint triangle,
 	const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
 	)
@@ -81,7 +81,7 @@ void StaticMeshBuilder::SetTriangle(
 	ASSERT(subset != NULL);
 
 	VertexBuffer *vertices = subset->GetVertices();
-	uint32_t bufferIndex = triangle * 3;
+	uint bufferIndex = triangle * 3;
 
 	ASSERT((bufferIndex + 3) <= vertices->GetNumElements());
 
@@ -93,8 +93,8 @@ void StaticMeshBuilder::SetTriangle(
 }
 
 void StaticMeshBuilder::SetQuad(
-	uint32_t subsetIndex,
-	uint32_t firstTriangle,
+	uint subsetIndex,
+	uint firstTriangle,
 	const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, const Vector3 &v4, 
 	const Vector3 &n1, const Vector3 &n2, const Vector3 &n3, const Vector3 &n4, 
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3, const Vector2 &t4
@@ -106,7 +106,7 @@ void StaticMeshBuilder::SetQuad(
 	ASSERT(subset != NULL);
 
 	VertexBuffer *vertices = subset->GetVertices();
-	uint32_t bufferIndex = firstTriangle * 3;
+	uint bufferIndex = firstTriangle * 3;
 
 	ASSERT((bufferIndex + 6) <= vertices->GetNumElements());
 
@@ -125,8 +125,8 @@ void StaticMeshBuilder::SetQuad(
 }
 
 void StaticMeshBuilder::SetQuad(
-	uint32_t subsetIndex,
-	uint32_t firstTriangle,
+	uint subsetIndex,
+	uint firstTriangle,
 	const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, const Vector3 &v4, 
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3, const Vector2 &t4
 	)
@@ -137,7 +137,7 @@ void StaticMeshBuilder::SetQuad(
 	ASSERT(subset != NULL);
 
 	VertexBuffer *vertices = subset->GetVertices();
-	uint32_t bufferIndex = firstTriangle * 3;
+	uint bufferIndex = firstTriangle * 3;
 
 	ASSERT((bufferIndex + 6) <= vertices->GetNumElements());
 
@@ -154,8 +154,8 @@ void StaticMeshBuilder::SetQuad(
 }
 
 void StaticMeshBuilder::SetBox(
-	uint32_t subsetIndex,
-	uint32_t firstTriangle,
+	uint subsetIndex,
+	uint firstTriangle,
 	const Vector3 &center, float width, float height, float depth
 	)
 {
@@ -174,8 +174,8 @@ void StaticMeshBuilder::SetBox(
 }
 
 void StaticMeshBuilder::SetBox(
-	uint32_t subsetIndex,
-	uint32_t firstTriangle,
+	uint subsetIndex,
+	uint firstTriangle,
 	const Vector3 &min, const Vector3 &max
 	)
 {
@@ -232,7 +232,7 @@ void StaticMeshBuilder::GenerateNormals()
 {
 	ASSERT(m_subsets.size() > 0);
 
-	for (uint32_t i = 0; i < m_subsets.size(); ++i)
+	for (uint i = 0; i < m_subsets.size(); ++i)
 	{
 		StaticMeshSubset *subset = m_subsets[i];
 		ASSERT(subset != NULL);
@@ -241,11 +241,11 @@ void StaticMeshBuilder::GenerateNormals()
 		ASSERT(buffer->GetNumElements() % 3 == 0);
 
 		// initialize all normals
-		for (uint32_t n = 0; n < buffer->GetNumElements(); ++n)
+		for (uint n = 0; n < buffer->GetNumElements(); ++n)
 			buffer->SetNormal(n, 0.0f, 0.0f, 0.0f);
 
 		// calculate the normal for each triangle and add it to the normals for each individual vertex
-		for (uint32_t v = 0; v < buffer->GetNumElements() / 3; ++v)
+		for (uint v = 0; v < buffer->GetNumElements() / 3; ++v)
 		{
 			// calculate the triangle normal
 			// they should have been added in CCW order (which StaticMeshBuilder does...)
@@ -264,7 +264,7 @@ void StaticMeshBuilder::GenerateNormals()
 		}
 
 		// all the vertex normals will be way too long, need to normalize all of them now
-		for (uint32_t n = 0; n < buffer->GetNumElements(); ++n)
+		for (uint n = 0; n < buffer->GetNumElements(); ++n)
 		{
 			Vector3 normal = buffer->GetNormal(n);
 			buffer->SetNormal(n, Vector3::Normalize(normal));
@@ -279,7 +279,7 @@ StaticMesh* StaticMeshBuilder::BuildMesh()
 	// convert the mesh vector to an array so it can be passed into the mesh object
 	StaticMeshSubset **subsets = new StaticMeshSubset*[m_subsets.size()];
 	ASSERT(subsets != NULL);
-	for (uint32_t i = 0; i < m_subsets.size(); ++i)
+	for (uint i = 0; i < m_subsets.size(); ++i)
 		subsets[i] = m_subsets[i];
 
 	StaticMesh *mesh = new StaticMesh(m_subsets.size(), subsets);
@@ -295,7 +295,7 @@ StaticMesh* StaticMeshBuilder::BuildMesh()
 
 void StaticMeshBuilder::SetTriangleInternal(
 	VertexBuffer *buffer, 
-	uint32_t bufferIndex,
+	uint bufferIndex,
 	const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 	const Vector3 &n1, const Vector3 &n2, const Vector3 &n3, 
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
@@ -316,7 +316,7 @@ void StaticMeshBuilder::SetTriangleInternal(
 
 void StaticMeshBuilder::SetTriangleInternal(
 	VertexBuffer *buffer, 
-	uint32_t bufferIndex,
+	uint bufferIndex,
 	const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
 	)

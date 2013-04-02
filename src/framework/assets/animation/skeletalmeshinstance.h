@@ -19,19 +19,19 @@ public:
 	virtual ~SkeletalMeshInstance();
 
 	virtual void OnUpdate(float delta);
-	void CalculateJointTransformations(uint32_t frame);
-	void CalculateJointTransformations(uint32_t startFrame, uint32_t endFrame, float interpolation);
+	void CalculateJointTransformations(uint frame);
+	void CalculateJointTransformations(uint startFrame, uint endFrame, float interpolation);
 
-	uint32_t GetNumSubsets() const                         { return m_numSubsets; }
-	BOOL IsSubsetEnabled(uint32_t index) const             { return m_enabledSubsets[index]; }
+	uint GetNumSubsets() const                             { return m_numSubsets; }
+	BOOL IsSubsetEnabled(uint index) const                 { return m_enabledSubsets[index]; }
 	void EnableSubset(const stl::string &subset, BOOL enable);
-	void EnableSubset(uint32_t index, BOOL enable)         { m_enabledSubsets[index] = enable; }
+	void EnableSubset(uint index, BOOL enable)             { m_enabledSubsets[index] = enable; }
 	
 	Texture** GetTextures() const                          { return m_textures; }
-	void SetTexture(uint32_t index, Texture *texture);
+	void SetTexture(uint index, Texture *texture);
 	void SetTexture(const stl::string &subset, Texture *texture);
 	
-	uint32_t GetNumJoints() const                          { return m_numJoints; }
+	uint GetNumJoints() const                              { return m_numJoints; }
 	Matrix4x4* GetJointTransformations() const             { return m_jointTransformations; }
 	Vector3* GetJointPositions() const                     { return m_jointPositions; }
 	Quaternion* GetJointRotations() const                  { return m_jointRotations; }
@@ -49,10 +49,10 @@ public:
 	SkeletalMesh* GetMesh() const                          { return m_mesh; }
 
 private:
-	void BreakDownJointTransformationMatrix(uint32_t jointMatrixIndex);
+	void BreakDownJointTransformationMatrix(uint jointMatrixIndex);
 	
 	SkeletalMesh *m_mesh;
-	uint32_t m_numSubsets;
+	uint m_numSubsets;
 	BOOL *m_enabledSubsets;
 	Texture **m_textures;
 	RenderState *m_renderState;
@@ -60,7 +60,7 @@ private:
 	BlendState *m_alphaBlendState;
 	BOOL m_renderAllSubsetsAlphaBlended;
 	
-	uint32_t m_numJoints;
+	uint m_numJoints;
 	Matrix4x4 *m_jointTransformations;
 	Vector3 *m_jointPositions;
 	Quaternion *m_jointRotations;

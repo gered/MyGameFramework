@@ -7,8 +7,8 @@
 
 struct ChunkDescriptor
 {
-	uint32_t start;
-	uint32_t length;
+	uint start;
+	uint length;
 };
 
 typedef stl::map<stl::string, ChunkDescriptor> ChunkMap;

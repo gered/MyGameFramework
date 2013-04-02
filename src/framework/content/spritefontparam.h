@@ -6,9 +6,9 @@
 
 struct SpriteFontParam : public ContentParam
 {
-	uint8_t size;
+	uint size;
 
-	SpriteFontParam(uint8_t size)
+	SpriteFontParam(uint size)
 	{
 		this->size = size;
 	}

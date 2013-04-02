@@ -41,8 +41,8 @@ private:
 	void Remove(EffectListItor itor);
 
 	EffectList m_effects;
-	uint32_t m_numLocalEffects;
-	uint32_t m_numGlobalEffects;
+	uint m_numLocalEffects;
+	uint m_numGlobalEffects;
 };
 
 template<class T>

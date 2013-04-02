@@ -22,8 +22,8 @@ public:
 
 	void ResetAll();
 
-	void AddTileSequence(TextureAtlas *atlas, uint32_t tileToBeAnimated, uint32_t start, uint32_t stop, float delay, BOOL loop = TRUE);
-	void AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint32_t tileToBeAnimated, uint32_t start, uint32_t stop, float delay, BOOL loop = TRUE);
+	void AddTileSequence(TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop = TRUE);
+	void AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop = TRUE);
 	void ResetTileSequence(const stl::string &name);
 	void StopTileSequence(const stl::string &name, BOOL restoreOriginalTile = FALSE);
 	void EnableTileSequence(const stl::string &name, BOOL enable);

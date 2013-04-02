@@ -91,9 +91,9 @@ void GetPointOnCircle(float radius, float angle, float &x, float &y)
 	y = radius * sinf(angle);
 }
 
-uint32_t GetNextPowerOf2(uint32_t n)
+uint GetNextPowerOf2(uint n)
 {
-	uint32_t i = n & (~n + 1);
+	uint i = n & (~n + 1);
 	while (i < n)
 		i <<= 1;
 

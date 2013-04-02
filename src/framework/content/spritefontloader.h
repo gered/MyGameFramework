@@ -77,10 +77,10 @@ protected:
 	void FreeContent(SpriteFont *content);
 	
 private:
-	void DecomposeFilename(const stl::string &filename, stl::string &outFilename, uint8_t &outSize) const;
-	SpriteFont* Load(File *file, uint8_t size, SpriteFont *existing) const;
+	void DecomposeFilename(const stl::string &filename, stl::string &outFilename, uint &outSize) const;
+	SpriteFont* Load(File *file, uint size, SpriteFont *existing) const;
 
-	BOOL GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint8_t size, SpriteFontGlyphMetrics *glyphMetrics) const;
+	BOOL GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint size, SpriteFontGlyphMetrics *glyphMetrics) const;
 };
 
 #endif

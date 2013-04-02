@@ -19,7 +19,7 @@ public:
 	 * @return TRUE if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnMouseButtonDown(MOUSE_BUTTONS button, uint16_t x, uint16_t y) = 0;
+	virtual BOOL OnMouseButtonDown(MOUSE_BUTTONS button, uint x, uint y) = 0;
 
 	/**
 	 * Callback for when a button is up (released).
@@ -29,7 +29,7 @@ public:
 	 * @return TRUE if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnMouseButtonUp(MOUSE_BUTTONS button, uint16_t x, uint16_t y) = 0;
+	virtual BOOL OnMouseButtonUp(MOUSE_BUTTONS button, uint x, uint y) = 0;
 
 	/**
 	 * Callback for when the mouse cursor moves.
@@ -40,7 +40,7 @@ public:
 	 * @return TRUE if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnMouseMove(uint16_t x, uint16_t y, int16_t deltaX, int16_t deltaY) = 0;
+	virtual BOOL OnMouseMove(uint x, uint y, int deltaX, int deltaY) = 0;
 };
 
 #endif

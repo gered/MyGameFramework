@@ -5,7 +5,7 @@
 
 struct JointVertexMapping
 {
-	int32_t jointIndex;
+	int jointIndex;
 	float weight;
 };
 

@@ -27,7 +27,7 @@ public:
 	 *                           help alleviate "texture bleeding" 
 	 *                           issues while rendering
 	 */
-	GridTextureAtlas(uint16_t textureWidth, uint16_t textureHeight, uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder = 0, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
+	GridTextureAtlas(uint textureWidth, uint textureHeight, uint tileWidth, uint tileHeight, uint tileBorder = 0, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
 
 	/**
 	 * Creates a texture atlas object with the specified properties.
@@ -39,25 +39,25 @@ public:
 	 *                           help alleviate "texture bleeding" 
 	 *                           issues while rendering
 	 */
-	GridTextureAtlas(Texture *source, uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder = 0, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
+	GridTextureAtlas(Texture *source, uint tileWidth, uint tileHeight, uint tileBorder = 0, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
 
 	virtual ~GridTextureAtlas();
 
 	/**
 	 * @return width in pixels of each sub-texture / tile
 	 */
-	uint16_t GetTileWidth() const                          { return m_tileWidth; }
+	uint GetTileWidth() const                              { return m_tileWidth; }
 
 	/**
 	 * @return height in pixels of each sub-texture / tile
 	 */
-	uint16_t GetTileHeight() const                         { return m_tileHeight; }
+	uint GetTileHeight() const                             { return m_tileHeight; }
 
 private:
-	void GenerateGrid(uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder);
+	void GenerateGrid(uint tileWidth, uint tileHeight, uint tileBorder);
 
-	uint16_t m_tileWidth;
-	uint16_t m_tileHeight;
+	uint m_tileWidth;
+	uint m_tileHeight;
 };
 
 #endif

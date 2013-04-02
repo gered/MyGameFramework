@@ -35,7 +35,7 @@ struct BoundingSphere
 	 * @param vertices an array of vertices to be fully enclosed within the sphere
 	 * @param numVertices the number of vertices being passed
 	 */
-	BoundingSphere(const Vector3 *vertices, int numVertices);
+	BoundingSphere(const Vector3 *vertices, uint numVertices);
 
 	Vector3 center;
 	float radius;

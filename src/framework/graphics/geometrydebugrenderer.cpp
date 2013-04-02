@@ -57,7 +57,7 @@ void GeometryDebugRenderer::Render(const BoundingBox &box, const Color &color)
 	ASSERT(m_begunRendering == TRUE);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 24));
 
-	uint32_t i = m_currentVertex;
+	uint i = m_currentVertex;
 
 	// removed lines which are duplicated by more then one face
 	// left and right faces don't need to be drawn at all (entirely duplicated lines)
@@ -103,7 +103,7 @@ void GeometryDebugRenderer::Render(const BoundingBox &box, const Color &color)
 	m_vertices->SetPosition3(i++, box.min.x, box.min.y, box.min.z);
 
 	// fill in all the colours
-	for (uint32_t j = m_currentVertex; j < i; ++j)
+	for (uint j = m_currentVertex; j < i; ++j)
 		m_vertices->SetColor(j, color);
 
 	m_currentVertex = i;
@@ -120,7 +120,7 @@ void GeometryDebugRenderer::Render(const BoundingSphere &sphere, const Color &co
 	ASSERT(m_begunRendering == TRUE);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 615));
 
-	uint32_t p = m_currentVertex;
+	uint p = m_currentVertex;
 
 	float ax, ay, az;
 	float bx, by, bz;
@@ -170,7 +170,7 @@ void GeometryDebugRenderer::Render(const BoundingSphere &sphere, const Color &co
 	}
 
 	// fill in all the colours
-	for (uint32_t i = m_currentVertex; i < p; ++i)
+	for (uint i = m_currentVertex; i < p; ++i)
 		m_vertices->SetColor(i, color);
 
 	m_currentVertex = p;

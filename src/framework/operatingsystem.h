@@ -92,12 +92,12 @@ public:
 	/**
 	 * @return the number of milliseconds since program execution began
 	 */
-	virtual uint32_t GetTicks() const = 0;
+	virtual uint GetTicks() const = 0;
 
 	/**
 	 * Blocks execution until the specified number of milliseconds has passed.
 	 */
-	virtual void Delay(uint32_t milliseconds) const = 0;
+	virtual void Delay(uint milliseconds) const = 0;
 };
 
 #endif

@@ -56,7 +56,7 @@ public:
 	virtual BOOL Handle(const Event *event);
 	
 protected:
-	Gwen::Controls::Canvas* InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint8_t fontSize);
+	Gwen::Controls::Canvas* InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint fontSize);
 	void ResizeAndScaleCanvas();
 	
 	GwenGameProcess* GetGameProcess() const                                     { return m_gameProcess; }

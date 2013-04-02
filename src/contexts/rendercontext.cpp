@@ -68,8 +68,8 @@ void RenderContext::OnResize()
 
 void RenderContext::CalculateScreenScale()
 {
-	uint16_t width = m_graphicsDevice->GetViewContext()->GetViewportWidth();
-	uint16_t height = m_graphicsDevice->GetViewContext()->GetViewportHeight();
+	uint width = m_graphicsDevice->GetViewContext()->GetViewportWidth();
+	uint height = m_graphicsDevice->GetViewContext()->GetViewportHeight();
 
 	// TODO: these values may need adjusting
 

@@ -9,8 +9,8 @@ class Texture;
 class TextureAtlas;
 struct TextureAtlasTile;
 
-const uint8_t LOW_GLYPH = 32;
-const uint8_t HIGH_GLYPH = 127;
+const int LOW_GLYPH = 32;
+const int HIGH_GLYPH = 127;
 
 /**
  * Represents a font that has been pre-rendered at a given size to a 
@@ -37,7 +37,7 @@ public:
 	 *               to the font's individual characters (glyphs)
 	 * @param size the size that the glyphs were rendered at
 	 */
-	void Load(Texture *texture, TextureAtlas *glyphs, uint8_t size);
+	void Load(Texture *texture, TextureAtlas *glyphs, uint size);
 
 	/**
 	 * Lost OpenGL graphics context callback. This will free the texture
@@ -48,7 +48,7 @@ public:
 	/**
 	 * @return the size that the glyphs were originally rendered at
 	 */
-	uint8_t GetSize() const                                { return m_size; }
+	uint GetSize() const                                   { return m_size; }
 
 	/**
 	 * @return the texture containing the font glyphs
@@ -59,7 +59,7 @@ public:
 	 * @return the number of pixels that one line of text rendered with this
 	 *         font takes up
 	 */
-	uint8_t GetLetterHeight() const                        { return m_letterHeight; }
+	uint GetLetterHeight() const                           { return m_letterHeight; }
 
 	/**
 	 * @param c the character to get sub-texture dimensions/positioning for
@@ -75,7 +75,7 @@ public:
 	 * @param height the height in pixels of the rendered text if not NULL
 	 * @param format the text to measure
 	 */
-	void MeasureString(uint16_t *width, uint16_t *height, const char *format, ...) const;
+	void MeasureString(uint *width, uint *height, const char *format, ...) const;
 
 	/**
 	 * Measures the given string of text and returns the width and height
@@ -85,14 +85,14 @@ public:
 	 * @param scale a scaling factor for rendering to take into account
 	 * @param format the text to measure
 	 */
-	void MeasureString(uint16_t *width, uint16_t *height, float scale, const char *format, ...) const;
+	void MeasureString(uint *width, uint *height, float scale, const char *format, ...) const;
 
 private:
-	uint8_t m_size;
+	uint m_size;
 
 	Texture *m_texture;
 	TextureAtlas *m_glyphs;
-	uint8_t m_letterHeight;
+	uint m_letterHeight;
 };
 
 #endif

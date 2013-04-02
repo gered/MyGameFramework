@@ -19,13 +19,13 @@ struct Point3
 	 * @param y Y coordinate of the point
 	 * @param z Z coordinate of the point
 	 */
-	Point3(int32_t x, int32_t y, int32_t z);
+	Point3(int x, int y, int z);
 
 	/**
 	 * Creates a point with the specified properties.
 	 * @param p an array with 3 values to use as the point's X, Y and Z coordinates
 	 */
-	Point3(const int32_t *p);
+	Point3(const int *p);
 
 	/**
 	 * Sets new coordinates for this point.
@@ -33,7 +33,7 @@ struct Point3
 	 * @param y new Y coordinate of the point
 	 * @param z new Z coordinate of the point
 	 */
-	void Set(int32_t x, int32_t y, int32_t z);
+	void Set(int x, int y, int z);
 
 	/**
 	 * Sets new coordinates for this point.
@@ -41,9 +41,9 @@ struct Point3
 	 */
 	void Set(const Point3 &p);
 
-	int32_t x;
-	int32_t y;
-	int32_t z;
+	int x;
+	int y;
+	int z;
 };
 
 #define ZERO_POINT Point3(0, 0, 0)
@@ -54,10 +54,10 @@ Point3 operator+(const Point3 &left, const Point3 &right);
 Point3 &operator+=(Point3 &left, const Point3 &right);
 Point3 operator-(const Point3 &left, const Point3 &right);
 Point3 &operator-=(Point3 &left, const Point3 &right);
-Point3 operator*(const Point3 &left, int32_t right);
-Point3 &operator*=(Point3 &left, int32_t right);
-Point3 operator/(const Point3 &left, int32_t right);
-Point3 &operator/=(Point3 &left, int32_t right);
+Point3 operator*(const Point3 &left, int right);
+Point3 &operator*=(Point3 &left, int right);
+Point3 operator/(const Point3 &left, int right);
+Point3 &operator/=(Point3 &left, int right);
 Point3 operator*(const Point3 &left, const Point3 &right);
 Point3 &operator*=(Point3 &left, const Point3 &right);
 Point3 operator/(const Point3 &left, const Point3 &right);
@@ -67,21 +67,21 @@ inline Point3::Point3()
 {
 }
 
-inline Point3::Point3(int32_t x, int32_t y, int32_t z)
+inline Point3::Point3(int x, int y, int z)
 {
 	this->x = x;
 	this->y = y;
 	this->z = z;
 }
 
-inline Point3::Point3(const int32_t *p)
+inline Point3::Point3(const int *p)
 {
 	this->x = p[0];
 	this->y = p[1];
 	this->z = p[2];
 }
 
-inline void Point3::Set(int32_t x, int32_t y, int32_t z)
+inline void Point3::Set(int x, int y, int z)
 {
 	this->x = x;
 	this->y = y;
@@ -133,12 +133,12 @@ inline Point3 &operator-=(Point3 &left, const Point3 &right)
 	return left;
 }
 
-inline Point3 operator*(const Point3 &left, int32_t right)
+inline Point3 operator*(const Point3 &left, int right)
 {
 	return Point3(left.x * right, left.y * right, left.z * right);
 }
 
-inline Point3 &operator*=(Point3 &left, int32_t right)
+inline Point3 &operator*=(Point3 &left, int right)
 {
 	left.x *= right;
 	left.y *= right;
@@ -147,12 +147,12 @@ inline Point3 &operator*=(Point3 &left, int32_t right)
 	return left;
 }
 
-inline Point3 operator/(const Point3 &left, int32_t right)
+inline Point3 operator/(const Point3 &left, int right)
 {
 	return Point3(left.x / right, left.y / right, left.z / right);
 }
 
-inline Point3 &operator/=(Point3 &left, int32_t right)
+inline Point3 &operator/=(Point3 &left, int right)
 {
 	left.x /= right;
 	left.y /= right;

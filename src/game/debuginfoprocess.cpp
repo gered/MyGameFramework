@@ -30,7 +30,7 @@ void DebugInfoProcess::OnRender(RenderContext *renderContext)
 {
 	SpriteFont *font = GetGameApp()->GetContentCache()->GetUIFont();
 
-	uint16_t y = 5;
+	int y = 5;
 	renderContext->GetSpriteBatch()->Printf(font, 5, y, TEXT_COLOR, "Loops: %d\nFT: %.6fs\nRPS: %d (%d)\nUPS: %d (%d)", 
 		GetGameApp()->GetFPS(), 
 		GetGameApp()->GetFrameTime(),

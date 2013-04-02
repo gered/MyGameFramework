@@ -7,7 +7,7 @@ class TouchscreenListener;
 struct Rect;
 struct Circle;
 
-const int32_t INVALID_TOUCH_POINTER = -1;
+const int INVALID_TOUCH_POINTER = -1;
 
 /**
  * Interface for a touch point class associated with a touch screen input device.
@@ -23,27 +23,27 @@ public:
 	 *         regardless of what order it is in in the list of touch
 	 *         points maintained by the touch screen device
 	 */
-	virtual int32_t GetId() const = 0;
+	virtual int GetId() const = 0;
 
 	/**
 	 * @return current X coordinate of the touch point
 	 */
-	virtual uint16_t GetX() const = 0;
+	virtual uint GetX() const = 0;
 
 	/**
 	 * @return current Y coordinate of the touch point
 	 */
-	virtual uint16_t GetY() const = 0;
+	virtual uint GetY() const = 0;
 
 	/**
 	 * @return amount the touch point moved since the last update along the X axis
 	 */
-	virtual int16_t GetDeltaX() const = 0;
+	virtual int GetDeltaX() const = 0;
 
 	/**
 	 * @return amount the touch point moved since the last update along the Y axis
 	 */
-	virtual int16_t GetDeltaY() const = 0;
+	virtual int GetDeltaY() const = 0;
 
 	/**
 	 * @return TRUE if this touch point is currently down
@@ -58,7 +58,7 @@ public:
 	 * @param bottom bottom Y coordinate of the area to check
 	 * @return TRUE if the touch point is currently down within the given area
 	 */
-	virtual BOOL IsTouchingWithinArea(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom) const = 0;
+	virtual BOOL IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const = 0;
 
 	/**
 	 * Checks if this touch point is currently down within a given area.
@@ -74,7 +74,7 @@ public:
 	 * @param radius the radius of the circular area to check
 	 * @return TRUE if the touch point is currently down within the given area
 	 */
-	virtual BOOL IsTouchingWithinArea(uint16_t centerX, uint16_t centerY, uint16_t radius) const = 0;
+	virtual BOOL IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const = 0;
 
 	/**
 	 * Checks if this touch point is currently down within a given area.
@@ -101,7 +101,7 @@ public:
 	/**
 	 * @return the maximum number of touch points supported (not necessarily the number currently down)
 	 */
-	virtual uint32_t GetPointerCount() const = 0;
+	virtual uint GetPointerCount() const = 0;
 
 	/**
 	 * @return TRUE if at least one touch point is currently down
@@ -129,7 +129,7 @@ public:
 	 *              range 0 .. (GetPointerCount() - 1)
 	 * @return the corresponding touch pointer
 	 */
-	virtual const TouchPointer* GetPointer(uint32_t index) const = 0;
+	virtual const TouchPointer* GetPointer(uint index) const = 0;
 
 	/**
 	 * Gets a touch pointer by it's unique ID. This will always return the
@@ -137,7 +137,7 @@ public:
 	 * @param id the unique ID of the pointer to get
 	 * @return the corresponding touch pointer, or NULL if the ID doesn't match any existing touch pointer
 	 */
-	virtual const TouchPointer* GetPointerById(int32_t id) const = 0;
+	virtual const TouchPointer* GetPointerById(int id) const = 0;
 
 	/**
 	 * Resets the current touch screen and all touch point states.

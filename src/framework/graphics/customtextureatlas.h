@@ -23,7 +23,7 @@ public:
 	 *                           help alleviate "texture bleeding" 
 	 *                           issues while rendering
 	 */
-	CustomTextureAtlas(uint16_t textureWidth, uint16_t textureHeight, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
+	CustomTextureAtlas(uint textureWidth, uint textureHeight, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
 
 	/**
 	 * Creates a texture atlas object with the specified properties.
@@ -41,7 +41,7 @@ public:
 	 * @param position the pixel coordinates of the sub-texture / tile
 	 * @return the index of the new definition
 	 */
-	uint32_t Add(const Rect &position);
+	uint Add(const Rect &position);
 
 	/**
 	 * Adds a new definition for a sub-texture / tile.
@@ -51,7 +51,7 @@ public:
 	 * @param bottom bottom Y coordinate of the sub-texture / tile
 	 * @return the index of the new definition
 	 */
-	uint32_t Add(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom);
+	uint Add(uint left, uint top, uint right, uint bottom);
 
 	/**
 	 * Clears all sub-texture / tile definitions.

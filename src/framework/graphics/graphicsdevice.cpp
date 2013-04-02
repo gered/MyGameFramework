@@ -238,7 +238,7 @@ void GraphicsDevice::OnNewContext()
 
 	UnbindVertexBuffer();
 	UnbindIndexBuffer();
-	for (uint32_t i = 0; i < MAX_BOUND_TEXTURES; ++i)
+	for (uint i = 0; i < MAX_BOUND_TEXTURES; ++i)
 		UnbindTexture(i);
 	UnbindShader();
 	UnbindRenderbuffer();
@@ -313,7 +313,7 @@ Texture* GraphicsDevice::GetSolidColorTexture(const Color &color)
 	return m_solidColorTextures->Get(color);
 }
 
-void GraphicsDevice::BindTexture(const Texture *texture, uint32_t unit)
+void GraphicsDevice::BindTexture(const Texture *texture, uint unit)
 {
 	ASSERT(unit < MAX_BOUND_TEXTURES);
 	ASSERT(texture != NULL);
@@ -326,13 +326,13 @@ void GraphicsDevice::BindTexture(const Texture *texture, uint32_t unit)
 	m_boundTextures[unit] = texture;
 }
 
-void GraphicsDevice::BindSolidColorTexture(const Color &color, uint32_t unit)
+void GraphicsDevice::BindSolidColorTexture(const Color &color, uint unit)
 {
 	Texture *texture = m_solidColorTextures->Get(color);
 	BindTexture(texture, unit);
 }
 
-void GraphicsDevice::UnbindTexture(uint32_t unit)
+void GraphicsDevice::UnbindTexture(uint unit)
 {
 	ASSERT(unit < MAX_BOUND_TEXTURES);
 	GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));
@@ -346,7 +346,7 @@ void GraphicsDevice::UnbindTexture(const Texture *texture)
 	if (texture == NULL)
 		return;
 	
-	for (uint32_t i = 0; i < MAX_BOUND_TEXTURES; ++i)
+	for (uint i = 0; i < MAX_BOUND_TEXTURES; ++i)
 	{
 		if (m_boundTextures[i] == texture)
 			UnbindTexture(i);
@@ -560,10 +560,10 @@ void GraphicsDevice::SetShaderVertexAttributes()
 	ASSERT(m_enabledVertexAttribIndices.empty() == TRUE);
 	ASSERT(m_boundVertexBuffer->GetNumAttributes() >= m_boundShader->GetNumAttributes());
 
-	uint32_t numAttributes = m_boundShader->GetNumAttributes();
-	for (uint32_t i = 0; i < numAttributes; ++i)
+	uint numAttributes = m_boundShader->GetNumAttributes();
+	for (uint i = 0; i < numAttributes; ++i)
 	{
-		int32_t bufferAttribIndex = 0;
+		int bufferAttribIndex = 0;
 		if (m_boundShader->IsAttributeMappedToStandardType(i))
 		{
 			VERTEX_STANDARD_ATTRIBS standardType = m_boundShader->GetAttributeMappedStandardType(i);
@@ -575,10 +575,10 @@ void GraphicsDevice::SetShaderVertexAttributes()
 		else
 			bufferAttribIndex = m_boundShader->GetAttributeMappedBufferIndex(i);
 
-		uint32_t offset = 0;
+		uint offset = 0;
 		GLint size = 0;
 
-		const VertexBufferAttribute *bufferAttribInfo = m_boundVertexBuffer->GetAttributeInfo((uint32_t)bufferAttribIndex);
+		const VertexBufferAttribute *bufferAttribInfo = m_boundVertexBuffer->GetAttributeInfo((uint)bufferAttribIndex);
 		size = bufferAttribInfo->size;
 		offset = bufferAttribInfo->offset;
 		ASSERT(size != 0);
@@ -605,7 +605,7 @@ void GraphicsDevice::ClearSetShaderVertexAttributes()
 {
 	while (!m_enabledVertexAttribIndices.empty())
 	{
-		uint32_t index = m_enabledVertexAttribIndices.back();
+		uint index = m_enabledVertexAttribIndices.back();
 		m_enabledVertexAttribIndices.pop_back();
 		GL_CALL(glDisableVertexAttribArray(index));
 	}
@@ -621,7 +621,7 @@ void GraphicsDevice::RenderTriangles(const IndexBuffer *buffer)
 	ASSERT(m_boundIndexBuffer == NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
-	int numVertices = buffer->GetNumElements();
+	uint numVertices = buffer->GetNumElements();
 	ASSERT(numVertices % 3 == 0);
 	GL_CALL(glDrawElements(GL_TRIANGLES, numVertices, GL_UNSIGNED_SHORT, buffer->GetBuffer()));
 }
@@ -657,12 +657,12 @@ void GraphicsDevice::RenderTriangles()
 	}
 }
 
-void GraphicsDevice::RenderTriangles(uint32_t startVertex, uint32_t numTriangles)
+void GraphicsDevice::RenderTriangles(uint startVertex, uint numTriangles)
 {
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
-	uint32_t numVertices = numTriangles * 3;
+	uint numVertices = numTriangles * 3;
 
 	if (m_boundIndexBuffer != NULL)
 	{
@@ -672,7 +672,7 @@ void GraphicsDevice::RenderTriangles(uint32_t startVertex, uint32_t numTriangles
 		// get the offset from the beginning of the index buffer to start rendering at
 		// client buffer is just a raw pointer to the first index to use
 		// IBO is basically the same idea, but the pointer "starts" at NULL and goes from there
-		uint32_t indexOffset = startVertex * m_boundIndexBuffer->GetElementWidthInBytes();
+		uint indexOffset = startVertex * m_boundIndexBuffer->GetElementWidthInBytes();
 		const void *offset;
 		if (m_boundIndexBuffer->IsClientSideBuffer())
 			offset = ((int8_t*)m_boundIndexBuffer->GetBuffer() + indexOffset);
@@ -697,7 +697,7 @@ void GraphicsDevice::RenderLines(const IndexBuffer *buffer)
 	ASSERT(m_boundIndexBuffer == NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
-	uint32_t numVertices = buffer->GetNumElements();
+	uint numVertices = buffer->GetNumElements();
 	ASSERT(numVertices % 2 == 0);
 	GL_CALL(glDrawElements(GL_LINES, numVertices, GL_UNSIGNED_SHORT, buffer->GetBuffer()));
 }
@@ -711,7 +711,7 @@ void GraphicsDevice::RenderLines()
 	if (m_boundIndexBuffer != NULL)
 	{
 		// using bound index buffer
-		int numIndices = m_boundIndexBuffer->GetNumElements();
+		uint numIndices = m_boundIndexBuffer->GetNumElements();
 		ASSERT(numIndices % 2 == 0);
 
 		// get the offset from the beginning of the index buffer to start rendering at
@@ -733,12 +733,12 @@ void GraphicsDevice::RenderLines()
 	}
 }
 
-void GraphicsDevice::RenderLines(uint32_t startVertex, uint32_t numLines)
+void GraphicsDevice::RenderLines(uint startVertex, uint numLines)
 {
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
-	uint32_t numVertices = numLines * 2;
+	uint numVertices = numLines * 2;
 
 	if (m_boundIndexBuffer != NULL)
 	{
@@ -748,7 +748,7 @@ void GraphicsDevice::RenderLines(uint32_t startVertex, uint32_t numLines)
 		// get the offset from the beginning of the index buffer to start rendering at
 		// client buffer is just a raw pointer to the first index to use
 		// IBO is basically the same idea, but the pointer "starts" at NULL and goes from there
-		uint32_t indexOffset = startVertex * m_boundIndexBuffer->GetElementWidthInBytes();
+		uint indexOffset = startVertex * m_boundIndexBuffer->GetElementWidthInBytes();
 		const void *offset;
 		if (m_boundIndexBuffer->IsClientSideBuffer())
 			offset = ((int8_t*)m_boundIndexBuffer->GetBuffer() + indexOffset);
@@ -773,7 +773,7 @@ void GraphicsDevice::RenderPoints(const IndexBuffer *buffer)
 	ASSERT(m_boundIndexBuffer == NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
-	uint32_t numVertices = buffer->GetNumElements();
+	uint numVertices = buffer->GetNumElements();
 	GL_CALL(glDrawElements(GL_POINTS, numVertices, GL_UNSIGNED_SHORT, buffer->GetBuffer()));
 }
 
@@ -786,7 +786,7 @@ void GraphicsDevice::RenderPoints()
 	if (m_boundIndexBuffer != NULL)
 	{
 		// using bound index buffer
-		int numIndices = m_boundIndexBuffer->GetNumElements();
+		uint numIndices = m_boundIndexBuffer->GetNumElements();
 
 		// get the offset from the beginning of the index buffer to start rendering at
 		// client buffer is just a raw pointer to the first index to use
@@ -806,7 +806,7 @@ void GraphicsDevice::RenderPoints()
 	}
 }
 
-void GraphicsDevice::RenderPoints(uint32_t startVertex, uint32_t numPoints)
+void GraphicsDevice::RenderPoints(uint startVertex, uint numPoints)
 {
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
@@ -820,7 +820,7 @@ void GraphicsDevice::RenderPoints(uint32_t startVertex, uint32_t numPoints)
 		// get the offset from the beginning of the index buffer to start rendering at
 		// client buffer is just a raw pointer to the first index to use
 		// IBO is basically the same idea, but the pointer "starts" at NULL and goes from there
-		uint32_t indexOffset = startVertex * m_boundIndexBuffer->GetElementWidthInBytes();
+		uint indexOffset = startVertex * m_boundIndexBuffer->GetElementWidthInBytes();
 		const void *offset;
 		if (m_boundIndexBuffer->IsClientSideBuffer())
 			offset = ((int8_t*)m_boundIndexBuffer->GetBuffer() + indexOffset);

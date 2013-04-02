@@ -132,7 +132,7 @@ void GameState::SetFinished()
 	m_hasReturnValue = FALSE;
 }
 
-void GameState::SetFinished(uint32_t returnValue)
+void GameState::SetFinished(int returnValue)
 {
 	m_isFinished = TRUE;
 	m_returnValue = returnValue;

@@ -65,9 +65,9 @@ void LitChunkVertexGenerator::CopyVertex(const TileChunk *chunk, VertexBuffer *s
 	{
 		// light source is within the boundaries of the world, get the
 		// actual tile (may or may not be in a neighbouring chunk)
-		int32_t lightX = (int32_t)lightSource.x - chunk->GetX();
-		int32_t lightY = (int32_t)lightSource.y - chunk->GetY();
-		int32_t lightZ = (int32_t)lightSource.z - chunk->GetZ();
+		int lightX = (int)lightSource.x - chunk->GetX();
+		int lightY = (int)lightSource.y - chunk->GetY();
+		int lightZ = (int)lightSource.z - chunk->GetZ();
 
 		const Tile *lightTile = chunk->GetWithinSelfOrNeighbourSafe(lightX, lightY, lightZ);
 		if (lightTile == NULL)

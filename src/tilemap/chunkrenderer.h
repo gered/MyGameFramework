@@ -14,8 +14,8 @@ public:
 	ChunkRenderer(GraphicsDevice *graphicsDevice);
 	virtual ~ChunkRenderer();
 
-	uint32_t Render(const TileChunk *chunk);
-	uint32_t RenderAlpha(const TileChunk *chunk);
+	uint Render(const TileChunk *chunk);
+	uint RenderAlpha(const TileChunk *chunk);
 
 private:
 	GraphicsDevice *m_graphicsDevice;

@@ -44,12 +44,12 @@ void VertexBuffer::Release()
 	BufferObject::Release();
 }
 
-BOOL VertexBuffer::Initialize(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage)
+BOOL VertexBuffer::Initialize(const VERTEX_ATTRIBS *attributes, uint numAttributes, uint numVertices, BUFFEROBJECT_USAGE usage)
 {
 	return Initialize(NULL, attributes, numAttributes, numVertices, usage);
 }
 
-BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage)
+BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRIBS *attributes, uint numAttributes, uint numVertices, BUFFEROBJECT_USAGE usage)
 {
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
@@ -88,9 +88,9 @@ BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer
 	if (!BufferObject::Initialize(graphicsDevice, BUFFEROBJECT_TYPE_VERTEX, source->GetUsage()))
 		return FALSE;
 	
-	uint32_t numAttribs = source->GetNumAttributes();
+	uint numAttribs = source->GetNumAttributes();
 	VERTEX_ATTRIBS *attribs = new VERTEX_ATTRIBS[numAttribs];
-	for (uint32_t i = 0; i < numAttribs; ++i)
+	for (uint i = 0; i < numAttribs; ++i)
 		attribs[i] = source->GetAttributeInfo(i)->standardType;
 	
 	BOOL success = SetSizesAndOffsets(attribs, numAttribs);
@@ -105,7 +105,7 @@ BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer
 	return success;
 }
 
-BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes)
+BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint numAttributes)
 {
 	ASSERT(attributes != NULL);
 	ASSERT(numAttributes > 0);
@@ -121,13 +121,13 @@ BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t
 	if (m_attribs != NULL)
 		return FALSE;
 	
-	uint32_t numGpuSlotsUsed = 0;
-	uint32_t offset = 0;
+	uint numGpuSlotsUsed = 0;
+	uint offset = 0;
 	
 	VertexBufferAttribute *attribsInfo = new VertexBufferAttribute[numAttributes];
 	BOOL success = TRUE;
 	
-	for (uint32_t i = 0; i < numAttributes; ++i)
+	for (uint i = 0; i < numAttributes; ++i)
 	{
 		VERTEX_ATTRIBS attrib = attributes[i];
 		
@@ -136,7 +136,7 @@ BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t
 		uint8_t standardTypeBitMask = (uint8_t)((uint16_t)attrib >> 8);
 		
 		// using integer division that rounds up (so given size = 13, result is 4, not 3)
-		uint32_t thisAttribsGpuSlotSize = ((uint32_t)size + (FLOATS_PER_GPU_ATTRIB_SLOT - 1)) / FLOATS_PER_GPU_ATTRIB_SLOT;
+		uint thisAttribsGpuSlotSize = ((uint)size + (FLOATS_PER_GPU_ATTRIB_SLOT - 1)) / FLOATS_PER_GPU_ATTRIB_SLOT;
 		ASSERT(numGpuSlotsUsed + thisAttribsGpuSlotSize <= MAX_GPU_ATTRIB_SLOTS);
 		if (numGpuSlotsUsed + thisAttribsGpuSlotSize > MAX_GPU_ATTRIB_SLOTS)
 		{
@@ -200,18 +200,18 @@ BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t
 	return success;
 }
 
-int32_t VertexBuffer::GetIndexOfStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const
+int VertexBuffer::GetIndexOfStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const
 {
-	for (uint32_t i = 0; i < m_numAttributes; ++i)
+	for (uint i = 0; i < m_numAttributes; ++i)
 	{
-		if ((uint32_t)m_attribs[i].standardType == (uint32_t)standardAttrib)
-			return (int32_t)i;
+		if ((uint)m_attribs[i].standardType == (uint)standardAttrib)
+			return (int)i;
 	}
 
 	return -1;
 }
 
-void VertexBuffer::Resize(uint32_t numVertices)
+void VertexBuffer::Resize(uint numVertices)
 {
 	ASSERT(numVertices > 0);
 	if (numVertices == 0)
@@ -227,13 +227,13 @@ void VertexBuffer::Resize(uint32_t numVertices)
 		--m_currentVertex;
 }
 
-void VertexBuffer::Extend(uint32_t amount)
+void VertexBuffer::Extend(uint amount)
 {
-	uint32_t newSize = GetNumElements() + amount;
+	uint newSize = GetNumElements() + amount;
 	Resize(newSize);
 }
 
-void VertexBuffer::Copy(const VertexBuffer *source, uint32_t destIndex)
+void VertexBuffer::Copy(const VertexBuffer *source, uint destIndex)
 {
 	ASSERT(source != NULL);
 	ASSERT(source->GetNumElements() > 0);
@@ -241,7 +241,7 @@ void VertexBuffer::Copy(const VertexBuffer *source, uint32_t destIndex)
 	ASSERT(destIndex >= 0);
 	ASSERT(destIndex + source->GetNumElements() <= GetNumElements());
 
-	uint32_t destOffset = GetVertexPosition(destIndex);
+	uint destOffset = GetVertexPosition(destIndex);
 	memcpy(&m_buffer[destOffset], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());
 
 	SetDirty();

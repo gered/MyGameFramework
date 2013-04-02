@@ -17,20 +17,20 @@ struct Point2
 	 * @param x X coordinate of the point
 	 * @param y Y coordinate of the point
 	 */
-	Point2(int32_t x, int32_t y);
+	Point2(int x, int y);
 
 	/**
 	 * Creates a point with the specified properties.
 	 * @param p an array with 2 values to use as the point's X and Y coordinates
 	 */
-	Point2(const int32_t *p);
+	Point2(const int *p);
 
 	/**
 	 * Sets new coordinates for this point.
 	 * @param x new X coordinate of the point
 	 * @param y new Y coordinate of the point
 	 */
-	void Set(int32_t x, int32_t y);
+	void Set(int x, int y);
 
 	/**
 	 * Sets new coordinates for this point.
@@ -38,8 +38,8 @@ struct Point2
 	 */
 	void Set(const Point2 &p);
 
-	int32_t x;
-	int32_t y;
+	int x;
+	int y;
 };
 
 #define ZERO_POINT2 Point2(0, 0)
@@ -50,10 +50,10 @@ Point2 operator+(const Point2 &left, const Point2 &right);
 Point2 &operator+=(Point2 &left, const Point2 &right);
 Point2 operator-(const Point2 &left, const Point2 &right);
 Point2 &operator-=(Point2 &left, const Point2 &right);
-Point2 operator*(const Point2 &left, int32_t right);
-Point2 &operator*=(Point2 &left, int32_t right);
-Point2 operator/(const Point2 &left, int32_t right);
-Point2 &operator/=(Point2 &left, int32_t right);
+Point2 operator*(const Point2 &left, int right);
+Point2 &operator*=(Point2 &left, int right);
+Point2 operator/(const Point2 &left, int right);
+Point2 &operator/=(Point2 &left, int right);
 Point2 operator*(const Point2 &left, const Point2 &right);
 Point2 &operator*=(Point2 &left, const Point2 &right);
 Point2 operator/(const Point2 &left, const Point2 &right);
@@ -63,19 +63,19 @@ inline Point2::Point2()
 {
 }
 
-inline Point2::Point2(int32_t x, int32_t y)
+inline Point2::Point2(int x, int y)
 {
 	this->x = x;
 	this->y = y;
 }
 
-inline Point2::Point2(const int32_t *p)
+inline Point2::Point2(const int *p)
 {
 	this->x = p[0];
 	this->y = p[1];
 }
 
-inline void Point2::Set(int32_t x, int32_t y)
+inline void Point2::Set(int x, int y)
 {
 	this->x = x;
 	this->y = y;
@@ -123,12 +123,12 @@ inline Point2 &operator-=(Point2 &left, const Point2 &right)
 	return left;
 }
 
-inline Point2 operator*(const Point2 &left, int32_t right)
+inline Point2 operator*(const Point2 &left, int right)
 {
 	return Point2(left.x * right, left.y * right);
 }
 
-inline Point2 &operator*=(Point2 &left, int32_t right)
+inline Point2 &operator*=(Point2 &left, int right)
 {
 	left.x *= right;
 	left.y *= right;
@@ -136,12 +136,12 @@ inline Point2 &operator*=(Point2 &left, int32_t right)
 	return left;
 }
 
-inline Point2 operator/(const Point2 &left, int32_t right)
+inline Point2 operator/(const Point2 &left, int right)
 {
 	return Point2(left.x / right, left.y / right);
 }
 
-inline Point2 &operator/=(Point2 &left, int32_t right)
+inline Point2 &operator/=(Point2 &left, int right)
 {
 	left.x /= right;
 	left.y /= right;

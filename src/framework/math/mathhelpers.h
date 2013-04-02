@@ -82,9 +82,9 @@ BOOL GetLowestQuadraticRoot(float a, float b, float c, float maxR, float &root);
 /**
  * Gets the power of two value that comes after the given value.
  * @param n minimum value for which we want to get the power of two after
- * @return uint32_t the first power of two that comes after n
+ * @return uint the first power of two that comes after n
  */
-uint32_t GetNextPowerOf2(uint32_t n);
+uint GetNextPowerOf2(uint n);
 
 /**
  * Returns the 2D point on a circle's circumference given a radius and angle.
@@ -141,7 +141,7 @@ inline BOOL IsCloseEnough(float a, float b, float tolerance = TOLERANCE)
  * @param n number to check
  * @return BOOL TRUE if a power of two, FALSE if not
  */
-inline BOOL IsPowerOf2(int32_t n)
+inline BOOL IsPowerOf2(int n)
 {
 	return (n != 0) && !(n & (n - 1));
 }

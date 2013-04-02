@@ -47,13 +47,13 @@ public:
 	BOOL IsTopState() const;
 	BOOL IsFinished() const                                                     { return m_isFinished; }
 	BOOL HasReturnValue() const                                                 { return m_hasReturnValue; }
-	uint32_t GetReturnValue() const                                             { return m_returnValue; }
+	int GetReturnValue() const                                                  { return m_returnValue; }
 
 protected:
 	StateManager* GetStateManager() const                                       { return m_stateManager; }
 
 	void SetFinished();
-	void SetFinished(uint32_t returnValue);
+	void SetFinished(int returnValue);
 
 private:
 	GameApp *m_gameApp;
@@ -61,7 +61,7 @@ private:
 	ProcessManager *m_processManager;
 	EffectManager *m_effectManager;
 	BOOL m_isFinished;
-	uint32_t m_returnValue;
+	int m_returnValue;
 	BOOL m_hasReturnValue;
 };
 

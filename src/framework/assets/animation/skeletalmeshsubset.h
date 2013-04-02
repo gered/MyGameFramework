@@ -12,7 +12,7 @@ public:
 	SkeletalMeshSubset();
 	virtual ~SkeletalMeshSubset();
 	
-	void Create(const stl::string &name, uint32_t numTriangles, BOOL alpha);
+	void Create(const stl::string &name, uint numTriangles, BOOL alpha);
 
 	const stl::string& GetName() const                     { return m_name; }
 	IndexBuffer* GetIndices() const                        { return m_indices; }

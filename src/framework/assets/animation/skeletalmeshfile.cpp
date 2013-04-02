@@ -69,7 +69,7 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	
 	// read vertices
 	mesh->m_vertices = new Vector3[mesh->m_numVertices];
-	for (uint32_t i = 0; i < mesh->m_numVertices; ++i)
+	for (uint i = 0; i < mesh->m_numVertices; ++i)
 	{
 		mesh->m_vertices[i].x = file->ReadFloat();
 		mesh->m_vertices[i].y = file->ReadFloat();
@@ -81,9 +81,9 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	if (hasNormals)
 	{
 		file->Seek(normalsDesc->start, FILESEEK_BEGINNING);
-		uint32_t numNormals = file->ReadUnsignedInt();
+		uint numNormals = file->ReadUnsignedInt();
 		ASSERT(numNormals == mesh->m_numVertices);
-		for (uint32_t i = 0; i < numNormals; ++i)
+		for (uint i = 0; i < numNormals; ++i)
 		{
 			Vector3 normal;
 			normal.x = file->ReadFloat();
@@ -97,9 +97,9 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	if (hasTexCoords)
 	{
 		file->Seek(texCoordsDesc->start, FILESEEK_BEGINNING);
-		uint32_t numTexCoords = file->ReadUnsignedInt();
+		uint numTexCoords = file->ReadUnsignedInt();
 		ASSERT(numTexCoords == mesh->m_numVertices);
-		for (uint32_t i = 0; i < numTexCoords; ++i)
+		for (uint i = 0; i < numTexCoords; ++i)
 		{
 			Vector2 texCoord;
 			texCoord.x = file->ReadFloat();
@@ -112,12 +112,12 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	file->Seek(groupsDesc->start, FILESEEK_BEGINNING);
 	mesh->m_numSubsets = file->ReadUnsignedInt();
 	mesh->m_subsets = new SkeletalMeshSubset[mesh->m_numSubsets];
-	for (uint32_t i = 0; i < mesh->m_numSubsets; ++i)
+	for (uint i = 0; i < mesh->m_numSubsets; ++i)
 	{
 		stl::string name;
 		stl::string texture;
 		BOOL alpha;
-		uint32_t numTriangles;
+		uint numTriangles;
 
 		file->ReadString(name);
 		file->ReadString(texture);
@@ -130,20 +130,20 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	
 	// triangles
 	file->Seek(trianglesDesc->start, FILESEEK_BEGINNING);
-	uint32_t numTriangles = file->ReadUnsignedInt();
-	for (uint32_t i = 0; i < numTriangles; ++i)
+	uint numTriangles = file->ReadUnsignedInt();
+	for (uint i = 0; i < numTriangles; ++i)
 	{
-		uint32_t v1 = file->ReadUnsignedInt();
-		uint32_t v2 = file->ReadUnsignedInt();
-		uint32_t v3 = file->ReadUnsignedInt();
-		uint32_t subsetIndex = file->ReadUnsignedInt();
+		uint v1 = file->ReadUnsignedInt();
+		uint v2 = file->ReadUnsignedInt();
+		uint v3 = file->ReadUnsignedInt();
+		uint subsetIndex = file->ReadUnsignedInt();
 		
 		SkeletalMeshSubset *subset = &mesh->m_subsets[subsetIndex];
-		subset->GetIndices()->SetCurrent((uint16_t)v1);
+		subset->GetIndices()->SetCurrent((ushort)v1);
 		subset->GetIndices()->MoveNext();
-		subset->GetIndices()->SetCurrent((uint16_t)v2);
+		subset->GetIndices()->SetCurrent((ushort)v2);
 		subset->GetIndices()->MoveNext();
-		subset->GetIndices()->SetCurrent((uint16_t)v3);
+		subset->GetIndices()->SetCurrent((ushort)v3);
 		subset->GetIndices()->MoveNext();
 	}
 	
@@ -151,10 +151,10 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	file->Seek(jointsDesc->start, FILESEEK_BEGINNING);
 	mesh->m_numJoints = file->ReadUnsignedInt();
 	mesh->m_joints = new Joint[mesh->m_numJoints];
-	for (uint32_t i = 0; i < mesh->m_numJoints; ++i)
+	for (uint i = 0; i < mesh->m_numJoints; ++i)
 	{
 		file->ReadString(mesh->m_joints[i].name);
-		int32_t parentIndex = file->ReadInt();
+		int parentIndex = file->ReadInt();
 		mesh->m_joints[i].parentIndex = parentIndex;
 		if (parentIndex >= 0)
 			mesh->m_joints[i].parent = &mesh->m_joints[parentIndex];
@@ -175,7 +175,7 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	}
 	
 	// build absolute transformation matrices for all the joints we just loaded
-	for (uint32_t i = 0; i < mesh->m_numJoints; ++i)
+	for (uint i = 0; i < mesh->m_numJoints; ++i)
 	{
 		Joint *joint = &mesh->m_joints[i];
 		if (joint->parent != NULL)
@@ -190,17 +190,17 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	// set up inverse absolute transforms for each joint in preparation
 	// for transforming all the vertices
 	Matrix4x4 *inverseJointTransforms = new Matrix4x4[mesh->m_numJoints];
-	for (uint32_t i = 0; i < mesh->m_numJoints; ++i)
+	for (uint i = 0; i < mesh->m_numJoints; ++i)
 		inverseJointTransforms[i] = Matrix4x4::Inverse(mesh->m_joints[i].absolute);
 	
 	// joint-to-vertex mappings
 	file->Seek(jointsToVerticesDesc->start, FILESEEK_BEGINNING);
-	uint32_t numMappings = file->ReadUnsignedInt();
+	uint numMappings = file->ReadUnsignedInt();
 	ASSERT(numMappings == mesh->m_numVertices);
 	mesh->m_jointMappings = new JointVertexMapping[numMappings];
-	for (uint32_t i = 0; i < numMappings; ++i)
+	for (uint i = 0; i < numMappings; ++i)
 	{
-		uint32_t jointIndex = file->ReadUnsignedInt();
+		uint jointIndex = file->ReadUnsignedInt();
 		mesh->m_jointMappings[i].jointIndex = jointIndex;
 		mesh->m_jointMappings[i].weight = file->ReadFloat();
 
@@ -228,12 +228,12 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 		mesh->m_numFrames = file->ReadUnsignedInt();
 		
 		// allocate memory for the frames for each joint
-		for (uint32_t i = 0; i < mesh->m_numJoints; ++i)
+		for (uint i = 0; i < mesh->m_numJoints; ++i)
 			mesh->m_joints[i].frames = new JointKeyFrame[mesh->m_numFrames];
 		
-		for (uint32_t i = 0; i < mesh->m_numFrames; ++i)
+		for (uint i = 0; i < mesh->m_numFrames; ++i)
 		{
-			for (uint32_t j = 0; j < mesh->m_numJoints; ++j)
+			for (uint j = 0; j < mesh->m_numJoints; ++j)
 			{
 				mesh->m_joints[j].frames[i].position.x = file->ReadFloat();
 				mesh->m_joints[j].frames[i].position.y = file->ReadFloat();
@@ -251,8 +251,8 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	if (animationsDesc != NULL)
 	{
 		file->Seek(animationsDesc->start, FILESEEK_BEGINNING);
-		int32_t numAnimations = file->ReadInt();
-		for (int32_t i = 0; i < numAnimations; ++i)
+		int numAnimations = file->ReadInt();
+		for (int i = 0; i < numAnimations; ++i)
 		{
 			AnimationSequence sequence;
 			stl::string name;

@@ -129,25 +129,25 @@ void SpriteBatch::Begin(const RenderState &renderState, const BlendState &blendS
 	InternalBegin(&renderState, &blendState, shader);
 }
 
-void SpriteBatch::Render(const Texture *texture, int16_t x, int16_t y, const Color &color)
+void SpriteBatch::Render(const Texture *texture, int x, int y, const Color &color)
 {
 	y = FixYCoord(y, texture->GetHeight());
 	AddSprite(texture, x, y, x + texture->GetWidth(), y + texture->GetHeight(), 0, 0, texture->GetWidth(), texture->GetHeight(), color);
 }
 
-void SpriteBatch::Render(const Texture *texture, int16_t x, int16_t y, uint16_t width, uint16_t height, const Color &color)
+void SpriteBatch::Render(const Texture *texture, int x, int y, uint width, uint height, const Color &color)
 {
 	y = FixYCoord(y, height);
 	AddSprite(texture, x, y, x + width, y + height, 0, 0, width, height, color);
 }
 
-void SpriteBatch::Render(const Texture *texture, int16_t x, int16_t y, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
+void SpriteBatch::Render(const Texture *texture, int x, int y, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
 	y = FixYCoord(y, texture->GetHeight());
 	AddSprite(texture, x, y, x + texture->GetWidth(), y + texture->GetHeight(), texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 }
 
-void SpriteBatch::Render(const Texture *texture, int16_t x, int16_t y, uint16_t width, uint16_t height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
+void SpriteBatch::Render(const Texture *texture, int x, int y, uint width, uint height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
 	y = FixYCoord(y, height);
 	AddSprite(texture, x, y, x + width, y + height, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
@@ -163,7 +163,7 @@ void SpriteBatch::Render(const Texture *texture, const Vector3 &worldPosition, c
 	Render(texture, screenCoordinates.x, screenCoordinates.y, color);
 }
 
-void SpriteBatch::Render(const Texture *texture, const Vector3 &worldPosition, uint16_t width, uint16_t height, const Color &color)
+void SpriteBatch::Render(const Texture *texture, const Vector3 &worldPosition, uint width, uint height, const Color &color)
 {
 	Point2 screenCoordinates = m_graphicsDevice->GetViewContext()->GetCamera()->Project(worldPosition, m_previousModelview, m_previousProjection);
 
@@ -183,7 +183,7 @@ void SpriteBatch::Render(const Texture *texture, const Vector3 &worldPosition, f
 	Render(texture, screenCoordinates.x, screenCoordinates.y, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 }
 
-void SpriteBatch::Render(const Texture *texture, const Vector3 &worldPosition, uint16_t width, uint16_t height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
+void SpriteBatch::Render(const Texture *texture, const Vector3 &worldPosition, uint width, uint height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
 	Point2 screenCoordinates = m_graphicsDevice->GetViewContext()->GetCamera()->Project(worldPosition, m_previousModelview, m_previousProjection);
 
@@ -193,17 +193,17 @@ void SpriteBatch::Render(const Texture *texture, const Vector3 &worldPosition, u
 	Render(texture, screenCoordinates.x, screenCoordinates.y, width, height, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 }
 
-void SpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, int16_t x, int16_t y, const Color &color)
+void SpriteBatch::Render(const TextureAtlas *atlas, uint index, int x, int y, const Color &color)
 {
 	const RectF *texCoords = &atlas->GetTile(index).texCoords;
 	const Rect *tileSize = &atlas->GetTile(index).dimensions;
 	const Texture *texture = atlas->GetTexture();
 
-	y = FixYCoord(y, (uint16_t)tileSize->GetHeight());
+	y = FixYCoord(y, (uint)tileSize->GetHeight());
 	AddSprite(texture, x, y, x + tileSize->GetWidth(), y + tileSize->GetHeight(), texCoords->left, texCoords->top, texCoords->right, texCoords->bottom, color);
 }
 
-void SpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, int16_t x, int16_t y, uint16_t width, uint16_t height, const Color &color)
+void SpriteBatch::Render(const TextureAtlas *atlas, uint index, int x, int y, uint width, uint height, const Color &color)
 {
 	const RectF *texCoords = &atlas->GetTile(index).texCoords;
 	const Texture *texture = atlas->GetTexture();
@@ -212,7 +212,7 @@ void SpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, int16_t x, i
 	AddSprite(texture, x, y, x + width, y + height, texCoords->left, texCoords->top, texCoords->right, texCoords->bottom, color);
 }
 
-void SpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, const Vector3 &worldPosition, const Color &color)
+void SpriteBatch::Render(const TextureAtlas *atlas, uint index, const Vector3 &worldPosition, const Color &color)
 {
 	Point2 screenCoordinates = m_graphicsDevice->GetViewContext()->GetCamera()->Project(worldPosition, m_previousModelview, m_previousProjection);
 
@@ -223,7 +223,7 @@ void SpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, const Vector
 	Render(atlas, index, screenCoordinates.x, screenCoordinates.y, color);
 }
 
-void SpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, const Vector3 &worldPosition, uint16_t width, uint16_t height, const Color &color)
+void SpriteBatch::Render(const TextureAtlas *atlas, uint index, const Vector3 &worldPosition, uint width, uint height, const Color &color)
 {
 	Point2 screenCoordinates = m_graphicsDevice->GetViewContext()->GetCamera()->Project(worldPosition, m_previousModelview, m_previousProjection);
 
@@ -233,14 +233,14 @@ void SpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, const Vector
 	Render(atlas, index, screenCoordinates.x, screenCoordinates.y, width, height, color);
 }
 
-void SpriteBatch::Render(const SpriteFont *font, int16_t x, int16_t y, const Color &color, const char *text)
+void SpriteBatch::Render(const SpriteFont *font, int x, int y, const Color &color, const char *text)
 {
 	size_t textLength = strlen(text);
 
-	y = FixYCoord(y, (uint16_t)font->GetLetterHeight());
+	y = FixYCoord(y, (uint)font->GetLetterHeight());
 
-	int16_t drawX = x;
-	int16_t drawY = y;
+	int drawX = x;
+	int drawY = y;
 
 	for (size_t i = 0; i < textLength; ++i)
 	{
@@ -267,13 +267,13 @@ void SpriteBatch::Render(const SpriteFont *font, int16_t x, int16_t y, const Col
 	}
 }
 
-void SpriteBatch::Render(const SpriteFont *font, int16_t x, int16_t y, const Color &color, float scale, const char *text)
+void SpriteBatch::Render(const SpriteFont *font, int x, int y, const Color &color, float scale, const char *text)
 {
 	size_t textLength = strlen(text);
 
 	float scaledLetterHeight = (float)font->GetLetterHeight() * scale;
 
-	y = (int16_t)FixYCoord(y, scaledLetterHeight);
+	y = (int)FixYCoord(y, scaledLetterHeight);
 
 	float drawX = (float)x;
 	float drawY = (float)y;
@@ -310,8 +310,8 @@ void SpriteBatch::Render(const SpriteFont *font, const Vector3 &worldPosition, c
 {
 	Point2 screenCoordinates = m_graphicsDevice->GetViewContext()->GetCamera()->Project(worldPosition, m_previousModelview, m_previousProjection);
 
-	uint16_t textWidth = 0;
-	uint16_t textHeight = 0;
+	uint textWidth = 0;
+	uint textHeight = 0;
 	font->MeasureString(&textWidth, &textHeight, text);
 
 	screenCoordinates.x -= textWidth / 2;
@@ -324,8 +324,8 @@ void SpriteBatch::Render(const SpriteFont *font, const Vector3 &worldPosition, c
 {
 	Point2 screenCoordinates = m_graphicsDevice->GetViewContext()->GetCamera()->Project(worldPosition, m_previousModelview, m_previousProjection);
 
-	uint16_t textWidth = 0;
-	uint16_t textHeight = 0;
+	uint textWidth = 0;
+	uint textHeight = 0;
 	font->MeasureString(&textWidth, &textHeight, scale, text);
 
 	screenCoordinates.x -= textWidth / 2;
@@ -334,7 +334,7 @@ void SpriteBatch::Render(const SpriteFont *font, const Vector3 &worldPosition, c
 	Render(font, screenCoordinates.x, screenCoordinates.y, color, scale, text);
 }
 
-void SpriteBatch::Printf(const SpriteFont *font, int16_t x, int16_t y, const Color &color, const char *format, ...)
+void SpriteBatch::Printf(const SpriteFont *font, int x, int y, const Color &color, const char *format, ...)
 {
 	va_list args;
 	va_start(args, format);
@@ -344,7 +344,7 @@ void SpriteBatch::Printf(const SpriteFont *font, int16_t x, int16_t y, const Col
 	Render(font, x, y, color, __spriteBatch_printfBuffer);
 }
 
-void SpriteBatch::Printf(const SpriteFont *font, int16_t x, int16_t y, const Color &color, float scale, const char *format, ...)
+void SpriteBatch::Printf(const SpriteFont *font, int x, int y, const Color &color, float scale, const char *format, ...)
 {
 	va_list args;
 	va_start(args, format);
@@ -374,17 +374,17 @@ void SpriteBatch::Printf(const SpriteFont *font, const Vector3 &worldPosition, c
 	Render(font, worldPosition, color, scale, __spriteBatch_printfBuffer);
 }
 
-void SpriteBatch::RenderLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2, const Color &color)
+void SpriteBatch::RenderLine(int x1, int y1, int x2, int y2, const Color &color)
 {
-	y1 = FixYCoord(y1, (uint16_t)1);
-	y2 = FixYCoord(y2, (uint16_t)1);
+	y1 = FixYCoord(y1, (uint)1);
+	y2 = FixYCoord(y2, (uint)1);
 
 	AddLine(x1, y1, x2, y2, color);
 }
 
-void SpriteBatch::RenderBox(int16_t left, int16_t top, int16_t right, int16_t bottom, const Color &color)
+void SpriteBatch::RenderBox(int left, int top, int right, int bottom, const Color &color)
 {
-	uint16_t height = bottom - top;
+	uint height = bottom - top;
 	top = FixYCoord(top, height);
 	bottom = top + height;
 
@@ -396,12 +396,12 @@ void SpriteBatch::RenderBox(int16_t left, int16_t top, int16_t right, int16_t bo
 
 void SpriteBatch::RenderBox(const Rect &rect, const Color &color)
 {
-	int16_t left = (int16_t)rect.left;
-	int16_t top = (int16_t)rect.top;
-	int16_t right = (int16_t)rect.right;
-	int16_t bottom = (int16_t)rect.bottom;
+	int left = (int)rect.left;
+	int top = (int)rect.top;
+	int right = (int)rect.right;
+	int bottom = (int)rect.bottom;
 
-	uint16_t height = bottom - top;
+	uint height = bottom - top;
 	top = FixYCoord(top, height);
 	bottom = top + height;
 
@@ -411,9 +411,9 @@ void SpriteBatch::RenderBox(const Rect &rect, const Color &color)
 	AddLine(left, top, right, top, color);
 }
 
-void SpriteBatch::RenderFilledBox(int16_t left, int16_t top, int16_t right, int16_t bottom, const Color &color)
+void SpriteBatch::RenderFilledBox(int left, int top, int right, int bottom, const Color &color)
 {
-	uint16_t height = bottom - top;
+	uint height = bottom - top;
 	top = FixYCoord(top, height);
 	bottom = top + height;
 
@@ -422,25 +422,25 @@ void SpriteBatch::RenderFilledBox(int16_t left, int16_t top, int16_t right, int1
 
 void SpriteBatch::RenderFilledBox(const Rect &rect, const Color &color)
 {
-	int16_t left = (int16_t)rect.left;
-	int16_t top = (int16_t)rect.top;
-	int16_t right = (int16_t)rect.right;
-	int16_t bottom = (int16_t)rect.bottom;
+	int left = (int)rect.left;
+	int top = (int)rect.top;
+	int right = (int)rect.right;
+	int bottom = (int)rect.bottom;
 
-	uint16_t height = bottom - top;
+	uint height = bottom - top;
 	top = FixYCoord(top, height);
 	bottom = top + height;
 
 	AddFilledBox(left, top, right, bottom, color);
 }
 
-void SpriteBatch::AddSprite(const Texture *texture, int16_t destLeft, int16_t destTop, int16_t destRight, int16_t destBottom, uint16_t sourceLeft, uint16_t sourceTop, uint16_t sourceRight, uint16_t sourceBottom, const Color &color)
+void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, int destRight, int destBottom, uint sourceLeft, uint sourceTop, uint sourceRight, uint sourceBottom, const Color &color)
 {
 	ASSERT(m_begunRendering == TRUE);
 
-	uint16_t width = sourceRight - sourceLeft;
+	uint width = sourceRight - sourceLeft;
 	ASSERT(width > 0);
-	uint16_t height = sourceBottom - sourceTop;
+	uint height = sourceBottom - sourceTop;
 	ASSERT(height > 0);
 	float texLeft = sourceLeft / (float)width;
 	float texTop = sourceTop / (float)height;
@@ -462,7 +462,7 @@ void SpriteBatch::AddSprite(const Texture *texture, int16_t destLeft, int16_t de
 	++m_currentSpritePointer;
 }
 
-void SpriteBatch::AddSprite(const Texture *texture, int16_t destLeft, int16_t destTop, int16_t destRight, int16_t destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
+void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, int destRight, int destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
 	ASSERT(m_begunRendering == TRUE);
 
@@ -555,9 +555,9 @@ BOOL SpriteBatch::ClipSpriteCoords(float &left, float &top, float &right, float 
 	return TRUE;
 }
 
-void SpriteBatch::SetSpriteInfo(uint32_t spriteIndex, const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
+void SpriteBatch::SetSpriteInfo(uint spriteIndex, const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	uint32_t base = m_vertices->GetCurrentPosition();
+	uint base = m_vertices->GetCurrentPosition();
 
 	m_vertices->SetPosition2(base, destLeft, destTop);
 	m_vertices->SetPosition2(base + 1, destRight, destTop);
@@ -606,9 +606,9 @@ void SpriteBatch::AddLine(float x1, float y1, float x2, float y2, const Color &c
 	++m_currentSpritePointer;
 }
 
-void SpriteBatch::SetLineInfo(uint32_t spriteIndex, float x1, float y1, float x2, float y2, const Color &color)
+void SpriteBatch::SetLineInfo(uint spriteIndex, float x1, float y1, float x2, float y2, const Color &color)
 {
-	uint32_t base = m_vertices->GetCurrentPosition();
+	uint base = m_vertices->GetCurrentPosition();
 
 	m_vertices->SetPosition2(base, x1, y1);
 	m_vertices->SetPosition2(base + 1, x2, y2);
@@ -653,9 +653,9 @@ void SpriteBatch::AddFilledBox(float left, float top, float right, float bottom,
 	++m_currentSpritePointer;
 }
 
-void SpriteBatch::SetFilledBoxInfo(uint32_t spriteIndex, float left, float top, float right, float bottom, const Color &color)
+void SpriteBatch::SetFilledBoxInfo(uint spriteIndex, float left, float top, float right, float bottom, const Color &color)
 {
-	uint32_t base = m_vertices->GetCurrentPosition();
+	uint base = m_vertices->GetCurrentPosition();
 
 	m_vertices->SetPosition2(base, left, top);
 	m_vertices->SetPosition2(base + 1, right, top);
@@ -764,7 +764,7 @@ void SpriteBatch::RenderQueue()
 	const SpriteBatchEntity *firstEntity = &m_entities[0];
 	const SpriteBatchEntity *lastEntity = &m_entities[0];
 
-	for (uint32_t i = 0; i < m_currentSpritePointer; ++i)
+	for (uint i = 0; i < m_currentSpritePointer; ++i)
 	{
 		if (lastEntity->type != m_entities[i].type)
 		{
@@ -799,8 +799,8 @@ void SpriteBatch::RenderQueue()
 
 void SpriteBatch::RenderQueueRange(const SpriteBatchEntity *firstEntity, const SpriteBatchEntity *lastEntity)
 {
-	uint32_t startVertex = firstEntity->firstVertex;
-	uint32_t lastVertex = lastEntity->lastVertex + 1;
+	uint startVertex = firstEntity->firstVertex;
+	uint lastVertex = lastEntity->lastVertex + 1;
 
 	if (lastEntity->texture != NULL)
 	{
@@ -832,7 +832,7 @@ void SpriteBatch::CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_TYPE type)
 	//       time. This is because we use std::vector::push_back to expand the
 	//       entity object storage by only one.
 
-	uint32_t verticesRequired = GetVerticesRequiredFor(type);
+	uint verticesRequired = GetVerticesRequiredFor(type);
 	if (m_vertices->GetRemainingSpace() < verticesRequired)
 	{
 		// need to add more space for a new entity of the specified type to fit
@@ -844,9 +844,9 @@ void SpriteBatch::CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_TYPE type)
 	}
 }
 
-inline uint32_t SpriteBatch::GetVerticesRequiredFor(SPRITEBATCH_ENTITY_TYPE type)
+inline uint SpriteBatch::GetVerticesRequiredFor(SPRITEBATCH_ENTITY_TYPE type)
 {
-	uint32_t numVerticesRequired = 0;
+	uint numVerticesRequired = 0;
 	switch (type)
 	{
 	case SPRITEBATCH_ENTITY_SPRITE: numVerticesRequired = 6; break;
@@ -858,12 +858,12 @@ inline uint32_t SpriteBatch::GetVerticesRequiredFor(SPRITEBATCH_ENTITY_TYPE type
 	return numVerticesRequired;
 }
 
-inline int16_t SpriteBatch::FixYCoord(int16_t y, uint16_t sourceHeight) const
+inline int SpriteBatch::FixYCoord(int y, uint sourceHeight) const
 {
 	return m_graphicsDevice->GetViewContext()->GetViewportHeight() - y - sourceHeight;
 }
 
-inline float SpriteBatch::FixYCoord(int16_t y, float sourceHeight) const
+inline float SpriteBatch::FixYCoord(int y, float sourceHeight) const
 {
 	return (float)m_graphicsDevice->GetViewContext()->GetViewportHeight() - (float)y - sourceHeight;
 }
@@ -873,8 +873,8 @@ void SpriteBatch::SetClipRegion(const Rect &rect)
 	ASSERT(m_begunRendering == TRUE);
 	m_isClipping = TRUE;
 
-	int32_t fixedTop = ((int32_t)m_graphicsDevice->GetViewContext()->GetViewportHeight() - rect.top - rect.GetHeight());
-	int32_t fixedBottom = fixedTop + rect.GetHeight();
+	int fixedTop = ((int)m_graphicsDevice->GetViewContext()->GetViewportHeight() - rect.top - rect.GetHeight());
+	int fixedBottom = fixedTop + rect.GetHeight();
 
 	m_clipRegion.left = (float)rect.left;
 	m_clipRegion.top = (float)fixedTop;
@@ -882,14 +882,14 @@ void SpriteBatch::SetClipRegion(const Rect &rect)
 	m_clipRegion.bottom = (float)fixedBottom;
 }
 
-void SpriteBatch::SetClipRegion(int16_t left, int16_t top, int16_t right, int16_t bottom)
+void SpriteBatch::SetClipRegion(int left, int top, int right, int bottom)
 {
 	ASSERT(m_begunRendering == TRUE);
 	m_isClipping = TRUE;
 
-	int16_t height = bottom - top;
-	int16_t fixedTop = (m_graphicsDevice->GetViewContext()->GetViewportHeight() - top - height);
-	int16_t fixedBottom = fixedTop + height;
+	int height = bottom - top;
+	int fixedTop = (m_graphicsDevice->GetViewContext()->GetViewportHeight() - top - height);
+	int fixedBottom = fixedTop + height;
 
 	m_clipRegion.left = (float)left;
 	m_clipRegion.top = (float)fixedTop;

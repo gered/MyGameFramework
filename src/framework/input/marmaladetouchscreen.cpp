@@ -27,7 +27,7 @@ void MarmaladeTouchPointer::ResetDeltas()
 	m_deltaY = 0;
 }
 
-BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom) const
+BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const
 {
 	if (m_isTouching && m_x >= left && m_y >= top && m_x <= right && m_y <= bottom)
 		return TRUE;
@@ -43,12 +43,12 @@ BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Rect &area) const
 		return FALSE;
 }
 
-BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint16_t centerX, uint16_t centerY, uint16_t radius) const
+BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const
 {
 	if (m_isTouching)
 	{
-		uint32_t squaredDistance = ((centerX - m_x) * (centerX - m_x)) + ((centerY - m_y) * (centerY - m_y));
-		uint32_t squaredRadius = radius * radius;
+		uint squaredDistance = ((centerX - m_x) * (centerX - m_x)) + ((centerY - m_y) * (centerY - m_y));
+		uint squaredRadius = radius * radius;
 		if (squaredDistance <= squaredRadius)
 			return TRUE;
 	}
@@ -60,8 +60,8 @@ BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Circle &area) const
 {
 	if (m_isTouching)
 	{
-		uint32_t squaredDistance = ((area.x - m_x) * (area.x - m_x)) + ((area.y - m_y) * (area.y - m_y));
-		uint32_t squaredRadius = area.radius * area.radius;
+		uint squaredDistance = ((area.x - m_x) * (area.x - m_x)) + ((area.y - m_y) * (area.y - m_y));
+		uint squaredRadius = area.radius * area.radius;
 		if (squaredDistance <= squaredRadius)
 			return TRUE;
 	}
@@ -69,7 +69,7 @@ BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Circle &area) const
 	return FALSE;
 }
 
-void MarmaladeTouchPointer::OnDown(int32_t id, uint16_t x, uint16_t y)
+void MarmaladeTouchPointer::OnDown(int id, uint x, uint y)
 {
 	m_isTouching = TRUE;
 	m_x = x;
@@ -79,7 +79,7 @@ void MarmaladeTouchPointer::OnDown(int32_t id, uint16_t x, uint16_t y)
 	m_id = id;
 }
 
-void MarmaladeTouchPointer::OnMove(int32_t id, uint16_t x, uint16_t y)
+void MarmaladeTouchPointer::OnMove(int id, uint x, uint y)
 {
 	// calculate the amount moved since the last time first...
 	m_deltaX = x - m_x;
@@ -123,7 +123,7 @@ MarmaladeTouchscreen::~MarmaladeTouchscreen()
 
 void MarmaladeTouchscreen::ResetDeltas()
 {
-	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
+	for (uint i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() != INVALID_TOUCH_POINTER)
 			m_pointers[i].ResetDeltas();
@@ -157,8 +157,8 @@ BOOL MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *even
 		MarmaladeTouchPointer *pointer = GetPointerByIdOrFirstAvailable(eventArgs->m_TouchID);
 		if (pointer->GetId() == INVALID_TOUCH_POINTER)
 		{
-			uint16_t x = Clamp(eventArgs->m_x, m_viewBounds.left, m_viewBounds.right) - m_viewBounds.left;
-			uint16_t y = Clamp(eventArgs->m_y, m_viewBounds.top, m_viewBounds.bottom) - m_viewBounds.top;
+			uint x = Clamp(eventArgs->m_x, m_viewBounds.left, m_viewBounds.right) - m_viewBounds.left;
+			uint y = Clamp(eventArgs->m_y, m_viewBounds.top, m_viewBounds.bottom) - m_viewBounds.top;
 			pointer->OnDown(eventArgs->m_TouchID, x, y);
 
 			// if no other touch points are currently down, then this one is to be
@@ -225,8 +225,8 @@ BOOL MarmaladeTouchscreen::OnMultiTouchMotionEvent(const s3ePointerTouchMotionEv
 	MarmaladeTouchPointer *pointer = GetPointerById_internal(eventArgs->m_TouchID);
 	if (pointer != NULL)
 	{
-		uint16_t x = Clamp(eventArgs->m_x, m_viewBounds.left, m_viewBounds.right) - m_viewBounds.left;
-		uint16_t y = Clamp(eventArgs->m_y, m_viewBounds.top, m_viewBounds.bottom) - m_viewBounds.top;
+		uint x = Clamp(eventArgs->m_x, m_viewBounds.left, m_viewBounds.right) - m_viewBounds.left;
+		uint y = Clamp(eventArgs->m_y, m_viewBounds.top, m_viewBounds.bottom) - m_viewBounds.top;
 		pointer->OnMove(eventArgs->m_TouchID, x, y);
 		
 		BOOL isPrimary = FALSE;
@@ -264,9 +264,9 @@ BOOL MarmaladeTouchscreen::WasTapped()
 	return FALSE;
 }
 
-const TouchPointer* MarmaladeTouchscreen::GetPointerById(int32_t id) const
+const TouchPointer* MarmaladeTouchscreen::GetPointerById(int id) const
 {
-	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
+	for (uint i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() == id)
 			return (TouchPointer*)&m_pointers[i];
@@ -275,9 +275,9 @@ const TouchPointer* MarmaladeTouchscreen::GetPointerById(int32_t id) const
 	return NULL;
 }
 
-MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerById_internal(int32_t id)
+MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerById_internal(int id)
 {
-	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
+	for (uint i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() == id)
 			return &m_pointers[i];
@@ -288,7 +288,7 @@ MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerById_internal(int32_t id)
 
 MarmaladeTouchPointer* MarmaladeTouchscreen::GetFirstAvailablePointer()
 {
-	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
+	for (uint i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() == INVALID_TOUCH_POINTER)
 			return &m_pointers[i];
@@ -297,7 +297,7 @@ MarmaladeTouchPointer* MarmaladeTouchscreen::GetFirstAvailablePointer()
 	return NULL;
 }
 
-MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerByIdOrFirstAvailable(int32_t id)
+MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerByIdOrFirstAvailable(int id)
 {
 	MarmaladeTouchPointer *result = GetPointerById_internal(id);
 	if (result == NULL)
@@ -308,7 +308,7 @@ MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerByIdOrFirstAvailable(int3
 
 MarmaladeTouchPointer* MarmaladeTouchscreen::GetNextDownPointer()
 {
-	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
+	for (uint i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].IsTouching())
 			return &m_pointers[i];
@@ -329,12 +329,12 @@ void MarmaladeTouchscreen::Reset()
 	m_isLocked = FALSE;
 	m_currentTouchPoints = 0;
 	
-	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
+	for (uint i = 0; i < m_maxTouchPoints; ++i)
 	{
 		BOOL isPrimary = FALSE;
 		if (oldPrimaryPointer == &m_pointers[i])
 			isPrimary = TRUE;
-		uint32_t id = m_pointers[i].GetId();
+		int id = m_pointers[i].GetId();
 		
 		m_pointers[i].OnUp();
 

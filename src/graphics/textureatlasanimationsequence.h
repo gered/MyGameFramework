@@ -10,10 +10,10 @@ class TextureAtlas;
 struct TextureAtlasAnimationSequence
 {
 	TextureAtlas *atlas;
-	uint32_t animatingIndex;
-	uint32_t start;
-	uint32_t stop;
-	uint32_t current;
+	uint animatingIndex;
+	uint start;
+	uint stop;
+	uint current;
 	float delay;
 	float currentFrameTime;
 	BOOL isAnimating;
@@ -24,7 +24,7 @@ struct TextureAtlasAnimationSequence
 
 	TextureAtlasAnimationSequence();
 
-	uint32_t GetNumFrames() const;
+	uint GetNumFrames() const;
 	BOOL IsAnimationFinished() const;
 };
 
@@ -43,7 +43,7 @@ inline TextureAtlasAnimationSequence::TextureAtlasAnimationSequence()
 	frames = NULL;
 }
 
-inline uint32_t TextureAtlasAnimationSequence::GetNumFrames() const
+inline uint TextureAtlasAnimationSequence::GetNumFrames() const
 {
 	return stop - start + 1;
 }

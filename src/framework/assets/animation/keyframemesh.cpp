@@ -16,10 +16,10 @@ KeyframeMesh::KeyframeMesh(const KeyframeMeshFile *file)
 	m_numFrames = file->GetNumFrames();
 	m_frames = new Keyframe*[m_numFrames];
 	ASSERT(m_frames != NULL);
-	for (uint32_t i = 0; i < m_numFrames; ++i)
+	for (uint i = 0; i < m_numFrames; ++i)
 	{
 		Keyframe *srcFrame = file->GetFrames()[i];
-		uint32_t numVertices = srcFrame->GetNumVertices();
+		uint numVertices = srcFrame->GetNumVertices();
 
 		Keyframe *frame = new Keyframe(srcFrame->GetName(), numVertices);
 		ASSERT(frame != NULL);
@@ -66,7 +66,7 @@ KeyframeMesh::KeyframeMesh(const KeyframeMeshFile *file)
 
 KeyframeMesh::~KeyframeMesh()
 {
-	for (uint32_t i = 0; i < m_numFrames; ++i)
+	for (uint i = 0; i < m_numFrames; ++i)
 		SAFE_DELETE(m_frames[i]);
 	SAFE_DELETE_ARRAY(m_frames);
 	SAFE_DELETE_ARRAY(m_texCoords);

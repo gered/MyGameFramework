@@ -150,8 +150,8 @@ void ContentLoaderMapStoreBase<T>::Free(ContentStoreItor &itor, BOOL force, BOOL
 		// if this is being forced, we need to manually decrease the Content's
 		// internal reference counter (or the destructor will have a fit).
 		// I suppose this is probably kind of "hack-ish"...
-		uint32_t numToRelease = itor->second.content->GetNumReferences();
-		for (uint32_t i = 0; i < numToRelease; ++i)
+		uint numToRelease = itor->second.content->GetNumReferences();
+		for (uint i = 0; i < numToRelease; ++i)
 			ContentLoaderBase::ReleaseReference(itor->second.content);
 	}
 	

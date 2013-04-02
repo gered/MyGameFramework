@@ -45,17 +45,17 @@ public:
 	/**
 	 * @return the width in pixels of the underlying texture object
 	 */
-	uint16_t GetWidth() const                              { return m_textureWidth; }
+	uint GetWidth() const                                  { return m_textureWidth; }
 
 	/**
 	 * @return the height in pixels of the underlying texture object
 	 */
-	uint16_t GetHeight() const                             { return m_textureHeight; }
+	uint GetHeight() const                                 { return m_textureHeight; }
 
 	/**
 	 * @return the number of sub-textures or tiles currently contained in this atlas
 	 */
-	uint32_t GetNumTextures() const                        { return m_tiles.size(); }
+	uint GetNumTextures() const                            { return m_tiles.size(); }
 
 	/**
 	 * Gets position and dimension information about a specified
@@ -63,7 +63,7 @@ public:
 	 * @param index the index of the sub-texture or tile to retrieve
 	 * @return the sub-texture/tile's information
 	 */
-	const TextureAtlasTile& GetTile(uint32_t index) const  { return m_tiles[index]; }
+	const TextureAtlasTile& GetTile(uint index) const      { return m_tiles[index]; }
 
 	/**
 	 * Sets the underlying texture object for this atlas.
@@ -82,7 +82,7 @@ protected:
 	 *                           help alleviate "texture bleeding" 
 	 *                           issues while rendering
 	 */
-	TextureAtlas(uint16_t textureWidth, uint16_t textureHeight, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
+	TextureAtlas(uint textureWidth, uint textureHeight, float texCoordEdgeOffset = TEXCOORD_EDGE_BLEED_OFFSET);
 
 	/**
 	 * Sets the base texture object.
@@ -103,8 +103,8 @@ protected:
 	stl::vector<TextureAtlasTile> m_tiles;
 
 private:
-	uint16_t m_textureWidth;
-	uint16_t m_textureHeight;
+	uint m_textureWidth;
+	uint m_textureHeight;
 	Texture *m_source;
 	float m_texCoordEdgeOffset;
 };

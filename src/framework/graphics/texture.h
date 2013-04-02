@@ -36,7 +36,7 @@ public:
 	 * @param height the height of the texture in pixels
 	 * @param textureFormat the format of the pixel data this texture contains
 	 */
-	BOOL Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, TEXTURE_FORMAT textureFormat);
+	BOOL Create(GraphicsDevice *graphicsDevice, uint width, uint height, TEXTURE_FORMAT textureFormat);
 	
 	/**
 	 * Frees the texture resources.
@@ -51,22 +51,22 @@ public:
 	 * @param destY the Y coordinate on the texture to place the new image at
 	 * @return TRUE if the texture was updated successfully
 	 */
-	BOOL Update(Image *image, uint16_t destX = 0, uint16_t destY = 0);
+	BOOL Update(Image *image, uint destX = 0, uint destY = 0);
 
 	/**
 	 * @return the texture name or ID assigned to this texture by OpenGL
 	 */
-	uint32_t GetTextureName() const                        { return m_textureName; }
+	uint GetTextureName() const                            { return m_textureName; }
 
 	/**
 	 * @return the width of this texture in pixels
 	 */
-	uint16_t GetWidth() const                              { return m_width; }
+	uint GetWidth() const                                  { return m_width; }
 
 	/**
 	 * @return the height of this texture in pixels
 	 */
-	uint16_t GetHeight() const                             { return m_height; }
+	uint GetHeight() const                                 { return m_height; }
 
 	/**
 	 * @return the pixel format of this texture
@@ -86,12 +86,12 @@ public:
 	void OnLostContext();
 
 private:
-	void GetTextureSpecsFromFormat(TEXTURE_FORMAT textureFormat, int *bpp, uint32_t *format, uint32_t *type);
+	void GetTextureSpecsFromFormat(TEXTURE_FORMAT textureFormat, int *bpp, uint *format, uint *type);
 	
 	GraphicsDevice *m_graphicsDevice;
-	uint32_t m_textureName;
-	uint16_t m_width;
-	uint16_t m_height;
+	uint m_textureName;
+	uint m_width;
+	uint m_height;
 	TEXTURE_FORMAT m_format;
 };
 

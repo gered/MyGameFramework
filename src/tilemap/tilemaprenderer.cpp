@@ -45,11 +45,11 @@ void TileMapRenderer::Render(const TileMap *tileMap, Shader *shader)
 		m_graphicsDevice->BindShader(shader);
 	}
 
-	for (uint32_t y = 0; y < tileMap->GetHeightInChunks(); ++y)
+	for (uint y = 0; y < tileMap->GetHeightInChunks(); ++y)
 	{
-		for (uint32_t z = 0; z < tileMap->GetDepthInChunks(); ++z)
+		for (uint z = 0; z < tileMap->GetDepthInChunks(); ++z)
 		{
-			for (uint32_t x = 0; x < tileMap->GetWidthInChunks(); ++x)
+			for (uint x = 0; x < tileMap->GetWidthInChunks(); ++x)
 			{
 				TileChunk *chunk = tileMap->GetChunk(x, y, z);
 				if (m_graphicsDevice->GetViewContext()->GetCamera()->GetFrustum()->Test(chunk->GetBounds()))
@@ -81,11 +81,11 @@ void TileMapRenderer::RenderAlpha(const TileMap *tileMap, Shader *shader)
 		m_graphicsDevice->BindShader(shader);
 	}
 
-	for (uint32_t y = 0; y < tileMap->GetHeightInChunks(); ++y)
+	for (uint y = 0; y < tileMap->GetHeightInChunks(); ++y)
 	{
-		for (uint32_t z = 0; z < tileMap->GetDepthInChunks(); ++z)
+		for (uint z = 0; z < tileMap->GetDepthInChunks(); ++z)
 		{
-			for (uint32_t x = 0; x < tileMap->GetWidthInChunks(); ++x)
+			for (uint x = 0; x < tileMap->GetWidthInChunks(); ++x)
 			{
 				TileChunk *chunk = tileMap->GetChunk(x, y, z);
 				if (chunk->IsAlphaEnabled() && m_graphicsDevice->GetViewContext()->GetCamera()->GetFrustum()->Test(chunk->GetBounds()))

@@ -100,7 +100,7 @@ inline void ToggleBit(T1 bit, T2 &bitfield)
  * Seeds the system random number generator
  * @param seed the value to seed the random number generator with
  */
-void SeedRnd(int32_t seed);
+void SeedRnd(int seed);
 
 /**
  * Returns a random integer.
@@ -108,7 +108,7 @@ void SeedRnd(int32_t seed);
  * @param high the high end of the range to generate a random integer within
  * @return the generated random integer
  */
-int32_t Rnd(int32_t low, int32_t high);
+int Rnd(int low, int high);
 
 float Rnd(float low, float high);
 

@@ -46,7 +46,7 @@ TileMap::~TileMap()
 	Clear();
 }
 
-void TileMap::SetSize(uint32_t numChunksX, uint32_t numChunksY, uint32_t numChunksZ, uint32_t chunkSizeX, uint32_t chunkSizeY, uint32_t chunkSizeZ)
+void TileMap::SetSize(uint numChunksX, uint numChunksY, uint numChunksZ, uint chunkSizeX, uint chunkSizeY, uint chunkSizeZ)
 {
 	ASSERT(numChunksX > 0);
 	ASSERT(numChunksY > 0);
@@ -70,16 +70,16 @@ void TileMap::SetSize(uint32_t numChunksX, uint32_t numChunksY, uint32_t numChun
 	ASSERT(m_chunks != NULL);
 
 	// set each one up
-	for (uint32_t y = 0; y < numChunksY; ++y)
+	for (uint y = 0; y < numChunksY; ++y)
 	{
-		for (uint32_t z = 0; z < numChunksZ; ++z)
+		for (uint z = 0; z < numChunksZ; ++z)
 		{
-			for (uint32_t x = 0; x < numChunksX; ++x)
+			for (uint x = 0; x < numChunksX; ++x)
 			{
 				TileChunk *chunk = new TileChunk(x * m_chunkWidth, y * m_chunkHeight, z * m_chunkDepth, m_chunkWidth, m_chunkHeight, m_chunkDepth, this, m_graphicsDevice);
 				ASSERT(chunk != NULL);
 
-				uint32_t index = GetChunkIndex(x, y, z);
+				uint index = GetChunkIndex(x, y, z);
 				m_chunks[index] = chunk;
 			}
 		}
@@ -91,7 +91,7 @@ void TileMap::SetSize(uint32_t numChunksX, uint32_t numChunksY, uint32_t numChun
 
 void TileMap::Clear()
 {
-	for (uint32_t i = 0; i < m_numChunks; ++i)
+	for (uint i = 0; i < m_numChunks; ++i)
 	{
 		TileChunk *chunk = m_chunks[i];
 		SAFE_DELETE(chunk);
@@ -107,7 +107,7 @@ void TileMap::Clear()
 	m_chunkDepth = 0;
 }
 
-BOOL TileMap::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32_t &z) const
+BOOL TileMap::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
 {
 	// make sure that the ray can actually collide with this map in the first place
 	Vector3 position;
@@ -116,16 +116,16 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32
 
 	// convert initial tilemap collision point to tile coords. this is in 
 	// "tilemap space" which is how we want it for the rest of this method
-	int32_t currentX = (int32_t)position.x;
-	int32_t currentY = (int32_t)position.y;
-	int32_t currentZ = (int32_t)position.z;
+	int currentX = (int)position.x;
+	int currentY = (int)position.y;
+	int currentZ = (int)position.z;
 
 	// make sure the coords are inrange of the map bounds. due to some floating
 	// point errors / decimal truncating from the above conversion we could
 	// end up with one or more that are very slightly out of bounds.
-	currentX = Clamp(currentX, 0, (int32_t)(GetWidth() - 1));
-	currentY = Clamp(currentY, 0, (int32_t)(GetHeight() - 1));
-	currentZ = Clamp(currentZ, 0, (int32_t)(GetDepth() - 1));
+	currentX = Clamp(currentX, 0, (int)(GetWidth() - 1));
+	currentY = Clamp(currentY, 0, (int)(GetHeight() - 1));
+	currentZ = Clamp(currentZ, 0, (int)(GetDepth() - 1));
 
 	// is the start position colliding with a solid tile?
 	Tile *startTile = Get(currentX, currentY, currentZ);
@@ -143,14 +143,14 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32
 	// no collision initially, continue on with the rest ...
 
 	// step increments in whole tile units
-	int32_t stepX = (int32_t)Sign(ray.direction.x);
-	int32_t stepY = (int32_t)Sign(ray.direction.y);
-	int32_t stepZ = (int32_t)Sign(ray.direction.z);
+	int stepX = (int)Sign(ray.direction.x);
+	int stepY = (int)Sign(ray.direction.y);
+	int stepZ = (int)Sign(ray.direction.z);
 
 	// tile boundary
-	int32_t tileBoundaryX = currentX + (stepX > 0 ? 1 : 0);
-	int32_t tileBoundaryY = currentY + (stepY > 0 ? 1 : 0);
-	int32_t tileBoundaryZ = currentZ + (stepZ > 0 ? 1 : 0);
+	int tileBoundaryX = currentX + (stepX > 0 ? 1 : 0);
+	int tileBoundaryY = currentY + (stepY > 0 ? 1 : 0);
+	int tileBoundaryZ = currentZ + (stepZ > 0 ? 1 : 0);
 
 	// HACK: for the tMax and tDelta initial calculations below, if any of the
 	//       components of ray.direction are zero, it will result in "inf"
@@ -231,9 +231,9 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32
 		// the map before we can attempt to determine if the current tile is 
 		// solid
 		if (
-				currentX < 0 || currentX >= (int32_t)GetWidth() ||
-				currentY < 0 || currentY >= (int32_t)GetHeight() ||
-				currentZ < 0 || currentZ >= (int32_t)GetDepth()
+				currentX < 0 || currentX >= (int)GetWidth() ||
+				currentY < 0 || currentY >= (int)GetHeight() ||
+				currentZ < 0 || currentZ >= (int)GetDepth()
 			)
 			outOfMap = TRUE;
 		else
@@ -257,7 +257,7 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32
 	return collided;
 }
 
-BOOL TileMap::CheckForCollision(const Ray &ray, Vector3 &point, uint32_t &x, uint32_t &y, uint32_t &z) const
+BOOL TileMap::CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const
 {
 	// if the ray doesn't collide with any solid tiles in the first place, then
 	// we can skip this more expensive triangle collision check...
@@ -269,12 +269,12 @@ BOOL TileMap::CheckForCollision(const Ray &ray, Vector3 &point, uint32_t &x, uin
 	return CheckForCollisionWithTile(ray, point, x, y, z);
 }
 
-BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint32_t x, uint32_t y, uint32_t z) const
+BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const
 {
 	const Tile *tile = Get(x, y, z);
 	const TileMesh *mesh = m_tileMeshes->Get(tile);
 
-	uint32_t numVertices = mesh->GetNumCollisionVertices();
+	uint numVertices = mesh->GetNumCollisionVertices();
 	const Vector3 *vertices = mesh->GetCollisionVertices();
 
 	// world position of this tile, will be used to move each
@@ -285,7 +285,7 @@ BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint32_t
 	BOOL collided = FALSE;
 	Vector3 collisionPoint = ZERO_VECTOR;
 
-	for (uint32_t i = 0; i < numVertices; i += 3)
+	for (uint i = 0; i < numVertices; i += 3)
 	{
 		// get the vertices making up this triangle
 		Vector3 a = vertices[i];
@@ -315,7 +315,7 @@ BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint32_t
 	return collided;
 }
 
-BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint32_t &x1, uint32_t &y1, uint32_t &z1, uint32_t &x2, uint32_t &y2, uint32_t &z2) const
+BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
 {
 	// make sure the given box actually intersects with the map in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
@@ -324,23 +324,23 @@ BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint32_t &x1, uint32_t 
 	// convert to tile coords. this is in "tilemap space" which is how we want it
 	// HACK: ceil() calls and "-1"'s keep us from picking up too many/too few
 	// blocks. these were arrived at through observation
-	int32_t minX = (int32_t)box.min.x;
-	int32_t minY = (int32_t)box.min.y;
-	int32_t minZ = (int32_t)box.min.z;
-	int32_t maxX = (int32_t)ceil(box.max.x);
-	int32_t maxY = (int32_t)ceil(box.max.y - 1.0f);
-	int32_t maxZ = (int32_t)ceil(box.max.z);
+	int minX = (int)box.min.x;
+	int minY = (int)box.min.y;
+	int minZ = (int)box.min.z;
+	int maxX = (int)ceil(box.max.x);
+	int maxY = (int)ceil(box.max.y - 1.0f);
+	int maxZ = (int)ceil(box.max.z);
 
 	// trim off the excess bounds so that we end up with a min-to-max area
 	// that is completely within the bounds of the map
 	// HACK: "-1"'s keep us from picking up too many blocks. these were arrived
 	// at through observation
-	minX = Clamp(minX, 0, (int32_t)GetWidth());
-	minY = Clamp(minY, 0, (int32_t)(GetHeight() - 1));
-	minZ = Clamp(minZ, 0, (int32_t)GetDepth());
-	maxX = Clamp(maxX, 0, (int32_t)GetWidth());
-	maxY = Clamp(maxY, 0, (int32_t)(GetHeight() - 1));
-	maxZ = Clamp(maxZ, 0, (int32_t)GetDepth());
+	minX = Clamp(minX, 0, (int)GetWidth());
+	minY = Clamp(minY, 0, (int)(GetHeight() - 1));
+	minZ = Clamp(minZ, 0, (int)GetDepth());
+	maxX = Clamp(maxX, 0, (int)GetWidth());
+	maxY = Clamp(maxY, 0, (int)(GetHeight() - 1));
+	maxZ = Clamp(maxZ, 0, (int)GetDepth());
 
 	// return the leftover area
 	x1 = minX;
@@ -353,7 +353,7 @@ BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint32_t &x1, uint32_t 
 	return TRUE;
 }
 
-BOOL TileMap::GetOverlappedChunks(const BoundingBox &box, uint32_t &x1, uint32_t &y1, uint32_t &z1, uint32_t &x2, uint32_t &y2, uint32_t &z2) const
+BOOL TileMap::GetOverlappedChunks(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
 {
 	// make sure the given box actually intersects with the map in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
@@ -362,31 +362,31 @@ BOOL TileMap::GetOverlappedChunks(const BoundingBox &box, uint32_t &x1, uint32_t
 	// convert to tile coords. this is in "tilemap space" which is how we want it
 	// HACK: ceil() calls and "-1"'s keep us from picking up too many/too few
 	// blocks. these were arrived at through observation
-	int32_t minX = (int32_t)box.min.x;
-	int32_t minY = (int32_t)box.min.y;
-	int32_t minZ = (int32_t)box.min.z;
-	int32_t maxX = (int32_t)ceil(box.max.x);
-	int32_t maxY = (int32_t)ceil(box.max.y - 1.0f);
-	int32_t maxZ = (int32_t)ceil(box.max.z);
+	int minX = (int)box.min.x;
+	int minY = (int)box.min.y;
+	int minZ = (int)box.min.z;
+	int maxX = (int)ceil(box.max.x);
+	int maxY = (int)ceil(box.max.y - 1.0f);
+	int maxZ = (int)ceil(box.max.z);
 
 	// now convert to chunk coords
-	int32_t minChunkX = minX / (int32_t)GetChunkWidth();
-	int32_t minChunkY = minY / (int32_t)GetChunkHeight();
-	int32_t minChunkZ = minZ / (int32_t)GetChunkDepth();
-	int32_t maxChunkX = maxX / (int32_t)GetChunkWidth();
-	int32_t maxChunkY = maxY / (int32_t)GetChunkHeight();
-	int32_t maxChunkZ = maxZ / (int32_t)GetChunkDepth();
+	int minChunkX = minX / (int)GetChunkWidth();
+	int minChunkY = minY / (int)GetChunkHeight();
+	int minChunkZ = minZ / (int)GetChunkDepth();
+	int maxChunkX = maxX / (int)GetChunkWidth();
+	int maxChunkY = maxY / (int)GetChunkHeight();
+	int maxChunkZ = maxZ / (int)GetChunkDepth();
 
 	// trim off the excess bounds so that we end up with a min-to-max area
 	// that is completely within the chunk bounds of the map
 	// HACK: "-1"'s keep us from picking up too many chunks. these were arrived
 	// at through observation
-	minChunkX = Clamp(minChunkX, 0, (int32_t)GetWidthInChunks());
-	minChunkY = Clamp(minChunkY, 0, (int32_t)(GetHeightInChunks() - 1));
-	minChunkZ = Clamp(minChunkZ, 0, (int32_t)GetDepthInChunks());
-	maxChunkX = Clamp(maxChunkX, 0, (int32_t)GetWidthInChunks());
-	maxChunkY = Clamp(maxChunkY, 0, (int32_t)(GetHeightInChunks() - 1));
-	maxChunkZ = Clamp(maxChunkZ, 0, (int32_t)GetDepthInChunks());
+	minChunkX = Clamp(minChunkX, 0, (int)GetWidthInChunks());
+	minChunkY = Clamp(minChunkY, 0, (int)(GetHeightInChunks() - 1));
+	minChunkZ = Clamp(minChunkZ, 0, (int)GetDepthInChunks());
+	maxChunkX = Clamp(maxChunkX, 0, (int)GetWidthInChunks());
+	maxChunkY = Clamp(maxChunkY, 0, (int)(GetHeightInChunks() - 1));
+	maxChunkZ = Clamp(maxChunkZ, 0, (int)GetDepthInChunks());
 
 	// return the leftover area
 	x1 = minChunkX;
@@ -403,7 +403,7 @@ void TileMap::UpdateVertices()
 {
 	ASSERT(m_numChunks > 0);
 
-	for (uint32_t i = 0; i < m_numChunks; ++i)
+	for (uint i = 0; i < m_numChunks; ++i)
 	{
 		TileChunk *chunk = m_chunks[i];
 		UpdateChunkVertices(chunk);

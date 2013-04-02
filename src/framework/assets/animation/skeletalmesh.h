@@ -23,18 +23,18 @@ public:
 	
 	virtual ~SkeletalMesh();
 
-	uint32_t GetNumVertices() const                        { return m_numVertices; }
+	uint GetNumVertices() const                            { return m_numVertices; }
 	Vector3* GetVertices() const                           { return m_vertices; }
 	JointVertexMapping* GetJointMappings() const           { return m_jointMappings; }
-	uint32_t GetNumSubsets() const                         { return m_numSubsets; }
+	uint GetNumSubsets() const                             { return m_numSubsets; }
 	SkeletalMeshSubset* GetSubsets() const                 { return m_subsets; }
-	int32_t GetIndexOfSubset(const stl::string &name) const;
-	uint32_t GetNumJoints() const                          { return m_numJoints; }
+	int GetIndexOfSubset(const stl::string &name) const;
+	uint GetNumJoints() const                              { return m_numJoints; }
 	Joint* GetJoints() const                               { return m_joints; }
 	Joint* GetJoint(const stl::string &name) const;
-	int32_t GetIndexOfJoint(const stl::string &name) const;
-	int32_t GetRootJointIndex() const                     { return m_rootJointIndex; }
-	uint32_t GetNumFrames() const                          { return m_numFrames; }
+	int GetIndexOfJoint(const stl::string &name) const;
+	int GetRootJointIndex() const                          { return m_rootJointIndex; }
+	uint GetNumFrames() const                              { return m_numFrames; }
 	const AnimationSequence* GetAnimation(const stl::string &name) const;
 	VertexBuffer* GetVertexBuffer() const                  { return m_vertexBuffer; }
 
@@ -42,15 +42,15 @@ private:
 	SkeletalMesh();
 	void FindAndSetRootJointIndex();
 	
-	uint32_t m_numVertices;
+	uint m_numVertices;
 	Vector3 *m_vertices;
 	JointVertexMapping *m_jointMappings;
-	uint32_t m_numSubsets;
+	uint m_numSubsets;
 	SkeletalMeshSubset *m_subsets;
-	uint32_t m_numJoints;
+	uint m_numJoints;
 	Joint *m_joints;
-	int32_t m_rootJointIndex;
-	uint32_t m_numFrames;
+	int m_rootJointIndex;
+	uint m_numFrames;
 	AnimationList m_animations;
 	VertexBuffer *m_vertexBuffer;
 };

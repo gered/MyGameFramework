@@ -16,14 +16,14 @@ public:
 	 * Creates a new keyframe.
 	 * @param numVertices the number of vertices in this keyframe
 	 */
-	Keyframe(uint32_t numVertices);
+	Keyframe(uint numVertices);
 
 	/**
 	 * Creates a new keyframe.
 	 * @param name the unique name for this keyframe
 	 * @param numVertices the number of vertices in this keyframe
 	 */
-	Keyframe(const stl::string &name, uint32_t numVertices);
+	Keyframe(const stl::string &name, uint numVertices);
 
 	virtual ~Keyframe();
 
@@ -35,7 +35,7 @@ public:
 	/**
 	 * @return the number of vertices in this keyframe
 	 */
-	uint32_t GetNumVertices() const                        { return m_numVertices; }
+	uint GetNumVertices() const                            { return m_numVertices; }
 
 	/**
 	 * @return pointer to the vertices in this keyframe
@@ -48,10 +48,10 @@ public:
 	Vector3* GetNormals()                                  { return m_normals; }
 
 private:
-	void AllocateMemory(uint32_t numVertices);
+	void AllocateMemory(uint numVertices);
 
 	stl::string m_name;
-	uint32_t m_numVertices;
+	uint m_numVertices;
 	Vector3 *m_vertices;
 	Vector3 *m_normals;
 };

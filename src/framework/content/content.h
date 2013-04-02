@@ -40,7 +40,7 @@ public:
 	/**
 	 * @return the number of references currently being held for this content
 	 */
-	uint32_t GetNumReferences() const                      { return m_referenceCount; }
+	uint GetNumReferences() const                          { return m_referenceCount; }
 
 private:
 	/**
@@ -55,7 +55,7 @@ private:
 
 	BOOL m_wasLoadedByContentLoader;
 	BOOL m_isReferenceCounted;
-	uint32_t m_referenceCount;
+	uint m_referenceCount;
 };
 
 #endif

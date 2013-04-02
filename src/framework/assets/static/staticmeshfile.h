@@ -27,8 +27,8 @@ struct StaticMeshFileMaterial
 struct StaticMeshFileSubMesh
 {
 	stl::string name;
-	uint32_t material;
-	uint32_t numTriangles;
+	uint material;
+	uint numTriangles;
 };
 
 /**
@@ -49,7 +49,7 @@ public:
 	/**
 	 * @return the total number of vertices this mesh contains
 	 */
-	uint32_t GetNumVertices() const                        { return m_numVertices; }
+	uint GetNumVertices() const                            { return m_numVertices; }
 
 	/**
 	 * @return pointer to the mesh's vertex data
@@ -59,7 +59,7 @@ public:
 	/**
 	 * @return the total number of normals this mesh contains
 	 */
-	uint32_t GetNumNormals() const                         { return m_numNormals; }
+	uint GetNumNormals() const                             { return m_numNormals; }
 
 	/**
 	 * @return pointer to the mesh's normal data, or NULL if none exist
@@ -69,7 +69,7 @@ public:
 	/**
 	 * @return the total number of texture coordinates this mesh contains
 	 */
-	uint32_t GetNumTexCoords() const                       { return m_numTexCoords; }
+	uint GetNumTexCoords() const                           { return m_numTexCoords; }
 
 	/**
 	 * @return pointer to the mesh's texture coordinates, or NULL if none exist
@@ -79,7 +79,7 @@ public:
 	/**
 	 * @return the total number of materials that this mesh contains
 	 */
-	uint32_t GetNumMaterials() const                       { return m_numMaterials; }
+	uint GetNumMaterials() const                           { return m_numMaterials; }
 
 	/**
 	 * @return pointer to the mesh's materials
@@ -89,7 +89,7 @@ public:
 	/**
 	 * @return the total number of triangles that this mesh contains
 	 */
-	uint32_t GetNumTriangles() const                       { return m_numTriangles; }
+	uint GetNumTriangles() const                           { return m_numTriangles; }
 
 	/**
 	 * @return pointer to the mesh's triangles
@@ -99,7 +99,7 @@ public:
 	/**
 	 * @return the total number of sub-meshes (subsets) this mesh contains
 	 */
-	uint32_t GetNumSubMeshes() const                       { return m_numSubMeshes; }
+	uint GetNumSubMeshes() const                           { return m_numSubMeshes; }
 
 	/**
 	 * @return pointer to the mesh's sub-meshes (subsets)
@@ -109,17 +109,17 @@ public:
 private:
 	void Load();
 
-	uint32_t m_numVertices;
+	uint m_numVertices;
 	Vector3 *m_vertices;
-	uint32_t m_numNormals;
+	uint m_numNormals;
 	Vector3 *m_normals;
-	uint32_t m_numTexCoords;
+	uint m_numTexCoords;
 	Vector2 *m_texCoords;
-	uint32_t m_numMaterials;
+	uint m_numMaterials;
 	StaticMeshFileMaterial *m_materials;
-	uint32_t m_numTriangles;
+	uint m_numTriangles;
 	StaticMeshTriangle *m_triangles;
-	uint32_t m_numSubMeshes;
+	uint m_numSubMeshes;
 	StaticMeshFileSubMesh *m_subMeshes;
 };
 

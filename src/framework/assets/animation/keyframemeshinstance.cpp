@@ -71,7 +71,7 @@ void KeyframeMeshInstance::OnUpdate(float delta)
 	}
 }
 
-void KeyframeMeshInstance::SetSequence(uint32_t startFrame, uint32_t endFrame, BOOL loop)
+void KeyframeMeshInstance::SetSequence(uint startFrame, uint endFrame, BOOL loop)
 {
 	m_currentSequenceName.clear();
 	m_currentSequenceStart = startFrame;

@@ -20,28 +20,28 @@ public:
 
 	void ResetDeltas();
 
-	int32_t GetId() const                                  { return m_id; }
-	uint16_t GetX() const                                  { return m_x; }
-	uint16_t GetY() const                                  { return m_y; }
-	int16_t GetDeltaX() const                              { return m_deltaX; }
-	int16_t GetDeltaY() const                              { return m_deltaY; }
+	int GetId() const                                      { return m_id; }
+	uint GetX() const                                      { return m_x; }
+	uint GetY() const                                      { return m_y; }
+	int GetDeltaX() const                                  { return m_deltaX; }
+	int GetDeltaY() const                                  { return m_deltaY; }
 	BOOL IsTouching() const                                { return m_isTouching; }
 
-	BOOL IsTouchingWithinArea(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom) const;
+	BOOL IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const;
 	BOOL IsTouchingWithinArea(const Rect &area) const;
-	BOOL IsTouchingWithinArea(uint16_t centerX, uint16_t centerY, uint16_t radius) const;
+	BOOL IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const;
 	BOOL IsTouchingWithinArea(const Circle &area) const;
 
-	void OnDown(int32_t id, uint16_t x, uint16_t y);
-	void OnMove(int32_t id, uint16_t x, uint16_t y);
+	void OnDown(int id, uint x, uint y);
+	void OnMove(int id, uint x, uint y);
 	void OnUp();
 
 private:
-	int32_t m_id;
-	uint16_t m_x;
-	uint16_t m_y;
-	int16_t m_deltaX;
-	int16_t m_deltaY;
+	int m_id;
+	uint m_x;
+	uint m_y;
+	int m_deltaX;
+	int m_deltaY;
 	BOOL m_isTouching;
 };
 
@@ -60,13 +60,13 @@ public:
 	BOOL OnMultiTouchMotionEvent(const s3ePointerTouchMotionEvent *eventArgs);
 
 	BOOL IsMultitouchAvailable() const                     { return m_isMultitouchAvailable; }
-	uint32_t GetPointerCount() const                       { return m_maxTouchPoints; }
-	uint32_t GetCurrentPointerCount() const                { return m_currentTouchPoints; }
+	uint GetPointerCount() const                           { return m_maxTouchPoints; }
+	uint GetCurrentPointerCount() const                    { return m_currentTouchPoints; }
 	BOOL IsTouching() const                                { return m_isTouching; }
 	BOOL WasTapped();
 	const TouchPointer* GetPrimaryPointer() const          { return (TouchPointer*)m_primaryPointer; }
-	const TouchPointer* GetPointer(uint32_t index) const   { return (TouchPointer*)&m_pointers[index]; }
-	const TouchPointer* GetPointerById(int32_t id) const;
+	const TouchPointer* GetPointer(uint index) const   { return (TouchPointer*)&m_pointers[index]; }
+	const TouchPointer* GetPointerById(int id) const;
 
 	void Reset();
 
@@ -74,10 +74,10 @@ public:
 	void UnregisterListener(TouchscreenListener *listener);
 
 private:
-	MarmaladeTouchPointer* GetPointerById_internal(int32_t id);
+	MarmaladeTouchPointer* GetPointerById_internal(int id);
 
 	MarmaladeTouchPointer* GetFirstAvailablePointer();
-	MarmaladeTouchPointer* GetPointerByIdOrFirstAvailable(int32_t id);
+	MarmaladeTouchPointer* GetPointerByIdOrFirstAvailable(int id);
 	MarmaladeTouchPointer* GetNextDownPointer();
 
 	Rect m_viewBounds;
@@ -89,8 +89,8 @@ private:
 
 	MarmaladeSystem *m_system;
 	BOOL m_isMultitouchAvailable;
-	uint32_t m_maxTouchPoints;
-	uint32_t m_currentTouchPoints;
+	uint m_maxTouchPoints;
+	uint m_currentTouchPoints;
 };
 
 #endif

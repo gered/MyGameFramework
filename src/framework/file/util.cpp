@@ -56,7 +56,7 @@ const stl::string& GetAppPath()
 	}
 	g_appPath = path + "/";
 #elif __APPLE__
-	uint32_t size = MAXPATHLEN;
+	unsigned int size = MAXPATHLEN;
 	char *pathBuffer = new char[size];
 	int result = _NSGetExecutablePath(pathBuffer, &size);
 	if (result == -1)

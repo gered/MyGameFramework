@@ -28,13 +28,13 @@ void StaticMeshRenderer::Render(GraphicsDevice *graphicsDevice, StaticMeshInstan
 
 void StaticMeshRenderer::RenderAllSubsets(GraphicsDevice *graphicsDevice, StaticMeshInstance *instance)
 {
-	for (uint32_t i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
+	for (uint i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
 		RenderSubset(graphicsDevice, instance->GetMesh()->GetSubset(i), instance->GetTexture(i));
 }
 
 void StaticMeshRenderer::RenderAllSubsetsTextureless(GraphicsDevice *graphicsDevice, StaticMeshInstance *instance)
 {
-	for (uint32_t i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
+	for (uint i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
 		RenderTexturelessSubset(graphicsDevice, instance->GetMesh()->GetSubset(i));
 }
 

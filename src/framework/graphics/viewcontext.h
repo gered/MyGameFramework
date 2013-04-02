@@ -40,12 +40,12 @@ public:
 	Camera* GetCamera() const                              { return m_camera; }
 	void SetCamera(Camera *camera);
 	
-	uint16_t GetViewportTop() const                        { return (uint16_t)m_viewport.top; }
-	uint16_t GetViewportLeft() const                       { return (uint16_t)m_viewport.left; }
-	uint16_t GetViewportBottom() const                     { return (uint16_t)m_viewport.bottom; }
-	uint16_t GetViewportRight() const                      { return (uint16_t)m_viewport.right; }
-	uint16_t GetViewportWidth() const                      { return (uint16_t)m_viewport.GetWidth(); }
-	uint16_t GetViewportHeight() const                     { return (uint16_t)m_viewport.GetHeight(); }
+	uint GetViewportTop() const                            { return (uint)m_viewport.top; }
+	uint GetViewportLeft() const                           { return (uint)m_viewport.left; }
+	uint GetViewportBottom() const                         { return (uint)m_viewport.bottom; }
+	uint GetViewportRight() const                          { return (uint)m_viewport.right; }
+	uint GetViewportWidth() const                          { return (uint)m_viewport.GetWidth(); }
+	uint GetViewportHeight() const                         { return (uint)m_viewport.GetHeight(); }
 
 	BOOL IsViewportFixedSize() const                       { return m_viewportIsFixedSize; }
 	BOOL IgnoringScreenRotation() const                    { return m_viewportIsFixedSize; }

@@ -24,7 +24,7 @@ public:
 	virtual ~TileMesh()                                    {}
 
 	virtual VertexBuffer* GetBuffer() const = 0;
-	virtual uint32_t GetNumCollisionVertices() const = 0;
+	virtual uint GetNumCollisionVertices() const = 0;
 	virtual const Vector3* GetCollisionVertices() const = 0;
 
 	virtual TILEMESH_TYPE GetType() const = 0;

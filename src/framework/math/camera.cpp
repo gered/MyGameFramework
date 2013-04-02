@@ -37,7 +37,7 @@ Camera::~Camera()
 	SAFE_DELETE(m_frustum);
 }
 
-void Camera::CalculateDefaultProjection(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom)
+void Camera::CalculateDefaultProjection(uint left, uint top, uint right, uint bottom)
 {
 	m_viewportWidth = right - left;
 	m_viewportHeight = bottom - top;
@@ -99,7 +99,7 @@ void Camera::UpdateProjectionMatrix()
 							   );
 }
 
-Ray Camera::Pick(uint16_t screenX, uint16_t screenY) const
+Ray Camera::Pick(uint screenX, uint screenY) const
 {
 	float nx = 2.0f * ((float)(screenX - (m_viewContext->GetViewportWidth() / 2))) / ((float)m_viewContext->GetViewportWidth());
 	float ny = 2.0f * -((float)(screenY - (m_viewContext->GetViewportHeight() / 2))) / ((float)m_viewContext->GetViewportHeight());
@@ -154,12 +154,12 @@ Point2 Camera::Project(const Vector3 &objectPosition, const Matrix4x4 &modelview
 
 	// map to 2D viewport coordinates (ignoring Z)
 	Point2 out;
-	out.x = (int32_t)(((transformedX * 0.5f) + 0.5f) * (float)m_viewContext->GetViewportWidth() + (float)m_viewContext->GetViewportLeft());
-	out.y = (int32_t)(((transformedY * 0.5f) + 0.5f) * (float)m_viewContext->GetViewportHeight() + (float)m_viewContext->GetViewportTop());
+	out.x = (int)(((transformedX * 0.5f) + 0.5f) * (float)m_viewContext->GetViewportWidth() + (float)m_viewContext->GetViewportLeft());
+	out.y = (int)(((transformedY * 0.5f) + 0.5f) * (float)m_viewContext->GetViewportHeight() + (float)m_viewContext->GetViewportTop());
 	// float z = (1.0f + transformedZ) * 0.5f;   // would be between 0.0f and 1.0f
 
 	// adjust Y coordinate so that 0 is at the top of the screen instead of the bottom
-	out.y = (int32_t)m_viewContext->GetViewportHeight() - out.y;
+	out.y = (int)m_viewContext->GetViewportHeight() - out.y;
 
 	return out; 
 }

@@ -23,11 +23,11 @@ void SimpleTileMapLighter::Light(TileMap *tileMap)
 
 void SimpleTileMapLighter::ResetLightValues(TileMap *tileMap)
 {
-	for (uint32_t y = 0; y < tileMap->GetHeight(); ++y)
+	for (uint y = 0; y < tileMap->GetHeight(); ++y)
 	{
-		for (uint32_t z = 0; z < tileMap->GetDepth(); ++z)
+		for (uint z = 0; z < tileMap->GetDepth(); ++z)
 		{
-			for (uint32_t x = 0; x < tileMap->GetWidth(); ++x)
+			for (uint x = 0; x < tileMap->GetWidth(); ++x)
 			{
 				Tile *tile = tileMap->Get(x, y, z);
 
@@ -47,14 +47,14 @@ void SimpleTileMapLighter::ApplySkyLight(TileMap *tileMap)
 	//       doesn't require us to flood-fill 0 light values here for everything
 	//       that isn't sky-lit
 	// go through each vertical column one at a time from top to bottom
-	for (uint32_t x = 0; x < tileMap->GetWidth(); ++x)
+	for (uint x = 0; x < tileMap->GetWidth(); ++x)
 	{
-		for (uint32_t z = 0; z < tileMap->GetDepth(); ++z)
+		for (uint z = 0; z < tileMap->GetDepth(); ++z)
 		{
 			BOOL stillSkyLit = TRUE;
 			TILE_LIGHT_VALUE currentSkyLightValue = tileMap->GetSkyLightValue();
 
-			for (int32_t y = tileMap->GetHeight() - 1; y >= 0 && stillSkyLit; --y)
+			for (int y = tileMap->GetHeight() - 1; y >= 0 && stillSkyLit; --y)
 			{
 				Tile *tile = tileMap->Get(x, y, z);
 				const TileMesh *mesh = tileMap->GetMeshes()->Get(tile);

@@ -21,8 +21,8 @@ private:
 	void ResetLightValues(TileMap *tileMap);
 	void SetupSkyLight(TileMap *tileMap);
 	void ApplyLighting(TileMap *tileMap);
-	void SpreadSkyLight(int32_t x, int32_t y, int32_t z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap);
-	void SpreadTileLight(int32_t x, int32_t y, int32_t z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap);
+	void SpreadSkyLight(int x, int y, int z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap);
+	void SpreadTileLight(int x, int y, int z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap);
 };
 
 #endif

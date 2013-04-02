@@ -16,7 +16,7 @@ SkeletalMeshSubset::~SkeletalMeshSubset()
 	SAFE_DELETE(m_indices);
 }
 
-void SkeletalMeshSubset::Create(const stl::string &name, uint32_t numTriangles, BOOL alpha)
+void SkeletalMeshSubset::Create(const stl::string &name, uint numTriangles, BOOL alpha)
 {
 	ASSERT(m_indices == NULL);
 	ASSERT(numTriangles > 0);

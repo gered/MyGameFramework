@@ -52,7 +52,7 @@ public:
 	void Remove(Entity *entity);
 	void RemoveAll();
 	BOOL IsValid(const Entity *entity) const;
-	uint32_t GetNumEntities() const                        { return m_entities.size(); }
+	uint GetNumEntities() const                        { return m_entities.size(); }
 
 	template<class T> T* AddComponent(Entity *entity);
 	template<class T> T* GetComponent(const Entity *entity) const;

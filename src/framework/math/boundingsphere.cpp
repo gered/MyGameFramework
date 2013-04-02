@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-BoundingSphere::BoundingSphere(const Vector3 *vertices, int numVertices)
+BoundingSphere::BoundingSphere(const Vector3 *vertices, uint numVertices)
 {
 	ASSERT(vertices != NULL);
 	ASSERT(numVertices > 0);
@@ -20,7 +20,7 @@ BoundingSphere::BoundingSphere(const Vector3 *vertices, int numVertices)
 	int maxZ = 0;
 
 	// find min & max points for x, y and z
-	for (int i = 0; i < numVertices; ++i)
+	for (uint i = 0; i < numVertices; ++i)
 	{
 		if (vertices[i].x < vertices[minX].x)
 			minX = i;
@@ -61,7 +61,7 @@ BoundingSphere::BoundingSphere(const Vector3 *vertices, int numVertices)
 
 	// now expand the sphere to make sure it encompasses all the points (if it doesn't already)
 	Vector3 d;
-	for (int i = 0; i < numVertices; ++i)
+	for (uint i = 0; i < numVertices; ++i)
 	{
 		d = vertices[i] - center;
 		float distanceSq = Vector3::Dot(d, d);

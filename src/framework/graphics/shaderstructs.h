@@ -12,9 +12,9 @@
  */
 struct ShaderUniform
 {
-	uint32_t location;
-	uint32_t type;
-	uint32_t size;
+	uint location;
+	uint type;
+	uint size;
 };
 
 /**
@@ -22,9 +22,9 @@ struct ShaderUniform
  */
 struct ShaderAttribute
 {
-	uint32_t location;
-	uint32_t type;
-	uint32_t size;
+	uint location;
+	uint type;
+	uint size;
 	BOOL isTypeBound;
 };
 
@@ -35,7 +35,7 @@ struct ShaderAttributeMapInfo
 {
 	BOOL usesStandardType;
 	VERTEX_STANDARD_ATTRIBS standardType;
-	uint32_t attribIndex;
+	uint attribIndex;
 };
 
 /**
@@ -69,7 +69,7 @@ struct CachedShaderUniform
 		} f1;
 		struct
 		{
-			int32_t x;
+			int x;
 		} i1;
 		struct
 		{
@@ -78,8 +78,8 @@ struct CachedShaderUniform
 		} f2;
 		struct
 		{
-			int32_t x;
-			int32_t y;
+			int x;
+			int y;
 		} i2;
 		struct
 		{
@@ -89,9 +89,9 @@ struct CachedShaderUniform
 		} f3;
 		struct
 		{
-			int32_t x;
-			int32_t y;
-			int32_t z;
+			int x;
+			int y;
+			int z;
 		} i3;
 		struct
 		{
@@ -102,10 +102,10 @@ struct CachedShaderUniform
 		} f4;
 		struct
 		{
-			int32_t x;
-			int32_t y;
-			int32_t z;
-			int32_t w;
+			int x;
+			int y;
+			int z;
+			int w;
 		} i4;
 		struct
 		{
@@ -121,7 +121,7 @@ struct CachedShaderUniform
 struct CachedShaderArrayUniform
 {
 	CACHED_SHADER_UNIFORM_TYPE type;
-	uint32_t count;
+	uint count;
 	float *values;
 	
 	CachedShaderArrayUniform()

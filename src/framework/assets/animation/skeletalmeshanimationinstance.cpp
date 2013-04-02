@@ -65,7 +65,7 @@ void SkeletalMeshAnimationInstance::OnUpdate(float delta)
 	}
 }
 
-void SkeletalMeshAnimationInstance::SetSequence(uint32_t startFrame, uint32_t endFrame, BOOL loop)
+void SkeletalMeshAnimationInstance::SetSequence(uint startFrame, uint endFrame, BOOL loop)
 {
 	m_currentSequenceName.clear();
 	m_currentSequenceStart = startFrame;

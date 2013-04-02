@@ -51,7 +51,7 @@ private:
 	EventTypeSet m_typeList;
 	EventListenerMap m_registry;
 	EventQueue m_queues[NUM_EVENT_QUEUES];
-	int m_activeQueue;
+	uint m_activeQueue;
 };
 
 template<class T>

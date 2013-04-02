@@ -8,7 +8,7 @@
 #include "log.h"
 #include "util/msgbox.h"
 
-const int32_t DEBUG_ASSERT_BUFFER_SIZE = 2048;
+const int DEBUG_ASSERT_BUFFER_SIZE = 2048;
 
 void DebugInit()
 {

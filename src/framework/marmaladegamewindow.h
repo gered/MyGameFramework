@@ -21,14 +21,14 @@ public:
 	virtual ~MarmaladeGameWindow();
 
 	BOOL Create(GameWindowParams *params);
-	BOOL Resize(uint16_t width = IGNORE_DIMENSIONS, uint16_t height = IGNORE_DIMENSIONS);
+	BOOL Resize(uint width = IGNORE_DIMENSIONS, uint height = IGNORE_DIMENSIONS);
 	BOOL ToggleFullscreen();
 	void Close();
 
-	uint16_t GetWidth() const                              { return m_rect.GetWidth(); }
-	uint16_t GetHeight() const                             { return m_rect.GetHeight(); }
+	uint GetWidth() const                                  { return m_rect.GetWidth(); }
+	uint GetHeight() const                                 { return m_rect.GetHeight(); }
 	const Rect& GetRect() const                            { return m_rect; }
-	uint8_t GetBPP() const                                 { return m_bpp; }
+	uint GetBPP() const                                    { return m_bpp; }
 	BOOL IsWindowed() const                                { return !m_fullscreen; }
 	SCREEN_ORIENTATION_ANGLE GetScreenOrientation() const  { return m_screenOrientation; }
 
@@ -56,7 +56,7 @@ private:
 	BOOL m_closing;
 
 	Rect m_rect;
-	uint8_t m_bpp;
+	uint m_bpp;
 	BOOL m_fullscreen;
 	SCREEN_ORIENTATION_ANGLE m_screenOrientation;
 

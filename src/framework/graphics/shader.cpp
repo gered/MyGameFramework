@@ -27,8 +27,8 @@ STATIC_ASSERT(sizeof(Vector4) == 4 * sizeof(float));
 STATIC_ASSERT(sizeof(Quaternion) == 4 * sizeof(float));
 STATIC_ASSERT(sizeof(Matrix3x3) == 9 * sizeof(float));
 STATIC_ASSERT(sizeof(Matrix4x4) == 16 * sizeof(float));
-STATIC_ASSERT(sizeof(Point2) == 2 * sizeof(int32_t));
-STATIC_ASSERT(sizeof(Point3) == 3 * sizeof(int32_t));
+STATIC_ASSERT(sizeof(Point2) == 2 * sizeof(int));
+STATIC_ASSERT(sizeof(Point3) == 3 * sizeof(int));
 
 Shader::Shader()
 {
@@ -352,7 +352,7 @@ void Shader::LoadUniformInfo()
 	char *uniformName = new char[maxUniformNameLength];
 
 	// get info about each uniform
-	for (int32_t i = 0; i < numUniforms; ++i)
+	for (int i = 0; i < numUniforms; ++i)
 	{
 		GLint size;
 		GLenum type;
@@ -364,9 +364,9 @@ void Shader::LoadUniformInfo()
 
 		// store the uniform info
 		ShaderUniform uniform;
-		uniform.location = (uint32_t)location;
-		uniform.type = (uint32_t)type;
-		uniform.size = (uint32_t)size;
+		uniform.location = (uint)location;
+		uniform.type = (uint)type;
+		uniform.size = (uint)size;
 		stl::string name = uniformName;
 
 		// it seems Windows/Mac (possibly Linux too) have differing opinions on
@@ -395,7 +395,7 @@ void Shader::LoadAttributeInfo()
 	// sanity checking, which only matters for shader reloading (e.g. when a context is lost)
 	if (m_attributeMapping != NULL)
 	{
-		ASSERT((uint32_t)numAttributes == m_numAttributes);
+		ASSERT((uint)numAttributes == m_numAttributes);
 	}
 
 	m_numAttributes = numAttributes;
@@ -419,7 +419,7 @@ void Shader::LoadAttributeInfo()
 	char *attributeName = new char[maxAttributeNameLength];
 
 	// get info about each attribute
-	for (int32_t i = 0; i < numAttributes; ++i)
+	for (int i = 0; i < numAttributes; ++i)
 	{
 		GLint size;
 		GLenum type;
@@ -431,9 +431,9 @@ void Shader::LoadAttributeInfo()
 
 		// store the attribute info
 		ShaderAttribute attribute;
-		attribute.location = (uint32_t)location;
-		attribute.type = (uint32_t)type;
-		attribute.size = (uint32_t)size;
+		attribute.location = (uint)location;
+		attribute.type = (uint)type;
+		attribute.size = (uint)size;
 		attribute.isTypeBound = FALSE;
 		stl::string name = attributeName;
 
@@ -565,7 +565,7 @@ void Shader::SetUniform(const stl::string &name, float x)
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, int32_t x)
+void Shader::SetUniform(const stl::string &name, int x)
 {
 	if (m_isBound)
 	{
@@ -621,7 +621,7 @@ void Shader::SetUniform(const stl::string &name, const Vector2 &v)
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y)
+void Shader::SetUniform(const stl::string &name, int x, int y)
 {
 	if (m_isBound)
 	{
@@ -699,7 +699,7 @@ void Shader::SetUniform(const stl::string &name, const Vector3 &v)
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z)
+void Shader::SetUniform(const stl::string &name, int x, int y, int z)
 {
 	if (m_isBound)
 	{
@@ -823,7 +823,7 @@ void Shader::SetUniform(const stl::string &name, const Color &c)
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z, int32_t w)
+void Shader::SetUniform(const stl::string &name, int x, int y, int z, int w)
 {
 	if (m_isBound)
 	{
@@ -880,7 +880,7 @@ void Shader::SetUniform(const stl::string &name, const Matrix4x4 &m)
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const float *x, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const float *x, uint count)
 {
 	if (m_isBound)
 	{
@@ -895,7 +895,7 @@ void Shader::SetUniform(const stl::string &name, const float *x, uint32_t count)
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const Vector2 *v, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const Vector2 *v, uint count)
 {
 	if (m_isBound)
 	{
@@ -913,7 +913,7 @@ void Shader::SetUniform(const stl::string &name, const Vector2 *v, uint32_t coun
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const Vector3 *v, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const Vector3 *v, uint count)
 {
 	if (m_isBound)
 	{
@@ -931,7 +931,7 @@ void Shader::SetUniform(const stl::string &name, const Vector3 *v, uint32_t coun
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const Vector4 *v, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const Vector4 *v, uint count)
 {
 	if (m_isBound)
 	{
@@ -949,7 +949,7 @@ void Shader::SetUniform(const stl::string &name, const Vector4 *v, uint32_t coun
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const Quaternion *q, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const Quaternion *q, uint count)
 {
 	if (m_isBound)
 	{
@@ -968,7 +968,7 @@ void Shader::SetUniform(const stl::string &name, const Quaternion *q, uint32_t c
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const Color *c, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const Color *c, uint count)
 {
 	if (m_isBound)
 	{
@@ -987,7 +987,7 @@ void Shader::SetUniform(const stl::string &name, const Color *c, uint32_t count)
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const Matrix3x3 *m, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const Matrix3x3 *m, uint count)
 {
 	if (m_isBound)
 	{
@@ -1006,7 +1006,7 @@ void Shader::SetUniform(const stl::string &name, const Matrix3x3 *m, uint32_t co
 	}
 }
 
-void Shader::SetUniform(const stl::string &name, const Matrix4x4 *m, uint32_t count)
+void Shader::SetUniform(const stl::string &name, const Matrix4x4 *m, uint count)
 {
 	if (m_isBound)
 	{
@@ -1025,7 +1025,7 @@ void Shader::SetUniform(const stl::string &name, const Matrix4x4 *m, uint32_t co
 	}
 }
 
-void Shader::MapAttributeToVboAttribIndex(const stl::string &name, uint32_t vboAttribIndex)
+void Shader::MapAttributeToVboAttribIndex(const stl::string &name, uint vboAttribIndex)
 {
 	ShaderAttribute *attribute = GetAttribute(name);
 	ASSERT(attribute != NULL);

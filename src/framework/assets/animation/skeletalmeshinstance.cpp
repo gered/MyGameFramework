@@ -22,7 +22,7 @@ SkeletalMeshInstance::SkeletalMeshInstance(SkeletalMesh *mesh)
 	m_enabledSubsets = new BOOL[m_numSubsets];
 	m_textures = new Texture*[m_numSubsets];
 	
-	for (uint32_t i = 0; i < m_numSubsets; ++i)
+	for (uint i = 0; i < m_numSubsets; ++i)
 	{
 		m_enabledSubsets[i] = TRUE;
 		m_textures[i] = NULL;
@@ -58,7 +58,7 @@ void SkeletalMeshInstance::OnUpdate(float delta)
 
 const Matrix4x4* SkeletalMeshInstance::GetJointTransformation(const stl::string &jointName) const
 {
-	int32_t jointIndex = GetMesh()->GetIndexOfJoint(jointName);
+	int jointIndex = GetMesh()->GetIndexOfJoint(jointName);
 	if (jointIndex == NO_JOINT)
 		return NULL;
 	else
@@ -78,11 +78,11 @@ void SkeletalMeshInstance::ClearFixedRootJointTransformation()
 	m_rootJointHasFixedTransform = FALSE;
 }
 
-void SkeletalMeshInstance::CalculateJointTransformations(uint32_t frame)
+void SkeletalMeshInstance::CalculateJointTransformations(uint frame)
 {
-	int32_t rootJointIndex = GetMesh()->GetRootJointIndex();
+	int rootJointIndex = GetMesh()->GetRootJointIndex();
 	
-	for (uint32_t i = 0; i < m_numJoints; ++i)
+	for (uint i = 0; i < m_numJoints; ++i)
 	{
 		if (!(m_rootJointHasFixedTransform && i == rootJointIndex))
 		{
@@ -115,11 +115,11 @@ void SkeletalMeshInstance::CalculateJointTransformations(uint32_t frame)
 	}
 }
 
-void SkeletalMeshInstance::CalculateJointTransformations(uint32_t startFrame, uint32_t endFrame, float interpolation)
+void SkeletalMeshInstance::CalculateJointTransformations(uint startFrame, uint endFrame, float interpolation)
 {
-	int32_t rootJointIndex = GetMesh()->GetRootJointIndex();
+	int rootJointIndex = GetMesh()->GetRootJointIndex();
 
-	for (uint32_t i = 0; i < m_numJoints; ++i)
+	for (uint i = 0; i < m_numJoints; ++i)
 	{
 		if (!(m_rootJointHasFixedTransform && i == rootJointIndex))
 		{
@@ -155,7 +155,7 @@ void SkeletalMeshInstance::CalculateJointTransformations(uint32_t startFrame, ui
 	}
 }
 
-void SkeletalMeshInstance::BreakDownJointTransformationMatrix(uint32_t jointMatrixIndex)
+void SkeletalMeshInstance::BreakDownJointTransformationMatrix(uint jointMatrixIndex)
 {
 	const Matrix4x4 *jointMatrix = &m_jointTransformations[jointMatrixIndex];
 	
@@ -165,7 +165,7 @@ void SkeletalMeshInstance::BreakDownJointTransformationMatrix(uint32_t jointMatr
 
 void SkeletalMeshInstance::EnableSubset(const stl::string &subset, BOOL enable)
 {
-	int32_t index = m_mesh->GetIndexOfSubset(subset);
+	int index = m_mesh->GetIndexOfSubset(subset);
 	ASSERT(index != -1);
 	if (index == -1)
 		return;
@@ -173,7 +173,7 @@ void SkeletalMeshInstance::EnableSubset(const stl::string &subset, BOOL enable)
 		m_enabledSubsets[index] = enable;
 }
 
-void SkeletalMeshInstance::SetTexture(uint32_t index, Texture *texture)
+void SkeletalMeshInstance::SetTexture(uint index, Texture *texture)
 {
 	ASSERT(index < m_numSubsets);
 	m_textures[index] = texture;
@@ -181,7 +181,7 @@ void SkeletalMeshInstance::SetTexture(uint32_t index, Texture *texture)
 
 void SkeletalMeshInstance::SetTexture(const stl::string &subset, Texture *texture)
 {
-	int32_t index = m_mesh->GetIndexOfSubset(subset);
+	int index = m_mesh->GetIndexOfSubset(subset);
 	ASSERT(index != -1);
 	if (index == -1)
 		return;

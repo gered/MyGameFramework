@@ -55,7 +55,7 @@ public:
 	/**
 	 * @return the number of elements contained in this buffer object
 	 */
-	virtual uint32_t GetNumElements() const = 0;
+	virtual uint GetNumElements() const = 0;
 
 	/**
 	 * @return the size in bytes of each element of data in this buffer object
@@ -81,7 +81,7 @@ public:
 	/**
 	 * @return the OpenGL buffer object ID for this buffer
 	 */
-	uint32_t GetBufferId() const                                                { return m_bufferId; }
+	uint GetBufferId() const                                                    { return m_bufferId; }
 
 	void OnNewContext();
 	void OnLostContext();
@@ -124,7 +124,7 @@ private:
 
 	BUFFEROBJECT_TYPE m_type;
 	BUFFEROBJECT_USAGE m_usage;
-	uint32_t m_bufferId;
+	uint m_bufferId;
 	BOOL m_isDirty;
 	size_t m_sizeInBytes;
 };

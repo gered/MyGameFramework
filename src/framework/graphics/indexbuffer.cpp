@@ -18,12 +18,12 @@ void IndexBuffer::Release()
 	BufferObject::Release();
 }
 
-BOOL IndexBuffer::Initialize(uint32_t numIndices, BUFFEROBJECT_USAGE usage)
+BOOL IndexBuffer::Initialize(uint numIndices, BUFFEROBJECT_USAGE usage)
 {
 	return Initialize(NULL, numIndices, usage);
 }
 
-BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint32_t numIndices, BUFFEROBJECT_USAGE usage)
+BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint numIndices, BUFFEROBJECT_USAGE usage)
 {
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
@@ -67,12 +67,12 @@ BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *
 	return TRUE;
 }
 
-void IndexBuffer::Set(const uint16_t *indices, uint32_t numIndices)
+void IndexBuffer::Set(const uint16_t *indices, uint numIndices)
 {
 	memcpy(&m_buffer[0], indices, GetNumElements() * GetElementWidthInBytes());
 }
 
-void IndexBuffer::Resize(uint32_t numIndices)
+void IndexBuffer::Resize(uint numIndices)
 {
 	ASSERT(numIndices > 0);
 	if (numIndices == 0)
@@ -87,9 +87,9 @@ void IndexBuffer::Resize(uint32_t numIndices)
 		--m_currentIndex;
 }
 
-void IndexBuffer::Extend(uint32_t amount)
+void IndexBuffer::Extend(uint amount)
 {
-	uint32_t newSize = GetNumElements() + amount;
+	uint newSize = GetNumElements() + amount;
 	Resize(newSize);
 }
 

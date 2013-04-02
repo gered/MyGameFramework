@@ -56,14 +56,14 @@ struct VertexBufferAttribute
 	 * The number of floating point value components that make up the
 	 * attribute. e.g. 3 for a Vector3, 4 for a Color, etc.
 	 */
-	uint32_t size;
+	uint size;
 
 	/**
 	 * The offset from the start of a vertex to where this attribute's data
 	 * begins. Specified as the number of floating point components
 	 * (Multiply by sizeof(float) to get the offset as the number of bytes).
 	 */
-	uint32_t offset;
+	uint offset;
 };
 
 #endif

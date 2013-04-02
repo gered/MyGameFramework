@@ -2,13 +2,13 @@
 
 #include "texture.h"
 
-GridTextureAtlas::GridTextureAtlas(uint16_t textureWidth, uint16_t textureHeight, uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder, float texCoordEdgeOffset)
+GridTextureAtlas::GridTextureAtlas(uint textureWidth, uint textureHeight, uint tileWidth, uint tileHeight, uint tileBorder, float texCoordEdgeOffset)
 	: TextureAtlas(textureWidth, textureHeight, texCoordEdgeOffset)
 {
 	GenerateGrid(tileWidth, tileHeight, tileBorder);
 }
 
-GridTextureAtlas::GridTextureAtlas(Texture *source, uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder, float texCoordEdgeOffset)
+GridTextureAtlas::GridTextureAtlas(Texture *source, uint tileWidth, uint tileHeight, uint tileBorder, float texCoordEdgeOffset)
 	: TextureAtlas(source, texCoordEdgeOffset)
 {
 	GenerateGrid(tileWidth, tileHeight, tileBorder);
@@ -18,7 +18,7 @@ GridTextureAtlas::~GridTextureAtlas()
 {
 }
 
-void GridTextureAtlas::GenerateGrid(uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder)
+void GridTextureAtlas::GenerateGrid(uint tileWidth, uint tileHeight, uint tileBorder)
 {
 	m_tileWidth = tileWidth;
 	m_tileHeight = tileHeight;
@@ -26,14 +26,14 @@ void GridTextureAtlas::GenerateGrid(uint16_t tileWidth, uint16_t tileHeight, uin
 	tileWidth += tileBorder;
 	tileHeight += tileBorder;
 
-	uint16_t tilesX = (GetWidth() - tileBorder) / (m_tileWidth + tileBorder);
-	uint16_t tilesY = (GetHeight() - tileBorder) / (m_tileHeight + tileBorder);
+	uint tilesX = (GetWidth() - tileBorder) / (m_tileWidth + tileBorder);
+	uint tilesY = (GetHeight() - tileBorder) / (m_tileHeight + tileBorder);
 
 	m_tiles.resize(tilesX * tilesY);
 
-	for (uint16_t y = 0; y < tilesY; ++y)
+	for (uint y = 0; y < tilesY; ++y)
 	{
-		for (uint16_t x = 0; x < tilesX; ++x)
+		for (uint x = 0; x < tilesX; ++x)
 		{
 			TextureAtlasTile *current = &m_tiles[(y * tilesX) + x];
 

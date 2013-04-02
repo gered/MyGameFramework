@@ -4,7 +4,7 @@
 
 #include "../common.h"
 
-BoundingBox::BoundingBox(const Vector3 *vertices, int numVertices)
+BoundingBox::BoundingBox(const Vector3 *vertices, uint numVertices)
 {
 	ASSERT(vertices != NULL);
 	ASSERT(numVertices > 0);
@@ -15,7 +15,7 @@ BoundingBox::BoundingBox(const Vector3 *vertices, int numVertices)
 	float maxY = 0.0f;
 	float maxZ = 0.0f;
 
-	for (int i = 0; i < numVertices; ++i)
+	for (uint i = 0; i < numVertices; ++i)
 	{
 		minX = Min(vertices[i].x, minX);
 		minY = Min(vertices[i].y, minY);

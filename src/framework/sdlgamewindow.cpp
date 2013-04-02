@@ -51,7 +51,7 @@ BOOL SDLGameWindow::Create(GameWindowParams *params)
 	LOG_INFO(LOGCAT_WINDOW, "  windowed = %d\n", sdlParams->windowed);
 	LOG_INFO(LOGCAT_WINDOW, "  resizable = %d\n", sdlParams->resizable);
 
-	uint32_t flags = SDL_OPENGL;
+	uint flags = SDL_OPENGL;
 	if (!sdlParams->windowed)
 		flags |= SDL_FULLSCREEN;
 	if (sdlParams->resizable)
@@ -83,7 +83,7 @@ BOOL SDLGameWindow::Create(GameWindowParams *params)
 	return TRUE;
 }
 
-BOOL SDLGameWindow::Resize(uint16_t width, uint16_t height)
+BOOL SDLGameWindow::Resize(uint width, uint height)
 {
 	BOOL result = SetUpWindow(width, height);
 	GetGameApp()->OnNewContext();
@@ -151,7 +151,7 @@ void SDLGameWindow::DisplaySdlHardwareInfo()
 
 	LOG_INFO(LOGCAT_WINDOW, "SDL Video Flags selected: SDL_OPENGL%s%s\n", (m_SDLflags & SDL_FULLSCREEN) ? ", SDL_FULLSCREEN" : "", (m_SDLflags & SDL_RESIZABLE) ? ", SDL_RESIZABLE" : "");
 
-	uint32_t tempFlags = m_SDLflags;
+	uint tempFlags = m_SDLflags;
 	if (tempFlags & SDL_RESIZABLE)
 		tempFlags ^= SDL_RESIZABLE;
 
@@ -182,7 +182,7 @@ void SDLGameWindow::DisplaySdlHardwareInfo()
 	}
 }
 
-BOOL SDLGameWindow::SetUpWindow(uint16_t width, uint16_t height)
+BOOL SDLGameWindow::SetUpWindow(uint width, uint height)
 {
 	int ret;
 	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();

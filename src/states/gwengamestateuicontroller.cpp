@@ -88,7 +88,7 @@ BOOL GwenGameStateUIController::Handle(const Event *event)
 	return FALSE;
 }
 
-Gwen::Controls::Canvas* GwenGameStateUIController::InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint8_t fontSize)
+Gwen::Controls::Canvas* GwenGameStateUIController::InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint fontSize)
 {
 	ASSERT(m_renderer == NULL);
 	ASSERT(m_skin == NULL);
@@ -118,11 +118,11 @@ void GwenGameStateUIController::ResizeAndScaleCanvas()
 		// takes into account any recent viewport resizing, etc.)
 		SetScale(m_scale);
 		
-		uint16_t viewportWidth = GetGameState()->GetGameApp()->GetGraphicsDevice()->GetViewContext()->GetViewportWidth();
-		uint16_t viewportHeight = GetGameState()->GetGameApp()->GetGraphicsDevice()->GetViewContext()->GetViewportHeight();
+		uint viewportWidth = GetGameState()->GetGameApp()->GetGraphicsDevice()->GetViewContext()->GetViewportWidth();
+		uint viewportHeight = GetGameState()->GetGameApp()->GetGraphicsDevice()->GetViewContext()->GetViewportHeight();
 		
-		uint16_t scaledViewportWidth = (float)viewportWidth / m_canvas->Scale();
-		uint16_t scaledViewportHeight = (float)viewportHeight / m_canvas->Scale();
+		uint scaledViewportWidth = (float)viewportWidth / m_canvas->Scale();
+		uint scaledViewportHeight = (float)viewportHeight / m_canvas->Scale();
 		
 		m_canvas->SetBounds(0, 0, scaledViewportWidth, scaledViewportHeight);
 	}
@@ -161,7 +161,7 @@ void GwenGameStateUIController::SetStateFinished()
 	GetGameState()->SetFinished();
 }
 
-void GwenGameStateUIController::SetStateFinished(uint32_t returnValue)
+void GwenGameStateUIController::SetStateFinished(int returnValue)
 {
 	GetGameState()->SetFinished(returnValue);
 }

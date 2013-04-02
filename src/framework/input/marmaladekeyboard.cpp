@@ -21,7 +21,7 @@ MarmaladeKeyboard::~MarmaladeKeyboard()
 
 BOOL MarmaladeKeyboard::OnKeyEvent(const s3eKeyboardEvent *eventArgs)
 {
-	int32_t keyCode = (int32_t)eventArgs->m_Key;
+	int keyCode = (int)eventArgs->m_Key;
 	BOOL isDown = (BOOL)eventArgs->m_Pressed;
 
 	if (isDown)

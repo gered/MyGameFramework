@@ -33,7 +33,7 @@ public:
 	/**
 	 * @return the total number of keyframes contained in this mesh
 	 */
-	uint32_t GetNumFrames() const                          { return m_numFrames; }
+	uint GetNumFrames() const                              { return m_numFrames; }
 
 	/**
 	 * @return pointer to the mesh's keyframes
@@ -43,7 +43,7 @@ public:
 	/**
 	 * @return the total number of texture coordinates contained in this mesh
 	 */
-	uint32_t GetNumTexCoords() const                       { return m_numTexCoords; }
+	uint GetNumTexCoords() const                           { return m_numTexCoords; }
 
 	/**
 	 * @return pointer to the mesh's texture coordinates
@@ -53,7 +53,7 @@ public:
 	/**
 	 * @return the total number of triangles contained in this mesh
 	 */
-	uint32_t GetNumTriangles() const                       { return m_numTriangles; }
+	uint GetNumTriangles() const                           { return m_numTriangles; }
 
 	/**
 	 * @return pointer to the mesh's triangles
@@ -63,7 +63,7 @@ public:
 	/**
 	 * @return the number of vertices per keyframe in this mesh
 	 */
-	uint32_t GetNumVerticesPerFrame() const                { return m_numVerticesPerFrame; }
+	uint GetNumVerticesPerFrame() const                    { return m_numVerticesPerFrame; }
 
 	/**
 	 * Retrieves an animation sequence.
@@ -83,14 +83,14 @@ public:
 	VertexBuffer* GetVertices() const                      { return m_vertices; }
 
 private:
-	uint32_t m_numFrames;
+	uint m_numFrames;
 	Keyframe **m_frames;
-	uint32_t m_numTexCoords;
+	uint m_numTexCoords;
 	Vector2 *m_texCoords;
-	uint32_t m_numTriangles;
+	uint m_numTriangles;
 	KeyframeMeshTriangle *m_triangles;
 	AnimationList m_animations;
-	uint32_t m_numVerticesPerFrame;
+	uint m_numVerticesPerFrame;
 	VertexBuffer *m_vertices;
 };
 

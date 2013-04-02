@@ -20,7 +20,7 @@ struct Rect
 	 * @param right right X coordinate
 	 * @param bottom bottom Y coordinate
 	 */
-	Rect(int32_t left, int32_t top, int32_t right, int32_t bottom);
+	Rect(int left, int top, int right, int bottom);
 
 	/**
 	 * Sets new rect dimensions.
@@ -29,7 +29,7 @@ struct Rect
 	 * @param right new right X coordinate
 	 * @param bottom new bottom Y coordinate
 	 */
-	void Set(int32_t left, int32_t top, int32_t right, int32_t bottom);
+	void Set(int left, int top, int right, int bottom);
 
 	/**
 	 * Tests if a point is contained inside this rectangle.
@@ -37,29 +37,29 @@ struct Rect
 	 * @param y y coordinate of the point to test
 	 * @return TRUE if the point is contained, FALSE if not
 	 */
-	BOOL Contains(int32_t x, int32_t y) const;
+	BOOL Contains(int x, int y) const;
 
 	/**
 	 * @return the rect's width
 	 */
-	int32_t GetWidth() const;
+	int GetWidth() const;
 
 	/**
 	 * @return the rect's height
 	 */
-	int32_t GetHeight() const;
+	int GetHeight() const;
 
-	int32_t left;
-	int32_t top;
-	int32_t right;
-	int32_t bottom;
+	int left;
+	int top;
+	int right;
+	int bottom;
 };
 
 inline Rect::Rect()
 {
 }
 
-inline Rect::Rect(int32_t left, int32_t top, int32_t right, int32_t bottom)
+inline Rect::Rect(int left, int top, int right, int bottom)
 {
 	this->left = left;
 	this->top = top;
@@ -67,7 +67,7 @@ inline Rect::Rect(int32_t left, int32_t top, int32_t right, int32_t bottom)
 	this->bottom = bottom;
 }
 
-inline void Rect::Set(int32_t left, int32_t top, int32_t right, int32_t bottom)
+inline void Rect::Set(int left, int top, int right, int bottom)
 {
 	this->left = left;
 	this->top = top;
@@ -75,7 +75,7 @@ inline void Rect::Set(int32_t left, int32_t top, int32_t right, int32_t bottom)
 	this->bottom = bottom;
 }
 
-inline BOOL Rect::Contains(int32_t x, int32_t y) const
+inline BOOL Rect::Contains(int x, int y) const
 {
 	if (x >= left && y >= top && x <= right && y <= bottom)
 		return TRUE;
@@ -83,12 +83,12 @@ inline BOOL Rect::Contains(int32_t x, int32_t y) const
 		return FALSE;
 }
 
-inline int32_t Rect::GetWidth() const
+inline int Rect::GetWidth() const
 {
 	return right - left;
 }
 
-inline int32_t Rect::GetHeight() const
+inline int Rect::GetHeight() const
 {
 	return bottom - top;
 }

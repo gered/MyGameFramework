@@ -6,7 +6,7 @@
 #include <string.h>
 
 // TODO: query hardware for number of buttons?
-const int32_t NUM_BUTTONS = 5;
+const int NUM_BUTTONS = 5;
 
 SDLMouse::SDLMouse(SDLSystem *system)
 {
@@ -33,15 +33,15 @@ void SDLMouse::ResetDeltas()
 BOOL SDLMouse::OnButtonEvent(const SDL_MouseButtonEvent *eventArgs)
 {
 	// translate from SDL's button values to our own MOUSE_BUTTONS enum
-	int32_t button = (int32_t)eventArgs->button - 1;
+	int button = (int)eventArgs->button - 1;
 
 	if (eventArgs->state == SDL_PRESSED)
 	{
 		// Pressed only if not locked
 		m_buttons[button] = !(m_lockedButtons[button]);
 		
-		uint16_t x = eventArgs->x;
-		uint16_t y = eventArgs->y;
+		uint x = eventArgs->x;
+		uint y = eventArgs->y;
 
 		// always report button down events
 		// NOTE: we're ignoring the "locked button" state because listeners
@@ -54,8 +54,8 @@ BOOL SDLMouse::OnButtonEvent(const SDL_MouseButtonEvent *eventArgs)
 	}
 	else
 	{
-		uint16_t x = eventArgs->x;
-		uint16_t y = eventArgs->y;
+		uint x = eventArgs->x;
+		uint y = eventArgs->y;
 
 		// if the button is just being released this tick, then trigger an event in all listeners
 		if (m_buttons[button])

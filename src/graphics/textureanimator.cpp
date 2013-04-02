@@ -32,7 +32,7 @@ void TextureAnimator::ResetAll()
 		}
 		if (sequence.frames != NULL)
 		{
-			for (uint32_t i = 0; i < sequence.GetNumFrames(); ++i)
+			for (uint i = 0; i < sequence.GetNumFrames(); ++i)
 			{
 				Image *frame = sequence.frames[i];
 				SAFE_DELETE(frame);
@@ -43,12 +43,12 @@ void TextureAnimator::ResetAll()
 	m_textureAtlasAnimations.clear();
 }
 
-void TextureAnimator::AddTileSequence(TextureAtlas *atlas, uint32_t tileToBeAnimated, uint32_t start, uint32_t stop, float delay, BOOL loop)
+void TextureAnimator::AddTileSequence(TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop)
 {
 	AddTileSequence("", atlas, tileToBeAnimated, start, stop, delay, loop);
 }
 
-void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint32_t tileToBeAnimated, uint32_t start, uint32_t stop, float delay, BOOL loop)
+void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop)
 {
 	ASSERT(atlas != NULL);
 	ASSERT(tileToBeAnimated < atlas->GetNumTextures());
@@ -89,7 +89,7 @@ void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atl
 	sequence.originalAnimatingTile->Create(textureImage, originalTile.dimensions.left, originalTile.dimensions.top, originalTile.dimensions.GetWidth(), originalTile.dimensions.GetHeight());
 
 	// copy each frame ("start" to "stop") from the source texture image
-	for (uint32_t i = 0; i < sequence.GetNumFrames(); ++i)
+	for (uint i = 0; i < sequence.GetNumFrames(); ++i)
 	{
 		const TextureAtlasTile &tile = atlas->GetTile(i + sequence.start);
 		sequence.frames[i] = new Image();
@@ -195,7 +195,7 @@ TextureAtlasAnimationSequence* TextureAnimator::FindTileSequenceByName(const stl
 
 void TextureAnimator::UpdateTextureWithCurrentTileFrame(TextureAtlasAnimationSequence &sequence)
 {
-	uint32_t frameIndex = sequence.current - sequence.start;
+	uint frameIndex = sequence.current - sequence.start;
 	ASSERT(frameIndex < sequence.GetNumFrames());
 	Image *frameImage = sequence.frames[frameIndex];
 	const TextureAtlasTile &tile = sequence.atlas->GetTile(sequence.animatingIndex);

@@ -26,7 +26,7 @@ CubeTileMesh::CubeTileMesh(CUBE_FACES faces, const RectF *textureAtlasTileBounda
 	m_leftFaceVertexOffset = 0;
 	m_rightFaceVertexOffset = 0;
 
-	uint32_t numVertices = 0;
+	uint numVertices = 0;
 
 	if (HasFace(SIDE_TOP))
 	{
@@ -81,7 +81,7 @@ CubeTileMesh::~CubeTileMesh()
 
 void CubeTileMesh::SetupFaceVertices(const RectF *textureAtlasTileBoundaries)
 {
-	uint32_t pos = 0;
+	uint pos = 0;
 	Vector3 a(-0.5f, -0.5f, -0.5f);
 	Vector3 b(0.5f, 0.5f, 0.5f);
 
@@ -267,7 +267,7 @@ void CubeTileMesh::SetupCollisionVertices()
 	m_collisionVertices = new Vector3[m_numCollisionVertices];
 	ASSERT(m_collisionVertices != NULL);
 
-	for (uint32_t i = 0; i < m_numCollisionVertices; ++i)
+	for (uint i = 0; i < m_numCollisionVertices; ++i)
 		m_collisionVertices[i] = m_vertices->GetPosition3(i);
 }
 

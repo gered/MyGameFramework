@@ -24,7 +24,7 @@ enum MSGBOX_BUTTONS
 	MSGBOX_BUTTON_IGNORE = 64
 };
 
-uint32_t ConvertMsgBoxTypeToSysMsgBoxIcon(MSGBOX_TYPE type);
+uint ConvertMsgBoxTypeToSysMsgBoxIcon(MSGBOX_TYPE type);
 
 #ifdef MSGBOX_WINDOWS
 
@@ -47,7 +47,7 @@ uint32_t ConvertMsgBoxTypeToSysMsgBoxIcon(MSGBOX_TYPE type);
 MSGBOX_RESULT MsgBox_Ok(MSGBOX_TYPE type, const stl::string& message, const stl::string& caption)
 {
 	MSGBOX_RESULT result = MSGBOX_RESULT_UNKNOWN;
-	uint32_t icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
+	uint icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
 
 #ifdef MSGBOX_WINDOWS
 	result = SystemMessageBox(message, caption, MB_OK | icon);
@@ -66,7 +66,7 @@ MSGBOX_RESULT MsgBox_Ok(MSGBOX_TYPE type, const stl::string& message, const stl:
 MSGBOX_RESULT MsgBox_OkCancel(MSGBOX_TYPE type, const stl::string& message, const stl::string& caption)
 {
 	MSGBOX_RESULT result = MSGBOX_RESULT_UNKNOWN;
-	uint32_t icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
+	uint icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
 
 #ifdef MSGBOX_WINDOWS
 	result = SystemMessageBox(message, caption, MB_OKCANCEL | icon);
@@ -92,7 +92,7 @@ MSGBOX_RESULT MsgBox_OkCancel(MSGBOX_TYPE type, const stl::string& message, cons
 MSGBOX_RESULT MsgBox_YesNo(MSGBOX_TYPE type, const stl::string& message, const stl::string& caption)
 {
 	MSGBOX_RESULT result = MSGBOX_RESULT_UNKNOWN;
-	uint32_t icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
+	uint icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
 
 #ifdef MSGBOX_WINDOWS
 	result = SystemMessageBox(message, caption, MB_YESNO | icon);
@@ -118,7 +118,7 @@ MSGBOX_RESULT MsgBox_YesNo(MSGBOX_TYPE type, const stl::string& message, const s
 MSGBOX_RESULT MsgBox_AbortRetryIgnore(MSGBOX_TYPE type, const stl::string& message, const stl::string& caption)
 {
 	MSGBOX_RESULT result = MSGBOX_RESULT_UNKNOWN;
-	uint32_t icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
+	uint icon = ConvertMsgBoxTypeToSysMsgBoxIcon(type);
 
 #ifdef MSGBOX_WINDOWS
 	result = SystemMessageBox(message, caption, MB_ABORTRETRYIGNORE | icon);
@@ -144,7 +144,7 @@ MSGBOX_RESULT MsgBox_AbortRetryIgnore(MSGBOX_TYPE type, const stl::string& messa
 	return result;
 }
 
-uint32_t ConvertMsgBoxTypeToSysMsgBoxIcon(MSGBOX_TYPE type)
+uint ConvertMsgBoxTypeToSysMsgBoxIcon(MSGBOX_TYPE type)
 {
 	switch (type)
 	{
@@ -198,7 +198,7 @@ uint32_t ConvertMsgBoxTypeToSysMsgBoxIcon(MSGBOX_TYPE type)
 }
 
 #ifdef MSGBOX_WINDOWS
-MSGBOX_RESULT SystemMessageBox(const stl::string& message, const stl::string& caption, uint32_t flags)
+MSGBOX_RESULT SystemMessageBox(const stl::string& message, const stl::string& caption, uint flags)
 {
 	int result = MessageBoxA(NULL, message.c_str(), caption.c_str(), flags);
 	

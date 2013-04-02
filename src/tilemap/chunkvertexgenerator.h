@@ -20,10 +20,10 @@ public:
 	ChunkVertexGenerator();
 	virtual ~ChunkVertexGenerator();
 
-	void Generate(TileChunk *chunk, uint32_t &numVertices, uint32_t &numAlphaVertices);
+	void Generate(TileChunk *chunk, uint &numVertices, uint &numAlphaVertices);
 
 private:
-	uint32_t AddMesh(const TileMesh *mesh, TileChunk *chunk, BOOL isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint32_t firstVertex, uint32_t numVertices);
+	uint AddMesh(const TileMesh *mesh, TileChunk *chunk, BOOL isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint firstVertex, uint numVertices);
 	virtual void CopyVertex(const TileChunk *chunk, VertexBuffer *sourceBuffer, VertexBuffer *destBuffer, const Vector3 &positionOffset, const Matrix4x4 *transform, const Color &color);
 };
 

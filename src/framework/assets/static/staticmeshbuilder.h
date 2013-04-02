@@ -47,7 +47,7 @@ public:
 	 * @param texture the texture to be applied to this subset, or NULL to use
 	 *                no texture with it
 	 */
-	uint32_t AddSubset(uint32_t numTriangles, Texture *texture);
+	uint AddSubset(uint numTriangles, Texture *texture);
 
 	/**
 	 * Sets a triangle on the specified subset.
@@ -55,8 +55,8 @@ public:
 	 * @param triangle the index of the triangle to set in the subset
 	 */
 	void SetTriangle(
-		uint32_t subsetIndex,
-		uint32_t triangle,
+		uint subsetIndex,
+		uint triangle,
 		const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 		const Vector3 &n1, const Vector3 &n2, const Vector3 &n3, 
 		const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
@@ -68,8 +68,8 @@ public:
 	 * @param triangle the index of the triangle to set in the subset
 	 */
 	void SetTriangle(
-		uint32_t subsetIndex,
-		uint32_t triangle,
+		uint subsetIndex,
+		uint triangle,
 		const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 		const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
 		);
@@ -82,8 +82,8 @@ public:
 	 *                      the quad's vertices will be set in
 	 */
 	void SetQuad(
-		uint32_t subsetIndex,
-		uint32_t firstTriangle,
+		uint subsetIndex,
+		uint firstTriangle,
 		const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, const Vector3 &v4, 
 		const Vector3 &n1, const Vector3 &n2, const Vector3 &n3, const Vector3 &n4, 
 		const Vector2 &t1, const Vector2 &t2, const Vector2 &t3, const Vector2 &t4
@@ -97,8 +97,8 @@ public:
 	 *                      the quad's vertices will be set in
 	 */
 	void SetQuad(
-		uint32_t subsetIndex,
-		uint32_t firstTriangle,
+		uint subsetIndex,
+		uint firstTriangle,
 		const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, const Vector3 &v4, 
 		const Vector2 &t1, const Vector2 &t2, const Vector2 &t3, const Vector2 &t4
 		);
@@ -111,8 +111,8 @@ public:
 	 *                      the box's vertices will be set in
 	 */
 	void SetBox(
-		uint32_t subsetIndex,
-		uint32_t firstTriangle,
+		uint subsetIndex,
+		uint firstTriangle,
 		const Vector3 &center, float width, float height, float depth
 		);
 
@@ -124,8 +124,8 @@ public:
 	 *                      the box's vertices will be set in
 	 */
 	void SetBox(
-		uint32_t subsetIndex,
-		uint32_t firstTriangle,
+		uint subsetIndex,
+		uint firstTriangle,
 		const Vector3 &min, const Vector3 &max
 		);
 	
@@ -146,14 +146,14 @@ public:
 private:
 	void SetTriangleInternal(
 		VertexBuffer *buffer, 
-		uint32_t bufferIndex,
+		uint bufferIndex,
 		const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 		const Vector3 &n1, const Vector3 &n2, const Vector3 &n3, 
 		const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
 		);
 	void SetTriangleInternal(
 		VertexBuffer *buffer, 
-		uint32_t bufferIndex,
+		uint bufferIndex,
 		const Vector3 &v1, const Vector3 &v2, const Vector3 &v3, 
 		const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
 		);

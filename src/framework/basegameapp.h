@@ -70,7 +70,7 @@ public:
 	 * @return the number of frames that were rendered and updated during the last second
 	 *         (this number includes skipped renders/updates in it's count)
 	 */
-	uint32_t GetFPS() const                                { return m_fps; }
+	uint GetFPS() const                                    { return m_fps; }
 
 	/**
 	 * @return average time in seconds that each frame took during the last second
@@ -80,22 +80,22 @@ public:
 	/**
 	 * @return total time in milliseconds that rendering took during the last second
 	 */
-	uint32_t GetRenderTime() const                         { return m_renderTime; }
+	uint GetRenderTime() const                             { return m_renderTime; }
 
 	/**
 	 * @return total time in milliseconds that updating game logic took during the last second
 	 */
-	uint32_t GetUpdateTime() const                         { return m_updateTime; }
+	uint GetUpdateTime() const                             { return m_updateTime; }
 
 	/**
 	 * @return the number of frames rendered during the last second
 	 */
-	uint32_t GetRendersPerSecond() const                   { return m_rendersPerSecond; }
+	uint GetRendersPerSecond() const                       { return m_rendersPerSecond; }
 
 	/**
 	 * @return the number of game logic updates during the last second
 	 */
-	uint32_t GetUpdatesPerSecond() const                   { return m_updatesPerSecond; }
+	uint GetUpdatesPerSecond() const                       { return m_updatesPerSecond; }
 
 	/**
 	 * @return TRUE if the main loop is running behind 
@@ -107,13 +107,13 @@ public:
 	 * Sets the desired frames per second to run the main loop at.
 	 * @param targetFrequency the number of frames to run the main loop at
 	 */
-	void SetUpdateFrequency(uint32_t targetFrequency);
+	void SetUpdateFrequency(uint targetFrequency);
 
 	/**
 	 * Sets the maximum number of frames to skip rendering per loop if the main loop is running slowly.
 	 * @param frameSkip the maximum number of frames to skip rendering per loop
 	 */
-	void SetMaxFrameSkip(uint32_t frameSkip)               { m_maxFrameSkip = frameSkip; }
+	void SetMaxFrameSkip(uint frameSkip)                   { m_maxFrameSkip = frameSkip; }
 
 	/**
 	 * Resets the time checking that determines if the main loop is running slowly.
@@ -128,7 +128,7 @@ public:
 	 */
 	void Invalidate()                                      { m_isDirty = TRUE; }
 
-	unsigned int GetTicks() const                          { return m_system->GetTicks(); }
+	uint GetTicks() const                                  { return m_system->GetTicks(); }
 	
 	/**
 	 * @return TRUE if the app currently is active and has input focus
@@ -214,20 +214,20 @@ private:
 	BOOL m_stop;
 	BOOL m_isPaused;
 
-	uint32_t m_fps;
+	uint m_fps;
 	float m_frameTime;
-	uint32_t m_numRenders;
-	uint32_t m_rendersPerSecond;
-	uint32_t m_numUpdates;
-	uint32_t m_updatesPerSecond;
-	uint32_t m_renderTime;
-	uint32_t m_updateTime;
+	uint m_numRenders;
+	uint m_rendersPerSecond;
+	uint m_numUpdates;
+	uint m_updatesPerSecond;
+	uint m_renderTime;
+	uint m_updateTime;
 
-	uint32_t m_targetUpdatesPerSecond;
-	uint32_t m_ticksPerUpdate;
-	uint32_t m_maxFrameSkip;
+	uint m_targetUpdatesPerSecond;
+	uint m_ticksPerUpdate;
+	uint m_maxFrameSkip;
 	float m_fixedUpdateInterval;
-	uint32_t m_nextUpdateAt;
+	uint m_nextUpdateAt;
 	BOOL m_isRunningSlowly;
 
 	BOOL m_isDirty;

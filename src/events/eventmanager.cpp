@@ -175,7 +175,7 @@ BOOL EventManager::ProcessQueue()
 	EventListenerMap::const_iterator wildcardItor = m_registry.find(EVENT_TYPE_WILDCARD);
 
 	// swap active queues and empty the new queue
-	int queueToProcess = m_activeQueue;
+	uint queueToProcess = m_activeQueue;
 	m_activeQueue = (m_activeQueue + 1) % NUM_EVENT_QUEUES;
 	m_queues[m_activeQueue].clear();
 

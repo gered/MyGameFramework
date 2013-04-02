@@ -49,7 +49,7 @@ void SpriteFontLoader::OnNewContext()
 		if (font->GetTexture() == NULL)
 		{
 			stl::string filename;
-			uint8_t size = 0;
+			uint size = 0;
 			
 			DecomposeFilename(itor->first, filename, size);
 			
@@ -77,7 +77,7 @@ void SpriteFontLoader::OnLostContext()
 SpriteFont* SpriteFontLoader::LoadContent(const stl::string &file, const ContentParam *params)
 {
 	stl::string filename;
-	uint8_t size = 0;
+	uint size = 0;
 	
 	DecomposeFilename(file, filename, size);
 	
@@ -105,7 +105,7 @@ stl::string SpriteFontLoader::ProcessFilename(const stl::string &filename, const
 	return buffer;
 }
 
-void SpriteFontLoader::DecomposeFilename(const stl::string &filename, stl::string &outFilename, uint8_t &outSize) const
+void SpriteFontLoader::DecomposeFilename(const stl::string &filename, stl::string &outFilename, uint &outSize) const
 {
 	ASSERT(filename.length() > 0);
 	
@@ -114,10 +114,10 @@ void SpriteFontLoader::DecomposeFilename(const stl::string &filename, stl::strin
 	
 	// break it up into filename and font size
 	outFilename = filename.substr(0, startOfSize);
-	outSize = (uint8_t)atoi(filename.substr(startOfSize + 1).c_str());
+	outSize = (uint)atoi(filename.substr(startOfSize + 1).c_str());
 }
 
-SpriteFont* SpriteFontLoader::Load(File *file, uint8_t size, SpriteFont *existing) const
+SpriteFont* SpriteFontLoader::Load(File *file, uint size, SpriteFont *existing) const
 {
 	LOG_INFO(LOGCAT_ASSETS, "%s: loading \"%s:%d\"\n", GetLoggingTag(), file->GetFilename().c_str(), size);
 
@@ -271,7 +271,7 @@ void SpriteFontLoader::FreeContent(SpriteFont *content)
 	SAFE_DELETE(content);
 }
 
-BOOL SpriteFontLoader::GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint8_t size, SpriteFontGlyphMetrics *metrics) const
+BOOL SpriteFontLoader::GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint size, SpriteFontGlyphMetrics *metrics) const
 {
 	ASSERT(metrics != NULL);
 

@@ -27,11 +27,11 @@ ChunkRenderer::~ChunkRenderer()
 	SAFE_DELETE(m_alphaBlendState);
 }
 
-uint32_t ChunkRenderer::Render(const TileChunk *chunk)
+uint ChunkRenderer::Render(const TileChunk *chunk)
 {
 	const Texture *texture = chunk->GetTileMap()->GetMeshes()->GetTextureAtlas()->GetTexture();
 
-	uint32_t numVertices = chunk->GetNumVertices();
+	uint numVertices = chunk->GetNumVertices();
 
 	m_renderState->Apply();
 	m_defaultBlendState->Apply();
@@ -43,9 +43,9 @@ uint32_t ChunkRenderer::Render(const TileChunk *chunk)
 	return numVertices;
 }
 
-uint32_t ChunkRenderer::RenderAlpha(const TileChunk *chunk)
+uint ChunkRenderer::RenderAlpha(const TileChunk *chunk)
 {
-	uint32_t numVertices = 0;
+	uint numVertices = 0;
 
 	if (chunk->IsAlphaEnabled())
 	{

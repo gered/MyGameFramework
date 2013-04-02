@@ -36,7 +36,7 @@ public:
 	 * @param instance the keyframe mesh instance to render
 	 * @param frame render this frame instead of the instance's current frame
 	 */
-	void Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint32_t frame, VertexLerpShader *shader);
+	void Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint frame, VertexLerpShader *shader);
 
 	/**
 	 * Renders an instance of a keyframe mesh.
@@ -49,7 +49,7 @@ public:
 	 * @param interpolation the amount to interpolate between the start frame
 	 *                      and end frame
 	 */
-	void Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint32_t startFrame, uint32_t endFrame, float interpolation, VertexLerpShader *shader);
+	void Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint startFrame, uint endFrame, float interpolation, VertexLerpShader *shader);
 
 	/**
 	 * Renders a keyframe mesh using the first frame.
@@ -66,7 +66,7 @@ public:
 	 * @param texture the texture to render the mesh with, or NULL for no texture
 	 * @param frame the keyframe to render
 	 */
-	void Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint32_t frame, VertexLerpShader *shader);
+	void Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint frame, VertexLerpShader *shader);
 
 	/**
 	 * Renders a keyframe mesh.
@@ -78,11 +78,11 @@ public:
 	 * @param interpolation the amount to interpolate by between the start 
 	 *                      and end frame
 	 */
-	void Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint32_t startFrame, uint32_t endFrame, float interpolation, VertexLerpShader *shader);
+	void Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint startFrame, uint endFrame, float interpolation, VertexLerpShader *shader);
 
 private:
-	void SetFrameVertices(KeyframeMesh *mesh, uint32_t frame);
-	void SetFrameVertices(KeyframeMesh *mesh, uint32_t startFrame, uint32_t endFrame);
+	void SetFrameVertices(KeyframeMesh *mesh, uint frame);
+	void SetFrameVertices(KeyframeMesh *mesh, uint startFrame, uint endFrame);
 };
 
 #endif

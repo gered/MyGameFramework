@@ -15,7 +15,7 @@ Renderbuffer::Renderbuffer()
 	m_type = FRAMEBUFFER_DATA_NONE;
 }
 
-BOOL Renderbuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, FRAMEBUFFER_DATA_TYPE type)
+BOOL Renderbuffer::Initialize(GraphicsDevice *graphicsDevice, uint width, uint height, FRAMEBUFFER_DATA_TYPE type)
 {
 	ASSERT(m_renderbufferName == 0);
 	if (m_renderbufferName != 0)
@@ -58,7 +58,7 @@ BOOL Renderbuffer::CreateRenderbuffer()
 {
 	ASSERT(m_renderbufferName == 0);
 	
-	uint32_t format = 0;
+	uint format = 0;
 #ifdef MOBILE
 	switch (m_type)
 	{

@@ -13,8 +13,8 @@
 #include "input/mouse.h"
 #include "input/touchscreen.h"
 
-const uint32_t DEFAULT_UPDATE_FREQUENCY = 60;
-const uint32_t DEFAULT_MAX_FRAMESKIP = 10;
+const uint DEFAULT_UPDATE_FREQUENCY = 60;
+const uint DEFAULT_MAX_FRAMESKIP = 10;
 
 BaseGameApp::BaseGameApp()
 {
@@ -108,15 +108,15 @@ void BaseGameApp::Loop()
 
 	LOG_INFO(LOGCAT_GAMEAPP, "Main loop started.\n");
 
-	uint32_t numUpdatesThisFrame;
-	uint32_t numLoops = 0;
-	uint32_t timeElapsed = 0;
+	uint numUpdatesThisFrame;
+	uint numLoops = 0;
+	uint timeElapsed = 0;
 
-	uint32_t updateTime = 0;
-	uint32_t renderTime = 0;
+	uint updateTime = 0;
+	uint renderTime = 0;
 
 	m_nextUpdateAt = GetTicks();
-	uint32_t currentTime = GetTicks();
+	uint currentTime = GetTicks();
 
 	while (!m_stop)
 	{
@@ -131,8 +131,8 @@ void BaseGameApp::Loop()
 		}
 		else
 		{
-			uint32_t newTime = GetTicks();
-			uint32_t frameTime = newTime - currentTime;
+			uint newTime = GetTicks();
+			uint frameTime = newTime - currentTime;
 			currentTime = newTime;
 			timeElapsed += frameTime;
 
@@ -168,7 +168,7 @@ void BaseGameApp::Loop()
 				if (numUpdatesThisFrame > 0)
 					m_isRunningSlowly = TRUE;
 
-				uint32_t before = GetTicks();
+				uint before = GetTicks();
 				OnUpdate(m_fixedUpdateInterval);
 				updateTime += GetTicks() - before;
 
@@ -183,7 +183,7 @@ void BaseGameApp::Loop()
 
 			if (m_isDirty && m_window->IsActive() && m_window->HasGLContext())
 			{
-				uint32_t before = GetTicks();
+				uint before = GetTicks();
 				OnRender();
 				m_window->Flip();
 				renderTime += GetTicks() - before;
@@ -283,7 +283,7 @@ void BaseGameApp::OnUpdate(float delta)
 	InternalUpdate();
 }
 
-void BaseGameApp::SetUpdateFrequency(uint32_t targetFrequency)
+void BaseGameApp::SetUpdateFrequency(uint targetFrequency)
 {
 	m_targetUpdatesPerSecond = targetFrequency;
 	m_ticksPerUpdate = 1000 / m_targetUpdatesPerSecond;

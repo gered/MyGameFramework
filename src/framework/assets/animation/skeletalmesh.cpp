@@ -38,12 +38,12 @@ SkeletalMesh::~SkeletalMesh()
 	m_animations.clear();
 }
 
-int32_t SkeletalMesh::GetIndexOfSubset(const stl::string &name) const
+int SkeletalMesh::GetIndexOfSubset(const stl::string &name) const
 {
-	for (uint32_t i = 0; i < m_numSubsets; ++i)
+	for (uint i = 0; i < m_numSubsets; ++i)
 	{
 		if (m_subsets[i].GetName() == name)
-			return (int32_t)i;
+			return (int)i;
 	}
 	
 	return -1;
@@ -51,19 +51,19 @@ int32_t SkeletalMesh::GetIndexOfSubset(const stl::string &name) const
 
 Joint* SkeletalMesh::GetJoint(const stl::string &name) const
 {
-	int32_t jointIndex = GetIndexOfJoint(name);
+	int jointIndex = GetIndexOfJoint(name);
 	if (jointIndex == NO_JOINT)
 		return NULL;
 	else
 		return &m_joints[jointIndex];
 }
 
-int32_t SkeletalMesh::GetIndexOfJoint(const stl::string &name) const
+int SkeletalMesh::GetIndexOfJoint(const stl::string &name) const
 {
-	for (uint32_t i = 0; i < m_numJoints; ++i)
+	for (uint i = 0; i < m_numJoints; ++i)
 	{
 		if (m_joints[i].name == name)
-			return (int32_t)i;
+			return (int)i;
 	}
 	
 	return NO_JOINT;
@@ -89,18 +89,18 @@ void SkeletalMesh::FindAndSetRootJointIndex()
 		return;
 	}
 	
-	uint32_t numJointsTried = 0;
-	int32_t rootIndex = NO_JOINT;
+	uint numJointsTried = 0;
+	int rootIndex = NO_JOINT;
 	while (numJointsTried < m_numJoints && rootIndex == NO_JOINT)
 	{
-		int32_t parentlessJoint = NO_JOINT;
+		int parentlessJoint = NO_JOINT;
 
 		// try the next joint without any parents
-		for (uint32_t i = numJointsTried; i < m_numJoints; ++i)
+		for (uint i = numJointsTried; i < m_numJoints; ++i)
 		{
 			if (m_joints[i].parent == NULL)
 			{
-				parentlessJoint = (int32_t)i;
+				parentlessJoint = (int)i;
 				break;
 			}
 		}
@@ -114,9 +114,9 @@ void SkeletalMesh::FindAndSetRootJointIndex()
 		
 		// ensure it has child joints
 		BOOL hasChildJoints = FALSE;
-		for (uint32_t i = 0; i < m_numJoints; ++i)
+		for (uint i = 0; i < m_numJoints; ++i)
 		{
-			int32_t parentIndex = m_joints[i].parentIndex;
+			int parentIndex = m_joints[i].parentIndex;
 			if (parentIndex == parentlessJoint)
 			{
 				hasChildJoints = TRUE;

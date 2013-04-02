@@ -124,7 +124,7 @@ private:
 	Color m_color1;
 	Color m_color2;
 	VertexBuffer *m_vertices;
-	uint32_t m_currentVertex;
+	uint m_currentVertex;
 
 	BOOL m_begunRendering;
 };

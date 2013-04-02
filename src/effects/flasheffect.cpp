@@ -25,8 +25,8 @@ FlashEffect::~FlashEffect()
 
 void FlashEffect::OnRender(RenderContext *renderContext)
 {
-	uint16_t width = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportWidth();
-	uint16_t height = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportHeight();
+	uint width = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportWidth();
+	uint height = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportHeight();
 	
 	m_color.a = m_alpha;
 	renderContext->GetSpriteBatch()->Render(

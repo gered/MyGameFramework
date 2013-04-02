@@ -64,10 +64,10 @@ Text::~Text()
 	SAFE_DELETE(m_text);
 }
 
-uint32_t Text::CountLines()
+uint Text::CountLines()
 {
-	uint32_t numLines = 1;
-	for (uint32_t i = 0; i < m_length; ++i)
+	uint numLines = 1;
+	for (uint i = 0; i < m_length; ++i)
 	{
 		char c = m_text[i];
 		if (c == '\n')
@@ -77,15 +77,15 @@ uint32_t Text::CountLines()
 	return numLines;
 }
 
-const char* Text::GetLine(uint32_t line, size_t &lineLength) const
+const char* Text::GetLine(uint line, size_t &lineLength) const
 {
 	ASSERT(line < m_numLines);
 
 	// find the start of the requested line
-	uint32_t currentLine = 1;
+	uint currentLine = 1;
 	const char* startOfLine = &m_text[0];
 
-	uint32_t i = 0;
+	uint i = 0;
 	while (line != currentLine && i < m_length)
 	{
 		char c = m_text[i];

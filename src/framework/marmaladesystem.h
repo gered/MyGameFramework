@@ -30,7 +30,7 @@ public:
 	BOOL Initialize();
 	BOOL CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params);
 	void ProcessEvents();
-	int32_t OnEvent(const MarmaladeSystemEvent *eventArgs);
+	int OnEvent(const MarmaladeSystemEvent *eventArgs);
 	void Quit();
 
 	BOOL IsQuitting() const                                { return m_isQuitting; }
@@ -44,8 +44,8 @@ public:
 	Keyboard* GetKeyboard() const                          { return (Keyboard*)m_keyboard; }
 	Touchscreen* GetTouchscreen() const                    { return (Touchscreen*)m_touchscreen; }
 
-	uint32_t GetTicks() const                              { return (uint32_t)s3eTimerGetMs(); }
-	void Delay(uint32_t milliseconds) const;
+	uint GetTicks() const                                  { return (uint32_t)s3eTimerGetMs(); }
+	void Delay(uint milliseconds) const;
 
 private:
 	BOOL m_isQuitting;

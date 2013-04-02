@@ -37,8 +37,8 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
 
 	const void* pixels = image->GetPixels();
 	TEXTURE_FORMAT format = TEXTURE_FORMAT_NONE;
-	uint32_t glFormat = 0;
-	uint32_t glType = GL_UNSIGNED_BYTE;
+	uint glFormat = 0;
+	uint glType = GL_UNSIGNED_BYTE;
 	
 	if (image->GetFormat() == IMAGE_FORMAT_ALPHA)
 	{
@@ -79,7 +79,7 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
 	return TRUE;
 }
 
-BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, TEXTURE_FORMAT textureFormat)
+BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint width, uint height, TEXTURE_FORMAT textureFormat)
 {
 	ASSERT(m_textureName == 0);
 	if (m_textureName != 0)
@@ -94,8 +94,8 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t he
 	}
 	
 	int bpp = 0;
-	uint32_t format = 0;
-	uint32_t type = 0;
+	uint format = 0;
+	uint type = 0;
 	GetTextureSpecsFromFormat(textureFormat, &bpp, &format, &type);
 	ASSERT(format != 0);
 	if (format == 0)
@@ -142,7 +142,7 @@ void Texture::Release()
 	m_format = TEXTURE_FORMAT_NONE;
 }
 
-BOOL Texture::Update(Image *image, uint16_t destX, uint16_t destY)
+BOOL Texture::Update(Image *image, uint destX, uint destY)
 {
 	ASSERT(m_textureName != 0);
 	if (m_textureName == 0)
@@ -162,8 +162,8 @@ BOOL Texture::Update(Image *image, uint16_t destX, uint16_t destY)
 	ASSERT(destY + image->GetHeight() <= m_height);
 		
 	const void* pixels = image->GetPixels();
-	uint32_t glFormat = 0;
-	uint32_t glType = 0;
+	uint glFormat = 0;
+	uint glType = 0;
 	
 	if (image->GetFormat() == IMAGE_FORMAT_ALPHA)
 	{
@@ -194,7 +194,7 @@ void Texture::OnLostContext()
 	m_textureName = 0;
 }
 
-void Texture::GetTextureSpecsFromFormat(TEXTURE_FORMAT textureFormat, int *bpp, uint32_t *format, uint32_t *type)
+void Texture::GetTextureSpecsFromFormat(TEXTURE_FORMAT textureFormat, int *bpp, uint *format, uint *type)
 {
 	switch (textureFormat)
 	{

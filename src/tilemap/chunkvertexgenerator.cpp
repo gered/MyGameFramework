@@ -23,7 +23,7 @@ ChunkVertexGenerator::~ChunkVertexGenerator()
 {
 }
 
-void ChunkVertexGenerator::Generate(TileChunk *chunk, uint32_t &numVertices, uint32_t &numAlphaVertices)
+void ChunkVertexGenerator::Generate(TileChunk *chunk, uint &numVertices, uint &numAlphaVertices)
 {
 	numVertices = 0;
 	numAlphaVertices = 0;
@@ -34,11 +34,11 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint32_t &numVertices, uin
 
 	const TileMap *tileMap = chunk->GetTileMap();
 
-	for (uint32_t y = 0; y < chunk->GetHeight(); ++y)
+	for (uint y = 0; y < chunk->GetHeight(); ++y)
 	{
-		for (uint32_t z = 0; z < chunk->GetDepth(); ++z)
+		for (uint z = 0; z < chunk->GetDepth(); ++z)
 		{
-			for (uint32_t x = 0; x < chunk->GetWidth(); ++x)
+			for (uint x = 0; x < chunk->GetWidth(); ++x)
 			{
 				Tile *tile = chunk->Get(x, y, z);
 				if (tile->tile == NO_TILE)
@@ -57,9 +57,9 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint32_t &numVertices, uin
 
 				// "tilemap space" position that this tile is at
 				Point3 position;
-				position.x = x + (int32_t)chunk->GetPosition().x;
-				position.y = y + (int32_t)chunk->GetPosition().y;
-				position.z = z + (int32_t)chunk->GetPosition().z;
+				position.x = x + (int)chunk->GetPosition().x;
+				position.y = y + (int)chunk->GetPosition().y;
+				position.z = z + (int)chunk->GetPosition().z;
 
 				const Matrix4x4 *transform = tile->GetTransformationMatrix();
 
@@ -172,7 +172,7 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint32_t &numVertices, uin
 		chunk->EnableAlphaVertices(FALSE);
 }
 
-uint32_t ChunkVertexGenerator::AddMesh(const TileMesh *mesh, TileChunk *chunk, BOOL isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint32_t firstVertex, uint32_t numVertices)
+uint ChunkVertexGenerator::AddMesh(const TileMesh *mesh, TileChunk *chunk, BOOL isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint firstVertex, uint numVertices)
 {
 	VertexBuffer *sourceBuffer = mesh->GetBuffer();
 	sourceBuffer->MoveToStart();
@@ -187,7 +187,7 @@ uint32_t ChunkVertexGenerator::AddMesh(const TileMesh *mesh, TileChunk *chunk, B
 	ASSERT((firstVertex + numVertices - 1) < sourceBuffer->GetNumElements());
 
 	// ensure there is enough space in the destination buffer
-	uint32_t verticesToAdd = numVertices;
+	uint verticesToAdd = numVertices;
 	if (destBuffer->GetRemainingSpace() < verticesToAdd)
 	{
 		// not enough space, need to resize the destination buffer
@@ -208,7 +208,7 @@ uint32_t ChunkVertexGenerator::AddMesh(const TileMesh *mesh, TileChunk *chunk, B
 
 	// copy vertices
 	sourceBuffer->MoveTo(firstVertex);
-	for (uint32_t i = 0; i < numVertices; ++i)
+	for (uint i = 0; i < numVertices; ++i)
 	{
 		CopyVertex(chunk, sourceBuffer, destBuffer, positionOffset, transform, color);
 

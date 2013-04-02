@@ -43,8 +43,8 @@ public:
 	Keyboard* GetKeyboard() const                          { return (Keyboard*)m_keyboard; }
 	Touchscreen* GetTouchscreen() const                    { return NULL; }
 
-	uint32_t GetTicks() const                              { return SDL_GetTicks(); }
-	void Delay(uint32_t milliseconds) const                { return SDL_Delay(milliseconds); }
+	uint GetTicks() const                                  { return SDL_GetTicks(); }
+	void Delay(uint milliseconds) const                    { return SDL_Delay(milliseconds); }
 
 private:
 	BOOL m_isQuitting;

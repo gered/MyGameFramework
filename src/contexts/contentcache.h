@@ -25,7 +25,7 @@ public:
 	SpriteFont* GetFont() const                            { return m_standardFont; }
 	SpriteFont* GetUIFont() const                          { return m_uiFont; }
 	const stl::string& GetUIFontFilename() const           { return m_uiFontFilename; }
-	uint8_t GetUIFontSize() const                          { return m_uiFontSize; }
+	uint GetUIFontSize() const                             { return m_uiFontSize; }
 
 private:
 	ContentManager *m_contentManager;
@@ -36,7 +36,7 @@ private:
 	SpriteFont *m_standardFont;
 	SpriteFont *m_uiFont;
 	stl::string m_uiFontFilename;
-	uint8_t m_uiFontSize;
+	uint m_uiFontSize;
 };
 
 #endif

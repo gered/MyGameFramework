@@ -21,19 +21,19 @@
 
 #include <string.h>
 
-int32 _MarmaladeEventCallback_Pause(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_Resume(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_Exit(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_GLSuspend(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_GLResume(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_ScreenResize(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_Key(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_KeyChar(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_PointerButton(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_PointerMotion(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_PointerMultitouchButton(void *systemData, void *userData);
-int32 _MarmaladeEventCallback_PointerMultitouchMotion(void *systemData, void *userData);
-int32_t _MarmaladeEvent_PassToSystem(MARMALADE_EVENT event, void *systemData, void *userData);
+int _MarmaladeEventCallback_Pause(void *systemData, void *userData);
+int _MarmaladeEventCallback_Resume(void *systemData, void *userData);
+int _MarmaladeEventCallback_Exit(void *systemData, void *userData);
+int _MarmaladeEventCallback_GLSuspend(void *systemData, void *userData);
+int _MarmaladeEventCallback_GLResume(void *systemData, void *userData);
+int _MarmaladeEventCallback_ScreenResize(void *systemData, void *userData);
+int _MarmaladeEventCallback_Key(void *systemData, void *userData);
+int _MarmaladeEventCallback_KeyChar(void *systemData, void *userData);
+int _MarmaladeEventCallback_PointerButton(void *systemData, void *userData);
+int _MarmaladeEventCallback_PointerMotion(void *systemData, void *userData);
+int _MarmaladeEventCallback_PointerMultitouchButton(void *systemData, void *userData);
+int _MarmaladeEventCallback_PointerMultitouchMotion(void *systemData, void *userData);
+int _MarmaladeEvent_PassToSystem(MARMALADE_EVENT event, void *systemData, void *userData);
 
 MarmaladeSystem::MarmaladeSystem()
 {
@@ -77,15 +77,15 @@ BOOL MarmaladeSystem::Initialize()
 
 	const char* deviceID = s3eDeviceGetString(S3E_DEVICE_ID);
 	const char* deviceOS = s3eDeviceGetString(S3E_DEVICE_OS);
-	int32 deviceOsVersion = s3eDeviceGetInt(S3E_DEVICE_OS_VERSION);
+	int deviceOsVersion = s3eDeviceGetInt(S3E_DEVICE_OS_VERSION);
 	int osVersionMajor = (deviceOsVersion >> 16);
 	int osVersionMinor =  deviceOsVersion & 0xffff;
 	const char* deviceClass = s3eDeviceGetString(S3E_DEVICE_CLASS);
 	const char* deviceArch = s3eDeviceGetString(S3E_DEVICE_ARCHITECTURE);
 	const char* deviceChipset = s3eDeviceGetString(S3E_DEVICE_CHIPSET);
-	int32 deviceTotalMemKB = s3eDeviceGetInt(S3E_DEVICE_MEM_TOTAL);
-	int32 deviceFreeMemKB = s3eDeviceGetInt(S3E_DEVICE_MEM_FREE);
-	int32 heapSize = s3eMemoryGetInt(S3E_MEMORY_SIZE);
+	int deviceTotalMemKB = s3eDeviceGetInt(S3E_DEVICE_MEM_TOTAL);
+	int deviceFreeMemKB = s3eDeviceGetInt(S3E_DEVICE_MEM_FREE);
+	int heapSize = s3eMemoryGetInt(S3E_MEMORY_SIZE);
 
 	LOG_INFO(LOGCAT_SYSTEM, "Device ID: %s\n", deviceID);
 	LOG_INFO(LOGCAT_SYSTEM, "Device OS: %s (%d.%d)\n", deviceOS, osVersionMajor, osVersionMinor);
@@ -236,13 +236,13 @@ BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *p
 
 	m_window = window;
 
-	int32 glVersion = s3eGLGetInt(S3E_GL_VERSION);
+	int glVersion = s3eGLGetInt(S3E_GL_VERSION);
 	int glVersionMajor = (glVersion >> 8) & 0xff;
 	int glVersionMinor = glVersion & 0xff;
-	int32 eglVersion = s3eGLGetInt(S3E_EGL_VERSION);
+	int eglVersion = s3eGLGetInt(S3E_EGL_VERSION);
 	int eglVersionMajor = (eglVersion >> 8) & 0xff;
 	int eglVersionMinor = eglVersion & 0xff;
-	int32 glMustSuspend = s3eGLGetInt(S3E_GL_MUST_SUSPEND);
+	int glMustSuspend = s3eGLGetInt(S3E_GL_MUST_SUSPEND);
 
 	LOG_INFO(LOGCAT_SYSTEM, "GL Version: %d.%d\n", glVersionMajor, glVersionMinor);
 	LOG_INFO(LOGCAT_SYSTEM, "EGL Version: %d.%d\n", eglVersionMajor, eglVersionMinor);
@@ -302,7 +302,7 @@ void MarmaladeSystem::ProcessEvents()
 	s3eDeviceYield(0);
 }
 
-int32_t MarmaladeSystem::OnEvent(const MarmaladeSystemEvent *eventArgs)
+int MarmaladeSystem::OnEvent(const MarmaladeSystemEvent *eventArgs)
 {
 	switch (eventArgs->event)
 	{
@@ -394,7 +394,7 @@ void MarmaladeSystem::Quit()
 	}
 }
 
-void MarmaladeSystem::Delay(uint32_t milliseconds) const
+void MarmaladeSystem::Delay(uint milliseconds) const
 {
 	unsigned int start = GetTicks();
 	unsigned int elapsed = 0;
@@ -406,67 +406,67 @@ void MarmaladeSystem::Delay(uint32_t milliseconds) const
 	while (milliseconds > elapsed);
 }
 
-int32 _MarmaladeEventCallback_Pause(void *systemData, void *userData)
+int _MarmaladeEventCallback_Pause(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_PAUSE, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_Resume(void *systemData, void *userData)
+int _MarmaladeEventCallback_Resume(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_RESUME, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_Exit(void *systemData, void *userData)
+int _MarmaladeEventCallback_Exit(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_EXIT, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_GLSuspend(void *systemData, void *userData)
+int _MarmaladeEventCallback_GLSuspend(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_GLSUSPEND, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_GLResume(void *systemData, void *userData)
+int _MarmaladeEventCallback_GLResume(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_GLRESUME, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_ScreenResize(void *systemData, void *userData)
+int _MarmaladeEventCallback_ScreenResize(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_SCREENRESIZE, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_Key(void *systemData, void *userData)
+int _MarmaladeEventCallback_Key(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_KEY, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_KeyChar(void *systemData, void *userData)
+int _MarmaladeEventCallback_KeyChar(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_KEYCHAR, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_PointerButton(void *systemData, void *userData)
+int _MarmaladeEventCallback_PointerButton(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_POINTER_BUTTON, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_PointerMotion(void *systemData, void *userData)
+int _MarmaladeEventCallback_PointerMotion(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_POINTER_MOTION, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_PointerMultitouchButton(void *systemData, void *userData)
+int _MarmaladeEventCallback_PointerMultitouchButton(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_POINTER_MULTITOUCH_BUTTON, systemData, userData);
 }
 
-int32 _MarmaladeEventCallback_PointerMultitouchMotion(void *systemData, void *userData)
+int _MarmaladeEventCallback_PointerMultitouchMotion(void *systemData, void *userData)
 {
 	return _MarmaladeEvent_PassToSystem(MARMALADE_EVENT_POINTER_MULTITOUCH_MOTION, systemData, userData);
 }
 
-int32_t _MarmaladeEvent_PassToSystem(MARMALADE_EVENT event, void *systemData, void *userData)
+int _MarmaladeEvent_PassToSystem(MARMALADE_EVENT event, void *systemData, void *userData)
 {
 	MarmaladeSystemEvent eventArgs;
 	eventArgs.event = event;

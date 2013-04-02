@@ -25,9 +25,9 @@ public:
 	void Release();
 	
 	BOOL Initialize(GraphicsDevice *graphicsDevice);
-	BOOL Initialize(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, uint16_t fixedHeight);
+	BOOL Initialize(GraphicsDevice *graphicsDevice, uint fixedWidth, uint fixedHeight);
 	
-	uint32_t GetFramebufferName() const                                         { return m_framebufferName; }
+	uint GetFramebufferName() const                                             { return m_framebufferName; }
 	BOOL IsInvalidated() const                                                  { return m_framebufferName == 0; }
 	BOOL IsUsingFixedDimensions() const                                         { return (m_fixedWidth != 0 && m_fixedHeight != 0); }
 	
@@ -57,11 +57,11 @@ private:
 	BOOL RemoveTexture(Texture *texture);
 	BOOL RemoveRenderbuffer(Renderbuffer *renderbuffer);
 	
-	void GetDimensionsForAttachment(uint16_t &width, uint16_t &height) const;
+	void GetDimensionsForAttachment(uint &width, uint &height) const;
 	
-	uint32_t m_framebufferName;
-	uint16_t m_fixedWidth;
-	uint16_t m_fixedHeight;
+	uint m_framebufferName;
+	uint m_fixedWidth;
+	uint m_fixedHeight;
 	ViewContext *m_viewContext;
 	FramebufferRenderbufferMap m_renderbuffers;
 	FramebufferTextureMap m_textures;

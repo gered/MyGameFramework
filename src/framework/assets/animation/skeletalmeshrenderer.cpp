@@ -26,7 +26,7 @@ void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshIn
 	Render(graphicsDevice, instance, 0, shader);
 }
 
-void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint32_t frame, VertexSkinningShader *shader)
+void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint frame, VertexSkinningShader *shader)
 {
 	ASSERT(shader->IsBound() == TRUE);
 	instance->CalculateJointTransformations(frame);
@@ -35,7 +35,7 @@ void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshIn
 	RenderAllSubsets(graphicsDevice, instance, shader);
 }
 
-void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint32_t startFrame, uint32_t endFrame, float interpolation, VertexSkinningShader *shader)
+void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint startFrame, uint endFrame, float interpolation, VertexSkinningShader *shader)
 {
 	ASSERT(shader->IsBound() == TRUE);
 	instance->CalculateJointTransformations(startFrame, endFrame, interpolation);
@@ -68,7 +68,7 @@ void SkeletalMeshRenderer::RenderAllSubsets(GraphicsDevice *graphicsDevice, Skel
 	{
 		// render only non-alpha subsets first
 		instance->GetBlendState()->Apply();
-		for (uint32_t i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
+		for (uint i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
 		{
 			if (!instance->IsSubsetEnabled(i))
 				continue;
@@ -86,7 +86,7 @@ void SkeletalMeshRenderer::RenderAllSubsets(GraphicsDevice *graphicsDevice, Skel
 	if (hasAlphaSubsets)
 	{
 		instance->GetAlphaBlendState()->Apply();
-		for (uint32_t i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
+		for (uint i = 0; i < instance->GetMesh()->GetNumSubsets(); ++i)
 		{
 			if (!instance->IsSubsetEnabled(i))
 				continue;

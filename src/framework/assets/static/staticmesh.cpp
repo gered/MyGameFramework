@@ -11,8 +11,7 @@
 #include "../../math/vector3.h"
 #include "../../math/vector2.h"
 
-StaticMesh::StaticMesh(uint32_t numSubsets, StaticMeshSubset **subsets)
-	: Content()
+StaticMesh::StaticMesh(uint numSubsets, StaticMeshSubset **subsets)
 {
 	ASSERT(numSubsets > 0);
 	ASSERT(subsets != NULL);
@@ -25,7 +24,6 @@ StaticMesh::StaticMesh(uint32_t numSubsets, StaticMeshSubset **subsets)
 }
 
 StaticMesh::StaticMesh(const StaticMeshFile *file, ContentManager *contentManager)
-	: Content()
 {
 	m_numSubsets = 0;
 	CreateSubsets(file, contentManager);
@@ -33,7 +31,7 @@ StaticMesh::StaticMesh(const StaticMeshFile *file, ContentManager *contentManage
 
 StaticMesh::~StaticMesh()
 {
-	for (uint32_t i = 0; i < m_numSubsets; ++i)
+	for (uint i = 0; i < m_numSubsets; ++i)
 		SAFE_DELETE(m_subsets[i]);
 	SAFE_DELETE_ARRAY(m_subsets);
 }
@@ -51,7 +49,7 @@ void StaticMesh::CreateSubsets(const StaticMeshFile *file, ContentManager *conte
 	Vector3 *normals = file->GetNormals();
 	Vector2 *texCoords = file->GetTexCoords();
 
-	for (uint32_t i = 0; i < m_numSubsets; ++i)
+	for (uint i = 0; i < m_numSubsets; ++i)
 	{
 		StaticMeshFileSubMesh *subMesh = &subMeshes[i];
 		StaticMeshFileMaterial *material = &materials[subMesh->material];
@@ -63,12 +61,12 @@ void StaticMesh::CreateSubsets(const StaticMeshFile *file, ContentManager *conte
 		ASSERT(subset != NULL);
 
 		// add the triangles to the subset
-		uint32_t n = 0;
-		for (uint32_t j = 0; j < file->GetNumTriangles(); ++j)
+		uint n = 0;
+		for (uint j = 0; j < file->GetNumTriangles(); ++j)
 		{
 			if (triangles[j].subMeshIndex == i)
 			{
-				uint32_t pos = n * 3;
+				uint pos = n * 3;
 
 				subset->GetVertices()->SetPosition3(pos, vertices[triangles[j].vertices[0]]);
 				subset->GetVertices()->SetPosition3(pos + 1, vertices[triangles[j].vertices[1]]);

@@ -10,7 +10,7 @@ class VertexBuffer;
 class Grid
 {
 public:
-	Grid(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height);
+	Grid(GraphicsDevice *graphicsDevice, uint width, uint height);
 	virtual ~Grid();
 
 	void OnRender();

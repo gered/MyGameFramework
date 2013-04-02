@@ -19,7 +19,7 @@ struct Circle
 	 * @param y Y coordinate of the circle's center point
 	 * @param radius the radius of the circle
 	 */
-	Circle(int32_t x, int32_t y, uint32_t radius);
+	Circle(int x, int y, uint radius);
 
 	/**
 	 * Set new properties for this circle.
@@ -27,37 +27,37 @@ struct Circle
 	 * @param y Y coordinate of the circle's center point
 	 * @param radius the radius of the circle
 	 */
-	void Set(int32_t x, int32_t y, uint32_t radius);
+	void Set(int x, int y, uint radius);
 
 	/**
 	 * @return the circle's diameter
 	 */
-	int32_t GetDiameter() const;
+	uint GetDiameter() const;
 
-	int32_t x;
-	int32_t y;
-	uint32_t radius;
+	int x;
+	int y;
+	uint radius;
 };
 
 inline Circle::Circle()
 {
 }
 
-inline Circle::Circle(int32_t x, int32_t y, uint32_t radius)
+inline Circle::Circle(int x, int y, uint radius)
 {
 	this->x = x;
 	this->y = y;
 	this->radius = radius;
 }
 
-inline void Circle::Set(int32_t x, int32_t y, uint32_t radius)
+inline void Circle::Set(int x, int y, uint radius)
 {
 	this->x = x;
 	this->y = y;
 	this->radius = radius;
 }
 
-inline int32_t Circle::GetDiameter() const
+inline uint Circle::GetDiameter() const
 {
 	return radius * 2;
 }

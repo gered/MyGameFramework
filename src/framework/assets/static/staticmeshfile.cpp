@@ -55,7 +55,7 @@ void StaticMeshFile::Load()
 	m_numVertices = file->ReadUnsignedInt();
 	m_vertices = new Vector3[m_numVertices];
 	ASSERT(m_vertices != NULL);
-	for (uint32_t i = 0; i < m_numVertices; ++i)
+	for (uint i = 0; i < m_numVertices; ++i)
 	{
 		m_vertices[i].x = file->ReadFloat();
 		m_vertices[i].y = file->ReadFloat();
@@ -69,7 +69,7 @@ void StaticMeshFile::Load()
 		m_numNormals = file->ReadUnsignedInt();
 		m_normals = new Vector3[m_numNormals];
 		ASSERT(m_normals != NULL);
-		for (uint32_t i = 0; i < m_numNormals; ++i)
+		for (uint i = 0; i < m_numNormals; ++i)
 		{
 			m_normals[i].x = file->ReadFloat();
 			m_normals[i].y = file->ReadFloat();
@@ -84,7 +84,7 @@ void StaticMeshFile::Load()
 		m_numTexCoords = file->ReadUnsignedInt();
 		m_texCoords = new Vector2[m_numTexCoords];
 		ASSERT(m_texCoords != NULL);
-		for (uint32_t i = 0; i < m_numTexCoords; ++i)
+		for (uint i = 0; i < m_numTexCoords; ++i)
 		{
 			m_texCoords[i].x = file->ReadFloat();
 			m_texCoords[i].y = file->ReadFloat();
@@ -96,7 +96,7 @@ void StaticMeshFile::Load()
 	m_numMaterials = file->ReadUnsignedInt();
 	m_materials = new StaticMeshFileMaterial[m_numMaterials];
 	ASSERT(m_materials != NULL);
-	for (uint32_t i = 0; i < m_numMaterials; ++i)
+	for (uint i = 0; i < m_numMaterials; ++i)
 	{
 		StaticMeshFileMaterial *material = &m_materials[i];
 
@@ -112,7 +112,7 @@ void StaticMeshFile::Load()
 	m_numTriangles = file->ReadUnsignedInt();
 	m_triangles = new StaticMeshTriangle[m_numTriangles];
 	ASSERT(m_triangles != NULL);
-	for (uint32_t i = 0; i < m_numTriangles; ++i)
+	for (uint i = 0; i < m_numTriangles; ++i)
 	{
 		m_triangles[i].vertices[0] = file->ReadUnsignedInt();
 		m_triangles[i].vertices[1] = file->ReadUnsignedInt();
@@ -126,7 +126,7 @@ void StaticMeshFile::Load()
 	m_numSubMeshes = file->ReadUnsignedInt();
 	m_subMeshes = new StaticMeshFileSubMesh[m_numSubMeshes];
 	ASSERT(m_subMeshes != NULL);
-	for (uint32_t i = 0; i < m_numSubMeshes; ++i)
+	for (uint i = 0; i < m_numSubMeshes; ++i)
 	{
 		StaticMeshFileSubMesh *subMesh = &m_subMeshes[i];
 

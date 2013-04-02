@@ -5,7 +5,7 @@
 #include "texture.h"
 #include "../math/rect.h"
 
-CustomTextureAtlas::CustomTextureAtlas(uint16_t textureWidth, uint16_t textureHeight, float texCoordEdgeOffset)
+CustomTextureAtlas::CustomTextureAtlas(uint textureWidth, uint textureHeight, float texCoordEdgeOffset)
 	: TextureAtlas(textureWidth, textureHeight, texCoordEdgeOffset)
 {
 }
@@ -19,12 +19,12 @@ CustomTextureAtlas::~CustomTextureAtlas()
 {
 }
 
-uint32_t CustomTextureAtlas::Add(const Rect &position)
+uint CustomTextureAtlas::Add(const Rect &position)
 {
 	return Add(position.left, position.top, position.right, position.bottom);
 }
 
-uint32_t CustomTextureAtlas::Add(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom)
+uint CustomTextureAtlas::Add(uint left, uint top, uint right, uint bottom)
 {
 	ASSERT(right <= GetWidth());
 	ASSERT(bottom <= GetHeight());

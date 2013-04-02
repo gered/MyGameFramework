@@ -5,7 +5,7 @@
 #include "../../graphics/texture.h"
 #include "../../graphics/vertexbuffer.h"
 
-StaticMeshSubset::StaticMeshSubset(uint32_t numTriangles, Texture *texture)
+StaticMeshSubset::StaticMeshSubset(uint numTriangles, Texture *texture)
 {
 	VERTEX_ATTRIBS attribs[] = {
 		VERTEX_POS_3D,

@@ -45,7 +45,7 @@ struct BoundingBox
 	 * @param vertices an array of vertices to be fully enclosed within the box
 	 * @param numVertices the number of vertices being passed
 	 */
-	BoundingBox(const Vector3 *vertices, int numVertices);
+	BoundingBox(const Vector3 *vertices, uint numVertices);
 
 	/**
 	 * Creates a box with the specified properties.

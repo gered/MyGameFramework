@@ -67,7 +67,7 @@ public:
 	 * @param screenY 2D Y coordinate in screen space
 	 * @return Ray a ray originating from the given 2D screen space coordinates
 	 */
-	Ray Pick(uint16_t screenX, uint16_t screenY) const;
+	Ray Pick(uint screenX, uint screenY) const;
 
 	/**
 	 * Projects the given 3D coordinates into 2D screen space coordinates.
@@ -151,12 +151,12 @@ public:
 	/**
 	 * @return the width of the camera's current viewport
 	 */
-	uint16_t GetViewportWidth() const                      { return m_viewportWidth; }
+	uint GetViewportWidth() const                          { return m_viewportWidth; }
 
 	/**
 	 * @return the height of the camera's current viewport
 	 */
-	uint16_t GetViewportHeight() const                     { return m_viewportHeight; }
+	uint GetViewportHeight() const                         { return m_viewportHeight; }
 
 	/**
 	 * @return the aspect ratio of the camera's current viewport
@@ -181,7 +181,7 @@ protected:
 	 * @param right right X coordinate of the viewport
 	 * @param bottom bottom Y coordinate of the viewport
 	 */
-	void CalculateDefaultProjection(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom);
+	void CalculateDefaultProjection(uint left, uint top, uint right, uint bottom);
 
 	/**
 	 * Calculates a default "look at" matrix to position and orient the camera.
@@ -198,8 +198,8 @@ private:
 	float m_nearHeight;
 	float m_nearWidth;
 
-	uint16_t m_viewportWidth;
-	uint16_t m_viewportHeight;
+	uint m_viewportWidth;
+	uint m_viewportHeight;
 
 	ViewContext *m_viewContext;
 	Frustum *m_frustum;

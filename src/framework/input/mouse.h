@@ -42,22 +42,22 @@ public:
 	/**
 	 * @return current X coordinate of the mouse cursor
 	 */
-	virtual uint16_t GetX() const = 0;
+	virtual uint GetX() const = 0;
 
 	/**
 	 * @return current Y coordinate of the mouse cursor
 	 */
-	virtual uint16_t GetY() const = 0;
+	virtual uint GetY() const = 0;
 
 	/**
 	 * @return amount the mouse cursor moved since the last update along the X axis
 	 */
-	virtual int16_t GetDeltaX() const = 0;
+	virtual int GetDeltaX() const = 0;
 
 	/**
 	 * @return amount the mouse cursor moved since the last update along the Y axis
 	 */
-	virtual int16_t GetDeltaY() const = 0;
+	virtual int GetDeltaY() const = 0;
 
 	/**
 	 * Resets the current mouse coordinates, button states and locked button states.

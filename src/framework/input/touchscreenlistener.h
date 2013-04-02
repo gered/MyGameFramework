@@ -20,7 +20,7 @@ public:
 	 * @return TRUE if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnTouchDown(int32_t id, uint16_t x, uint16_t y, BOOL isPrimary) = 0;
+	virtual BOOL OnTouchDown(int id, uint x, uint y, BOOL isPrimary) = 0;
 
 	/**
 	 * Callback for when a touch point is up (released).
@@ -30,7 +30,7 @@ public:
 	 * @return TRUE if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnTouchUp(int32_t id, BOOL isPrimary) = 0;
+	virtual BOOL OnTouchUp(int id, BOOL isPrimary) = 0;
 
 	/**
 	 * Callback for when the touch point moves.
@@ -44,7 +44,7 @@ public:
 	 * @return TRUE if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnTouchMove(int32_t id, uint16_t x, uint16_t y, int16_t deltaX, int16_t deltaY, BOOL isPrimary) = 0;
+	virtual BOOL OnTouchMove(int id, uint x, uint y, int deltaX, int deltaY, BOOL isPrimary) = 0;
 };
 
 #endif

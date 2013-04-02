@@ -151,7 +151,7 @@ void GameApp::OnUpdate(float delta)
 	}
 }
 
-uint32_t GameApp::GetScreenScale() const
+uint GameApp::GetScreenScale() const
 {
 	return m_renderContext->GetScreenScale();
 }

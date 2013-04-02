@@ -77,10 +77,10 @@ namespace Gwen
 			ASSERT(m_spriteBatch != NULL);
 			Gwen::Rect rect = ClipRegion();
 
-			int16_t left = (int16_t)((float)rect.x * Scale());
-			int16_t top = (int16_t)((float)rect.y * Scale());
-			int16_t right = (int16_t)((float)(rect.x + rect.w) * Scale());
-			int16_t bottom = (int16_t)((float)(rect.y + rect.h) * Scale());
+			int left = (int)((float)rect.x * Scale());
+			int top = (int)((float)rect.y * Scale());
+			int right = (int)((float)(rect.x + rect.w) * Scale());
+			int bottom = (int)((float)(rect.y + rect.h) * Scale());
 
 			m_spriteBatch->SetClipRegion(left, top, right, bottom);
 		}
@@ -154,7 +154,7 @@ namespace Gwen
 		void SpriteBatchRenderer::LoadFont(Gwen::Font *pFont)
 		{
 			LOG_INFO(LOGCAT_GWENUI, "Gwen::Renderer::SpriteBatchRenderer loading font \"%s\"\n", pFont->facename.c_str());
-			SpriteFontParam fontParam((uint8_t)pFont->size);
+			SpriteFontParam fontParam((uint)pFont->size);
 			SpriteFont *font = m_contentManager->Get<SpriteFont>(pFont->facename, fontParam);
 			ASSERT(font != NULL);
 
@@ -202,8 +202,8 @@ namespace Gwen
 
 			ASSERT(font != NULL);
 
-			uint16_t width = 0;
-			uint16_t height = 0;
+			uint width = 0;
+			uint height = 0;
 			font->MeasureString(&width, &height, text.c_str());
 
 			Gwen::Point result(width, height);

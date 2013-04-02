@@ -6,7 +6,7 @@
 #include "../graphics/renderstate.h"
 #include "../graphics/vertexbuffer.h"
 
-Grid::Grid(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height)
+Grid::Grid(GraphicsDevice *graphicsDevice, uint width, uint height)
 {
 	m_graphicsDevice = graphicsDevice;
 
@@ -26,7 +26,7 @@ Grid::Grid(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height)
 	ASSERT(m_verticalPoints != NULL);
 	m_verticalPoints->Initialize(attribs, 2, height * 2 + 2, BUFFEROBJECT_USAGE_STATIC);
 
-	for (uint16_t i = 0; i < height + 1; ++i)
+	for (uint i = 0; i < height + 1; ++i)
 	{
 		m_horizontalPoints->SetPosition3((i * 2), -(width / 2.0f), 0.0f, i - (height / 2.0f));
 		m_horizontalPoints->SetColor((i * 2), 1.0f, 1.0f, 1.0f);
@@ -34,7 +34,7 @@ Grid::Grid(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height)
 		m_horizontalPoints->SetColor((i * 2) + 1, 1.0f, 1.0f, 1.0f);
 	}
 		
-	for (uint16_t i = 0; i < width + 1; ++i)
+	for (uint i = 0; i < width + 1; ++i)
 	{
 		m_verticalPoints->SetPosition3((i * 2), i - (width / 2.0f), 0.0f, -(height / 2.0f));
 		m_verticalPoints->SetColor((i * 2), 1.0f, 1.0f, 1.0f);

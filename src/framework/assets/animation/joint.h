@@ -6,7 +6,7 @@
 #include "../../math/matrix4x4.h"
 #include <stl/string.h>
 
-const int32_t NO_JOINT = -1;
+const int NO_JOINT = -1;
 
 struct Joint
 {
@@ -15,7 +15,7 @@ struct Joint
 
 	stl::string name;
 	Joint *parent;
-	int32_t parentIndex;
+	int parentIndex;
 	Matrix4x4 relative;
 	Matrix4x4 absolute;
 	JointKeyFrame *frames;

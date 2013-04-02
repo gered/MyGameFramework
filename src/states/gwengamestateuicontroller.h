@@ -55,7 +55,7 @@ public:
 	virtual BOOL Handle(const Event *event);
 	
 protected:
-	Gwen::Controls::Canvas* InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint8_t fontSize);
+	Gwen::Controls::Canvas* InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint fontSize);
 	void ResizeAndScaleCanvas();
 	
 	GwenGameState* GetGameState() const                                         { return m_gameState; }
@@ -75,7 +75,7 @@ protected:
 	
 	StateManager* GetStateManager() const;
 	void SetStateFinished();
-	void SetStateFinished(uint32_t returnValue);
+	void SetStateFinished(int returnValue);
 	
 private:
 	GwenGameState *m_gameState;

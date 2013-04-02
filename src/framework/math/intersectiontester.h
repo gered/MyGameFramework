@@ -42,7 +42,7 @@ public:
 	 *                          point if an intersection is found at all
 	 * @return BOOL TRUE if a collision is found, FALSE if not
 	 */
-	static BOOL Test(const BoundingBox &box, const Vector3 *vertices, int numVertices, Vector3 *firstIntersection);
+	static BOOL Test(const BoundingBox &box, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection);
 
 	/**
 	 * Tests for a collision between a sphere and a set of points.
@@ -53,7 +53,7 @@ public:
 	 *                          point if an intersection is found at all
 	 * @return BOOL TRUE if a collision is found, FALSE if not
 	 */
-	static BOOL Test(const BoundingSphere &sphere, const Vector3 *vertices, int numVertices, Vector3 *firstIntersection);
+	static BOOL Test(const BoundingSphere &sphere, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection);
 
 	/**
 	 * Tests for a collision between two boxes.

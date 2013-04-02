@@ -36,7 +36,7 @@ public:
 	 * @param loop TRUE to loop the sequence, FALSE to stop when done
 	 *             and leave the current frame as the end frame
 	 */
-	void SetSequence(uint32_t startFrame, uint32_t endFrame, BOOL loop);
+	void SetSequence(uint startFrame, uint endFrame, BOOL loop);
 
 	/**
 	 * Sets the current animation sequence.
@@ -57,12 +57,12 @@ public:
 	/**
 	 * @return the current frame
 	 */
-	uint32_t GetCurrentFrame() const                       { return m_thisFrame; }
+	uint GetCurrentFrame() const                           { return m_thisFrame; }
 
 	/**
 	 * @return the next frame
 	 */
-	uint32_t GetNextFrame() const                          { return m_nextFrame; }
+	uint GetNextFrame() const                              { return m_nextFrame; }
 
 	/**
 	 * @return the current interpolation amount between the current frame
@@ -97,11 +97,11 @@ private:
 	Texture *m_texture;
 	RenderState *m_renderState;
 	stl::string m_currentSequenceName;
-	uint32_t m_currentSequenceStart;
-	uint32_t m_currentSequenceEnd;
+	uint m_currentSequenceStart;
+	uint m_currentSequenceEnd;
 	BOOL m_currentSequenceLoop;
-	uint32_t m_thisFrame;
-	uint32_t m_nextFrame;
+	uint m_thisFrame;
+	uint m_nextFrame;
 	float m_interpolation;
 	BOOL m_isRunningTempSequence;
 	stl::string m_oldSequenceName;

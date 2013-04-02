@@ -2,12 +2,12 @@
 
 #include <stdlib.h>
 
-void SeedRnd(int32_t seed)
+void SeedRnd(int seed)
 {
 	srand(seed);
 }
 
-int32_t Rnd(int32_t low, int32_t high)
+int Rnd(int low, int high)
 {
 	return rand() % ((high - low) + 1) + low;
 }

@@ -24,11 +24,11 @@ void PositionAndSkyTileMapLighter::Light(TileMap *tileMap)
 
 void PositionAndSkyTileMapLighter::ResetLightValues(TileMap *tileMap)
 {
-	for (uint32_t y = 0; y < tileMap->GetHeight(); ++y)
+	for (uint y = 0; y < tileMap->GetHeight(); ++y)
 	{
-		for (uint32_t z = 0; z < tileMap->GetDepth(); ++z)
+		for (uint z = 0; z < tileMap->GetDepth(); ++z)
 		{
-			for (uint32_t x = 0; x < tileMap->GetWidth(); ++x)
+			for (uint x = 0; x < tileMap->GetWidth(); ++x)
 			{
 				Tile *tile = tileMap->Get(x, y, z);
 
@@ -48,14 +48,14 @@ void PositionAndSkyTileMapLighter::SetupSkyLight(TileMap *tileMap)
 	//       doesn't require us to flood-fill 0 light values here for everything
 	//       that isn't sky-lit
 	// go through each vertical column one at a time from top to bottom
-	for (uint32_t x = 0; x < tileMap->GetWidth(); ++x)
+	for (uint x = 0; x < tileMap->GetWidth(); ++x)
 	{
-		for (uint32_t z = 0; z < tileMap->GetDepth(); ++z)
+		for (uint z = 0; z < tileMap->GetDepth(); ++z)
 		{
 			BOOL stillSkyLit = TRUE;
 			TILE_LIGHT_VALUE currentSkyLightValue = tileMap->GetSkyLightValue();
 
-			for (int32_t y = tileMap->GetHeight() - 1; y >= 0 && stillSkyLit; --y)
+			for (int y = tileMap->GetHeight() - 1; y >= 0 && stillSkyLit; --y)
 			{
 				Tile *tile = tileMap->Get(x, y, z);
 				const TileMesh *mesh = tileMap->GetMeshes()->Get(tile);
@@ -84,11 +84,11 @@ void PositionAndSkyTileMapLighter::ApplyLighting(TileMap *tileMap)
 {
 	// for each light source (sky or not), recursively go through and set
 	// appropriate lighting for each adjacent tile
-	for (uint32_t y = 0; y < tileMap->GetHeight(); ++y)
+	for (uint y = 0; y < tileMap->GetHeight(); ++y)
 	{
-		for (uint32_t z = 0; z < tileMap->GetDepth(); ++z)
+		for (uint z = 0; z < tileMap->GetDepth(); ++z)
 		{
-			for (uint32_t x = 0; x < tileMap->GetWidth(); ++x)
+			for (uint x = 0; x < tileMap->GetWidth(); ++x)
 			{
 				Tile *tile = tileMap->Get(x, y, z);
 				if (tile->IsEmptySpace())
@@ -107,7 +107,7 @@ void PositionAndSkyTileMapLighter::ApplyLighting(TileMap *tileMap)
 	}
 }
 
-void PositionAndSkyTileMapLighter::SpreadSkyLight(int32_t x, int32_t y, int32_t z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap)
+void PositionAndSkyTileMapLighter::SpreadSkyLight(int x, int y, int z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap)
 {
 	if (light > 0)
 	{
@@ -166,7 +166,7 @@ void PositionAndSkyTileMapLighter::SpreadSkyLight(int32_t x, int32_t y, int32_t 
 	}
 }
 
-void PositionAndSkyTileMapLighter::SpreadTileLight(int32_t x, int32_t y, int32_t z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap)
+void PositionAndSkyTileMapLighter::SpreadTileLight(int x, int y, int z, Tile *tile, TILE_LIGHT_VALUE light, TileMap *tileMap)
 {
 	if (light > 0)
 	{

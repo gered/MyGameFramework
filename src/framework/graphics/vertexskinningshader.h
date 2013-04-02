@@ -13,8 +13,8 @@ class VertexSkinningShader : public StandardShader
 public:
 	virtual ~VertexSkinningShader();
 	
-	void SetJointPositions(const Vector3 *positions, uint32_t count);
-	void SetJointRotations(const Quaternion *rotations, uint32_t count);
+	void SetJointPositions(const Vector3 *positions, uint count);
+	void SetJointRotations(const Quaternion *rotations, uint count);
 	
 protected:
 	VertexSkinningShader();

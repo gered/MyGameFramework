@@ -15,9 +15,9 @@ class BaseGameApp;
 struct SDLGameWindowParams : GameWindowParams
 {
 	stl::string title;
-	uint16_t width;
-	uint16_t height;
-	uint8_t bpp;
+	uint width;
+	uint height;
+	uint bpp;
 	BOOL resizable;
 };
 
@@ -28,14 +28,14 @@ public:
 	virtual ~SDLGameWindow();
 
 	BOOL Create(GameWindowParams *params);
-	BOOL Resize(uint16_t width, uint16_t height);
+	BOOL Resize(uint width, uint height);
 	BOOL ToggleFullscreen();
 	void Close();
 
-	uint16_t GetWidth() const                              { return m_width; }
-	uint16_t GetHeight() const                             { return m_height; }
+	uint GetWidth() const                                  { return m_width; }
+	uint GetHeight() const                                 { return m_height; }
 	const Rect& GetRect() const                            { return m_rect; }
-	uint8_t GetBPP() const                                 { return m_bpp; }
+	uint GetBPP() const                                    { return m_bpp; }
 	BOOL IsWindowed() const                                { return m_fullscreen; }
 	SCREEN_ORIENTATION_ANGLE GetScreenOrientation() const  { return m_screenOrientation; }
 
@@ -49,7 +49,7 @@ public:
 
 private:
 	void DisplaySdlHardwareInfo();
-	BOOL SetUpWindow(uint16_t width, uint16_t height);
+	BOOL SetUpWindow(uint width, uint height);
 
 	BOOL m_active;
 	BOOL m_focused;
@@ -57,13 +57,13 @@ private:
 	BOOL m_hasCurrentGLContext;
 
 	SCREEN_ORIENTATION_ANGLE m_screenOrientation;
-	uint32_t m_SDLflags;
-	uint16_t m_originalWidth;
-	uint16_t m_originalHeight;
-	uint16_t m_width;
-	uint16_t m_height;
+	uint m_SDLflags;
+	uint m_originalWidth;
+	uint m_originalHeight;
+	uint m_width;
+	uint m_height;
 	Rect m_rect;
-	uint8_t m_bpp;
+	uint m_bpp;
 	BOOL m_fullscreen;
 	SDL_Surface *m_screen;
 };

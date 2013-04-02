@@ -32,7 +32,7 @@ public:
 	SkeletalMeshRenderer* GetSkeletalMeshRenderer() const  { return m_skeletalMeshRenderer; }
 	StaticMeshRenderer* GetStaticMeshRenderer() const      { return m_staticMeshRenderer; }
 
-	uint32_t GetScreenScale() const                        { return m_screenScale; }
+	uint GetScreenScale() const                            { return m_screenScale; }
 
 private:
 	void CalculateScreenScale();
@@ -45,7 +45,7 @@ private:
 	SkeletalMeshRenderer *m_skeletalMeshRenderer;
 	StaticMeshRenderer *m_staticMeshRenderer;
 
-	uint32_t m_screenScale;
+	uint m_screenScale;
 };
 
 #endif

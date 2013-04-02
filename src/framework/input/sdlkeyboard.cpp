@@ -24,7 +24,7 @@ SDLKeyboard::~SDLKeyboard()
 
 BOOL SDLKeyboard::OnKeyEvent(const SDL_KeyboardEvent *eventArgs)
 {
-	int32_t keyCode = (int32_t)eventArgs->keysym.sym;
+	int keyCode = (int)eventArgs->keysym.sym;
 
 	if (eventArgs->state == SDL_PRESSED)
 	{

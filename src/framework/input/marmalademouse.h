@@ -24,10 +24,10 @@ public:
 	BOOL IsPressed(MOUSE_BUTTONS button);
 	void Lock(MOUSE_BUTTONS button)                        { m_lockedButtons[button] = TRUE; }
 
-	uint16_t GetX() const                                  { return m_x; }
-	uint16_t GetY() const                                  { return m_y; }
-	int16_t GetDeltaX() const                              { return m_deltaX; }
-	int16_t GetDeltaY() const                              { return m_deltaY; }
+	uint GetX() const                                      { return m_x; }
+	uint GetY() const                                      { return m_y; }
+	int GetDeltaX() const                                  { return m_deltaX; }
+	int GetDeltaY() const                                  { return m_deltaY; }
 
 	void Reset();
 
@@ -39,10 +39,10 @@ private:
 	BOOL *m_buttons;
 	BOOL *m_lockedButtons;
 
-	uint16_t m_x;
-	uint16_t m_y;
-	int16_t m_deltaX;
-	int16_t m_deltaY;
+	uint m_x;
+	uint m_y;
+	int m_deltaX;
+	int m_deltaY;
 };
 
 #endif

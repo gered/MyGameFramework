@@ -19,8 +19,8 @@ public:
 	virtual ~SkeletalMeshRenderer();
 
 	void Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, VertexSkinningShader *shader);
-	void Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint32_t frame, VertexSkinningShader *shader);
-	void Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint32_t startFrame, uint32_t endFrame, float interpolation, VertexSkinningShader *shader);
+	void Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint frame, VertexSkinningShader *shader);
+	void Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint startFrame, uint endFrame, float interpolation, VertexSkinningShader *shader);
 	void Render(GraphicsDevice *graphicsDevice, SkeletalMeshAnimationInstance *instance, VertexSkinningShader *shader);
 
 private:

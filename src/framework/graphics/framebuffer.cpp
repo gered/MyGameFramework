@@ -39,7 +39,7 @@ BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
 	return TRUE;
 }
 
-BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, uint16_t fixedHeight)
+BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice, uint fixedWidth, uint fixedHeight)
 {
 	ASSERT(fixedWidth != 0);
 	ASSERT(fixedHeight != 0);
@@ -173,8 +173,8 @@ BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 	if (attachmentType == 0)
 		return FALSE;
 	
-	uint16_t width = 0;
-	uint16_t height = 0;
+	uint width = 0;
+	uint height = 0;
 	GetDimensionsForAttachment(width, height);
 	
 	Texture *attach = new Texture();
@@ -212,8 +212,8 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL 
 	if (attachmentType == 0)
 		return FALSE;
 	
-	uint16_t width = 0;
-	uint16_t height = 0;
+	uint width = 0;
+	uint height = 0;
 	GetDimensionsForAttachment(width, height);
 	
 	TEXTURE_FORMAT existingFormat = existing->GetFormat();
@@ -268,8 +268,8 @@ BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 	if (attachmentType == 0)
 		return FALSE;
 
-	uint16_t width = 0;
-	uint16_t height = 0;
+	uint width = 0;
+	uint height = 0;
 	GetDimensionsForAttachment(width, height);
 	
 	Renderbuffer *attach = new Renderbuffer();
@@ -308,8 +308,8 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, 
 	if (attachmentType == 0)
 		return FALSE;
 
-	uint16_t width = 0;
-	uint16_t height = 0;
+	uint width = 0;
+	uint height = 0;
 	GetDimensionsForAttachment(width, height);
 	
 	FRAMEBUFFER_DATA_TYPE existingType = existing->GetType();
@@ -604,7 +604,7 @@ BOOL Framebuffer::RemoveRenderbuffer(Renderbuffer *renderbuffer)
 	return FALSE;
 }
 
-void Framebuffer::GetDimensionsForAttachment(uint16_t &width, uint16_t &height) const
+void Framebuffer::GetDimensionsForAttachment(uint &width, uint &height) const
 {
 	if (IsUsingFixedDimensions())
 	{

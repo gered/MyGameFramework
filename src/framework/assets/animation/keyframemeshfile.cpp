@@ -25,7 +25,7 @@ KeyframeMeshFile::KeyframeMeshFile(File *file)
 
 KeyframeMeshFile::~KeyframeMeshFile()
 {
-	for (uint32_t i = 0; i < m_numFrames; ++i)
+	for (uint i = 0; i < m_numFrames; ++i)
 		SAFE_DELETE(m_frames[i]);
 	SAFE_DELETE_ARRAY(m_frames);
 	SAFE_DELETE_ARRAY(m_texCoords);
@@ -48,10 +48,10 @@ void KeyframeMeshFile::Load()
 	// keyframes
 	file->Seek(keyframesDesc->start, FILESEEK_BEGINNING);
 	m_numFrames = file->ReadInt();
-	uint32_t numVertices = file->ReadInt();
+	uint numVertices = file->ReadInt();
 	m_frames = new Keyframe*[m_numFrames];
 	ASSERT(m_frames != NULL);
-	for (uint32_t i = 0; i < m_numFrames; ++i)
+	for (uint i = 0; i < m_numFrames; ++i)
 	{
 		Keyframe *frame = new Keyframe(numVertices);
 		ASSERT(frame != NULL);
@@ -59,7 +59,7 @@ void KeyframeMeshFile::Load()
 		Vector3 *normals = frame->GetNormals();
 
 		// vertices
-		for (uint32_t j = 0; j < numVertices; ++j)
+		for (uint j = 0; j < numVertices; ++j)
 		{
 			vertices[j].x = file->ReadFloat();
 			vertices[j].y = file->ReadFloat();
@@ -67,7 +67,7 @@ void KeyframeMeshFile::Load()
 		}
 
 		// normals
-		for (uint32_t j = 0; j < numVertices; ++j)
+		for (uint j = 0; j < numVertices; ++j)
 		{
 			normals[j].x = file->ReadFloat();
 			normals[j].y = file->ReadFloat();
@@ -82,7 +82,7 @@ void KeyframeMeshFile::Load()
 	m_numTexCoords = file->ReadInt();
 	m_texCoords = new Vector2[m_numTexCoords];
 	ASSERT(m_texCoords != NULL);
-	for (uint32_t i = 0; i < m_numTexCoords; ++i)
+	for (uint i = 0; i < m_numTexCoords; ++i)
 	{
 		m_texCoords[i].x = file->ReadFloat();
 		m_texCoords[i].y = file->ReadFloat();
@@ -93,7 +93,7 @@ void KeyframeMeshFile::Load()
 	m_numTriangles = file->ReadInt();
 	m_triangles = new KeyframeMeshTriangle[m_numTriangles];
 	ASSERT(m_triangles != NULL);
-	for (uint32_t i = 0; i < m_numTriangles; ++i)
+	for (uint i = 0; i < m_numTriangles; ++i)
 	{
 		m_triangles[i].vertices[0] = file->ReadInt();
 		m_triangles[i].vertices[1] = file->ReadInt();
@@ -111,8 +111,8 @@ void KeyframeMeshFile::Load()
 	if (animationsDesc != NULL)
 	{
 		file->Seek(animationsDesc->start, FILESEEK_BEGINNING);
-		uint32_t numAnimations = file->ReadInt();
-		for (uint32_t i = 0; i < numAnimations; ++i)
+		uint numAnimations = file->ReadInt();
+		for (uint i = 0; i < numAnimations; ++i)
 		{
 			AnimationSequence sequence;
 			stl::string name;

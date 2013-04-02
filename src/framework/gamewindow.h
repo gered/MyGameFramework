@@ -40,7 +40,7 @@ public:
 	 * @param height the new window height
 	 * @return TRUE if successful, FALSE if not
 	 */
-	virtual BOOL Resize(uint16_t width, uint16_t height) = 0;
+	virtual BOOL Resize(uint width, uint height) = 0;
 
 	/**
 	 * Toggles between fullscreen and windowed mode.
@@ -57,12 +57,12 @@ public:
 	/**
 	 * @return the current width of the window's client area
 	 */
-	virtual uint16_t GetWidth() const = 0;
+	virtual uint GetWidth() const = 0;
 
 	/**
 	 * @return the current height of the window's client area
 	 */
-	virtual uint16_t GetHeight() const = 0;
+	virtual uint GetHeight() const = 0;
 
 	/** 
 	 * @return the current dimensions of the window's client area
@@ -72,7 +72,7 @@ public:
 	/**
 	 * @return the bits per pixel display format of the window's graphics context
 	 */
-	virtual uint8_t GetBPP() const = 0;
+	virtual uint GetBPP() const = 0;
 
 	/**
 	 * @return TRUE if the current window is windowed, FALSE if fullscreen

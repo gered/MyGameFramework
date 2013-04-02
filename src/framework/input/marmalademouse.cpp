@@ -29,10 +29,10 @@ void MarmaladeMouse::ResetDeltas()
 
 BOOL MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 {
-	int32_t button = (int32_t)eventArgs->m_Button;
+	int button = (int32_t)eventArgs->m_Button;
 	BOOL isDown = (BOOL)eventArgs->m_Pressed;
-	int32_t x = eventArgs->m_x;
-	int32_t y = eventArgs->m_y;
+	int x = eventArgs->m_x;
+	int y = eventArgs->m_y;
 
 	if (isDown)
 	{

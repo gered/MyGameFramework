@@ -18,7 +18,7 @@ enum FRUSTUM_SIDES
 	FRUSTUM_FRONT = 5
 };
 
-const int32_t NUM_FRUSTUM_SIDES = 6;
+const int NUM_FRUSTUM_SIDES = 6;
 
 /**
  * A viewing frustum that can be used to test for geometry visibility

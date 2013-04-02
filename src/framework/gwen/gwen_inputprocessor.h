@@ -22,13 +22,13 @@ namespace Gwen
 			BOOL OnKeyDown(KEYS key);
 			BOOL OnKeyUp(KEYS key);
 
-			BOOL OnMouseButtonDown(MOUSE_BUTTONS button, uint16_t x, uint16_t y);
-			BOOL OnMouseButtonUp(MOUSE_BUTTONS button, uint16_t x, uint16_t y);
-			BOOL OnMouseMove(uint16_t x, uint16_t y, int16_t deltaX, int16_t deltaY);
+			BOOL OnMouseButtonDown(MOUSE_BUTTONS button, uint x, uint y);
+			BOOL OnMouseButtonUp(MOUSE_BUTTONS button, uint x, uint y);
+			BOOL OnMouseMove(uint x, uint y, int deltaX, int deltaY);
 
-			BOOL OnTouchDown(int32_t id, uint16_t x, uint16_t y, BOOL isPrimary);
-			BOOL OnTouchUp(int32_t id, BOOL isPrimary);
-			BOOL OnTouchMove(int32_t id, uint16_t x, uint16_t y, int16_t deltaX, int16_t deltaY, BOOL isPrimary);
+			BOOL OnTouchDown(int id, uint x, uint y, BOOL isPrimary);
+			BOOL OnTouchUp(int id, BOOL isPrimary);
+			BOOL OnTouchMove(int id, uint x, uint y, int deltaX, int deltaY, BOOL isPrimary);
 
 			BOOL IsEnabled() const                         { return m_enabled; }
 			void Enable(BOOL enable);

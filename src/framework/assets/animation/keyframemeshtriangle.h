@@ -9,8 +9,8 @@
  */
 struct KeyframeMeshTriangle
 {
-	uint32_t vertices[3];
-	uint32_t textureCoords[3];
+	uint vertices[3];
+	uint textureCoords[3];
 };
 
 #endif

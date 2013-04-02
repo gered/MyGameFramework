@@ -35,7 +35,7 @@ class ViewContext;
 struct Color;
 
 typedef stl::list<GraphicsContextResource*> ManagedResourceList;
-typedef stl::vector<uint32_t> EnabledVertexAttribList;
+typedef stl::vector<uint> EnabledVertexAttribList;
 
 /**
  * Provides an abstraction over the underlying OpenGL context.
@@ -107,20 +107,20 @@ public:
 	 * @param texture the texture to bind
 	 * @param unit the texture unit to bind to
 	 */
-	void BindTexture(const Texture *texture, uint32_t unit = 0);
+	void BindTexture(const Texture *texture, uint unit = 0);
 
 	/**
 	 * Binds a texture that is filled with the specified solid color.
 	 * @param color a color with which to find and bind a texture with
 	 * @param unit the texture unit that the solid color texture should be bound to
 	 */
-	void BindSolidColorTexture(const Color &color, uint32_t unit = 0);
+	void BindSolidColorTexture(const Color &color, uint unit = 0);
 
 	/**
 	 * Unbinds the currently bound texture.
 	 * @param unit the texture unit to be unbound
 	 */
-	void UnbindTexture(uint32_t unit = 0);
+	void UnbindTexture(uint unit = 0);
 	
 	/**
 	 * Unbinds the specified texture only if it's bound already. If it's not
@@ -262,7 +262,7 @@ public:
 	 * @param startVertex the index of the first vertex to be rendered
 	 * @param numTriangles the number of triangles to be rendered
 	 */
-	void RenderTriangles(uint32_t startVertex, uint32_t numTriangles);
+	void RenderTriangles(uint startVertex, uint numTriangles);
 
 	/**
 	 * Renders the currently bound vertex buffer as lines.
@@ -280,7 +280,7 @@ public:
 	 * @param startVertex the index of the first vertex to be rendered
 	 * @param numLines the number of lines to be rendered
 	 */
-	void RenderLines(uint32_t startVertex, uint32_t numLines);
+	void RenderLines(uint startVertex, uint numLines);
 
 	/**
 	 * Renders the currently bound vertex buffer as points.
@@ -297,7 +297,7 @@ public:
 	 * @param startVertex the index of the first vertex to be rendered
 	 * @param numPoints the number of points to be rendered
 	 */
-	void RenderPoints(uint32_t startVertex, uint32_t numPoints);
+	void RenderPoints(uint startVertex, uint numPoints);
 	
 	/**
 	 * @return a debug geometry renderer

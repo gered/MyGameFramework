@@ -7,14 +7,14 @@
 
 struct AnimationSequence
 {
-	uint32_t start;
-	uint32_t stop;
+	uint start;
+	uint stop;
 	float delay;
 	BOOL tileIsMultiDirectional;
-	uint32_t tileDirectionFrameOffset;
+	uint tileDirectionFrameOffset;
 
 	AnimationSequence();
-	AnimationSequence(uint32_t start, uint32_t stop, float delay = 1.0f, BOOL tileIsMultiDirectional = FALSE, uint32_t tileDirectionFrameOffset = 0);
+	AnimationSequence(uint start, uint stop, float delay = 1.0f, BOOL tileIsMultiDirectional = FALSE, uint tileDirectionFrameOffset = 0);
 };
 
 typedef stl::map<stl::string, AnimationSequence> AnimationList;
@@ -29,7 +29,7 @@ inline AnimationSequence::AnimationSequence()
 	this->tileDirectionFrameOffset = 0;
 }
 
-inline AnimationSequence::AnimationSequence(uint32_t start, uint32_t stop, float delay, BOOL tileIsMultiDirectional, uint32_t tileDirectionFrameOffset)
+inline AnimationSequence::AnimationSequence(uint start, uint stop, float delay, BOOL tileIsMultiDirectional, uint tileDirectionFrameOffset)
 {
 	this->start = start;
 	this->stop = stop;

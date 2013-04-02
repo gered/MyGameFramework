@@ -48,7 +48,7 @@ public:
 	 *                   retrieved line, not including new-line characters
 	 * @return pointer to the text starting at the specified line
 	 */
-	const char* GetLine(uint32_t line, size_t &lineLength) const;
+	const char* GetLine(uint line, size_t &lineLength) const;
 
 	/**
 	 * @return the total number of characters in this text object
@@ -58,16 +58,16 @@ public:
 	/**
 	 * @return the number of lines of text in this text object
 	 */
-	uint32_t GetNumLines() const                           { return m_numLines; }
+	uint GetNumLines() const                               { return m_numLines; }
 
 private:
 	Text(char *text, size_t length);
 
-	uint32_t CountLines();
+	uint CountLines();
 
 	char *m_text;
 	size_t m_length;
-	uint32_t m_numLines;
+	uint m_numLines;
 };
 
 #endif

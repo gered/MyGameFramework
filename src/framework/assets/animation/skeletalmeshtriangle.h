@@ -7,8 +7,8 @@
 
 struct SkeletalMeshTriangle
 {
-	int32_t vertices[3];
-	int32_t subMeshIndex;
+	int vertices[3];
+	int subMeshIndex;
 };
 
 #endif

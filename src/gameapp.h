@@ -31,7 +31,7 @@ public:
 	StateManager* GetStateManager() const                  { return m_stateManager; }
 	EventManager* GetEventManager() const                  { return m_eventManager; }
 
-	uint32_t GetScreenScale() const;
+	uint GetScreenScale() const;
 
 private:
 	ContentCache *m_contentCache;

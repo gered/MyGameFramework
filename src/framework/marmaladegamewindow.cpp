@@ -57,7 +57,7 @@ BOOL MarmaladeGameWindow::Create(GameWindowParams *params)
 	return TRUE;
 }
 
-BOOL MarmaladeGameWindow::Resize(uint16_t width, uint16_t height)
+BOOL MarmaladeGameWindow::Resize(uint width, uint height)
 {
 	// note that the parameters are ignored completely because they don't really
 	// make sense for our primary/only usage of Marmalade (mobile devices)

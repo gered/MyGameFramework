@@ -32,7 +32,7 @@ void Image::Release()
 }
 
 
-BOOL Image::Create(uint16_t width, uint16_t height, IMAGE_FORMAT format)
+BOOL Image::Create(uint width, uint height, IMAGE_FORMAT format)
 {
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
@@ -55,7 +55,7 @@ BOOL Image::Create(uint16_t width, uint16_t height, IMAGE_FORMAT format)
 	if (bpp == 0)
 		return FALSE;
 	
-	size_t pixelsLength = (width * height) * (bpp / 8);
+	uint pixelsLength = (width * height) * (bpp / 8);
 	m_pixels = new uint8_t[pixelsLength];
 	memset(m_pixels, 0, pixelsLength);
 	
@@ -77,7 +77,7 @@ BOOL Image::Create(const Image *source)
 		return Create(source, 0, 0, source->GetWidth(), source->GetHeight());
 }
 
-BOOL Image::Create(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height)
+BOOL Image::Create(const Image *source, uint x, uint y, uint width, uint height)
 {
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
@@ -172,7 +172,7 @@ BOOL Image::Create(File *file)
 		// copy from STB "owned" memory to our own, then free up the STB stuff
 		// (this is kind of unnecessary, but I'd like this method to be the
 		// *only* one that knows/cares about stb_image at all)
-		size_t pixelsLength = (width * height) * componentsPerPixel;
+		uint pixelsLength = (width * height) * componentsPerPixel;
 		m_pixels = new uint8_t[pixelsLength];
 		memcpy(m_pixels, pixels, pixelsLength);
 		stbi_image_free(pixels);
@@ -187,7 +187,7 @@ BOOL Image::Create(File *file)
 	}
 }
 
-Color Image::GetColor(uint16_t x, uint16_t y) const
+Color Image::GetColor(uint x, uint y) const
 {
 	ASSERT(m_format == IMAGE_FORMAT_RGB || m_format == IMAGE_FORMAT_RGBA);
 
@@ -203,7 +203,7 @@ Color Image::GetColor(uint16_t x, uint16_t y) const
 	}
 }
 
-void Image::SetColor(uint16_t x, uint16_t y, const Color &color)
+void Image::SetColor(uint x, uint y, const Color &color)
 {
 	ASSERT(m_format == IMAGE_FORMAT_RGB || m_format == IMAGE_FORMAT_RGBA);
 
@@ -220,13 +220,13 @@ void Image::SetColor(uint16_t x, uint16_t y, const Color &color)
 	}
 }
 
-void Image::Copy(const Image *source, uint16_t destX, uint16_t destY)
+void Image::Copy(const Image *source, uint destX, uint destY)
 {
 	ASSERT(source != NULL);
 	Copy(source, 0, 0, source->GetWidth(), source->GetHeight(), destX, destY);
 }
 
-void Image::Copy(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t destX, uint16_t destY)
+void Image::Copy(const Image *source, uint x, uint y, uint width, uint height, uint destX, uint destY)
 {
 	ASSERT(source != NULL);
 	if (source == NULL)
@@ -241,10 +241,10 @@ void Image::Copy(const Image *source, uint16_t x, uint16_t y, uint16_t width, ui
 	uint8_t *sourcePixels = source->GetPixels() + source->GetOffsetFor(x, y);
 	uint8_t *destPixels = m_pixels + GetOffsetFor(destX, destY);
 
-	size_t lineWidthInBytes = width * (m_bpp / 8);
-	uint16_t numLinesToCopy = height;
+	uint lineWidthInBytes = width * (m_bpp / 8);
+	uint numLinesToCopy = height;
 
-	for (uint16_t i = 0; i < numLinesToCopy; ++i)
+	for (uint i = 0; i < numLinesToCopy; ++i)
 	{
 		memcpy(destPixels, sourcePixels, lineWidthInBytes);
 		sourcePixels += source->GetPitch();
@@ -261,14 +261,14 @@ void Image::Clear(const Color &color)
 {
 	ASSERT(m_format == IMAGE_FORMAT_RGB || m_format == IMAGE_FORMAT_RGBA);
 
-	uint32_t sizeInBytes = GetSizeInBytes();
+	uint sizeInBytes = GetSizeInBytes();
 	uint8_t *pixel = m_pixels;
 
 	if (m_format == IMAGE_FORMAT_RGB)
 	{
 		ASSERT(sizeInBytes % 3 == 0);
 		uint8_t dummy;
-		for (uint32_t i = 0; i < sizeInBytes; i += 3)
+		for (uint i = 0; i < sizeInBytes; i += 3)
 		{
 			color.ToInts(pixel, pixel + 1, pixel + 2, &dummy);
 			pixel += 3;
@@ -277,7 +277,7 @@ void Image::Clear(const Color &color)
 	else
 	{
 		ASSERT(sizeInBytes % 4 == 0);
-		for (uint32_t i = 0; i < sizeInBytes; i += 4)
+		for (uint i = 0; i < sizeInBytes; i += 4)
 		{
 			color.ToInts(pixel, pixel + 1, pixel + 2, pixel + 3);
 			pixel += 4;
@@ -305,13 +305,13 @@ void Image::FlipVertically()
 	// TODO: this is a naive implementation. fix so it can flip the image
 	//       one scanline at a time using the already allocated memory
 	
-	size_t pixelsLength = (m_width * m_height) * (m_bpp / 8);
+	uint pixelsLength = (m_width * m_height) * (m_bpp / 8);
 	uint8_t *flippedPixels = new uint8_t[pixelsLength];
 
 	uint8_t *source = (m_pixels + pixelsLength) - m_pitch;   // first pixel of the last line
 	uint8_t *dest = flippedPixels;                           // first pixel of the first line
 	
-	for (uint16_t y = 0; y < m_height; ++y)
+	for (uint y = 0; y < m_height; ++y)
 	{
 		memcpy(dest, source, m_pitch);
 		source -= m_pitch;                      // go up one line

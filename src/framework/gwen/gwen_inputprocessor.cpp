@@ -37,7 +37,7 @@ namespace Gwen
 			return (BOOL)m_canvas->InputKey(gwenKey, FALSE);
 		}
 
-		BOOL InputProcessor::OnMouseButtonDown(MOUSE_BUTTONS button, uint16_t x, uint16_t y)
+		BOOL InputProcessor::OnMouseButtonDown(MOUSE_BUTTONS button, uint x, uint y)
 		{
 			int gwenButton = ConvertToGwenButton(button);
 			
@@ -53,7 +53,7 @@ namespace Gwen
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnMouseButtonUp(MOUSE_BUTTONS button, uint16_t x, uint16_t y)
+		BOOL InputProcessor::OnMouseButtonUp(MOUSE_BUTTONS button, uint x, uint y)
 		{
 			int gwenButton = ConvertToGwenButton(button);
 
@@ -69,7 +69,7 @@ namespace Gwen
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnMouseMove(uint16_t x, uint16_t y, int16_t deltaX, int16_t deltaY)
+		BOOL InputProcessor::OnMouseMove(uint x, uint y, int deltaX, int deltaY)
 		{
 			// Gwen's input handling only processes coordinates in terms of scale = 1.0f
 			int scaledX = (float)x / m_canvas->Scale();
@@ -80,7 +80,7 @@ namespace Gwen
 			return (BOOL)m_canvas->InputMouseMoved(scaledX, scaledY, scaledDeltaX, scaledDeltaY);
 		}
 
-		BOOL InputProcessor::OnTouchDown(int32_t id, uint16_t x, uint16_t y, BOOL isPrimary)
+		BOOL InputProcessor::OnTouchDown(int id, uint x, uint y, BOOL isPrimary)
 		{
 			if (!isPrimary)
 				return FALSE;
@@ -96,7 +96,7 @@ namespace Gwen
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnTouchUp(int32_t id, BOOL isPrimary)
+		BOOL InputProcessor::OnTouchUp(int id, BOOL isPrimary)
 		{
 			if (!isPrimary)
 				return FALSE;
@@ -113,7 +113,7 @@ namespace Gwen
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnTouchMove(int32_t id, uint16_t x, uint16_t y, int16_t deltaX, int16_t deltaY, BOOL isPrimary)
+		BOOL InputProcessor::OnTouchMove(int id, uint x, uint y, int deltaX, int deltaY, BOOL isPrimary)
 		{
 			if (!isPrimary)
 				return FALSE;

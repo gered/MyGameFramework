@@ -19,14 +19,14 @@ public:
 	virtual ~CubeTileMesh();
 
 	VertexBuffer* GetBuffer() const                        { return m_vertices; }
-	uint32_t GetTopFaceVertexOffset() const                { return m_topFaceVertexOffset; }
-	uint32_t GetBottomFaceVertexOffset() const             { return m_bottomFaceVertexOffset; }
-	uint32_t GetFrontFaceVertexOffset() const              { return m_frontFaceVertexOffset; }
-	uint32_t GetBackFaceVertexOffset() const               { return m_backFaceVertexOffset; }
-	uint32_t GetLeftFaceVertexOffset() const               { return m_leftFaceVertexOffset; }
-	uint32_t GetRightFaceVertexOffset() const              { return m_rightFaceVertexOffset; }
+	uint GetTopFaceVertexOffset() const                    { return m_topFaceVertexOffset; }
+	uint GetBottomFaceVertexOffset() const                 { return m_bottomFaceVertexOffset; }
+	uint GetFrontFaceVertexOffset() const                  { return m_frontFaceVertexOffset; }
+	uint GetBackFaceVertexOffset() const                   { return m_backFaceVertexOffset; }
+	uint GetLeftFaceVertexOffset() const                   { return m_leftFaceVertexOffset; }
+	uint GetRightFaceVertexOffset() const                  { return m_rightFaceVertexOffset; }
 
-	uint32_t GetNumCollisionVertices() const               { return m_numCollisionVertices; }
+	uint GetNumCollisionVertices() const                   { return m_numCollisionVertices; }
 	const Vector3* GetCollisionVertices() const            { return m_collisionVertices; }
 
 	CUBE_FACES GetFaces() const                            { return m_faces; }
@@ -41,13 +41,13 @@ private:
 	Vector2 ScaleTexCoord(const Vector2 &texCoord, const RectF &tileBoundaries) const;
 
 	VertexBuffer *m_vertices;
-	uint32_t m_topFaceVertexOffset;
-	uint32_t m_bottomFaceVertexOffset;
-	uint32_t m_frontFaceVertexOffset;
-	uint32_t m_backFaceVertexOffset;
-	uint32_t m_leftFaceVertexOffset;
-	uint32_t m_rightFaceVertexOffset;
-	uint32_t m_numCollisionVertices;
+	uint m_topFaceVertexOffset;
+	uint m_bottomFaceVertexOffset;
+	uint m_frontFaceVertexOffset;
+	uint m_backFaceVertexOffset;
+	uint m_leftFaceVertexOffset;
+	uint m_rightFaceVertexOffset;
+	uint m_numCollisionVertices;
 	Vector3 *m_collisionVertices;
 	CUBE_FACES m_faces;
 };

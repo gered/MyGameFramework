@@ -50,7 +50,7 @@ public:
 	GameState* GetTopState() const;
 	GameState* GetTopNonOverlayState() const;
 
-	uint32_t GetLastReturnValue() const                                         { return m_stateReturnValue; }
+	int GetLastReturnValue() const                                              { return m_stateReturnValue; }
 	BOOL HasLastReturnValue() const                                             { return m_hasStateReturnValue; }
 
 private:
@@ -77,7 +77,7 @@ private:
 	StateInfoList m_states;
 	StateInfoQueue m_pushQueue;
 	StateInfoQueue m_swapQueue;
-	uint32_t m_stateReturnValue; 
+	int m_stateReturnValue; 
 	BOOL m_hasStateReturnValue;
 	BOOL m_pushQueueHasOverlay;
 	BOOL m_swapQueueHasOverlay;

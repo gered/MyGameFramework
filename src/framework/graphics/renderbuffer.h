@@ -31,22 +31,22 @@ public:
 	 * @param format the type of data this renderbuffer contains
 	 * @return TRUE if the renderbuffer was created successfully
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, FRAMEBUFFER_DATA_TYPE type);
+	BOOL Initialize(GraphicsDevice *graphicsDevice, uint width, uint height, FRAMEBUFFER_DATA_TYPE type);
 	
 	/**
 	 * @return the name or ID assigned to this renderbuffer by OpenGL
 	 */
-	uint32_t GetRenderbufferName() const                                        { return m_renderbufferName; }
+	uint GetRenderbufferName() const                                            { return m_renderbufferName; }
 	
 	/**
 	 * @return the width of the renderbuffer in pixels
 	 */
-	uint16_t GetWidth() const                                                   { return m_width; }
+	uint GetWidth() const                                                       { return m_width; }
 	
 	/**
 	 * @return the height of the renderbuffer in pixels
 	 */
-	uint16_t GetHeight() const                                                  { return m_height; }
+	uint GetHeight() const                                                      { return m_height; }
 	
 	/**
 	 * @return the type of data this renderbuffer contains
@@ -71,9 +71,9 @@ public:
 private:
 	BOOL CreateRenderbuffer();
 	
-	uint32_t m_renderbufferName;
-	uint16_t m_width;
-	uint16_t m_height;
+	uint m_renderbufferName;
+	uint m_width;
+	uint m_height;
 	FRAMEBUFFER_DATA_TYPE m_type;
 };
 

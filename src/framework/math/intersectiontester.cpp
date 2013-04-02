@@ -29,9 +29,9 @@ BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 &point
 		return FALSE;
 }
 
-BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, int numVertices, Vector3 *firstIntersection)
+BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection)
 {
-	for (int i = 0; i < numVertices; ++i)
+	for (uint i = 0; i < numVertices; ++i)
 	{
 		if ((vertices[i].x >= box.min.x && vertices[i].x <= box.max.x) &&
 			(vertices[i].y >= box.min.y && vertices[i].y <= box.max.y) && 
@@ -46,9 +46,9 @@ BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, i
 	return FALSE;
 }
 
-BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 *vertices, int numVertices, Vector3 *firstIntersection)
+BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection)
 {
-	for (int i = 0; i < numVertices; ++i)
+	for (uint i = 0; i < numVertices; ++i)
 	{
 		if (fabsf(Vector3::Distance(vertices[i], sphere.center)) < sphere.radius)
 		{

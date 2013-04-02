@@ -22,7 +22,7 @@ StaticMeshInstance::StaticMeshInstance(StaticMesh *mesh)
 		m_textures = new Texture*[m_mesh->GetNumSubsets()];
 		ASSERT(m_textures != NULL);
 
-		for (uint32_t i = 0; i < m_mesh->GetNumSubsets(); ++i)
+		for (uint i = 0; i < m_mesh->GetNumSubsets(); ++i)
 			ResetTexture(i);
 	}
 }
@@ -32,13 +32,13 @@ StaticMeshInstance::~StaticMeshInstance()
 	SAFE_DELETE(m_renderState);
 }
 
-void StaticMeshInstance::SetTexture(uint32_t index, Texture *texture)
+void StaticMeshInstance::SetTexture(uint index, Texture *texture)
 {
 
 	m_textures[index] = texture;
 }
 
-void StaticMeshInstance::ResetTexture(uint32_t index)
+void StaticMeshInstance::ResetTexture(uint index)
 {
 	m_textures[index] = m_mesh->GetSubset(index)->GetTexture();
 }

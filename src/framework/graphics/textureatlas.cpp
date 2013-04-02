@@ -4,7 +4,7 @@
 
 #include "texture.h"
 
-TextureAtlas::TextureAtlas(uint16_t textureWidth, uint16_t textureHeight, float texCoordEdgeOffset)
+TextureAtlas::TextureAtlas(uint textureWidth, uint textureHeight, float texCoordEdgeOffset)
 {
 	ASSERT(textureWidth > 0);
 	ASSERT(textureHeight > 0);

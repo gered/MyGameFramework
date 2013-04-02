@@ -28,7 +28,7 @@ public:
 	 * @param format the pixel format of the image
 	 * @return TRUE if successful
 	 */
-	BOOL Create(uint16_t width, uint16_t height, IMAGE_FORMAT format);
+	BOOL Create(uint width, uint height, IMAGE_FORMAT format);
 	
 	/**
 	 * Creates a copy of an image from another image object.
@@ -46,7 +46,7 @@ public:
 	 * @param height the height of the source region to copy
 	 * @return TRUE if successful
 	 */
-	BOOL Create(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+	BOOL Create(const Image *source, uint x, uint y, uint width, uint height);
 	
 	/**
 	 * Creates an image from an image file.
@@ -69,7 +69,7 @@ public:
 	 * @return offset into the raw image pixel data that corresponds
 	 *                to the given X and Y coordinate on the image
 	 */
-	uint32_t GetOffsetFor(uint16_t x, uint16_t y) const;
+	uint GetOffsetFor(uint x, uint y) const;
 
 	/**
 	 * Gets a pointer to the raw image pixel data beginning at the given
@@ -78,7 +78,7 @@ public:
 	 * @param y Y coordinate to get a pointer to
 	 * @return pointer to the raw image pixel data for this location
 	 */
-	uint8_t* Get(uint16_t x, uint16_t y) const;
+	uint8_t* Get(uint x, uint y) const;
 
 	/**
 	 * Gets a filled color object that corresponds to the pixel located
@@ -87,7 +87,7 @@ public:
 	 * @param y Y coordinate to get the color of
 	 * @return color object containing the color of the specified pixel
 	 */
-	Color GetColor(uint16_t x, uint16_t y) const;
+	Color GetColor(uint x, uint y) const;
 
 	/**
 	 * Sets the color of a pixel on the image.
@@ -95,7 +95,7 @@ public:
 	 * @param y Y coordinate of the pixel to set
 	 * @param color the color to set the pixel to
 	 */
-	void SetColor(uint16_t x, uint16_t y, const Color &color);
+	void SetColor(uint x, uint y, const Color &color);
 
 	/**
 	 * Sets the color of a pixel on the image.
@@ -103,7 +103,7 @@ public:
 	 * @param y Y coordinate of the pixel to set
 	 * @param color the color (as a 32-bit hex value) to set the pixel to
 	 */
-	void SetColor(uint16_t x, uint16_t y, uint32_t color)  { SetColor(x, y, Color::FromInt(color)); }
+	void SetColor(uint x, uint y, uint32_t color)  { SetColor(x, y, Color::FromInt(color)); }
 
 	/**
 	 * Copies a source image and draws it onto this image at the position
@@ -113,7 +113,7 @@ public:
 	 * @param destX the X coordinate to copy the source image to on this image
 	 * @param destY the Y coordinate to copy the source image to on this image
 	 */
-	void Copy(const Image *source, uint16_t destX, uint16_t destY);
+	void Copy(const Image *source, uint destX, uint destY);
 
 	/**
 	 * Copies a source image and draws it onto this image at the position
@@ -127,22 +127,22 @@ public:
 	 * @param destX the X coordinate to copy the source image to on this image
 	 * @param destY the Y coordinate to copy the source image to on this image
 	 */
-	void Copy(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t destX, uint16_t destY);
+	void Copy(const Image *source, uint x, uint y, uint width, uint height, uint destX, uint destY);
 
 	/**
 	 * @return the width of this image
 	 */
-	uint16_t GetWidth() const                                                   { return m_width; }
+	uint GetWidth() const                                                       { return m_width; }
 
 	/**
 	 * @return the height of this image
 	 */
-	uint16_t GetHeight() const                                                  { return m_height; }
+	uint GetHeight() const                                                      { return m_height; }
 
 	/**
 	 * @return the bits per pixel of this image's pixel data
 	 */
-	uint8_t GetBpp() const                                                      { return m_bpp; }
+	uint GetBpp() const                                                         { return m_bpp; }
 
 	/**
 	 * @return the pixel format of this image
@@ -153,12 +153,12 @@ public:
 	 * @return the number of bytes equivalent to one horizontal line 
 	 *         of pixel data
 	 */
-	uint32_t GetPitch() const                                                   { return m_pitch; }
+	uint GetPitch() const                                                       { return m_pitch; }
 
 	/**
 	 * @return the number of bytes the raw pixel data in this image
 	 */
-	uint32_t GetSizeInBytes() const;
+	uint GetSizeInBytes() const;
 
 	/**
 	 * Zeros-out the pixel data for this image.
@@ -191,24 +191,24 @@ public:
 
 private:
 	uint8_t *m_pixels;
-	uint32_t m_pitch;
-	uint16_t m_width;
-	uint16_t m_height;
-	uint8_t m_bpp;
+	uint m_pitch;
+	uint m_width;
+	uint m_height;
+	uint m_bpp;
 	IMAGE_FORMAT m_format;
 };
 
-inline uint32_t Image::GetOffsetFor(uint16_t x, uint16_t y) const
+inline uint Image::GetOffsetFor(uint x, uint y) const
 {
 	return (x + (y * m_width)) * (m_bpp / 8);
 }
 
-inline uint8_t* Image::Get(uint16_t x, uint16_t y) const
+inline uint8_t* Image::Get(uint x, uint y) const
 {
 	return m_pixels + GetOffsetFor(x, y);
 }
 
-inline uint32_t Image::GetSizeInBytes() const
+inline uint Image::GetSizeInBytes() const
 {
 	return (m_width * m_height) * (m_bpp / 8);
 }

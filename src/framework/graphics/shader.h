@@ -85,7 +85,7 @@ public:
 	/**
 	 * @return the OpenGL program ID that can be bound
 	 */
-	uint32_t GetProgramId() const                                               { return m_programId; }
+	uint GetProgramId() const                                                   { return m_programId; }
 
 	/**
 	 * Checks if this shader contains a uniform. Note that the GLSL compiler
@@ -114,7 +114,7 @@ public:
 	 * Sets the value of a uniform.
 	 * @param name the name of the uniform to set
 	 */
-	void SetUniform(const stl::string &name, int32_t x);
+	void SetUniform(const stl::string &name, int x);
 
 	/**
 	 * Sets the value of a uniform.
@@ -132,7 +132,7 @@ public:
 	 * Sets the value of a uniform.
 	 * @param name the name of the uniform to set
 	 */
-	void SetUniform(const stl::string &name, int32_t x, int32_t y);
+	void SetUniform(const stl::string &name, int x, int y);
 
 	/**
 	 * Sets the value of a uniform.
@@ -156,7 +156,7 @@ public:
 	 * Sets the value of a uniform.
 	 * @param name the name of the uniform to set
 	 */
-	void SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z);
+	void SetUniform(const stl::string &name, int x, int y, int z);
 
 	/**
 	 * Sets the value of a uniform.
@@ -192,7 +192,7 @@ public:
 	 * Sets the value of a uniform.
 	 * @param name the name of the uniform to set
 	 */
-	void SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z, int32_t w);
+	void SetUniform(const stl::string &name, int x, int y, int z, int w);
 
 	/**
 	 * Sets the value of a uniform.
@@ -206,19 +206,19 @@ public:
 	 */
 	void SetUniform(const stl::string &name, const Matrix4x4 &m);
 
-	void SetUniform(const stl::string &name, const float *x, uint32_t count);
-	void SetUniform(const stl::string &name, const Vector2 *v, uint32_t count);
-	void SetUniform(const stl::string &name, const Vector3 *v, uint32_t count);
-	void SetUniform(const stl::string &name, const Vector4 *v, uint32_t count);
-	void SetUniform(const stl::string &name, const Quaternion *q, uint32_t count);
-	void SetUniform(const stl::string &name, const Color *c, uint32_t count);
-	void SetUniform(const stl::string &name, const Matrix3x3 *m, uint32_t count);
-	void SetUniform(const stl::string &name, const Matrix4x4 *m, uint32_t count);
+	void SetUniform(const stl::string &name, const float *x, uint count);
+	void SetUniform(const stl::string &name, const Vector2 *v, uint count);
+	void SetUniform(const stl::string &name, const Vector3 *v, uint count);
+	void SetUniform(const stl::string &name, const Vector4 *v, uint count);
+	void SetUniform(const stl::string &name, const Quaternion *q, uint count);
+	void SetUniform(const stl::string &name, const Color *c, uint count);
+	void SetUniform(const stl::string &name, const Matrix3x3 *m, uint count);
+	void SetUniform(const stl::string &name, const Matrix4x4 *m, uint count);
 	
 	/**
 	 * @return the number of attributes used in this shader
 	 */
-	uint32_t GetNumAttributes() const                                           { return m_numAttributes; }
+	uint GetNumAttributes() const                                               { return m_numAttributes; }
 
 	/**
 	 * Returns whether the given shader attribute has been mapped to a standard
@@ -228,7 +228,7 @@ public:
 	 * @return TRUE if this shader attribute was mapped to a standard attribute
 	 *         type or FALSE if it wasn't
 	 */
-	BOOL IsAttributeMappedToStandardType(uint32_t attribIndex) const;
+	BOOL IsAttributeMappedToStandardType(uint attribIndex) const;
 
 	/**
 	 * Gets a vertex buffer object attribute index that corresponds to the
@@ -238,7 +238,7 @@ public:
 	 * @return an index for a vertex buffer object's attributes that
 	 *         corresponds to the specified shader attribute
 	 */
-	uint32_t GetAttributeMappedBufferIndex(uint32_t attribIndex) const;
+	uint GetAttributeMappedBufferIndex(uint attribIndex) const;
 
 	/**
 	 * Gets the standard attribute type mapping corresponding to the given
@@ -248,7 +248,7 @@ public:
 	 * @return the standard attribute type mapping associated with this
 	 *         shader attribute
 	 */
-	VERTEX_STANDARD_ATTRIBS GetAttributeMappedStandardType(uint32_t attribIndex) const;
+	VERTEX_STANDARD_ATTRIBS GetAttributeMappedStandardType(uint attribIndex) const;
 
 	/**
 	 * Maps the given shader attribute to an index that will be used to refer
@@ -259,7 +259,7 @@ public:
 	 * @param vboAttribIndex the index value to map that will be used to refer
 	 *                       to an attribute in bound vertex buffer objects
 	 */
-	void MapAttributeToVboAttribIndex(const stl::string &name, uint32_t vboAttribIndex);
+	void MapAttributeToVboAttribIndex(const stl::string &name, uint vboAttribIndex);
 
 	/**
 	 * Maps the given shader attribute so that it will correspond to an
@@ -370,15 +370,15 @@ private:
 	BOOL m_vertexShaderCompileStatus;
 	BOOL m_fragmentShaderCompileStatus;
 	BOOL m_linkStatus;
-	uint32_t m_vertexShaderId;
-	uint32_t m_fragmentShaderId;
-	uint32_t m_programId;
+	uint m_vertexShaderId;
+	uint m_fragmentShaderId;
+	uint m_programId;
 	BOOL m_isBound;
 
 	ShaderUniformMap m_uniforms;
 	ShaderAttributeMap m_attributes;
 	ShaderAttributeMapInfo *m_attributeMapping;
-	uint32_t m_numAttributes;
+	uint m_numAttributes;
 
 	CachedShaderUniformMap m_cachedUniforms;
 };
@@ -391,17 +391,17 @@ inline BOOL Shader::IsReadyForUse() const
 		return FALSE;
 }
 
-inline BOOL Shader::IsAttributeMappedToStandardType(uint32_t attribIndex) const
+inline BOOL Shader::IsAttributeMappedToStandardType(uint attribIndex) const
 {
 	return m_attributeMapping[attribIndex].usesStandardType;
 }
 
-inline uint32_t Shader::GetAttributeMappedBufferIndex(uint32_t attribIndex) const
+inline uint Shader::GetAttributeMappedBufferIndex(uint attribIndex) const
 {
 	return m_attributeMapping[attribIndex].attribIndex;
 }
 
-inline VERTEX_STANDARD_ATTRIBS Shader::GetAttributeMappedStandardType(uint32_t attribIndex) const
+inline VERTEX_STANDARD_ATTRIBS Shader::GetAttributeMappedStandardType(uint attribIndex) const
 {
 	return m_attributeMapping[attribIndex].standardType;
 }

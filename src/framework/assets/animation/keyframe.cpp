@@ -4,18 +4,18 @@
 
 #include "../../math/vector3.h"
 
-Keyframe::Keyframe(uint32_t numVertices)
+Keyframe::Keyframe(uint numVertices)
 {
 	AllocateMemory(numVertices);
 }
 
-Keyframe::Keyframe(const stl::string &name, uint32_t numVertices)
+Keyframe::Keyframe(const stl::string &name, uint numVertices)
 {
 	m_name = name;
 	AllocateMemory(numVertices);
 }
 
-void Keyframe::AllocateMemory(uint32_t numVertices)
+void Keyframe::AllocateMemory(uint numVertices)
 {
 	m_numVertices = numVertices;
 	m_vertices = new Vector3[m_numVertices];

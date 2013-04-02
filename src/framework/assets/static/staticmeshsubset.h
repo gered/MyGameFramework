@@ -18,7 +18,7 @@ public:
 	 * @param numTriangles the number of triangles this subset will contain
 	 * @param texture the texture to be applied to this subset
 	 */
-	StaticMeshSubset(uint32_t numTriangles, Texture *texture);
+	StaticMeshSubset(uint numTriangles, Texture *texture);
 
 	virtual ~StaticMeshSubset();
 
