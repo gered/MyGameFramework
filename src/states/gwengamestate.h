@@ -19,7 +19,7 @@ public:
 		static GAMESTATE_TYPE typeName = "GwenGameState";
 		return typeName;
 	}
-	GAMESTATE_TYPE GetTypeOf() const                       { return GetType(); }
+	GAMESTATE_TYPE GetTypeOf() const                                            { return GetType(); }
 
 	GwenGameState(GameApp *gameApp, StateManager *stateManager);
 	virtual ~GwenGameState();

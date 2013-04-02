@@ -13,6 +13,7 @@
 StateManager::StateManager(GameApp *gameApp)
 {
 	STACK_TRACE;
+	ASSERT(gameApp != NULL);
 	m_gameApp = gameApp;
 	m_stateReturnValue = 0;
 	m_hasStateReturnValue = FALSE;

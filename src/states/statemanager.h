@@ -43,15 +43,15 @@ public:
 	void OnUpdate(float delta);
 
 	BOOL IsTransitioning() const;
-	BOOL IsEmpty() const                                   { return (m_states.empty() && m_pushQueue.empty() && m_swapQueue.empty()); }
-	BOOL IsTop(const GameState *state) const               { return GetTop()->gameState == state; }
-	BOOL IsTransitioning(const GameState *state) const     { return GetStateInfoFor(state)->isTransitioning; }
+	BOOL IsEmpty() const;
+	BOOL IsTop(const GameState *state) const;
+	BOOL IsTransitioning(const GameState *state) const;
 
-	GameState* GetTopState() const                         { return GetTop()->gameState; }
-	GameState* GetTopNonOverlayState() const               { return GetTopNonOverlay()->gameState; }
+	GameState* GetTopState() const;
+	GameState* GetTopNonOverlayState() const;
 
-	uint32_t GetLastReturnValue() const                    { return m_stateReturnValue; }
-	BOOL HasLastReturnValue() const                        { return m_hasStateReturnValue; }
+	uint32_t GetLastReturnValue() const                                         { return m_stateReturnValue; }
+	BOOL HasLastReturnValue() const                                             { return m_hasStateReturnValue; }
 
 private:
 	void QueueForPush(StateInfo *newStateInfo);
@@ -149,6 +149,31 @@ T* StateManager::SwapTopNonOverlayWith(const stl::string &name)
 	StateInfo *newStateInfo = new StateInfo(newState, name);
 	QueueForSwap(newStateInfo, TRUE);
 	return newState;
+}
+
+inline BOOL StateManager::IsEmpty() const
+{
+	return (m_states.empty() && m_pushQueue.empty() && m_swapQueue.empty());
+}
+
+inline BOOL StateManager::IsTop(const GameState *state) const
+{
+	return GetTop()->gameState == state;
+}
+
+inline BOOL StateManager::IsTransitioning(const GameState *state) const
+{
+	return GetStateInfoFor(state)->isTransitioning;
+}
+
+inline GameState* StateManager::GetTopState() const
+{
+	return GetTop()->gameState;
+}
+
+inline GameState* StateManager::GetTopNonOverlayState() const
+{
+	return GetTopNonOverlay()->gameState;
 }
 
 inline StateInfo* StateManager::GetTop() const

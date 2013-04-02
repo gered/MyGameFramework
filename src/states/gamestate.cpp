@@ -11,13 +11,14 @@ GameState::GameState(GameApp *gameApp, StateManager *stateManager)
 	: EventListenerEx(gameApp->GetEventManager())
 {
 	STACK_TRACE;
+	ASSERT(gameApp != NULL);
+	ASSERT(stateManager != NULL);
+	
 	m_gameApp = gameApp;
 	m_stateManager = stateManager;
 	
 	m_effectManager = new EffectManager();
-	ASSERT(m_effectManager != NULL);
 	m_processManager = new ProcessManager(this);
-	ASSERT(m_processManager != NULL);
 
 	m_isFinished = FALSE;
 	m_returnValue = 0;

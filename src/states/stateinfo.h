@@ -21,7 +21,7 @@ struct StateInfo
 	BOOL isInactive;
 	BOOL isBeingPopped;
 	
-	const stl::string& GetDescriptor() const               { return m_descriptor; }
+	const stl::string& GetDescriptor() const                                    { return m_descriptor; }
 	
 private:
 	void SetDescriptor();

@@ -58,13 +58,13 @@ protected:
 	Gwen::Controls::Canvas* InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint8_t fontSize);
 	void ResizeAndScaleCanvas();
 	
-	GwenGameState* GetGameState() const                    { return m_gameState; }
-	Gwen::Controls::Canvas* GetCanvas() const              { return m_canvas; }
+	GwenGameState* GetGameState() const                                         { return m_gameState; }
+	Gwen::Controls::Canvas* GetCanvas() const                                   { return m_canvas; }
 	
 	void EnableGwenInput(BOOL enable);
 	
-	float GetAlpha() const                                 { return m_alpha; }
-	float GetScale() const                                 { return m_scale; }
+	float GetAlpha() const                                                      { return m_alpha; }
+	float GetScale() const                                                      { return m_scale; }
 	void SetAlpha(float alpha);
 	void SetScale(float scale);
 	

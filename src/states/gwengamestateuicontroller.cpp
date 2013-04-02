@@ -14,6 +14,8 @@
 GwenGameStateUIController::GwenGameStateUIController(GwenGameState *gameState)
 {
 	STACK_TRACE;
+	ASSERT(gameState != NULL);
+	
 	m_gameState = gameState;
 	m_canvas = NULL;
 	m_inputProcessor = NULL;

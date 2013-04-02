@@ -4,7 +4,7 @@
 #include "gwengamestateuicontroller.h"
 
 GwenGameState::GwenGameState(GameApp *gameApp, StateManager *stateManager)
-: GameState(gameApp, stateManager)
+	: GameState(gameApp, stateManager)
 {
 	STACK_TRACE;
 	m_gwenController = NULL;

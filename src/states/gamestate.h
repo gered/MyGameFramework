@@ -43,18 +43,18 @@ public:
 	template<class T> T* As();
 	template<class T> const T* As() const;
 
-	GameApp* GetGameApp() const                            { return m_gameApp; }
-	ProcessManager* GetProcessManager() const              { return m_processManager; }
-	EffectManager* GetEffectManager() const                { return m_effectManager; }
+	GameApp* GetGameApp() const                                                 { return m_gameApp; }
+	ProcessManager* GetProcessManager() const                                   { return m_processManager; }
+	EffectManager* GetEffectManager() const                                     { return m_effectManager; }
 
 	BOOL IsTransitioning() const;
 	BOOL IsTopState() const;
-	BOOL IsFinished() const                                { return m_isFinished; }
-	BOOL HasReturnValue() const                            { return m_hasReturnValue; }
-	uint32_t GetReturnValue() const                        { return m_returnValue; }
+	BOOL IsFinished() const                                                     { return m_isFinished; }
+	BOOL HasReturnValue() const                                                 { return m_hasReturnValue; }
+	uint32_t GetReturnValue() const                                             { return m_returnValue; }
 
 protected:
-	StateManager* GetStateManager() const                  { return m_stateManager; }
+	StateManager* GetStateManager() const                                       { return m_stateManager; }
 
 	void SetFinished();
 	void SetFinished(uint32_t returnValue);
