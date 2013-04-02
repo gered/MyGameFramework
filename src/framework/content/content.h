@@ -2,6 +2,7 @@
 #define __FRAMEWORK_CONTENT_CONTENT_H_INCLUDED__
 
 #include "../common.h"
+#include "../util/typesystem.h"
 
 class ContentLoaderBase;
 
@@ -16,6 +17,8 @@ class Content
 	friend class ContentLoaderBase;
 	
 public:
+	TYPE_BASE(CONTENT_TYPE);
+	
 	Content();
 	virtual ~Content();
 	
@@ -38,37 +41,6 @@ public:
 	 * @return the number of references currently being held for this content
 	 */
 	uint32_t GetNumReferences() const                      { return m_referenceCount; }
-	
-	/**
-	 * @return the type of content being held in this object
-	 */
-	virtual CONTENT_TYPE GetTypeOf() const = 0;
-
-	/**
-	 * @param <T> the type of content to check
-	 * @return TRUE if this content object is of type T
-	 */
-	template<class T> BOOL Is() const;
-
-	/**
-	 * @param type the content type to check
-	 * @return TRUE if this content object is the same as the type specified
-	 */
-	BOOL Is(CONTENT_TYPE type) const;
-
-	/**
-	 * @param <T> the type of content to attempt to cast to
-	 * @return this content object casted to type T if this content object
-	 *         is of type T, or NULL if the types don't match
-	 */
-	template<class T> T* As();
-
-	/**
-	 * @param <T> the type of content to attempt to cast to
-	 * @return this content object casted to type T if this content object
-	 *         is of type T, or NULL if the types don't match
-	 */
-	template<class T> const T* As() const;
 
 private:
 	/**
@@ -85,35 +57,6 @@ private:
 	BOOL m_isReferenceCounted;
 	uint32_t m_referenceCount;
 };
-
-template<class T>
-inline BOOL Content::Is() const
-{
-	return (GetTypeOf() == T::GetType());
-}
-
-inline BOOL Content::Is(CONTENT_TYPE type) const
-{
-	return (GetTypeOf() == type);
-}
-
-template<class T>
-inline T* Content::As()
-{
-	if (Is<T>())
-		return (T*)this;
-	else
-		return NULL;
-}
-
-template<class T>
-inline const T* Content::As() const
-{
-	if (Is<T>())
-		return (const T*)this;
-	else
-		return NULL;
-}
 
 #endif
 

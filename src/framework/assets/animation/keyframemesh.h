@@ -5,6 +5,7 @@
 #include <stl/string.h>
 #include "../../support/animationsequence.h"
 #include "../../content/content.h"
+#include "../../util/typesystem.h"
 
 class Keyframe;
 class KeyframeMeshFile;
@@ -19,12 +20,7 @@ class VertexBuffer;
 class KeyframeMesh : public Content
 {
 public:
-	static CONTENT_TYPE GetType()
-	{
-		static CONTENT_TYPE typeName = "KeyframeMesh";
-		return typeName;
-	}
-	CONTENT_TYPE GetTypeOf() const                         { return GetType(); }
+	TYPE_DEFINE(CONTENT_TYPE, "KeyframeMesh");
 
 	/**
 	 * Creates a keyframe mesh object.

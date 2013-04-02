@@ -3,6 +3,7 @@
 
 #include "../common.h"
 #include "../content/content.h"
+#include "../util/typesystem.h"
 
 #include "color.h"
 #include "imageformats.h"
@@ -15,12 +16,7 @@ class File;
 class Image : public Content
 {
 public:
-	static CONTENT_TYPE GetType()
-	{
-		static CONTENT_TYPE typeName = "Image";
-		return typeName;
-	}
-	CONTENT_TYPE GetTypeOf() const                                              { return GetType(); }
+	TYPE_DEFINE(CONTENT_TYPE, "Image");
 
 	Image();
 	virtual ~Image()                                                            { Release(); }

@@ -3,6 +3,7 @@
 
 #include "../common.h"
 #include "../content/content.h"
+#include "../util/typesystem.h"
 #include "textureformats.h"
 
 class GraphicsDevice;
@@ -14,12 +15,7 @@ class Image;
 class Texture : public Content
 {
 public:
-	static CONTENT_TYPE GetType()
-	{
-		static CONTENT_TYPE typeName = "Texture";
-		return typeName;
-	}
-	CONTENT_TYPE GetTypeOf() const                         { return GetType(); }
+	TYPE_DEFINE(CONTENT_TYPE, "Texture");
 
 	Texture();
 	virtual ~Texture();

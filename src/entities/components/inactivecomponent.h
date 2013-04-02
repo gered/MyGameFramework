@@ -2,16 +2,12 @@
 #define __ENTITIES_COMPONENTS_INACTIVECOMPONENT_H_INCLUDED__
 
 #include "../component.h"
+#include "../../framework/util/typesystem.h"
 
 class InactiveComponent : public Component
 {
 public:
-	static COMPONENT_TYPE GetType()
-	{
-		static COMPONENT_TYPE typeName = "InactiveComponent";
-		return typeName;
-	}
-	COMPONENT_TYPE GetTypeOf() const                       { return GetType(); }
+	TYPE_DEFINE(COMPONENT_TYPE, "InactiveComponent");
 };
 
 #endif

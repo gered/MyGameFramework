@@ -4,6 +4,7 @@
 #include "../../common.h"
 #include "../../support/animationsequence.h"
 #include "../../content/content.h"
+#include "../../util/typesystem.h"
 #include <stl/string.h>
 
 class SkeletalMeshFile;
@@ -18,12 +19,7 @@ class SkeletalMesh : public Content
 	friend class SkeletalMeshFile;
 	
 public:
-	static CONTENT_TYPE GetType()
-	{
-		static CONTENT_TYPE typeName = "SkeletalMesh";
-		return typeName;
-	}
-	CONTENT_TYPE GetTypeOf() const                         { return GetType(); }
+	TYPE_DEFINE(CONTENT_TYPE, "SkeletalMesh");
 	
 	virtual ~SkeletalMesh();
 

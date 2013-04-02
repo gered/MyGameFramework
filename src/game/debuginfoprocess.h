@@ -2,6 +2,7 @@
 #define __GAME_DEBUGINFOPROCESS_H_INCLUDED__
 
 #include "../processes/gameprocess.h"
+#include "../framework/util/typesystem.h"
 
 class GameState;
 class ProcessManager;
@@ -10,12 +11,7 @@ class RenderContext;
 class DebugInfoProcess : public GameProcess
 {
 public:
-	static GAMEPROCESS_TYPE GetType()
-	{
-		static GAMEPROCESS_TYPE typeName = "DebugInfoProcess";
-		return typeName;
-	}
-	GAMEPROCESS_TYPE GetTypeOf() const                   { return GetType(); }
+	TYPE_DEFINE(GAMEPROCESS_TYPE, "DebugInfoProcess");
 
 	DebugInfoProcess(GameState *gameState, ProcessManager *processManager);
 	virtual ~DebugInfoProcess();

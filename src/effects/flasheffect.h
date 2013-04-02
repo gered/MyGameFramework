@@ -2,6 +2,7 @@
 #define __EFFECTS_FLASHEFFECT_H_INCLUDED__
 
 #include "../framework/common.h"
+#include "../framework/util/typesystem.h"
 #include "effect.h"
 #include "../framework/graphics/color.h"
 
@@ -10,12 +11,7 @@ class RenderContext;
 class FlashEffect : public Effect
 {
 public:
-	static EFFECT_TYPE GetType()
-	{
-		static EFFECT_TYPE typeName = "FlashEffect";
-		return typeName;
-	}
-	EFFECT_TYPE GetTypeOf() const                           { return GetType(); }
+	TYPE_DEFINE(EFFECT_TYPE, "FlashEffect");
 
 	FlashEffect();
 	virtual ~FlashEffect();

@@ -2,6 +2,7 @@
 #define __STATES_GWENGAMESTATE_H_INCLUDED__
 
 #include "../framework/common.h"
+#include "../framework/util/typesystem.h"
 #include "../framework/debug.h"
 #include "gamestate.h"
 
@@ -14,12 +15,7 @@ struct Event;
 class GwenGameState : public GameState
 {
 public:
-	static GAMESTATE_TYPE GetType()
-	{
-		static GAMESTATE_TYPE typeName = "GwenGameState";
-		return typeName;
-	}
-	GAMESTATE_TYPE GetTypeOf() const                                            { return GetType(); }
+	TYPE_DEFINE(GAMESTATE_TYPE, "GwenGameState");
 
 	GwenGameState(GameApp *gameApp, StateManager *stateManager);
 	virtual ~GwenGameState();

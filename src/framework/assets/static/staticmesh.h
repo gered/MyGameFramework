@@ -3,6 +3,7 @@
 
 #include "../../common.h"
 #include "../../content/content.h"
+#include "../../util/typesystem.h"
 
 class ContentManager;
 class StaticMeshFile;
@@ -14,12 +15,7 @@ class StaticMeshSubset;
 class StaticMesh : public Content
 {
 public:
-	static CONTENT_TYPE GetType()
-	{
-		static CONTENT_TYPE typeName = "StaticMesh";
-		return typeName;
-	}
-	CONTENT_TYPE GetTypeOf() const                         { return GetType(); }
+	TYPE_DEFINE(CONTENT_TYPE, "StaticMesh");
 
 	/**
 	 * Creates a static mesh object.

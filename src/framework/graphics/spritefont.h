@@ -3,6 +3,7 @@
 
 #include "../common.h"
 #include "../content/content.h"
+#include "../util/typesystem.h"
 
 class Texture;
 class TextureAtlas;
@@ -18,12 +19,7 @@ const uint8_t HIGH_GLYPH = 127;
 class SpriteFont : public Content
 {
 public:
-	static CONTENT_TYPE GetType()
-	{
-		static CONTENT_TYPE typeName = "SpriteFont";
-		return typeName;
-	}
-	CONTENT_TYPE GetTypeOf() const                         { return GetType(); }
+	TYPE_DEFINE(CONTENT_TYPE, "SpriteFont");
 
 	/**
 	 * Creates an uninitialized sprite font object.

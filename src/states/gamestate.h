@@ -2,6 +2,7 @@
 #define __STATES_GAMESTATE_H_INCLUDED__
 
 #include "../framework/common.h"
+#include "../framework/util/typesystem.h"
 #include "../events/eventlistenerex.h"
 
 typedef const char* GAMESTATE_TYPE;
@@ -16,6 +17,8 @@ struct Event;
 class GameState : public EventListenerEx
 {
 public:
+	TYPE_BASE(GAMESTATE_TYPE);
+	
 	GameState(GameApp *gameApp, StateManager *stateManager);
 	virtual ~GameState();
 
@@ -35,13 +38,6 @@ public:
 	virtual BOOL OnTransition(float delta, BOOL isTransitioningOut, BOOL started);
 
 	virtual BOOL Handle(const Event *event);
-
-	virtual GAMESTATE_TYPE GetTypeOf() const = 0;
-
-	template<class T> BOOL Is() const;
-	BOOL Is(GAMESTATE_TYPE type) const;
-	template<class T> T* As();
-	template<class T> const T* As() const;
 
 	GameApp* GetGameApp() const                                                 { return m_gameApp; }
 	ProcessManager* GetProcessManager() const                                   { return m_processManager; }
@@ -68,35 +64,6 @@ private:
 	uint32_t m_returnValue;
 	BOOL m_hasReturnValue;
 };
-
-template<class T>
-inline BOOL GameState::Is() const
-{
-	return (GetTypeOf() == T::GetType());
-}
-
-inline BOOL GameState::Is(GAMESTATE_TYPE type) const
-{
-	return (GetTypeOf() == type);
-}
-
-template<class T>
-inline T* GameState::As()
-{
-	if (Is<T>())
-		return (T*)this;
-	else
-		return NULL;
-}
-
-template<class T>
-inline const T* GameState::As() const
-{
-	if (Is<T>())
-		return (const T*)this;
-	else
-		return NULL;
-}
 
 #endif
 

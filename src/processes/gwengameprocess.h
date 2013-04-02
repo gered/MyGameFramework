@@ -3,6 +3,7 @@
 
 #include "../framework/common.h"
 #include "../framework/debug.h"
+#include "../framework/util/typesystem.h"
 #include "gameprocess.h"
 
 class GwenGameProcessUIController;
@@ -14,12 +15,7 @@ struct Event;
 class GwenGameProcess : public GameProcess
 {
 public:
-	static GAMEPROCESS_TYPE GetType()
-	{
-		static GAMEPROCESS_TYPE typeName = "GwenGameProcess";
-		return typeName;
-	}
-	GAMEPROCESS_TYPE GetTypeOf() const                                          { return GetType(); }
+	TYPE_DEFINE(GAMEPROCESS_TYPE, "GwenGameProcess");
 
 	GwenGameProcess(GameState *gameState, ProcessManager *processManager);
 	virtual ~GwenGameProcess();

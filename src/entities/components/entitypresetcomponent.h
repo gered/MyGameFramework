@@ -3,16 +3,12 @@
 
 #include "../component.h"
 #include "../entitypreset.h"
+#include "../../framework/util/typesystem.h"
 
 class EntityPresetComponent : public Component
 {
 public:
-	static COMPONENT_TYPE GetType()
-	{
-		static COMPONENT_TYPE typeName = "EntityPresetComponent";
-		return typeName;
-	}
-	COMPONENT_TYPE GetTypeOf() const                       { return GetType(); }
+	TYPE_DEFINE(COMPONENT_TYPE, "EntityPresetComponent");
 	
 	EntityPresetComponent();
 	void Reset();

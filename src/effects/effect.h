@@ -2,6 +2,7 @@
 #define __EFFECTS_EFFECT_H_INCLUDED__
 
 #include "../framework/common.h"
+#include "../framework/util/typesystem.h"
 
 class RenderContext;
 
@@ -10,6 +11,8 @@ typedef const char* EFFECT_TYPE;
 class Effect
 {
 public:
+	TYPE_BASE(EFFECT_TYPE);
+	
 	Effect();
 	virtual ~Effect();
 
@@ -28,13 +31,6 @@ public:
 	BOOL IsActive() const                                  { return m_isActive; }
 	void MarkInactive();
 
-	virtual EFFECT_TYPE GetTypeOf() const = 0;
-
-	template<class T> BOOL Is() const;
-	BOOL Is(EFFECT_TYPE type) const;
-	template<class T> T* As();
-	template<class T> const T* As() const;
-
 private:
 	BOOL m_isActive;
 };
@@ -51,35 +47,6 @@ inline Effect::~Effect()
 inline void Effect::MarkInactive()
 {
 	m_isActive = FALSE;
-}
-
-template<class T>
-inline BOOL Effect::Is() const
-{
-	return (GetTypeOf() == T::GetType());
-}
-
-inline BOOL Effect::Is(EFFECT_TYPE type) const
-{
-	return (GetTypeOf() == type);
-}
-
-template<class T>
-inline T* Effect::As()
-{
-	if (Is<T>())
-		return (T*)this;
-	else
-		return NULL;
-}
-
-template<class T>
-inline const T* Effect::As() const
-{
-	if (Is<T>())
-		return (const T*)this;
-	else
-		return NULL;
 }
 
 #endif

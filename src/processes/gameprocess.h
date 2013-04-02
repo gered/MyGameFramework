@@ -2,6 +2,7 @@
 #define __PROCESSES_GAMEPROCESS_H_INCLUDED__
 
 #include "../framework/common.h"
+#include "../framework/util/typesystem.h"
 
 #include "../states/gamestate.h"
 #include "../events/eventlistenerex.h"
@@ -16,6 +17,8 @@ struct Event;
 class GameProcess : public EventListenerEx
 {
 public:
+	TYPE_BASE(GAMEPROCESS_TYPE);
+	
 	GameProcess(GameState *gameState, ProcessManager *processManager);
 	virtual ~GameProcess();
 
@@ -36,13 +39,6 @@ public:
 
 	virtual BOOL Handle(const Event *event);
 
-	virtual GAMEPROCESS_TYPE GetTypeOf() const = 0;
-
-	template<class T> BOOL Is() const;
-	BOOL Is(GAMEPROCESS_TYPE type) const;
-	template<class T> T* As();
-	template<class T> const T* As() const;
-
 	GameApp* GetGameApp() const                                                 { return m_gameState->GetGameApp(); }
 
 	BOOL IsFinished() const                                                     { return m_finished; }
@@ -59,35 +55,6 @@ private:
 	ProcessManager *m_processManager;
 	BOOL m_finished;
 };
-
-template<class T>
-inline BOOL GameProcess::Is() const
-{
-	return (GetTypeOf() == T::GetType());
-}
-
-inline BOOL GameProcess::Is(GAMEPROCESS_TYPE type) const
-{
-	return (GetTypeOf() == type);
-}
-
-template<class T>
-inline T* GameProcess::As()
-{
-	if (Is<T>())
-		return (T*)this;
-	else
-		return NULL;
-}
-
-template<class T>
-inline const T* GameProcess::As() const
-{
-	if (Is<T>())
-		return (const T*)this;
-	else
-		return NULL;
-}
 
 #endif
 

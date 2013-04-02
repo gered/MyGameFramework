@@ -2,6 +2,7 @@
 #define __GAME_TESTINGSTATE_H_INCLUDED__
 
 #include "../states/gamestate.h"
+#include "../framework/util/typesystem.h"
 
 class FreeCamera;
 class GameApp;
@@ -12,12 +13,7 @@ class StateManager;
 class TestingState : public GameState
 {
 public:
-	static GAMESTATE_TYPE GetType()
-	{
-		static GAMESTATE_TYPE typeName = "TestingState";
-		return typeName;
-	}
-	GAMESTATE_TYPE GetTypeOf() const                       { return GetType(); }
+	TYPE_DEFINE(GAMESTATE_TYPE, "TestingState");
 
 	TestingState(GameApp *gameApp, StateManager *stateManager);
 	virtual ~TestingState();

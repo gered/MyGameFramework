@@ -2,6 +2,7 @@
 #define __EFFECTS_DIMEFFECT_H_INCLUDED__
 
 #include "../framework/common.h"
+#include "../framework/util/typesystem.h"
 #include "effect.h"
 #include "../framework/graphics/color.h"
 
@@ -10,12 +11,7 @@ class RenderContext;
 class DimEffect : public Effect
 {
 public:
-	static EFFECT_TYPE GetType()
-	{
-		static EFFECT_TYPE typeName = "DimEffect";
-		return typeName;
-	}
-	EFFECT_TYPE GetTypeOf() const                          { return GetType(); }
+	TYPE_DEFINE(EFFECT_TYPE, "DimEffect");
 
 	DimEffect();
 	virtual ~DimEffect();
