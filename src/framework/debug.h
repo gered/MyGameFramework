@@ -19,20 +19,6 @@
 #include <windows.h>
 #endif
 
-#ifdef DEBUG_STACK_TRACE
-	/**
-	 * Call stack tracing macro. Simply include this at the top of 
-	 * any function to be tracked in the stack history. 
-     */
-	#ifdef __GNUC__
-		#define STACK_TRACE                                    StackEntry __stackEntry(__FILE__, __LINE__, __PRETTY_FUNCTION__)
-	#else
-		#define STACK_TRACE                                    StackEntry __stackEntry(__FILE__, __LINE__, __FUNCSIG__)
-	#endif
-#else
-	#define STACK_TRACE
-#endif
-
 #ifdef DEBUG
 	/**
 	 * Toggles a breakpoint in an attached debugger.
@@ -93,69 +79,11 @@
 #define STATIC_ASSERT(exp) typedef int _STATIC_ASSERT_TEST(static_assert_test_var_, __LINE__)[(exp) ? 1 : -1]
 
 /** 
- * Maintains a list of call stack entries. Entries need to be
- * manually pushed/popped off this list.
- *
- * This class should not be used directly. Instead use the STACK_TRACE
- * macro and DebugStackTrace() function.
- */
-class StackTrace
-{
-public:
-	static StackTrace& Instance();
-
-	StackTrace();
-	~StackTrace();
-
-	/** 
-	 * Add new entry onto the top of call stack history.
-	 * @param entry the entry to add
-	 */
-	void Push(char *entry);
-
-	/** 
-	 * Remove top entry off the call stack history.
-	 */
-	void Pop();
-
-	/** 
-	 * Remove all entries from the call stack history.
-	 */
-	void Clear();
-
-	int GetSize()                                          { return m_entryStackPointer + 1; }
-
-	/** 
-	 * @return formatted string containing the call stack 
-	 *         entries top-to-bottom
-	 */
-	char* GetTrace();
-
-private:
-	char *m_traceBuffer;
-	char **m_entryStack;
-	int m_entryStackPointer;
-};
-
-/** 
- * Used by the STACK_TRACE macro to push/pop entries onto the
- * actual stack.
- *
- * This class should not be used directly.
- */
-class StackEntry
-{
-public:
-	StackEntry(const char *file, unsigned long line, const char *function);
-	~StackEntry();
-};
-
-/** 
  * Initializes the debug framework.
  */
 void DebugInit();
 
-/*
+/**
  * Closes up the debug framework.
  */
 void DebugClose();
@@ -170,11 +98,5 @@ void DebugClose();
  *               future asserts or not
  */
 int DebugAssert(const char *expression, const char *file, unsigned long line, const char *function, int *ignore);
-
-/** 
- * Gets the current call stack as recorded by the STACK_TRACE macros.
- * @return formatted string containing the call stack
- */
-const char* DebugStackTrace();
 
 #endif
