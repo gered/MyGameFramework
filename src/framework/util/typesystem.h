@@ -6,12 +6,12 @@
 typedef const char* TYPE_IDENT;
 
 #define TYPE_DEFINE(type, value)              \
-	static #type GetType()                    \
+	static type GetType()                     \
 	{                                         \
-		static #type typeName = #value;       \
+		static type typeName = value;         \
 		return typeName;                      \
 	}                                         \
-	#type GetTypeOf() const                   \
+	type GetTypeOf() const                    \
 	{                                         \
 		return GetType();                     \
 	}
