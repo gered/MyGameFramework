@@ -19,7 +19,7 @@ struct ProcessInfo
 	BOOL isInactive;
 	BOOL isBeingRemoved;
 
-	const stl::string& GetDescriptor() const               { return m_descriptor; }
+	const stl::string& GetDescriptor() const                                    { return m_descriptor; }
 	
 private:
 	void SetDescriptor();

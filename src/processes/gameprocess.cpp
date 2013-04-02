@@ -10,6 +10,9 @@ GameProcess::GameProcess(GameState *gameState, ProcessManager *processManager)
 	: EventListenerEx(gameState->GetGameApp()->GetEventManager())
 {
 	STACK_TRACE;
+	ASSERT(gameState != NULL);
+	ASSERT(processManager != NULL);
+	
 	m_gameState = gameState;
 	m_processManager = processManager;
 	m_finished = FALSE;

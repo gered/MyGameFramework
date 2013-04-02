@@ -19,7 +19,7 @@ public:
 		static GAMEPROCESS_TYPE typeName = "GwenGameProcess";
 		return typeName;
 	}
-	GAMEPROCESS_TYPE GetTypeOf() const                     { return GetType(); }
+	GAMEPROCESS_TYPE GetTypeOf() const                                          { return GetType(); }
 
 	GwenGameProcess(GameState *gameState, ProcessManager *processManager);
 	virtual ~GwenGameProcess();

@@ -40,8 +40,8 @@ public:
 	void OnUpdate(float delta);
 
 	BOOL IsTransitioning() const;
-	BOOL IsEmpty() const                                   { return (m_processes.empty() && m_queue.empty()); }
-	BOOL IsTransitioning(const GameProcess *process) const { return GetProcessInfoFor(process)->isTransitioning; }
+	BOOL IsEmpty() const;
+	BOOL IsTransitioning(const GameProcess *process) const;
 
 private:
 	void Queue(ProcessInfo *newProcessInfo);
@@ -81,6 +81,16 @@ void ProcessManager::RemoveFirst()
 {
 	ProcessInfoList::iterator itor = GetProcessItorForFirstOf(T::GetType());
 	StartTransitionOut(itor, TRUE);
+}
+
+inline BOOL ProcessManager::IsEmpty() const
+{
+	return (m_processes.empty() && m_queue.empty());
+}
+
+inline BOOL ProcessManager::IsTransitioning(const GameProcess *process) const
+{
+	return GetProcessInfoFor(process)->isTransitioning;
 }
 
 #endif

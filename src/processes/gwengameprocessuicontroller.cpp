@@ -14,6 +14,7 @@
 GwenGameProcessUIController::GwenGameProcessUIController(GwenGameProcess *gameProcess)
 {
 	STACK_TRACE;
+	ASSERT(gameProcess != NULL);
 	m_gameProcess = gameProcess;
 	m_canvas = NULL;
 	m_inputProcessor = NULL;

@@ -43,14 +43,14 @@ public:
 	template<class T> T* As();
 	template<class T> const T* As() const;
 
-	GameApp* GetGameApp() const                            { return m_gameState->GetGameApp(); }
+	GameApp* GetGameApp() const                                                 { return m_gameState->GetGameApp(); }
 
-	BOOL IsFinished() const                                { return m_finished; }
+	BOOL IsFinished() const                                                     { return m_finished; }
 	BOOL IsTransitioning() const;
 
 protected:
-	GameState* GetGameState() const                        { return m_gameState; }
-	ProcessManager* GetProcessManager() const              { return m_processManager; }
+	GameState* GetGameState() const                                             { return m_gameState; }
+	ProcessManager* GetProcessManager() const                                   { return m_processManager; }
 
 	void SetFinished();
 

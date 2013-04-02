@@ -11,6 +11,7 @@
 ProcessManager::ProcessManager(GameState *gameState)
 {
 	STACK_TRACE;
+	ASSERT(gameState != NULL);
 	m_gameState = gameState;
 }
 
