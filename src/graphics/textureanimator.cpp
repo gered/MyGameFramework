@@ -90,14 +90,14 @@ void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atl
 	// in the atlas texture so we can restore it back again if necessary
 	const TextureAtlasTile &originalTile = atlas->GetTile(sequence.animatingIndex);
 	sequence.originalAnimatingTile = new Image();
-	sequence.originalAnimatingTile->Create(textureImage, originalTile.dimensions.left, originalTile.dimensions.top, originalTile.dimensions.right - 1, originalTile.dimensions.bottom - 1);
+	sequence.originalAnimatingTile->Create(textureImage, originalTile.dimensions.left, originalTile.dimensions.top, originalTile.dimensions.GetWidth(), originalTile.dimensions.GetHeight());
 
 	// copy each frame ("start" to "stop") from the source texture image
 	for (uint32_t i = 0; i < sequence.GetNumFrames(); ++i)
 	{
 		const TextureAtlasTile &tile = atlas->GetTile(i + sequence.start);
 		sequence.frames[i] = new Image();
-		sequence.frames[i]->Create(textureImage, tile.dimensions.left, tile.dimensions.top, tile.dimensions.right - 1, tile.dimensions.bottom - 1);
+		sequence.frames[i]->Create(textureImage, tile.dimensions.left, tile.dimensions.top, tile.dimensions.GetWidth(), tile.dimensions.GetHeight());
 	}
 
 	m_textureAtlasAnimations.push_back(sequence);
