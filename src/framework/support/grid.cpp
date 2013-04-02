@@ -8,7 +8,6 @@
 
 Grid::Grid(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height)
 {
-	STACK_TRACE;
 	m_graphicsDevice = graphicsDevice;
 
 	m_renderState = new RENDERSTATE_DEFAULT;
@@ -46,14 +45,12 @@ Grid::Grid(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height)
 
 Grid::~Grid()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_horizontalPoints);
 	SAFE_DELETE(m_verticalPoints);
 }
 
 void Grid::OnRender()
 {
-	STACK_TRACE;
 	m_renderState->Apply();
 
 	m_graphicsDevice->BindVertexBuffer(m_horizontalPoints);

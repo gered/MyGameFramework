@@ -17,8 +17,6 @@
 
 int main(int argc, char **argv)
 {
-	STACK_TRACE;
-	
 	LogStart();
 	DebugInit();
 	LOG_INFO(LOGCAT_SYSTEM, "Build compiled on %s %s\n", __DATE__, __TIME__);

@@ -5,7 +5,6 @@
 
 StandardShader::StandardShader()
 {
-	STACK_TRACE;
 	m_inlineVertexShaderSource = NULL;
 	m_inlineFragmentShaderSource = NULL;
 
@@ -15,12 +14,10 @@ StandardShader::StandardShader()
 
 StandardShader::~StandardShader()
 {
-	STACK_TRACE;
 }
 
 BOOL StandardShader::LoadCompileAndLinkInlineSources(const char *inlineVertexShaderSource, const char *inlineFragmentShaderSource)
 {
-	STACK_TRACE;
 	ASSERT(inlineVertexShaderSource != NULL);
 	ASSERT(inlineFragmentShaderSource != NULL);
 
@@ -38,25 +35,21 @@ BOOL StandardShader::LoadCompileAndLinkInlineSources(const char *inlineVertexSha
 
 void StandardShader::SetModelViewMatrix(const Matrix4x4 &matrix)
 {
-	STACK_TRACE;
 	ASSERT(IsReadyForUse() == TRUE);
 	SetUniform(m_modelViewMatrixUniform, matrix);
 }
 
 void StandardShader::SetProjectionMatrix(const Matrix4x4 &matrix)
 {
-	STACK_TRACE;
 	ASSERT(IsReadyForUse() == TRUE);
 	SetUniform(m_projectionMatrixUniform, matrix);
 }
 
 void StandardShader::OnNewContext()
 {
-	STACK_TRACE;
 	ReloadCompileAndLink(m_inlineVertexShaderSource, m_inlineFragmentShaderSource);
 }
 
 void StandardShader::OnLostContext()
 {
-	STACK_TRACE;
 }

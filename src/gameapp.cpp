@@ -1,4 +1,3 @@
-#include "framework/debug.h"
 #include "framework/log.h"
 
 #include "gameapp.h"
@@ -23,9 +22,7 @@
 #include "states/statemanager.h"
 
 GameApp::GameApp()
-	: BaseGameApp()
 {
-	STACK_TRACE;
 	m_contentCache = NULL;
 	m_renderContext = NULL;
 	m_stateManager = NULL;
@@ -34,7 +31,6 @@ GameApp::GameApp()
 
 GameApp::~GameApp()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_stateManager);
 	SAFE_DELETE(m_eventManager);
 	SAFE_DELETE(m_contentCache);
@@ -43,36 +39,30 @@ GameApp::~GameApp()
 
 void GameApp::OnAppGainFocus()
 {
-	STACK_TRACE;
 	BaseGameApp::OnAppGainFocus();
 	m_stateManager->OnAppGainFocus();
 }
 
 void GameApp::OnAppLostFocus()
 {
-	STACK_TRACE;
 	BaseGameApp::OnAppLostFocus();
 	m_stateManager->OnAppLostFocus();
 }
 
 void GameApp::OnAppPause()
 {
-	STACK_TRACE;
 	BaseGameApp::OnAppPause();
 	m_stateManager->OnAppPause();
 }
 
 void GameApp::OnAppResume()
 {
-	STACK_TRACE;
 	BaseGameApp::OnAppResume();
 	m_stateManager->OnAppResume();
 }
 
 BOOL GameApp::OnInit()
 {
-	STACK_TRACE;
-
 #if defined(DESKTOP) && defined(SDL)
 	SDLGameWindowParams windowParams;
 	windowParams.title = "Engine Test";
@@ -111,7 +101,6 @@ BOOL GameApp::OnInit()
 
 void GameApp::OnLoadGame()
 {
-	STACK_TRACE;
 	GetGraphicsDevice()->SetTextureParameters(TEXPARAM_PIXELATED);
 
 	m_renderContext->OnLoadGame();
@@ -122,21 +111,18 @@ void GameApp::OnLoadGame()
 
 void GameApp::OnLostContext()
 {
-	STACK_TRACE;
 	BaseGameApp::OnLostContext();
 	m_stateManager->OnLostContext();
 }
 
 void GameApp::OnNewContext()
 {
-	STACK_TRACE;
 	BaseGameApp::OnNewContext();
 	m_stateManager->OnNewContext();
 }
 
 void GameApp::OnRender()
 {
-	STACK_TRACE;
 	BaseGameApp::OnRender();
 	m_renderContext->OnPreRender();
 	m_stateManager->OnRender(m_renderContext);
@@ -145,7 +131,6 @@ void GameApp::OnRender()
 
 void GameApp::OnResize()
 {
-	STACK_TRACE;
 	BaseGameApp::OnResize();
 	m_renderContext->OnResize();
 	m_stateManager->OnResize();
@@ -153,7 +138,6 @@ void GameApp::OnResize()
 
 void GameApp::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	BaseGameApp::OnUpdate(delta);
 
 	m_eventManager->ProcessQueue();
@@ -169,6 +153,5 @@ void GameApp::OnUpdate(float delta)
 
 uint32_t GameApp::GetScreenScale() const
 {
-	STACK_TRACE;
 	return m_renderContext->GetScreenScale();
 }

@@ -9,7 +9,6 @@
 
 StaticMeshInstance::StaticMeshInstance(StaticMesh *mesh)
 {
-	STACK_TRACE;
 	m_mesh = mesh;
 
 	m_renderState = new RENDERSTATE_DEFAULT;
@@ -30,19 +29,17 @@ StaticMeshInstance::StaticMeshInstance(StaticMesh *mesh)
 
 StaticMeshInstance::~StaticMeshInstance()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_renderState);
 }
 
 void StaticMeshInstance::SetTexture(uint32_t index, Texture *texture)
 {
-	STACK_TRACE;
+
 	m_textures[index] = texture;
 }
 
 void StaticMeshInstance::ResetTexture(uint32_t index)
 {
-	STACK_TRACE;
 	m_textures[index] = m_mesh->GetSubset(index)->GetTexture();
 }
 

@@ -31,17 +31,14 @@ const char* SimpleTextureShader::m_fragmentShaderSource =
 
 SimpleTextureShader::SimpleTextureShader()
 {
-	STACK_TRACE;
 }
 
 SimpleTextureShader::~SimpleTextureShader()
 {
-	STACK_TRACE;
 }
 
 BOOL SimpleTextureShader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!StandardShader::Initialize(graphicsDevice))
 		return FALSE;
 	

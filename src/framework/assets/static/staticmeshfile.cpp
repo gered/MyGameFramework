@@ -10,7 +10,6 @@
 StaticMeshFile::StaticMeshFile(File *file)
 	: MeshFile(file)
 {
-	STACK_TRACE;
 	m_vertices = NULL;
 	m_normals = NULL;
 	m_texCoords = NULL;
@@ -28,7 +27,6 @@ StaticMeshFile::StaticMeshFile(File *file)
 
 StaticMeshFile::~StaticMeshFile()
 {
-	STACK_TRACE;
 	SAFE_DELETE_ARRAY(m_vertices);
 	SAFE_DELETE_ARRAY(m_normals);
 	SAFE_DELETE_ARRAY(m_texCoords);
@@ -39,7 +37,6 @@ StaticMeshFile::~StaticMeshFile()
 
 void StaticMeshFile::Load()
 {
-	STACK_TRACE;
 	ChunkDescriptor *verticesDesc = GetChunkDesc("VTX");
 	ChunkDescriptor *normalsDesc = GetChunkDesc("NRL");
 	ChunkDescriptor *texCoordsDesc = GetChunkDesc("TXT");

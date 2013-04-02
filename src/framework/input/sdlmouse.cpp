@@ -1,6 +1,4 @@
 #ifdef SDL
-#include "../debug.h"
-
 #include "sdlmouse.h"
 #include "mouselistener.h"
 #include "../sdlincludes.h"
@@ -12,34 +10,28 @@ const int32_t NUM_BUTTONS = 5;
 
 SDLMouse::SDLMouse(SDLSystem *system)
 {
-	STACK_TRACE;
 	m_system = system;
 
 	m_buttons = new BOOL[NUM_BUTTONS];
-	ASSERT(m_buttons != NULL);
 	m_lockedButtons = new BOOL[NUM_BUTTONS];
-	ASSERT(m_lockedButtons != NULL);
 
 	Reset();
 }
 
 SDLMouse::~SDLMouse()
 {
-	STACK_TRACE;
 	SAFE_DELETE_ARRAY(m_buttons);
 	SAFE_DELETE_ARRAY(m_lockedButtons);
 }
 
 void SDLMouse::ResetDeltas()
 {
-	STACK_TRACE;
 	m_deltaX = 0;
 	m_deltaY = 0;
 }
 
 BOOL SDLMouse::OnButtonEvent(const SDL_MouseButtonEvent *eventArgs)
 {
-	STACK_TRACE;
 	// translate from SDL's button values to our own MOUSE_BUTTONS enum
 	int32_t button = (int32_t)eventArgs->button - 1;
 
@@ -84,7 +76,6 @@ BOOL SDLMouse::OnButtonEvent(const SDL_MouseButtonEvent *eventArgs)
 
 BOOL SDLMouse::OnMotionEvent(const SDL_MouseMotionEvent *eventArgs)
 {
-	STACK_TRACE;
 	m_deltaX = eventArgs->x - m_x;
 	m_deltaY = eventArgs->y - m_y;
 
@@ -106,7 +97,6 @@ BOOL SDLMouse::OnMotionEvent(const SDL_MouseMotionEvent *eventArgs)
 
 BOOL SDLMouse::IsPressed(MOUSE_BUTTONS button)
 {
-	STACK_TRACE;
 	if (m_buttons[button] && !m_lockedButtons[button])
 	{
 		m_lockedButtons[button] = TRUE;
@@ -118,7 +108,6 @@ BOOL SDLMouse::IsPressed(MOUSE_BUTTONS button)
 
 void SDLMouse::Reset()
 {
-	STACK_TRACE;
 	memset(m_buttons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
 	memset(m_lockedButtons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
 	m_x = 0;
@@ -138,4 +127,3 @@ void SDLMouse::UnregisterListener(MouseListener *listener)
 }
 
 #endif
-

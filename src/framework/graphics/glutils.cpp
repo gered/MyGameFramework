@@ -5,7 +5,6 @@
 
 BOOL IsGLExtensionPresent(const char* extension)
 {
-	STACK_TRACE;
 	ASSERT(extension != NULL);
 	ASSERT(strlen(extension) > 0);
 	

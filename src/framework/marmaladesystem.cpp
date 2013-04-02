@@ -36,9 +36,7 @@ int32 _MarmaladeEventCallback_PointerMultitouchMotion(void *systemData, void *us
 int32_t _MarmaladeEvent_PassToSystem(MARMALADE_EVENT event, void *systemData, void *userData);
 
 MarmaladeSystem::MarmaladeSystem()
-	: OperatingSystem()
 {
-	STACK_TRACE;
 	m_isQuitting = FALSE;
 	m_window = NULL;
 	m_filesystem = NULL;
@@ -51,7 +49,6 @@ MarmaladeSystem::MarmaladeSystem()
 
 MarmaladeSystem::~MarmaladeSystem()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_SYSTEM, "Releasing.\n");
 
 	if (!m_isQuitting)
@@ -70,7 +67,6 @@ MarmaladeSystem::~MarmaladeSystem()
 
 BOOL MarmaladeSystem::Initialize()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_SYSTEM, "MarmaladeSystem initialization starting.\n");
 
 	const char* marmaladeRuntimeVersion = s3eDeviceGetString(S3E_DEVICE_SDK_VERSION);
@@ -227,7 +223,6 @@ BOOL MarmaladeSystem::Initialize()
 
 BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 {
-	STACK_TRACE;
 	ASSERT(m_window == NULL);
 
 	MarmaladeGameWindow *window = new MarmaladeGameWindow(gameApp, this);
@@ -289,7 +284,6 @@ BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *p
 
 void MarmaladeSystem::ProcessEvents()
 {
-	STACK_TRACE;
 	// need to manually reset deltas for the Mouse/Touchscreen device objects
 	// since we use callbacks to get state updates. as a result of using
 	// callbacks, the deltas won't ever get reset to zero when motion of these
@@ -310,7 +304,6 @@ void MarmaladeSystem::ProcessEvents()
 
 int32_t MarmaladeSystem::OnEvent(const MarmaladeSystemEvent *eventArgs)
 {
-	STACK_TRACE;
 	switch (eventArgs->event)
 	{
 	case MARMALADE_EVENT_PAUSE:
@@ -391,7 +384,6 @@ int32_t MarmaladeSystem::OnEvent(const MarmaladeSystemEvent *eventArgs)
 
 void MarmaladeSystem::Quit()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_SYSTEM, "Quit requested.\n");
 	m_isQuitting = TRUE;
 
@@ -404,7 +396,6 @@ void MarmaladeSystem::Quit()
 
 void MarmaladeSystem::Delay(uint32_t milliseconds) const
 {
-	STACK_TRACE;
 	unsigned int start = GetTicks();
 	unsigned int elapsed = 0;
 
@@ -477,7 +468,6 @@ int32 _MarmaladeEventCallback_PointerMultitouchMotion(void *systemData, void *us
 
 int32_t _MarmaladeEvent_PassToSystem(MARMALADE_EVENT event, void *systemData, void *userData)
 {
-	STACK_TRACE;
 	MarmaladeSystemEvent eventArgs;
 	eventArgs.event = event;
 	eventArgs.data = systemData;

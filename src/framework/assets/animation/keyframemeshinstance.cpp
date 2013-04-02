@@ -10,7 +10,6 @@
 
 KeyframeMeshInstance::KeyframeMeshInstance(KeyframeMesh *mesh)
 {
-	STACK_TRACE;
 	m_mesh = mesh;
 	m_texture = NULL;
 
@@ -29,13 +28,11 @@ KeyframeMeshInstance::KeyframeMeshInstance(KeyframeMesh *mesh)
 
 KeyframeMeshInstance::~KeyframeMeshInstance()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_renderState);
 }
 
 void KeyframeMeshInstance::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	if (m_currentSequenceStart != m_currentSequenceEnd)
 	{
 		m_interpolation += delta * 10;
@@ -76,7 +73,6 @@ void KeyframeMeshInstance::OnUpdate(float delta)
 
 void KeyframeMeshInstance::SetSequence(uint32_t startFrame, uint32_t endFrame, BOOL loop)
 {
-	STACK_TRACE;
 	m_currentSequenceName.clear();
 	m_currentSequenceStart = startFrame;
 	m_currentSequenceEnd = endFrame;
@@ -92,7 +88,6 @@ void KeyframeMeshInstance::SetSequence(uint32_t startFrame, uint32_t endFrame, B
 
 void KeyframeMeshInstance::SetSequence(const stl::string &name, BOOL loop)
 {
-	STACK_TRACE;
 	if (m_currentSequenceName == name)
 		return;
 
@@ -104,7 +99,6 @@ void KeyframeMeshInstance::SetSequence(const stl::string &name, BOOL loop)
 
 void KeyframeMeshInstance::RunSequenceOnce(const stl::string &name)
 {
-	STACK_TRACE;
 	if (m_isRunningTempSequence)
 		return;
 
@@ -118,7 +112,6 @@ void KeyframeMeshInstance::RunSequenceOnce(const stl::string &name)
 
 void KeyframeMeshInstance::RecoverFromTempSequence()
 {
-	STACK_TRACE;
 	m_isRunningTempSequence = FALSE;
 	SetSequence(m_oldSequenceName, m_oldSequenceLoop);
 	m_oldSequenceName.clear();

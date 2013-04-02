@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "renderstate.h"
 
 #include "glincludes.h"
@@ -7,18 +5,15 @@
 
 RenderState::RenderState()
 {
-	STACK_TRACE;
 	Initialize();
 }
 
 RenderState::~RenderState()
 {
-	STACK_TRACE;
 }
 
 void RenderState::Initialize()
 {
-	STACK_TRACE;
 	m_depthTesting = TRUE;
 	m_depthFunction = DEPTH_LESS;
 	m_faceCulling = TRUE;
@@ -28,7 +23,6 @@ void RenderState::Initialize()
 
 void RenderState::Apply() const
 {
-	STACK_TRACE;
 	if (m_depthTesting)
 	{
 		GL_CALL(glEnable(GL_DEPTH_TEST));
@@ -46,7 +40,6 @@ void RenderState::Apply() const
 
 void RenderState::SetFaceCulling() const
 {
-	STACK_TRACE;
 	if (m_faceCulling)
 	{
 		GL_CALL(glEnable(GL_CULL_FACE));

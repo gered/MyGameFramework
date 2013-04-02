@@ -9,13 +9,11 @@
 
 EntityManager::EntityManager(EventManager *eventManager)
 {
-	STACK_TRACE;
 	m_eventManager = eventManager;
 }
 
 EntityManager::~EntityManager()
 {
-	STACK_TRACE;
 	RemoveAll();
 	RemoveAllSubsystems();
 	RemoveAllPresets();
@@ -24,7 +22,6 @@ EntityManager::~EntityManager()
 
 void EntityManager::RemoveAllSubsystems()
 {
-	STACK_TRACE;
 	for (ComponentSystemList::iterator i = m_componentSystems.begin(); i != m_componentSystems.end(); ++i)
 		SAFE_DELETE(*i);
 
@@ -33,7 +30,6 @@ void EntityManager::RemoveAllSubsystems()
 
 void EntityManager::RemoveAllPresets()
 {
-	STACK_TRACE;
 	while (!m_entityPresets.empty())
 	{
 		EntityPresetMap::iterator i = m_entityPresets.begin();
@@ -47,7 +43,6 @@ void EntityManager::RemoveAllPresets()
 
 Entity* EntityManager::Add()
 {
-	STACK_TRACE;
 	Entity *entity = new Entity(this);
 	m_entities.insert(entity);
 	return entity;
@@ -55,7 +50,6 @@ Entity* EntityManager::Add()
 
 Entity* EntityManager::AddUsingPreset(ENTITYPRESET_TYPE preset, EntityPresetArgs *args)
 {
-	STACK_TRACE;
 	EntityPresetMap::iterator i = m_entityPresets.find(preset);
 	ASSERT(i != m_entityPresets.end());
 	if (i == m_entityPresets.end())
@@ -73,7 +67,6 @@ Entity* EntityManager::AddUsingPreset(ENTITYPRESET_TYPE preset, EntityPresetArgs
 
 BOOL EntityManager::WasCreatedUsingPreset(const Entity *entity, ENTITYPRESET_TYPE type) const
 {
-	STACK_TRACE;
 	ASSERT(entity != NULL);
 	ASSERT(type != NULL);
 	EntityPresetComponent *preset = entity->Get<EntityPresetComponent>();
@@ -85,7 +78,6 @@ BOOL EntityManager::WasCreatedUsingPreset(const Entity *entity, ENTITYPRESET_TYP
 
 void EntityManager::Remove(Entity *entity)
 {
-	STACK_TRACE;
 	ASSERT(entity != NULL);
 	if (!IsValid(entity))
 		return;
@@ -100,7 +92,6 @@ void EntityManager::Remove(Entity *entity)
 
 void EntityManager::RemoveAll()
 {
-	STACK_TRACE;
 	for (EntitySet::iterator i = m_entities.begin(); i != m_entities.end(); ++i)
 	{
 		Entity *entity = *i;
@@ -113,7 +104,6 @@ void EntityManager::RemoveAll()
 
 void EntityManager::RemoveAllComponentsFrom(Entity *entity)
 {
-	STACK_TRACE;
 	ASSERT(entity != NULL);
 	
 	for (ComponentStore::iterator i = m_components.begin(); i != m_components.end(); ++i)
@@ -143,7 +133,6 @@ BOOL EntityManager::IsValid(const Entity *entity) const
 
 void EntityManager::GetAllComponentsFor(const Entity *entity, ComponentList &list) const
 {
-	STACK_TRACE;
 	ASSERT(entity != NULL);
 	if (!IsValid(entity))
 		return;
@@ -159,7 +148,6 @@ void EntityManager::GetAllComponentsFor(const Entity *entity, ComponentList &lis
 
 void EntityManager::RemoveAllGlobalComponents()
 {
-	STACK_TRACE;
 	while (!m_globalComponents.empty())
 	{
 		GlobalComponentStore::iterator i = m_globalComponents.begin();
@@ -173,35 +161,30 @@ void EntityManager::RemoveAllGlobalComponents()
 
 void EntityManager::OnLostContext()
 {
-	STACK_TRACE;
 	for (ComponentSystemList::iterator i = m_componentSystems.begin(); i != m_componentSystems.end(); ++i)
 		(*i)->OnLostContext();
 }
 
 void EntityManager::OnNewContext()
 {
-	STACK_TRACE;
 	for (ComponentSystemList::iterator i = m_componentSystems.begin(); i != m_componentSystems.end(); ++i)
 		(*i)->OnNewContext();
 }
 
 void EntityManager::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	for (ComponentSystemList::iterator i = m_componentSystems.begin(); i != m_componentSystems.end(); ++i)
 		(*i)->OnRender(renderContext);
 }
 
 void EntityManager::OnResize()
 {
-	STACK_TRACE;
 	for (ComponentSystemList::iterator i = m_componentSystems.begin(); i != m_componentSystems.end(); ++i)
 		(*i)->OnResize();
 }
 
 void EntityManager::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	// find any inactive components and remove the associated entities before 
 	// we update anything
 	EntityList list;

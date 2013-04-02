@@ -6,7 +6,6 @@
 
 Text* Text::CreateFrom(File *file)
 {
-	STACK_TRACE;
 	ASSERT(file != NULL);
 	ASSERT(file->IsOpen());
 
@@ -31,7 +30,6 @@ Text* Text::CreateFrom(File *file)
 
 Text* Text::CreateFrom(const char *text, size_t length)
 {
-	STACK_TRACE;
 	ASSERT(text != NULL);
 	ASSERT(length > 0);
 
@@ -54,7 +52,6 @@ Text* Text::CreateFrom(const char *text, size_t length)
 
 Text::Text(char *text, size_t length)
 {
-	STACK_TRACE;
 	ASSERT(text != NULL);
 	ASSERT(length > 0);
 	m_text = text;
@@ -64,13 +61,11 @@ Text::Text(char *text, size_t length)
 
 Text::~Text()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_text);
 }
 
 uint32_t Text::CountLines()
 {
-	STACK_TRACE;
 	uint32_t numLines = 1;
 	for (uint32_t i = 0; i < m_length; ++i)
 	{
@@ -84,7 +79,6 @@ uint32_t Text::CountLines()
 
 const char* Text::GetLine(uint32_t line, size_t &lineLength) const
 {
-	STACK_TRACE;
 	ASSERT(line < m_numLines);
 
 	// find the start of the requested line

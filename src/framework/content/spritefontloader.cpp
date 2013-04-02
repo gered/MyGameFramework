@@ -28,23 +28,19 @@
 SpriteFontLoader::SpriteFontLoader(ContentManager *contentManager)
 	: ContentLoaderMapStoreBase<SpriteFont>(LOGGING_TAG, contentManager, "assets://fonts/")
 {
-	STACK_TRACE;
 }
 
 SpriteFontLoader::SpriteFontLoader(ContentManager *contentManager, const stl::string &defaultPath)
 	: ContentLoaderMapStoreBase<SpriteFont>(LOGGING_TAG, contentManager, defaultPath)
 {
-	STACK_TRACE;
 }
 
 SpriteFontLoader::~SpriteFontLoader()
 {
-	STACK_TRACE;
 }
 
 void SpriteFontLoader::OnNewContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: reloading previous fonts for new OpenGL context.\n", GetLoggingTag());
 
 	for (ContentStoreItor itor = m_content.begin(); itor != m_content.end(); ++itor)
@@ -69,7 +65,6 @@ void SpriteFontLoader::OnNewContext()
 
 void SpriteFontLoader::OnLostContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: invoking lost OpenGL context event for all loaded fonts.\n", GetLoggingTag());
 
 	for (ContentStoreItor itor = m_content.begin(); itor != m_content.end(); ++itor)
@@ -81,7 +76,6 @@ void SpriteFontLoader::OnLostContext()
 
 SpriteFont* SpriteFontLoader::LoadContent(const stl::string &file, const ContentParam *params)
 {
-	STACK_TRACE;
 	stl::string filename;
 	uint8_t size = 0;
 	
@@ -113,7 +107,6 @@ stl::string SpriteFontLoader::ProcessFilename(const stl::string &filename, const
 
 void SpriteFontLoader::DecomposeFilename(const stl::string &filename, stl::string &outFilename, uint8_t &outSize) const
 {
-	STACK_TRACE;
 	ASSERT(filename.length() > 0);
 	
 	size_t startOfSize = filename.find_last_of(':');
@@ -126,7 +119,6 @@ void SpriteFontLoader::DecomposeFilename(const stl::string &filename, stl::strin
 
 SpriteFont* SpriteFontLoader::Load(File *file, uint8_t size, SpriteFont *existing) const
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: loading \"%s:%d\"\n", GetLoggingTag(), file->GetFilename().c_str(), size);
 
 	// TODO: somehow find a way to base this on the font size requested, as this
@@ -276,13 +268,11 @@ SpriteFont* SpriteFontLoader::Load(File *file, uint8_t size, SpriteFont *existin
 
 void SpriteFontLoader::FreeContent(SpriteFont *content)
 {
-	STACK_TRACE;
 	SAFE_DELETE(content);
 }
 
 BOOL SpriteFontLoader::GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint8_t size, SpriteFontGlyphMetrics *metrics) const
 {
-	STACK_TRACE;
 	ASSERT(metrics != NULL);
 
 	// need to properly scale! sizes as returned from most (all?) metric-related functions will be huge

@@ -7,7 +7,6 @@
 
 StaticMeshSubset::StaticMeshSubset(uint32_t numTriangles, Texture *texture)
 {
-	STACK_TRACE;
 	VERTEX_ATTRIBS attribs[] = {
 		VERTEX_POS_3D,
 		VERTEX_NORMAL,
@@ -22,6 +21,5 @@ StaticMeshSubset::StaticMeshSubset(uint32_t numTriangles, Texture *texture)
 
 StaticMeshSubset::~StaticMeshSubset()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_vertices);
 }

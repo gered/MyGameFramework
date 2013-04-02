@@ -1,5 +1,3 @@
-#include "../framework/debug.h"
-
 #include "chunkrenderer.h"
 
 #include "../framework/graphics/blendstate.h"
@@ -15,22 +13,15 @@
 
 ChunkRenderer::ChunkRenderer(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	m_graphicsDevice = graphicsDevice;
 
 	m_renderState = new RENDERSTATE_DEFAULT;
-	ASSERT(m_renderState != NULL);
-
 	m_defaultBlendState = new BLENDSTATE_DEFAULT;
-	ASSERT(m_defaultBlendState != NULL);
-
 	m_alphaBlendState = new BLENDSTATE_ALPHABLEND;
-	ASSERT(m_alphaBlendState != NULL);
 }
 
 ChunkRenderer::~ChunkRenderer()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_renderState);
 	SAFE_DELETE(m_defaultBlendState);
 	SAFE_DELETE(m_alphaBlendState);
@@ -38,7 +29,6 @@ ChunkRenderer::~ChunkRenderer()
 
 uint32_t ChunkRenderer::Render(const TileChunk *chunk)
 {
-	STACK_TRACE;
 	const Texture *texture = chunk->GetTileMap()->GetMeshes()->GetTextureAtlas()->GetTexture();
 
 	uint32_t numVertices = chunk->GetNumVertices();
@@ -55,7 +45,6 @@ uint32_t ChunkRenderer::Render(const TileChunk *chunk)
 
 uint32_t ChunkRenderer::RenderAlpha(const TileChunk *chunk)
 {
-	STACK_TRACE;
 	uint32_t numVertices = 0;
 
 	if (chunk->IsAlphaEnabled())

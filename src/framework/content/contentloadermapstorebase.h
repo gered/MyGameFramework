@@ -58,7 +58,6 @@ template <class T>
 ContentLoaderMapStoreBase<T>::ContentLoaderMapStoreBase(const stl::string &loggingTag, ContentManager *contentManager, const stl::string &defaultPath)
 	: ContentLoader<T>(contentManager)
 {
-	STACK_TRACE;
 	ASSERT(loggingTag.length() > 0);
 	m_loggingTag = loggingTag;
 	SetDefaultPath(defaultPath);
@@ -67,14 +66,12 @@ ContentLoaderMapStoreBase<T>::ContentLoaderMapStoreBase(const stl::string &loggi
 template <class T>
 ContentLoaderMapStoreBase<T>::~ContentLoaderMapStoreBase()
 {
-	STACK_TRACE;
 	ASSERT(m_content.empty());
 }
 
 template<class T>
 T* ContentLoaderMapStoreBase<T>::Get(const stl::string &name, const ContentParam *params, BOOL preload)
 {
-	STACK_TRACE;
 	ContentContainer<T> content;
 	
 	stl::string filename = AddDefaultPathIfNeeded(name);
@@ -111,7 +108,6 @@ T* ContentLoaderMapStoreBase<T>::Get(const stl::string &name, const ContentParam
 template<class T>
 void ContentLoaderMapStoreBase<T>::Free(T *content, BOOL preload)
 {
-	STACK_TRACE;
 	ASSERT(content != NULL);
 	
 	for (ContentStoreItor itor = m_content.begin(); itor != m_content.end(); ++itor)
@@ -138,7 +134,6 @@ void ContentLoaderMapStoreBase<T>::Free(const stl::string &name, const ContentPa
 template<class T>
 void ContentLoaderMapStoreBase<T>::Free(ContentStoreItor &itor, BOOL force, BOOL preload)
 {
-	STACK_TRACE;
 	ASSERT(itor->second.content->WasLoadedByContentLoader() == TRUE);
 	
 	if (!itor->second.isPreLoaded)
@@ -177,7 +172,6 @@ void ContentLoaderMapStoreBase<T>::Free(ContentStoreItor &itor, BOOL force, BOOL
 template<class T>
 void ContentLoaderMapStoreBase<T>::RemoveAllContent()
 {
-	STACK_TRACE;
 	while (m_content.size() > 0)
 	{
 		ContentStoreItor itor = m_content.begin();
@@ -196,7 +190,6 @@ void ContentLoaderMapStoreBase<T>::RemoveAllContent()
 template<class T>
 stl::string ContentLoaderMapStoreBase<T>::GetNameOf(T *content) const
 {
-	STACK_TRACE;
 	ASSERT(content != NULL);
 	
 	for (ContentStoreConstItor itor = m_content.begin(); itor != m_content.end(); ++itor)
@@ -218,7 +211,6 @@ typename ContentLoaderMapStoreBase<T>::ContentStoreItor ContentLoaderMapStoreBas
 template<class T>
 void ContentLoaderMapStoreBase<T>::SetDefaultPath(const stl::string &path)
 {
-	STACK_TRACE;
 	if (path.length() == 0)
 	{
 		m_defaultPath = "";
@@ -239,7 +231,6 @@ void ContentLoaderMapStoreBase<T>::SetDefaultPath(const stl::string &path)
 template<class T>
 stl::string ContentLoaderMapStoreBase<T>::AddDefaultPathIfNeeded(const stl::string &imageFile) const
 {
-	STACK_TRACE;
 	if (imageFile[0] == '/' || m_defaultPath.length() == 0 || imageFile.substr(0, 9) == "assets://")
 		return imageFile;
 	else
@@ -249,7 +240,6 @@ stl::string ContentLoaderMapStoreBase<T>::AddDefaultPathIfNeeded(const stl::stri
 template<class T>
 stl::string ContentLoaderMapStoreBase<T>::ProcessFilename(const stl::string &filename, const ContentParam *params) const
 {
-	STACK_TRACE;
 	return filename;
 }
 

@@ -4,17 +4,14 @@
 
 CustomStandardShader::CustomStandardShader()
 {
-	STACK_TRACE;
 }
 
 CustomStandardShader::~CustomStandardShader()
 {
-	STACK_TRACE;
 }
 
 BOOL CustomStandardShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!StandardShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 
@@ -26,7 +23,6 @@ BOOL CustomStandardShader::Initialize(GraphicsDevice *graphicsDevice, const char
 
 BOOL CustomStandardShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!StandardShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 

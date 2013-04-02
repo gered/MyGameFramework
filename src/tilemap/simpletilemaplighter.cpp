@@ -1,5 +1,3 @@
-#include "../framework/debug.h"
-
 #include "simpletilemaplighter.h"
 #include "tile.h"
 #include "tilechunk.h"
@@ -11,24 +9,20 @@
 
 SimpleTileMapLighter::SimpleTileMapLighter()
 {
-	STACK_TRACE;
 }
 
 SimpleTileMapLighter::~SimpleTileMapLighter()
 {
-	STACK_TRACE;
 }
 
 void SimpleTileMapLighter::Light(TileMap *tileMap)
 {
-	STACK_TRACE;
 	ResetLightValues(tileMap);
 	ApplySkyLight(tileMap);
 }
 
 void SimpleTileMapLighter::ResetLightValues(TileMap *tileMap)
 {
-	STACK_TRACE;
 	for (uint32_t y = 0; y < tileMap->GetHeight(); ++y)
 	{
 		for (uint32_t z = 0; z < tileMap->GetDepth(); ++z)
@@ -49,7 +43,6 @@ void SimpleTileMapLighter::ResetLightValues(TileMap *tileMap)
 
 void SimpleTileMapLighter::ApplySkyLight(TileMap *tileMap)
 {
-	STACK_TRACE;
 	// NOTE: ResetLightValues() clears sky light data in such a way that
 	//       doesn't require us to flood-fill 0 light values here for everything
 	//       that isn't sky-lit

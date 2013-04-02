@@ -44,7 +44,6 @@ const unsigned int MAX_GPU_ATTRIB_SLOTS = 8;
 
 GraphicsDevice::GraphicsDevice()
 {
-	STACK_TRACE;
 	m_hasNewContextRunYet = FALSE;
 	m_boundVertexBuffer = NULL;
 	m_boundIndexBuffer = NULL;
@@ -72,7 +71,6 @@ GraphicsDevice::GraphicsDevice()
 
 BOOL GraphicsDevice::Initialize(GameWindow *window)
 {
-	STACK_TRACE;
 	ASSERT(m_window == NULL);
 	if (m_window != NULL)
 		return FALSE;
@@ -113,7 +111,6 @@ BOOL GraphicsDevice::Initialize(GameWindow *window)
 
 void GraphicsDevice::Release()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_defaultViewContext);
 	SAFE_DELETE(m_debugRenderer);
 	SAFE_DELETE(m_solidColorTextures);
@@ -144,7 +141,6 @@ void GraphicsDevice::Release()
 
 SimpleColorShader* GraphicsDevice::GetSimpleColorShader()
 {
-	STACK_TRACE;
 	if (m_simpleColorShader == NULL)
 	{
 		m_simpleColorShader = new SimpleColorShader();
@@ -156,7 +152,6 @@ SimpleColorShader* GraphicsDevice::GetSimpleColorShader()
 
 SimpleColorTextureShader* GraphicsDevice::GetSimpleColorTextureShader()
 {
-	STACK_TRACE;
 	if (m_simpleColorTextureShader == NULL)
 	{
 		m_simpleColorTextureShader = new SimpleColorTextureShader();
@@ -168,7 +163,6 @@ SimpleColorTextureShader* GraphicsDevice::GetSimpleColorTextureShader()
 
 SimpleTextureShader* GraphicsDevice::GetSimpleTextureShader()
 {
-	STACK_TRACE;
 	if (m_simpleTextureShader == NULL)
 	{
 		m_simpleTextureShader = new SimpleTextureShader();
@@ -180,7 +174,6 @@ SimpleTextureShader* GraphicsDevice::GetSimpleTextureShader()
 
 Sprite2DShader* GraphicsDevice::GetSprite2DShader()
 {
-	STACK_TRACE;
 	if (m_sprite2dShader == NULL)
 	{
 		m_sprite2dShader = new Sprite2DShader();
@@ -192,7 +185,6 @@ Sprite2DShader* GraphicsDevice::GetSprite2DShader()
 
 Sprite3DShader* GraphicsDevice::GetSprite3DShader()
 {
-	STACK_TRACE;
 	if (m_sprite3dShader == NULL)
 	{
 		m_sprite3dShader = new Sprite3DShader();
@@ -204,7 +196,6 @@ Sprite3DShader* GraphicsDevice::GetSprite3DShader()
 
 SimpleTextureVertexLerpShader* GraphicsDevice::GetSimpleTextureVertexLerpShader()
 {
-	STACK_TRACE;
 	if (m_simpleTextureVertexLerpShader == NULL)
 	{
 		m_simpleTextureVertexLerpShader = new SimpleTextureVertexLerpShader();
@@ -216,7 +207,6 @@ SimpleTextureVertexLerpShader* GraphicsDevice::GetSimpleTextureVertexLerpShader(
 
 SimpleTextureVertexSkinningShader* GraphicsDevice::GetSimpleTextureVertexSkinningShader()
 {
-	STACK_TRACE;
 	if (m_simpleTextureVertexSkinningShader == NULL)
 	{
 		m_simpleTextureVertexSkinningShader = new SimpleTextureVertexSkinningShader();
@@ -228,7 +218,6 @@ SimpleTextureVertexSkinningShader* GraphicsDevice::GetSimpleTextureVertexSkinnin
 
 DebugShader* GraphicsDevice::GetDebugShader()
 {
-	STACK_TRACE;
 	if (m_debugShader == NULL)
 	{
 		m_debugShader = new DebugShader();
@@ -240,7 +229,6 @@ DebugShader* GraphicsDevice::GetDebugShader()
 
 void GraphicsDevice::OnNewContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GRAPHICS, "Initializing default state for new OpenGL context.\n");
 
 	m_activeViewContext->OnNewContext();
@@ -273,7 +261,6 @@ void GraphicsDevice::OnNewContext()
 
 void GraphicsDevice::OnLostContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GRAPHICS, "Cleaning up objects/state specific to the lost OpenGL context.\n");
 	
 	m_activeViewContext->OnLostContext();
@@ -288,8 +275,6 @@ void GraphicsDevice::OnLostContext()
 
 void GraphicsDevice::OnResize(const Rect &size)
 {
-	STACK_TRACE;
-	
 	LOG_INFO(LOGCAT_GRAPHICS, "Window resized (%d, %d) - (%d, %d).\n", size.left, size.top, size.GetWidth(), size.GetHeight());
 	if (m_window->GetScreenOrientation() != SCREEN_ANGLE_0)
 		LOG_INFO(LOGCAT_GRAPHICS, "Screen is rotated (angle = %d).\n", (int)m_window->GetScreenOrientation());
@@ -298,7 +283,6 @@ void GraphicsDevice::OnResize(const Rect &size)
 
 void GraphicsDevice::OnRender()
 {
-	STACK_TRACE;
 	GLenum error = glGetError();
 	ASSERT(error == GL_NO_ERROR);
 	if (error != GL_NO_ERROR)
@@ -315,26 +299,22 @@ void GraphicsDevice::OnRender()
 
 void GraphicsDevice::Clear(float r, float g, float b, float a)
 {
-	STACK_TRACE;
 	GL_CALL(glClearColor(r, g, b, a));
 	GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
 void GraphicsDevice::Clear(const Color &color)
 {
-	STACK_TRACE;
 	Clear(color.r, color.g, color.b, color.a);
 }
 
 Texture* GraphicsDevice::GetSolidColorTexture(const Color &color)
 {
-	STACK_TRACE;
 	return m_solidColorTextures->Get(color);
 }
 
 void GraphicsDevice::BindTexture(const Texture *texture, uint32_t unit)
 {
-	STACK_TRACE;
 	ASSERT(unit < MAX_BOUND_TEXTURES);
 	ASSERT(texture != NULL);
 	ASSERT(texture->IsInvalidated() == FALSE);
@@ -348,14 +328,12 @@ void GraphicsDevice::BindTexture(const Texture *texture, uint32_t unit)
 
 void GraphicsDevice::BindSolidColorTexture(const Color &color, uint32_t unit)
 {
-	STACK_TRACE;
 	Texture *texture = m_solidColorTextures->Get(color);
 	BindTexture(texture, unit);
 }
 
 void GraphicsDevice::UnbindTexture(uint32_t unit)
 {
-	STACK_TRACE;
 	ASSERT(unit < MAX_BOUND_TEXTURES);
 	GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));
 	GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
@@ -364,7 +342,6 @@ void GraphicsDevice::UnbindTexture(uint32_t unit)
 
 void GraphicsDevice::UnbindTexture(const Texture *texture)
 {
-	STACK_TRACE;
 	ASSERT(texture != NULL);
 	if (texture == NULL)
 		return;
@@ -378,7 +355,6 @@ void GraphicsDevice::UnbindTexture(const Texture *texture)
 
 void GraphicsDevice::BindRenderbuffer(Renderbuffer *renderbuffer)
 {
-	STACK_TRACE;
 	ASSERT(renderbuffer != NULL);
 	ASSERT(renderbuffer->IsInvalidated() == FALSE);
 	if (m_boundRenderbuffer != renderbuffer)
@@ -390,14 +366,12 @@ void GraphicsDevice::BindRenderbuffer(Renderbuffer *renderbuffer)
 
 void GraphicsDevice::UnbindRenderbuffer()
 {
-	STACK_TRACE;
 	GL_CALL(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 	m_boundRenderbuffer = NULL;
 }
 
 void GraphicsDevice::UnbindRenderBuffer(Renderbuffer *renderBuffer)
 {
-	STACK_TRACE;
 	ASSERT(renderBuffer != NULL);
 	if (renderBuffer == NULL)
 		return;
@@ -408,7 +382,6 @@ void GraphicsDevice::UnbindRenderBuffer(Renderbuffer *renderBuffer)
 
 void GraphicsDevice::BindFramebuffer(Framebuffer *framebuffer)
 {
-	STACK_TRACE;
 	ASSERT(framebuffer != NULL);
 	ASSERT(framebuffer->IsInvalidated() == FALSE);
 	if (m_boundFramebuffer != framebuffer)
@@ -421,7 +394,6 @@ void GraphicsDevice::BindFramebuffer(Framebuffer *framebuffer)
 
 void GraphicsDevice::UnbindFramebuffer()
 {
-	STACK_TRACE;
 	GL_CALL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 	if (m_boundFramebuffer != NULL)
 		m_boundFramebuffer->OnUnBind();
@@ -430,7 +402,6 @@ void GraphicsDevice::UnbindFramebuffer()
 
 void GraphicsDevice::UnbindFramebuffer(Framebuffer *framebuffer)
 {
-	STACK_TRACE;
 	ASSERT(framebuffer != NULL);
 	if (framebuffer == NULL)
 		return;
@@ -441,7 +412,6 @@ void GraphicsDevice::UnbindFramebuffer(Framebuffer *framebuffer)
 
 void GraphicsDevice::SetViewContext(ViewContext *viewContext)
 {
-	STACK_TRACE;
 	if (viewContext == m_activeViewContext)
 		return;   // nothing has changed
 	
@@ -455,7 +425,6 @@ void GraphicsDevice::SetViewContext(ViewContext *viewContext)
 
 void GraphicsDevice::RegisterManagedResource(GraphicsContextResource *resource)
 {
-	STACK_TRACE;
 	ASSERT(resource != NULL);
 
 	// make sure this resource isn't in our list already
@@ -472,20 +441,17 @@ void GraphicsDevice::RegisterManagedResource(GraphicsContextResource *resource)
 
 void GraphicsDevice::UnregisterManagedResource(GraphicsContextResource *resource)
 {
-	STACK_TRACE;
 	ASSERT(resource != NULL);
 	m_managedResources.remove(resource);
 }
 
 void GraphicsDevice::UnregisterAllManagedResources()
 {
-	STACK_TRACE;
 	m_managedResources.clear();
 }
 
 void GraphicsDevice::BindVertexBuffer(VertexBuffer *buffer)
 {
-	STACK_TRACE;
 	ASSERT(buffer != NULL);
 	ASSERT(buffer->GetNumElements() > 0);
 
@@ -505,7 +471,6 @@ void GraphicsDevice::BindVertexBuffer(VertexBuffer *buffer)
 
 void GraphicsDevice::UnbindVertexBuffer()
 {
-	STACK_TRACE;
 	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 
 	m_boundVertexBuffer = NULL;
@@ -515,7 +480,6 @@ void GraphicsDevice::UnbindVertexBuffer()
 
 void GraphicsDevice::BindIndexBuffer(IndexBuffer *buffer)
 {
-	STACK_TRACE;
 	ASSERT(buffer != NULL);
 	ASSERT(buffer->GetNumElements() > 0);
 
@@ -533,7 +497,6 @@ void GraphicsDevice::BindIndexBuffer(IndexBuffer *buffer)
 
 void GraphicsDevice::UnbindIndexBuffer()
 {
-	STACK_TRACE;
 	GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
 	m_boundIndexBuffer = NULL;
@@ -541,7 +504,6 @@ void GraphicsDevice::UnbindIndexBuffer()
 
 void GraphicsDevice::BindShader(Shader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader != NULL);
 	ASSERT(shader->IsReadyForUse() == TRUE);
 	GL_CALL(glUseProgram(shader->GetProgramId()));
@@ -555,7 +517,6 @@ void GraphicsDevice::BindShader(Shader *shader)
 
 void GraphicsDevice::UnbindShader()
 {
-	STACK_TRACE;
 	GL_CALL(glUseProgram(0));
 
 	if (m_boundShader != NULL)
@@ -568,7 +529,6 @@ void GraphicsDevice::UnbindShader()
 
 void GraphicsDevice::BindVBO(VertexBuffer *buffer)
 {
-	STACK_TRACE;
 	if (buffer->IsDirty())
 		buffer->Update();
 
@@ -577,13 +537,11 @@ void GraphicsDevice::BindVBO(VertexBuffer *buffer)
 
 void GraphicsDevice::BindClientBuffer(VertexBuffer *buffer)
 {
-	STACK_TRACE;
 	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }
 
 void GraphicsDevice::BindIBO(IndexBuffer *buffer)
 {
-	STACK_TRACE;
 	if (buffer->IsDirty())
 		buffer->Update();
 
@@ -592,13 +550,11 @@ void GraphicsDevice::BindIBO(IndexBuffer *buffer)
 
 void GraphicsDevice::BindClientBuffer(IndexBuffer *buffer)
 {
-	STACK_TRACE;
 	GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
 
 void GraphicsDevice::SetShaderVertexAttributes()
 {
-	STACK_TRACE;
 	ASSERT(m_boundVertexBuffer != NULL);
 	ASSERT(m_boundShader != NULL);
 	ASSERT(m_enabledVertexAttribIndices.empty() == TRUE);
@@ -647,7 +603,6 @@ void GraphicsDevice::SetShaderVertexAttributes()
 
 void GraphicsDevice::ClearSetShaderVertexAttributes()
 {
-	STACK_TRACE;
 	while (!m_enabledVertexAttribIndices.empty())
 	{
 		uint32_t index = m_enabledVertexAttribIndices.back();
@@ -660,7 +615,6 @@ void GraphicsDevice::ClearSetShaderVertexAttributes()
 
 void GraphicsDevice::RenderTriangles(const IndexBuffer *buffer)
 {
-	STACK_TRACE;
 	ASSERT(buffer != NULL);
 	ASSERT(buffer->IsClientSideBuffer() == TRUE);
 	ASSERT(m_boundVertexBuffer != NULL);
@@ -674,7 +628,6 @@ void GraphicsDevice::RenderTriangles(const IndexBuffer *buffer)
 
 void GraphicsDevice::RenderTriangles()
 {
-	STACK_TRACE;
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
@@ -706,7 +659,6 @@ void GraphicsDevice::RenderTriangles()
 
 void GraphicsDevice::RenderTriangles(uint32_t startVertex, uint32_t numTriangles)
 {
-	STACK_TRACE;
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
@@ -739,7 +691,6 @@ void GraphicsDevice::RenderTriangles(uint32_t startVertex, uint32_t numTriangles
 
 void GraphicsDevice::RenderLines(const IndexBuffer *buffer)
 {
-	STACK_TRACE;
 	ASSERT(buffer != NULL);
 	ASSERT(buffer->IsClientSideBuffer() == TRUE);
 	ASSERT(m_boundVertexBuffer != NULL);
@@ -753,7 +704,6 @@ void GraphicsDevice::RenderLines(const IndexBuffer *buffer)
 
 void GraphicsDevice::RenderLines()
 {
-	STACK_TRACE;
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
@@ -785,7 +735,6 @@ void GraphicsDevice::RenderLines()
 
 void GraphicsDevice::RenderLines(uint32_t startVertex, uint32_t numLines)
 {
-	STACK_TRACE;
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
@@ -818,7 +767,6 @@ void GraphicsDevice::RenderLines(uint32_t startVertex, uint32_t numLines)
 
 void GraphicsDevice::RenderPoints(const IndexBuffer *buffer)
 {
-	STACK_TRACE;
 	ASSERT(buffer != NULL);
 	ASSERT(buffer->IsClientSideBuffer() == TRUE);
 	ASSERT(m_boundVertexBuffer != NULL);
@@ -831,7 +779,6 @@ void GraphicsDevice::RenderPoints(const IndexBuffer *buffer)
 
 void GraphicsDevice::RenderPoints()
 {
-	STACK_TRACE;
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();
@@ -861,7 +808,6 @@ void GraphicsDevice::RenderPoints()
 
 void GraphicsDevice::RenderPoints(uint32_t startVertex, uint32_t numPoints)
 {
-	STACK_TRACE;
 	ASSERT(m_boundVertexBuffer != NULL);
 	if (!m_shaderVertexAttribsSet)
 		SetShaderVertexAttributes();

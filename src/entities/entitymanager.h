@@ -89,7 +89,6 @@ private:
 template<class T>
 T* EntityManager::AddSubsystem()
 {
-	STACK_TRACE;
 	ASSERT(GetSubsystem<T>() == NULL);
 	T* subsystem = new T(this, m_eventManager);
 	m_componentSystems.push_back(subsystem);
@@ -99,7 +98,6 @@ T* EntityManager::AddSubsystem()
 template<class T, class TBefore> 
 T* EntityManager::AddSubsystemBefore()
 {
-	STACK_TRACE;
 	ASSERT(GetSubsystem<T>() == NULL);
 	ComponentSystemList::const_iterator i = FindSubsystem<TBefore>();
 	ASSERT(i != m_componentSystems.end());
@@ -111,7 +109,6 @@ T* EntityManager::AddSubsystemBefore()
 template<class T>
 T* EntityManager::GetSubsystem() const
 {
-	STACK_TRACE;
 	ComponentSystemList::const_iterator i = FindSubsystem<T>();
 	if (i == m_componentSystems.end())
 		return NULL;
@@ -122,7 +119,6 @@ T* EntityManager::GetSubsystem() const
 template<class T>
 void EntityManager::RemoveSubsystem()
 {
-	STACK_TRACE;
 	ComponentSystemList::iterator i = FindSubsystem<T>();
 	if (i == m_componentSystems.end())
 		return;
@@ -134,7 +130,6 @@ void EntityManager::RemoveSubsystem()
 template<class T>
 void EntityManager::AddPreset()
 {
-	STACK_TRACE;
 	T* preset = new T(this);
 	EntityPresetMap::const_iterator i = m_entityPresets.find(T::GetType());
 	ASSERT(i == m_entityPresets.end());
@@ -147,7 +142,6 @@ void EntityManager::AddPreset()
 template<class T>
 void EntityManager::RemovePreset()
 {
-	STACK_TRACE;
 	EntityPresetMap::iterator i = m_entityPresets.find(T::GetType());
 	if (i == m_entityPresets.end())
 		return;
@@ -161,14 +155,12 @@ void EntityManager::RemovePreset()
 template<class T>
 Entity* EntityManager::AddUsingPreset(EntityPresetArgs *args)
 {
-	STACK_TRACE;
 	return AddUsingPreset(T::GetType(), args);
 }
 
 template<class T>
 T* EntityManager::AddComponent(Entity *entity)
 {
-	STACK_TRACE;
 	ASSERT(GetComponent<T>(entity) == NULL);
 	T* component = new T();
 	m_components[T::GetType()].insert(EntityComponentsMap::value_type(entity, component));
@@ -178,7 +170,6 @@ T* EntityManager::AddComponent(Entity *entity)
 template <class T>
 T* EntityManager::GetComponent(const Entity *entity) const
 {
-	STACK_TRACE;
 	ComponentStore::const_iterator i = m_components.find(T::GetType());
 	if (i == m_components.end())
 		return NULL;
@@ -194,7 +185,6 @@ T* EntityManager::GetComponent(const Entity *entity) const
 template<class T>
 void EntityManager::RemoveComponent(Entity *entity)
 {
-	STACK_TRACE;
 	ComponentStore::iterator i = m_components.find(T::GetType());
 	if (i == m_components.end())
 		return;
@@ -213,7 +203,6 @@ void EntityManager::RemoveComponent(Entity *entity)
 template<class T>
 BOOL EntityManager::HasComponent(const Entity *entity) const
 {
-	STACK_TRACE;
 	ComponentStore::const_iterator i = m_components.find(T::GetType());
 	if (i == m_components.end())
 		return FALSE;
@@ -229,7 +218,6 @@ BOOL EntityManager::HasComponent(const Entity *entity) const
 template<class T>
 T* EntityManager::AddGlobalComponent()
 {
-	STACK_TRACE;
 	ASSERT(GetGlobalComponent<T>() == NULL);
 	T* newComponent = new T();
 	m_globalComponents.insert(GlobalComponentStore::value_type(T::GetType(), newComponent));
@@ -239,7 +227,6 @@ T* EntityManager::AddGlobalComponent()
 template<class T>
 T* EntityManager::GetGlobalComponent() const
 {
-	STACK_TRACE;
 	GlobalComponentStore::const_iterator i = m_globalComponents.find(T::GetType());
 	if (i == m_globalComponents.end())
 		return NULL;
@@ -261,7 +248,6 @@ void EntityManager::RemoveGlobalComponent()
 template<class T>
 BOOL EntityManager::HasGlobalComponent() const
 {
-	STACK_TRACE;
 	GlobalComponentStore::const_iterator i = m_globalComponents.find(T::GetType());
 	if (i == m_globalComponents.end())
 		return FALSE;

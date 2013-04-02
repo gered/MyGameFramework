@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "gridtextureatlas.h"
 
 #include "texture.h"
@@ -7,25 +5,21 @@
 GridTextureAtlas::GridTextureAtlas(uint16_t textureWidth, uint16_t textureHeight, uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder, float texCoordEdgeOffset)
 	: TextureAtlas(textureWidth, textureHeight, texCoordEdgeOffset)
 {
-	STACK_TRACE;
 	GenerateGrid(tileWidth, tileHeight, tileBorder);
 }
 
 GridTextureAtlas::GridTextureAtlas(Texture *source, uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder, float texCoordEdgeOffset)
 	: TextureAtlas(source, texCoordEdgeOffset)
 {
-	STACK_TRACE;
 	GenerateGrid(tileWidth, tileHeight, tileBorder);
 }
 
 GridTextureAtlas::~GridTextureAtlas()
 {
-	STACK_TRACE;
 }
 
 void GridTextureAtlas::GenerateGrid(uint16_t tileWidth, uint16_t tileHeight, uint16_t tileBorder)
 {
-	STACK_TRACE;
 	m_tileWidth = tileWidth;
 	m_tileHeight = tileHeight;
 

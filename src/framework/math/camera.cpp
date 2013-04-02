@@ -10,7 +10,6 @@
 
 Camera::Camera(ViewContext *viewContext)
 {
-	STACK_TRACE;
 	m_viewContext = viewContext;
 	m_frustum = new Frustum(m_viewContext);
 	ASSERT(m_frustum != NULL);
@@ -35,13 +34,11 @@ Camera::Camera(ViewContext *viewContext)
 
 Camera::~Camera()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_frustum);
 }
 
 void Camera::CalculateDefaultProjection(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom)
 {
-	STACK_TRACE;
 	m_viewportWidth = right - left;
 	m_viewportHeight = bottom - top;
 
@@ -55,7 +52,6 @@ void Camera::CalculateDefaultProjection(uint16_t left, uint16_t top, uint16_t ri
 
 void Camera::CalculateDefaultLookAt(const Vector3 &movement)
 {
-	STACK_TRACE;
 	// final camera orientation. angles must be negative (or rather, inverted) for the camera matrix. also the matrix concatenation order is important!
 	Matrix4x4 rotation = Matrix4x4::CreateRotationY(-m_orientation.y) * Matrix4x4::CreateRotationX(-m_orientation.x);
 
@@ -73,12 +69,10 @@ void Camera::CalculateDefaultLookAt(const Vector3 &movement)
 
 void Camera::OnUpdate(float delta)
 {
-	STACK_TRACE;
 }
 
 void Camera::OnRender()
 {
-	STACK_TRACE;
 	UpdateLookAtMatrix(ZERO_VECTOR);
 	m_viewContext->SetModelViewMatrix(m_lookAt);
 	m_frustum->Calculate();
@@ -86,20 +80,17 @@ void Camera::OnRender()
 
 void Camera::OnResize(const Rect &size)
 {
-	STACK_TRACE;
 	CalculateDefaultProjection(size.left, size.top, size.right, size.bottom);
 	m_viewContext->SetProjectionMatrix(m_projection);
 }
 
 void Camera::UpdateLookAtMatrix(const Vector3 &movement)
 {
-	STACK_TRACE;
 	CalculateDefaultLookAt(movement);
 }
 
 void Camera::UpdateProjectionMatrix()
 {
-	STACK_TRACE;
 	CalculateDefaultProjection(
 							   m_viewContext->GetViewportLeft(), 
 							   m_viewContext->GetViewportTop(), 
@@ -110,7 +101,6 @@ void Camera::UpdateProjectionMatrix()
 
 Ray Camera::Pick(uint16_t screenX, uint16_t screenY) const
 {
-	STACK_TRACE;
 	float nx = 2.0f * ((float)(screenX - (m_viewContext->GetViewportWidth() / 2))) / ((float)m_viewContext->GetViewportWidth());
 	float ny = 2.0f * -((float)(screenY - (m_viewContext->GetViewportHeight() / 2))) / ((float)m_viewContext->GetViewportHeight());
 
@@ -132,7 +122,6 @@ Ray Camera::Pick(uint16_t screenX, uint16_t screenY) const
 
 Point2 Camera::Project(const Vector3 &objectPosition) const
 {
-	STACK_TRACE;
 	Matrix4x4 modelview = m_viewContext->GetModelViewMatrix();
 	Matrix4x4 projection = m_viewContext->GetProjectionMatrix();
 
@@ -141,7 +130,6 @@ Point2 Camera::Project(const Vector3 &objectPosition) const
 
 Point2 Camera::Project(const Vector3 &objectPosition, const Matrix4x4 &modelview, const Matrix4x4 &projection) const
 {
-	STACK_TRACE;
 	// transform object position by modelview matrix (vector transform, w = 1)
 	float tempX = objectPosition.x * modelview.m[_11] + objectPosition.y * modelview.m[_12] + objectPosition.z * modelview.m[_13] + modelview.m[_14];
 	float tempY = objectPosition.x * modelview.m[_21] + objectPosition.y * modelview.m[_22] + objectPosition.z * modelview.m[_23] + modelview.m[_24];
@@ -175,4 +163,3 @@ Point2 Camera::Project(const Vector3 &objectPosition, const Matrix4x4 &modelview
 
 	return out; 
 }
-

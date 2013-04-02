@@ -28,7 +28,6 @@ char __billboardSpriteBatch_PrintfBuffer[PRINTF_BUFFER_SIZE + 1];
 
 BillboardSpriteBatch::BillboardSpriteBatch(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	m_graphicsDevice = graphicsDevice;
 	m_shader = NULL;
 
@@ -63,7 +62,6 @@ BillboardSpriteBatch::BillboardSpriteBatch(GraphicsDevice *graphicsDevice)
 
 BillboardSpriteBatch::~BillboardSpriteBatch()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_vertices);
 	SAFE_DELETE(m_renderState);
 	SAFE_DELETE(m_blendState);
@@ -71,7 +69,6 @@ BillboardSpriteBatch::~BillboardSpriteBatch()
 
 void BillboardSpriteBatch::InternalBegin(const RenderState *renderState, const BlendState *blendState, SpriteShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == FALSE);
 
 	m_cameraPosition = m_graphicsDevice->GetViewContext()->GetCamera()->GetPosition();
@@ -107,43 +104,36 @@ void BillboardSpriteBatch::InternalBegin(const RenderState *renderState, const B
 
 void BillboardSpriteBatch::Begin(SpriteShader *shader)
 {
-	STACK_TRACE;
 	InternalBegin(NULL, NULL, shader);
 }
 
 void BillboardSpriteBatch::Begin(const RenderState &renderState, SpriteShader *shader)
 {
-	STACK_TRACE;
 	InternalBegin(&renderState, NULL, shader);
 }
 
 void BillboardSpriteBatch::Begin(const BlendState &blendState, SpriteShader *shader)
 {
-	STACK_TRACE;
 	InternalBegin(NULL, &blendState, shader);
 }
 
 void BillboardSpriteBatch::Begin(const RenderState &renderState, const BlendState &blendState, SpriteShader *shader)
 {
-	STACK_TRACE;
 	InternalBegin(&renderState, &blendState, shader);
 }
 
 void BillboardSpriteBatch::Render(const Texture *texture, float x, float y, float z, float width, float height, BILLBOARDSPRITE_TYPE type, const Color &color)
 {
-	STACK_TRACE;
 	AddSprite(type, texture, Vector3(x, y, z), width, height, 0, 0, texture->GetWidth(), texture->GetHeight(), color);
 }
 
 void BillboardSpriteBatch::Render(const Texture *texture, const Vector3 &position, float width, float height, BILLBOARDSPRITE_TYPE type, const Color &color)
 {
-	STACK_TRACE;
 	AddSprite(type, texture, position, width, height, 0, 0, texture->GetWidth(), texture->GetHeight(), color);
 }
 
 void BillboardSpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, float x, float y, float z, float width, float height, BILLBOARDSPRITE_TYPE type, const Color &color)
 {
-	STACK_TRACE;
 	const RectF *texCoords = &atlas->GetTile(index).texCoords;
 	const Texture *texture = atlas->GetTexture();
 
@@ -152,7 +142,6 @@ void BillboardSpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, flo
 
 void BillboardSpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, const Vector3 &position, float width, float height, BILLBOARDSPRITE_TYPE type, const Color &color)
 {
-	STACK_TRACE;
 	const RectF *texCoords = &atlas->GetTile(index).texCoords;
 	const Texture *texture = atlas->GetTexture();
 
@@ -161,13 +150,11 @@ void BillboardSpriteBatch::Render(const TextureAtlas *atlas, uint32_t index, con
 
 void BillboardSpriteBatch::Render(const SpriteFont *font, float x, float y, float z, BILLBOARDSPRITE_TYPE type, const Color &color, float pixelScale, const char *text)
 {
-	STACK_TRACE;
 	Render(font, Vector3(x, y, z), type, color, pixelScale, text);
 }
 
 void BillboardSpriteBatch::Render(const SpriteFont *font, const Vector3 &position, BILLBOARDSPRITE_TYPE type, const Color &color, float pixelScale, const char *text)
 {
-	STACK_TRACE;
 	size_t textLength = strlen(text);
 
 	uint16_t textWidth = 0;
@@ -217,7 +204,6 @@ void BillboardSpriteBatch::Render(const SpriteFont *font, const Vector3 &positio
 
 void BillboardSpriteBatch::Printf(const SpriteFont *font, float x, float y, float z, BILLBOARDSPRITE_TYPE type, const Color &color, float pixelScale, const char *format, ...)
 {
-	STACK_TRACE;
 	va_list args;
 	va_start(args, format);
 	vsnprintf(__billboardSpriteBatch_PrintfBuffer, PRINTF_BUFFER_SIZE, format, args);
@@ -228,7 +214,6 @@ void BillboardSpriteBatch::Printf(const SpriteFont *font, float x, float y, floa
 
 void BillboardSpriteBatch::Printf(const SpriteFont *font, const Vector3 &position, BILLBOARDSPRITE_TYPE type, const Color &color, float pixelScale, const char *format, ...)
 {
-	STACK_TRACE;
 	va_list args;
 	va_start(args, format);
 	vsnprintf(__billboardSpriteBatch_PrintfBuffer, PRINTF_BUFFER_SIZE, format, args);
@@ -239,7 +224,6 @@ void BillboardSpriteBatch::Printf(const SpriteFont *font, const Vector3 &positio
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *texture, const Vector3 &position, float width, float height, uint16_t sourceLeft, uint16_t sourceTop, uint16_t sourceRight, uint16_t sourceBottom, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	Matrix4x4 transform = GetTransformFor(type, position);
 
@@ -250,7 +234,6 @@ void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *t
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *texture, const Vector3 &position, float width, float height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	Matrix4x4 transform = GetTransformFor(type, position);
 
@@ -261,7 +244,6 @@ void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *t
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Matrix4x4 &transform, const Texture *texture, const Vector3 &offset, float width, float height, uint16_t sourceLeft, uint16_t sourceTop, uint16_t sourceRight, uint16_t sourceBottom, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 
 	uint16_t sourceWidth = sourceRight - sourceLeft;
@@ -280,7 +262,6 @@ void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Matrix4x4 
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Matrix4x4 &transform, const Texture *texture, const Vector3 &offset, float width, float height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	CheckForNewSpriteSpace();
 	SetSpriteInfo(m_currentSpritePointer, type, transform, texture, offset, width, height, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
@@ -289,7 +270,6 @@ void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Matrix4x4 
 
 void BillboardSpriteBatch::SetSpriteInfo(uint32_t spriteIndex, BILLBOARDSPRITE_TYPE type, const Matrix4x4 &transform, const Texture *texture, const Vector3 &offset, float width, float height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	STACK_TRACE;
 	uint32_t base = spriteIndex * VERTICES_PER_SPRITE;
 
 	float halfWidth = width / 2.0f;
@@ -338,7 +318,6 @@ void BillboardSpriteBatch::SetSpriteInfo(uint32_t spriteIndex, BILLBOARDSPRITE_T
 
 void BillboardSpriteBatch::End()
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 
 	if (m_isRenderStateOverridden)
@@ -361,7 +340,6 @@ void BillboardSpriteBatch::End()
 
 void BillboardSpriteBatch::RenderQueue()
 {
-	STACK_TRACE;
 	m_graphicsDevice->BindVertexBuffer(m_vertices);
 
 	const Texture *currentTexture = NULL;
@@ -393,7 +371,6 @@ void BillboardSpriteBatch::RenderQueue()
 
 void BillboardSpriteBatch::RenderQueueRange(const Texture *texture, uint32_t firstSprite, uint32_t lastSprite)
 {
-	STACK_TRACE;
 	const int TRIANGLES_PER_SPRITE = 2;
 	uint32_t vertexOffset = firstSprite * VERTICES_PER_SPRITE;
 	uint32_t numTriangles = (lastSprite - firstSprite) * TRIANGLES_PER_SPRITE;
@@ -428,7 +405,6 @@ inline Matrix4x4 BillboardSpriteBatch::GetTransformFor(BILLBOARDSPRITE_TYPE type
 
 void BillboardSpriteBatch::CheckForNewSpriteSpace()
 {
-	STACK_TRACE;
 	// m_currentSpritePointer = zero-based index
 	// m_currentSpriteCapacity = count of items (not zero-based)
 	if (m_currentSpritePointer >= m_currentSpriteCapacity)

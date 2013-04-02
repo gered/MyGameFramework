@@ -8,29 +8,24 @@
 CustomTextureAtlas::CustomTextureAtlas(uint16_t textureWidth, uint16_t textureHeight, float texCoordEdgeOffset)
 	: TextureAtlas(textureWidth, textureHeight, texCoordEdgeOffset)
 {
-	STACK_TRACE;
 }
 
 CustomTextureAtlas::CustomTextureAtlas(Texture *source, float texCoordEdgeOffset)
 	: TextureAtlas(source, texCoordEdgeOffset)
 {
-	STACK_TRACE;
 }
 
 CustomTextureAtlas::~CustomTextureAtlas()
 {
-	STACK_TRACE;
 }
 
 uint32_t CustomTextureAtlas::Add(const Rect &position)
 {
-	STACK_TRACE;
 	return Add(position.left, position.top, position.right, position.bottom);
 }
 
 uint32_t CustomTextureAtlas::Add(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom)
 {
-	STACK_TRACE;
 	ASSERT(right <= GetWidth());
 	ASSERT(bottom <= GetHeight());
 	ASSERT(left < right);
@@ -61,6 +56,5 @@ uint32_t CustomTextureAtlas::Add(uint16_t left, uint16_t top, uint16_t right, ui
 
 void CustomTextureAtlas::Reset()
 {
-	STACK_TRACE;
 	m_tiles.clear();
 }

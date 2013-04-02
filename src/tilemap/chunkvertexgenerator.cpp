@@ -17,17 +17,14 @@
 
 ChunkVertexGenerator::ChunkVertexGenerator()
 {
-	STACK_TRACE;
 }
 
 ChunkVertexGenerator::~ChunkVertexGenerator()
 {
-	STACK_TRACE;
 }
 
 void ChunkVertexGenerator::Generate(TileChunk *chunk, uint32_t &numVertices, uint32_t &numAlphaVertices)
 {
-	STACK_TRACE;
 	numVertices = 0;
 	numAlphaVertices = 0;
 
@@ -177,7 +174,6 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint32_t &numVertices, uin
 
 uint32_t ChunkVertexGenerator::AddMesh(const TileMesh *mesh, TileChunk *chunk, BOOL isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint32_t firstVertex, uint32_t numVertices)
 {
-	STACK_TRACE;
 	VertexBuffer *sourceBuffer = mesh->GetBuffer();
 	sourceBuffer->MoveToStart();
 

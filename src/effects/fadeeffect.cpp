@@ -1,5 +1,3 @@
-#include "../framework/debug.h"
-
 #include "fadeeffect.h"
 #include "../contexts/rendercontext.h"
 #include "../framework/graphics/color.h"
@@ -12,9 +10,7 @@ const float DEFAULT_FADE_SPEED = 3.0f;
 const Color DEFAULT_FADE_COLOR = COLOR_BLACK;
 
 FadeEffect::FadeEffect()
-	: Effect()
 {
-	STACK_TRACE;
 	m_doneFading = FALSE;
 	m_fadeSpeed = DEFAULT_FADE_SPEED;
 	m_fadingOut = TRUE;
@@ -25,12 +21,10 @@ FadeEffect::FadeEffect()
 
 FadeEffect::~FadeEffect()
 {
-	STACK_TRACE;
 }
 
 void FadeEffect::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	uint16_t width = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportWidth();
 	uint16_t height = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportHeight();
 	
@@ -45,7 +39,6 @@ void FadeEffect::OnRender(RenderContext *renderContext)
 
 void FadeEffect::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	if (m_doneFading)
 		return;
 

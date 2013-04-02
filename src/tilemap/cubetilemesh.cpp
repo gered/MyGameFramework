@@ -11,7 +11,6 @@
 
 CubeTileMesh::CubeTileMesh(CUBE_FACES faces, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color)
 {
-	STACK_TRACE;
 	m_faces = faces;
 
 	SetOpaque(opaqueSides);
@@ -77,13 +76,11 @@ CubeTileMesh::CubeTileMesh(CUBE_FACES faces, const RectF *textureAtlasTileBounda
 
 CubeTileMesh::~CubeTileMesh()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_vertices);
 }
 
 void CubeTileMesh::SetupFaceVertices(const RectF *textureAtlasTileBoundaries)
 {
-	STACK_TRACE;
 	uint32_t pos = 0;
 	Vector3 a(-0.5f, -0.5f, -0.5f);
 	Vector3 b(0.5f, 0.5f, 0.5f);
@@ -265,7 +262,6 @@ void CubeTileMesh::SetupFaceVertices(const RectF *textureAtlasTileBoundaries)
 
 void CubeTileMesh::SetupCollisionVertices()
 {
-	STACK_TRACE;
 	m_numCollisionVertices = m_vertices->GetNumElements();
 
 	m_collisionVertices = new Vector3[m_numCollisionVertices];

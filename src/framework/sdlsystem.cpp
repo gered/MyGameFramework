@@ -19,9 +19,7 @@
 #include "sdlincludes.h"
 
 SDLSystem::SDLSystem()
-	: OperatingSystem()
 {
-	STACK_TRACE;
 	m_isQuitting = FALSE;
 	m_hasShaderSupport = FALSE;
 	m_window = NULL;
@@ -32,7 +30,6 @@ SDLSystem::SDLSystem()
 
 SDLSystem::~SDLSystem()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_SYSTEM, "Releasing.\n");
 
 	if (!m_isQuitting)
@@ -53,7 +50,6 @@ SDLSystem::~SDLSystem()
 
 BOOL SDLSystem::Initialize()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_SYSTEM, "SDLSystem initialization starting.\n");
 
 	const SDL_version *SDLversion = SDL_Linked_Version();
@@ -108,7 +104,6 @@ BOOL SDLSystem::Initialize()
 
 BOOL SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 {
-	STACK_TRACE;
 	ASSERT(m_window == NULL);
 
 	SDLGameWindow *window = new SDLGameWindow(gameApp);
@@ -208,8 +203,6 @@ BOOL SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 
 void SDLSystem::ProcessEvents()
 {
-	STACK_TRACE;
-
 	// little bit of housekeeping
 	m_mouse->ResetDeltas();
 
@@ -262,7 +255,6 @@ void SDLSystem::ProcessEvents()
 
 void SDLSystem::Quit()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_SYSTEM, "Quit requested.\n");
 	m_isQuitting = TRUE;
 
@@ -273,5 +265,5 @@ void SDLSystem::Quit()
 	}
 
 }
-#endif
 
+#endif

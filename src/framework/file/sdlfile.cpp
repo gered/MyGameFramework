@@ -5,9 +5,7 @@
 #include "sdlfile.h"
 
 SDLFile::SDLFile()
-	: File()
 {
-	STACK_TRACE;
 	m_fp = NULL;
 	m_mode = 0;
 	m_canRead = FALSE;
@@ -16,13 +14,11 @@ SDLFile::SDLFile()
 
 SDLFile::~SDLFile()
 {
-	STACK_TRACE;
 	Close();
 }
 
 BOOL SDLFile::Open(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen() == FALSE);
 	m_filename = filename;
 
@@ -71,7 +67,6 @@ BOOL SDLFile::Open(const stl::string &filename, int mode)
 
 void SDLFile::Close()
 {
-	STACK_TRACE;
 	if (IsOpen())
 	{
 		LOG_INFO(LOGCAT_FILEIO, "Closed SDLFIle \"%s\"\n", m_filename.c_str());

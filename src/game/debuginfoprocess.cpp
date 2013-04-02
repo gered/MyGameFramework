@@ -1,5 +1,3 @@
-#include "../framework/debug.h"
-
 #include "debuginfoprocess.h"
 
 #include "../gameapp.h"
@@ -22,17 +20,14 @@ const Color TEXT_COLOR = COLOR_WHITE;
 DebugInfoProcess::DebugInfoProcess(GameState *gameState, ProcessManager *processManager)
 	: GameProcess(gameState, processManager)
 {
-	STACK_TRACE;
 }
 
 DebugInfoProcess::~DebugInfoProcess()
 {
-	STACK_TRACE;
 }
 
 void DebugInfoProcess::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	SpriteFont *font = GetGameApp()->GetContentCache()->GetUIFont();
 
 	uint16_t y = 5;

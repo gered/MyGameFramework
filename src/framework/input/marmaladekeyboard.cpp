@@ -1,34 +1,26 @@
 #ifdef __S3E__
-#include "../debug.h"
-
 #include "marmaladekeyboard.h"
 #include "keyboardlistener.h"
 #include <string.h>
 
 MarmaladeKeyboard::MarmaladeKeyboard(BOOL hasPhysicalKeysForGameControls)
-	: Keyboard()
 {
-	STACK_TRACE;
 	m_hasPhysicalKeysForGameControls = hasPhysicalKeysForGameControls;
 
 	m_keys = new BOOL[KSYM_LAST];
-	ASSERT(m_keys != NULL);
 	m_lockedKeys = new BOOL[KSYM_LAST];
-	ASSERT(m_lockedKeys != NULL);
 
 	Reset();
 }
 
 MarmaladeKeyboard::~MarmaladeKeyboard()
 {
-	STACK_TRACE;
 	SAFE_DELETE_ARRAY(m_keys);
 	SAFE_DELETE_ARRAY(m_lockedKeys);
 }
 
 BOOL MarmaladeKeyboard::OnKeyEvent(const s3eKeyboardEvent *eventArgs)
 {
-	STACK_TRACE;
 	int32_t keyCode = (int32_t)eventArgs->m_Key;
 	BOOL isDown = (BOOL)eventArgs->m_Pressed;
 
@@ -66,14 +58,12 @@ BOOL MarmaladeKeyboard::OnKeyEvent(const s3eKeyboardEvent *eventArgs)
 
 BOOL MarmaladeKeyboard::OnKeyCharEvent(const s3eKeyboardCharEvent *eventArgs)
 {
-	STACK_TRACE;
 	// TODO: implementation
 	return FALSE;
 }
 
 BOOL MarmaladeKeyboard::IsPressed(KEYS key)
 {
-	STACK_TRACE;
 	if (m_keys[key] && !m_lockedKeys[key])
 	{
 		m_lockedKeys[key] = TRUE;
@@ -85,20 +75,17 @@ BOOL MarmaladeKeyboard::IsPressed(KEYS key)
 
 void MarmaladeKeyboard::Reset()
 {
-	STACK_TRACE;
 	memset(m_keys, FALSE, sizeof(BOOL) * KSYM_LAST);
 	memset(m_lockedKeys, FALSE, sizeof(BOOL) * KSYM_LAST);
 }
 
 void MarmaladeKeyboard::RegisterListener(KeyboardListener *listener)
 {
-	STACK_TRACE;
 	m_listeners.insert(listener);
 }
 
 void MarmaladeKeyboard::UnregisterListener(KeyboardListener *listener)
 {
-	STACK_TRACE;
 	m_listeners.erase(listener);
 }
 

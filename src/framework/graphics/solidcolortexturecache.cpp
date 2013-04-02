@@ -11,19 +11,16 @@
 
 SolidColorTextureCache::SolidColorTextureCache(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	m_graphicsDevice = graphicsDevice;
 }
 
 SolidColorTextureCache::~SolidColorTextureCache()
 {
-	STACK_TRACE;
 	FreeAll();
 }
 
 void SolidColorTextureCache::OnNewContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "SolidColorTextureCache: regenerating previous textures for new OpenGL context.\n");
 
 	for (ColorTextureMap::iterator itor = m_textures.begin(); itor != m_textures.end(); ++itor)
@@ -37,7 +34,6 @@ void SolidColorTextureCache::OnNewContext()
 
 void SolidColorTextureCache::OnLostContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "SolidColorTextureCache: resetting generated texture IDs due to lost OpenGL context.\n");
 
 	for (ColorTextureMap::iterator itor = m_textures.begin(); itor != m_textures.end(); ++itor)
@@ -46,7 +42,6 @@ void SolidColorTextureCache::OnLostContext()
 
 Texture* SolidColorTextureCache::Get(const Color &color)
 {
-	STACK_TRACE;
 	Texture *texture;
 	uint32_t colorInt = color.ToInt();
 
@@ -65,7 +60,6 @@ Texture* SolidColorTextureCache::Get(const Color &color)
 
 Texture* SolidColorTextureCache::CreateFor(const Color &color, Texture *existing)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "SolidColorTextureCache: creating texture for color 0x%8x.\n", color.ToInt());
 
 	Image *img = new Image();
@@ -99,7 +93,6 @@ Texture* SolidColorTextureCache::CreateFor(const Color &color, Texture *existing
 
 void SolidColorTextureCache::FreeAll()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "SolidColorTextureCache: freeing all generated textures.\n");
 	for (ColorTextureMap::iterator itor = m_textures.begin(); itor != m_textures.end(); ++itor)
 	{
@@ -108,4 +101,3 @@ void SolidColorTextureCache::FreeAll()
 
 	m_textures.clear();
 }
-

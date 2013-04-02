@@ -9,7 +9,6 @@
 
 Renderbuffer::Renderbuffer()
 {
-	STACK_TRACE;
 	m_renderbufferName = 0;
 	m_width = 0;
 	m_height = 0;
@@ -18,7 +17,6 @@ Renderbuffer::Renderbuffer()
 
 BOOL Renderbuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, FRAMEBUFFER_DATA_TYPE type)
 {
-	STACK_TRACE;
 	ASSERT(m_renderbufferName == 0);
 	if (m_renderbufferName != 0)
 		return FALSE;
@@ -43,7 +41,6 @@ BOOL Renderbuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t width, ui
 
 void Renderbuffer::Release()
 {
-	STACK_TRACE;
 	if (m_renderbufferName != 0)
 	{
 		GetGraphicsDevice()->UnbindRenderBuffer(this);
@@ -59,7 +56,6 @@ void Renderbuffer::Release()
 
 BOOL Renderbuffer::CreateRenderbuffer()
 {
-	STACK_TRACE;
 	ASSERT(m_renderbufferName == 0);
 	
 	uint32_t format = 0;
@@ -117,7 +113,6 @@ BOOL Renderbuffer::CreateRenderbuffer()
 
 void Renderbuffer::OnNewContext()
 {
-	STACK_TRACE;
 	if (m_renderbufferName == 0 && GetGraphicsDevice() != NULL)
 	{
 		BOOL success = CreateRenderbuffer();
@@ -127,6 +122,5 @@ void Renderbuffer::OnNewContext()
 
 void Renderbuffer::OnLostContext()
 {
-	STACK_TRACE;
 	m_renderbufferName = 0;
 }

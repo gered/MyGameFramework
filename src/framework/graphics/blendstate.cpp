@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "blendstate.h"
 
 #include "glincludes.h"
@@ -7,13 +5,11 @@
 
 BlendState::BlendState()
 {
-	STACK_TRACE;
 	Initialize();
 }
 
 BlendState::BlendState(BLEND_FACTOR sourceFactor, BLEND_FACTOR destinationFactor)
 {
-	STACK_TRACE;
 	Initialize();
 
 	m_blending = TRUE;
@@ -23,12 +19,10 @@ BlendState::BlendState(BLEND_FACTOR sourceFactor, BLEND_FACTOR destinationFactor
 
 BlendState::~BlendState()
 {
-	STACK_TRACE;
 }
 
 void BlendState::Initialize()
 {
-	STACK_TRACE;
 	m_blending = FALSE;
 	m_sourceBlendFactor = ONE;
 	m_destBlendFactor = ZERO;
@@ -36,7 +30,6 @@ void BlendState::Initialize()
 
 void BlendState::Apply() const
 {
-	STACK_TRACE;
 	if (m_blending)
 	{
 		GL_CALL(glEnable(GL_BLEND));
@@ -50,7 +43,6 @@ void BlendState::Apply() const
 
 int BlendState::FindBlendFactorValue(BLEND_FACTOR factor) const
 {
-	STACK_TRACE;
 	switch (factor)
 	{
 	case ZERO: return GL_ZERO;

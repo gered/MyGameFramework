@@ -58,7 +58,6 @@ T* EffectManager::Get() const
 template<class T>
 T* EffectManager::Add(BOOL isLocalEffect)
 {
-	STACK_TRACE;
 	if (Get<T>() != NULL)
 		return NULL;
 
@@ -72,7 +71,6 @@ T* EffectManager::Add(BOOL isLocalEffect)
 template<class T>
 void EffectManager::Remove()
 {
-	STACK_TRACE;
 	EffectListItor itor = m_effects.find(T::GetType());
 	ASSERT(itor != m_effects.end());
 

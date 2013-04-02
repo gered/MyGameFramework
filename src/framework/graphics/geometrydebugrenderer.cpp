@@ -18,7 +18,6 @@
 
 GeometryDebugRenderer::GeometryDebugRenderer(GraphicsDevice *graphicsDevice, BOOL depthTesting)
 {
-	STACK_TRACE;
 	m_graphicsDevice = graphicsDevice;
 	m_color1 = Color(1.0f, 1.0f, 0.0f);
 	m_color2 = Color(1.0f, 0.0f, 0.0f);
@@ -43,21 +42,18 @@ GeometryDebugRenderer::GeometryDebugRenderer(GraphicsDevice *graphicsDevice, BOO
 
 GeometryDebugRenderer::~GeometryDebugRenderer()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_vertices);
 	SAFE_DELETE(m_renderState);
 }
 
 void GeometryDebugRenderer::Begin()
 {
-	STACK_TRACE;
 	m_currentVertex = 0;
 	m_begunRendering = TRUE;
 }
 
 void GeometryDebugRenderer::Render(const BoundingBox &box, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 24));
 
@@ -115,14 +111,12 @@ void GeometryDebugRenderer::Render(const BoundingBox &box, const Color &color)
 
 void GeometryDebugRenderer::Render(const Point3 &boxMin, const Point3 &boxMax, const Color &color)
 {
-	STACK_TRACE;
 	BoundingBox b((float)boxMin.x, (float)boxMin.y, (float)boxMin.z, (float)boxMax.x, (float)boxMax.y, (float)boxMax.z);
 	Render(b, color);
 }
 
 void GeometryDebugRenderer::Render(const BoundingSphere &sphere, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 615));
 
@@ -184,7 +178,6 @@ void GeometryDebugRenderer::Render(const BoundingSphere &sphere, const Color &co
 
 void GeometryDebugRenderer::Render(const Ray &ray, float length, const Color &color1, const Color &color2)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 2));
 
@@ -200,7 +193,6 @@ void GeometryDebugRenderer::Render(const Ray &ray, float length, const Color &co
 
 void GeometryDebugRenderer::Render(const LineSegment &line, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 2));
 
@@ -214,7 +206,6 @@ void GeometryDebugRenderer::Render(const LineSegment &line, const Color &color)
 
 void GeometryDebugRenderer::Render(const Vector3 &a, const Vector3 &b, const Vector3 &c, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 6));
 
@@ -236,7 +227,6 @@ void GeometryDebugRenderer::Render(const Vector3 &a, const Vector3 &b, const Vec
 
 void GeometryDebugRenderer::End()
 {
-	STACK_TRACE;
 	ASSERT(m_begunRendering == TRUE);
 
 	if (m_currentVertex > 0)

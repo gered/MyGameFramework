@@ -6,7 +6,6 @@
 
 BufferObject::BufferObject()
 {
-	STACK_TRACE;
 	m_type = BUFFEROBJECT_TYPE_VERTEX;
 	m_usage = BUFFEROBJECT_USAGE_STATIC;
 	m_bufferId = 0;
@@ -16,7 +15,6 @@ BufferObject::BufferObject()
 
 void BufferObject::Release()
 {
-	STACK_TRACE;
 	if (!IsClientSideBuffer())
 		FreeBufferObject();
 
@@ -31,7 +29,6 @@ void BufferObject::Release()
 
 BOOL BufferObject::Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
 {
-	STACK_TRACE;
 	BOOL success = TRUE;
 	if (graphicsDevice != NULL)
 		success = GraphicsContextResource::Initialize(graphicsDevice);
@@ -46,14 +43,12 @@ BOOL BufferObject::Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE 
 
 void BufferObject::CreateOnGpu()
 {
-	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == TRUE);
 	CreateBufferObject();
 }
 
 void BufferObject::RecreateOnGpu()
 {
-	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == FALSE);
 	FreeBufferObject();
 	CreateBufferObject();
@@ -61,14 +56,12 @@ void BufferObject::RecreateOnGpu()
 
 void BufferObject::FreeFromGpu()
 {
-	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == FALSE);
 	FreeBufferObject();
 }
 
 void BufferObject::CreateBufferObject()
 {
-	STACK_TRACE;
 	GL_CALL(glGenBuffers(1, &m_bufferId));
 	SizeBufferObject();
 
@@ -77,7 +70,6 @@ void BufferObject::CreateBufferObject()
 
 void BufferObject::FreeBufferObject()
 {
-	STACK_TRACE;
 	ASSERT(m_bufferId != 0);
 	GL_CALL(glDeleteBuffers(1, &m_bufferId));
 
@@ -88,7 +80,6 @@ void BufferObject::FreeBufferObject()
 
 void BufferObject::Update()
 {
-	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == FALSE);
 	ASSERT(IsDirty() == TRUE);
 	ASSERT(GetNumElements() > 0);
@@ -142,7 +133,6 @@ void BufferObject::Update()
 
 void BufferObject::SizeBufferObject()
 {
-	STACK_TRACE;
 	ASSERT(IsClientSideBuffer() == FALSE);
 	ASSERT(GetNumElements() > 0);
 	ASSERT(GetElementWidthInBytes() > 0);
@@ -175,11 +165,9 @@ void BufferObject::SizeBufferObject()
 
 void BufferObject::OnNewContext()
 {
-	STACK_TRACE;
 	RecreateOnGpu();
 }
 
 void BufferObject::OnLostContext()
 {
-	STACK_TRACE;
 }

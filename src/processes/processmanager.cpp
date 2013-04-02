@@ -10,14 +10,12 @@
 
 ProcessManager::ProcessManager(GameState *gameState)
 {
-	STACK_TRACE;
 	ASSERT(gameState != NULL);
 	m_gameState = gameState;
 }
 
 ProcessManager::~ProcessManager()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_PROCESSMANAGER, "ProcessManager shutting down.\n");
 
 	while (!m_processes.empty())
@@ -43,14 +41,12 @@ ProcessManager::~ProcessManager()
 
 void ProcessManager::Remove(const stl::string &name)
 {
-	STACK_TRACE;
 	ProcessInfoList::iterator itor = GetProcessItorFor(name);
 	StartTransitionOut(itor, TRUE);
 }
 
 BOOL ProcessManager::HasProcess(const stl::string &name) const
 {
-	STACK_TRACE;
 	for (ProcessInfoList::const_iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -63,7 +59,6 @@ BOOL ProcessManager::HasProcess(const stl::string &name) const
 
 void ProcessManager::OnPause(BOOL dueToOverlay)
 {
-	STACK_TRACE;
 	if (IsEmpty())
 		return;
 
@@ -94,7 +89,6 @@ void ProcessManager::OnPause(BOOL dueToOverlay)
 
 void ProcessManager::OnResume(BOOL fromOverlay)
 {
-	STACK_TRACE;
 	if (IsEmpty())
 		return;
 
@@ -134,7 +128,6 @@ void ProcessManager::OnResume(BOOL fromOverlay)
 
 void ProcessManager::OnAppGainFocus()
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -145,7 +138,6 @@ void ProcessManager::OnAppGainFocus()
 
 void ProcessManager::OnAppLostFocus()
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -156,7 +148,6 @@ void ProcessManager::OnAppLostFocus()
 
 void ProcessManager::OnAppPause()
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -167,7 +158,6 @@ void ProcessManager::OnAppPause()
 
 void ProcessManager::OnAppResume()
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -178,7 +168,6 @@ void ProcessManager::OnAppResume()
 
 void ProcessManager::OnLostContext()
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -189,7 +178,6 @@ void ProcessManager::OnLostContext()
 
 void ProcessManager::OnNewContext()
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -200,7 +188,6 @@ void ProcessManager::OnNewContext()
 
 void ProcessManager::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -211,7 +198,6 @@ void ProcessManager::OnRender(RenderContext *renderContext)
 
 void ProcessManager::OnResize()
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -222,7 +208,6 @@ void ProcessManager::OnResize()
 
 void ProcessManager::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	CleanupInactiveProcesses();
 	CheckForFinishedProcesses();
 	ProcessQueue();
@@ -238,7 +223,6 @@ void ProcessManager::OnUpdate(float delta)
 
 void ProcessManager::CleanupInactiveProcesses()
 {
-	STACK_TRACE;
 	if (m_processes.empty())
 		return;
 
@@ -261,7 +245,6 @@ void ProcessManager::CleanupInactiveProcesses()
 
 void ProcessManager::CheckForFinishedProcesses()
 {
-	STACK_TRACE;
 	if (m_processes.empty())
 		return;
 
@@ -282,7 +265,6 @@ void ProcessManager::CheckForFinishedProcesses()
 
 void ProcessManager::ProcessQueue()
 {
-	STACK_TRACE;
 	while (!m_queue.empty())
 	{
 		ProcessInfo *processInfo = m_queue.front();
@@ -301,7 +283,6 @@ void ProcessManager::ProcessQueue()
 
 void ProcessManager::UpdateTransitions(float delta)
 {
-	STACK_TRACE;
 	if (m_processes.empty())
 		return;
 
@@ -343,7 +324,6 @@ void ProcessManager::UpdateTransitions(float delta)
 
 void ProcessManager::RemoveAll()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_PROCESSMANAGER, "Transitioning out all processes pending removal.\n");
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
@@ -355,7 +335,6 @@ void ProcessManager::RemoveAll()
 
 void ProcessManager::Queue(ProcessInfo *newProcessInfo)
 {
-	STACK_TRACE;
 	ASSERT(newProcessInfo != NULL);
 	ASSERT(newProcessInfo->process != NULL);
 
@@ -365,7 +344,6 @@ void ProcessManager::Queue(ProcessInfo *newProcessInfo)
 
 void ProcessManager::StartTransitionOut(ProcessInfoList::iterator itor, BOOL forRemoval)
 {
-	STACK_TRACE;
 	ASSERT(itor != m_processes.end());
 	ProcessInfo *processInfo = *itor;
 	ASSERT(processInfo->isInactive == FALSE);
@@ -379,7 +357,6 @@ void ProcessManager::StartTransitionOut(ProcessInfoList::iterator itor, BOOL for
 
 BOOL ProcessManager::IsTransitioning() const
 {
-	STACK_TRACE;
 	for (ProcessInfoList::const_iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		const ProcessInfo *processInfo = *i;
@@ -392,7 +369,6 @@ BOOL ProcessManager::IsTransitioning() const
 
 ProcessInfoList::iterator ProcessManager::GetProcessItorFor(const stl::string &name)
 {
-	STACK_TRACE;
 	ASSERT(name.length() > 0);
 	if (name.length() == 0)
 		return m_processes.end();
@@ -409,7 +385,6 @@ ProcessInfoList::iterator ProcessManager::GetProcessItorFor(const stl::string &n
 
 ProcessInfoList::iterator ProcessManager::GetProcessItorForFirstOf(GAMEPROCESS_TYPE processType)
 {
-	STACK_TRACE;
 	for (ProcessInfoList::iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
@@ -422,7 +397,6 @@ ProcessInfoList::iterator ProcessManager::GetProcessItorForFirstOf(GAMEPROCESS_T
 
 ProcessInfo* ProcessManager::GetProcessInfoFor(const GameProcess *process) const
 {
-	STACK_TRACE;
 	ASSERT(process != NULL);
 	for (ProcessInfoList::const_iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{

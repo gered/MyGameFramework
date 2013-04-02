@@ -13,7 +13,6 @@
 
 GwenGameProcessUIController::GwenGameProcessUIController(GwenGameProcess *gameProcess)
 {
-	STACK_TRACE;
 	ASSERT(gameProcess != NULL);
 	m_gameProcess = gameProcess;
 	m_canvas = NULL;
@@ -26,7 +25,6 @@ GwenGameProcessUIController::GwenGameProcessUIController(GwenGameProcess *gamePr
 
 GwenGameProcessUIController::~GwenGameProcessUIController()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_inputProcessor);
 	SAFE_DELETE(m_canvas);
 	SAFE_DELETE(m_skin);
@@ -35,39 +33,32 @@ GwenGameProcessUIController::~GwenGameProcessUIController()
 
 void GwenGameProcessUIController::OnAdd()
 {
-	STACK_TRACE;
 }
 
 void GwenGameProcessUIController::OnRemove()
 {
-	STACK_TRACE;
 }
 
 void GwenGameProcessUIController::OnPause(BOOL dueToOverlay)
 {
-	STACK_TRACE;
 	EnableGwenInput(FALSE);
 }
 
 void GwenGameProcessUIController::OnResume(BOOL fromOverlay)
 {
-	STACK_TRACE;
 	EnableGwenInput(TRUE);
 }
 
 void GwenGameProcessUIController::OnLostContext()
 {
-	STACK_TRACE;
 }
 
 void GwenGameProcessUIController::OnNewContext()
 {
-	STACK_TRACE;
 }
 
 void GwenGameProcessUIController::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	ASSERT(m_renderer != NULL);
 	ASSERT(m_canvas != NULL);
 	m_renderer->PreRender(renderContext->GetSpriteBatch());
@@ -77,32 +68,27 @@ void GwenGameProcessUIController::OnRender(RenderContext *renderContext)
 
 void GwenGameProcessUIController::OnResize()
 {
-	STACK_TRACE;
 	ResizeAndScaleCanvas();
 }
 
 void GwenGameProcessUIController::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	ASSERT(m_canvas != NULL);
 	m_canvas->DoThink();
 }
 
 BOOL GwenGameProcessUIController::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
 {
-	STACK_TRACE;
 	return TRUE;
 }
 
 BOOL GwenGameProcessUIController::Handle(const Event *event)
 {
-	STACK_TRACE;
 	return FALSE;
 }
 
 Gwen::Controls::Canvas* GwenGameProcessUIController::InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint8_t fontSize)
 {
-	STACK_TRACE;
 	ASSERT(m_renderer == NULL);
 	ASSERT(m_skin == NULL);
 	ASSERT(m_canvas == NULL);
@@ -125,7 +111,6 @@ Gwen::Controls::Canvas* GwenGameProcessUIController::InitializeGwen(const stl::s
 
 void GwenGameProcessUIController::ResizeAndScaleCanvas()
 {
-	STACK_TRACE;
 	if (m_canvas != NULL)
 	{
 		// make sure that the control is using the most up-to-date scale (which
@@ -143,14 +128,12 @@ void GwenGameProcessUIController::ResizeAndScaleCanvas()
 
 void GwenGameProcessUIController::EnableGwenInput(BOOL enable)
 {
-	STACK_TRACE;
 	if (m_inputProcessor != NULL)
 		m_inputProcessor->Enable(enable);
 }
 
 void GwenGameProcessUIController::SetAlpha(float alpha)
 {
-	STACK_TRACE;
 	ASSERT(m_renderer != NULL);
 	m_alpha = alpha;
 	m_renderer->SetAlpha(alpha);
@@ -158,7 +141,6 @@ void GwenGameProcessUIController::SetAlpha(float alpha)
 
 void GwenGameProcessUIController::SetScale(float scale)
 {
-	STACK_TRACE;
 	ASSERT(m_canvas != NULL);
 	m_scale = scale;
 	

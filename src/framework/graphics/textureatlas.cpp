@@ -6,7 +6,6 @@
 
 TextureAtlas::TextureAtlas(uint16_t textureWidth, uint16_t textureHeight, float texCoordEdgeOffset)
 {
-	STACK_TRACE;
 	ASSERT(textureWidth > 0);
 	ASSERT(textureHeight > 0);
 
@@ -18,7 +17,6 @@ TextureAtlas::TextureAtlas(uint16_t textureWidth, uint16_t textureHeight, float 
 
 TextureAtlas::TextureAtlas(Texture *source, float texCoordEdgeOffset)
 {
-	STACK_TRACE;
 	ASSERT(source != NULL);
 
 	m_source = source;
@@ -29,12 +27,10 @@ TextureAtlas::TextureAtlas(Texture *source, float texCoordEdgeOffset)
 
 TextureAtlas::~TextureAtlas()
 {
-	STACK_TRACE;
 }
 
 void TextureAtlas::SetTexture(Texture *source)
 {
-	STACK_TRACE;
 	if (source == NULL)
 		m_source = NULL;
 	else

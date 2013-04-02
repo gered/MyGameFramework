@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "freecamera.h"
 
 #include "../basegameapp.h"
@@ -12,7 +10,6 @@
 FreeCamera::FreeCamera(ViewContext *viewContext, BaseGameApp *gameApp)
 	: Camera(viewContext)
 {
-	STACK_TRACE;
 	m_gameApp = gameApp;
 	m_movement = ZERO_VECTOR;
 	m_forward = ZERO_VECTOR;
@@ -20,12 +17,10 @@ FreeCamera::FreeCamera(ViewContext *viewContext, BaseGameApp *gameApp)
 
 FreeCamera::~FreeCamera()
 {
-	STACK_TRACE;
 }
 
 void FreeCamera::Move(float x, float y, float z)
 {
-	STACK_TRACE;
 	GetPosition().x += x;
 	GetPosition().y += y;
 	GetPosition().z += z;
@@ -33,7 +28,6 @@ void FreeCamera::Move(float x, float y, float z)
 
 void FreeCamera::Orient(float x, float y, float z)
 {
-	STACK_TRACE;
 	GetOrientation().x += x;
 	GetOrientation().y += y;
 	GetOrientation().z += z;
@@ -41,7 +35,6 @@ void FreeCamera::Orient(float x, float y, float z)
 
 void FreeCamera::OnUpdate(float delta)
 {
-	STACK_TRACE;
 #ifdef MOBILE
 	if (m_gameApp->GetTouchscreen()->IsTouching())
 	{

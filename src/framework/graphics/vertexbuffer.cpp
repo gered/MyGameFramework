@@ -9,7 +9,6 @@ const unsigned int MAX_GPU_ATTRIB_SLOTS = 8;
 
 VertexBuffer::VertexBuffer()
 {
-	STACK_TRACE;
 	m_numVertices = 0;
 	m_currentVertex = 0;
 	m_standardTypeAttribs = 0;
@@ -26,7 +25,6 @@ VertexBuffer::VertexBuffer()
 
 void VertexBuffer::Release()
 {
-	STACK_TRACE;
 	m_buffer.clear();
 	stl::vector<float>().swap(m_buffer);
 	
@@ -48,13 +46,11 @@ void VertexBuffer::Release()
 
 BOOL VertexBuffer::Initialize(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage)
 {
-	STACK_TRACE;
 	return Initialize(NULL, attributes, numAttributes, numVertices, usage);
 }
 
 BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRIBS *attributes, uint32_t numAttributes, uint32_t numVertices, BUFFEROBJECT_USAGE usage)
 {
-	STACK_TRACE;
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
 		return FALSE;
@@ -72,13 +68,11 @@ BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRI
 
 BOOL VertexBuffer::Initialize(const VertexBuffer *source)
 {
-	STACK_TRACE;
 	return Initialize(NULL, source);
 }
 
 BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer *source)
 {
-	STACK_TRACE;
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
 		return FALSE;
@@ -113,7 +107,6 @@ BOOL VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer
 
 BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t numAttributes)
 {
-	STACK_TRACE;
 	ASSERT(attributes != NULL);
 	ASSERT(numAttributes > 0);
 	ASSERT(m_buffer.size() == 0);
@@ -209,7 +202,6 @@ BOOL VertexBuffer::SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint32_t
 
 int32_t VertexBuffer::GetIndexOfStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_numAttributes; ++i)
 	{
 		if ((uint32_t)m_attribs[i].standardType == (uint32_t)standardAttrib)
@@ -221,7 +213,6 @@ int32_t VertexBuffer::GetIndexOfStandardAttrib(VERTEX_STANDARD_ATTRIBS standardA
 
 void VertexBuffer::Resize(uint32_t numVertices)
 {
-	STACK_TRACE;
 	ASSERT(numVertices > 0);
 	if (numVertices == 0)
 		return;
@@ -238,14 +229,12 @@ void VertexBuffer::Resize(uint32_t numVertices)
 
 void VertexBuffer::Extend(uint32_t amount)
 {
-	STACK_TRACE;
 	uint32_t newSize = GetNumElements() + amount;
 	Resize(newSize);
 }
 
 void VertexBuffer::Copy(const VertexBuffer *source, uint32_t destIndex)
 {
-	STACK_TRACE;
 	ASSERT(source != NULL);
 	ASSERT(source->GetNumElements() > 0);
 	ASSERT(source->GetStandardAttribs() == m_standardTypeAttribs);

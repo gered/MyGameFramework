@@ -17,23 +17,19 @@
 TextLoader::TextLoader(ContentManager *contentManager)
 	: ContentLoaderMapStoreBase<Text>(LOGGING_TAG, contentManager, "")
 {
-	STACK_TRACE;
 }
 
 TextLoader::TextLoader(ContentManager *contentManager, const stl::string &defaultPath)
 	: ContentLoaderMapStoreBase<Text>(LOGGING_TAG, contentManager, defaultPath)
 {
-	STACK_TRACE;
 }
 
 TextLoader::~TextLoader()
 {
-	STACK_TRACE;
 }
 
 Text* TextLoader::LoadContent(const stl::string &file, const ContentParam *params)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: loading \"%s\"\n", 
 			 GetLoggingTag(),
 			 file.c_str()
@@ -52,6 +48,5 @@ Text* TextLoader::LoadContent(const stl::string &file, const ContentParam *param
 
 void TextLoader::FreeContent(Text *content)
 {
-	STACK_TRACE;
 	SAFE_DELETE(content);
 }

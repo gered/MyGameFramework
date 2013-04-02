@@ -12,9 +12,7 @@
 #include <string.h>
 
 KeyframeMesh::KeyframeMesh(const KeyframeMeshFile *file)
-	: Content()
 {
-	STACK_TRACE;
 	m_numFrames = file->GetNumFrames();
 	m_frames = new Keyframe*[m_numFrames];
 	ASSERT(m_frames != NULL);
@@ -68,7 +66,6 @@ KeyframeMesh::KeyframeMesh(const KeyframeMeshFile *file)
 
 KeyframeMesh::~KeyframeMesh()
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_numFrames; ++i)
 		SAFE_DELETE(m_frames[i]);
 	SAFE_DELETE_ARRAY(m_frames);
@@ -79,7 +76,6 @@ KeyframeMesh::~KeyframeMesh()
 
 const AnimationSequence* KeyframeMesh::GetAnimation(const stl::string &name) const
 {
-	STACK_TRACE;
 	AnimationList::const_iterator itor = m_animations.find(name);
 	if (itor != m_animations.end())
 		return &itor->second;

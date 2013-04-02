@@ -20,23 +20,19 @@
 TextureLoader::TextureLoader(ContentManager *contentManager)
 	: ContentLoaderMapStoreBase<Texture>(LOGGING_TAG, contentManager, "assets://textures/")
 {
-	STACK_TRACE;
 }
 
 TextureLoader::TextureLoader(ContentManager *contentManager, const stl::string &defaultPath)
 	: ContentLoaderMapStoreBase<Texture>(LOGGING_TAG, contentManager, defaultPath)
 {
-	STACK_TRACE;
 }
 
 TextureLoader::~TextureLoader()
 {
-	STACK_TRACE;
 }
 
 void TextureLoader::OnNewContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: reloading previous textures for new OpenGL context.\n", GetLoggingTag());
 
 	for (ContentStoreItor itor = m_content.begin(); itor != m_content.end(); ++itor)
@@ -54,7 +50,6 @@ void TextureLoader::OnNewContext()
 
 void TextureLoader::OnLostContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: resetting loaded texture IDs due to lost OpenGL context.\n", GetLoggingTag());
 
 	for (ContentStoreItor itor = m_content.begin(); itor != m_content.end(); ++itor)
@@ -63,19 +58,16 @@ void TextureLoader::OnLostContext()
 
 Texture* TextureLoader::LoadContent(const stl::string &file, const ContentParam *params)
 {
-	STACK_TRACE;
 	return Load(file, NULL);
 }
 
 void TextureLoader::FreeContent(Texture *content)
 {
-	STACK_TRACE;
 	SAFE_DELETE(content);
 }
 
 Texture* TextureLoader::Load(const stl::string &file, Texture *existingTexture)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: loading \"%s\"\n", 
 			 GetLoggingTag(),
 			 file.c_str()

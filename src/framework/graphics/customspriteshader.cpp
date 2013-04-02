@@ -4,17 +4,14 @@
 
 CustomSpriteShader::CustomSpriteShader()
 {
-	STACK_TRACE;
 }
 
 CustomSpriteShader::~CustomSpriteShader()
 {
-	STACK_TRACE;
 }
 
 BOOL CustomSpriteShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!SpriteShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 	
@@ -27,7 +24,6 @@ BOOL CustomSpriteShader::Initialize(GraphicsDevice *graphicsDevice, const char *
 
 BOOL CustomSpriteShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!SpriteShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 

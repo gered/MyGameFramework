@@ -9,7 +9,6 @@
 
 MarmaladeTouchPointer::MarmaladeTouchPointer()
 {
-	STACK_TRACE;
 	m_id = INVALID_TOUCH_POINTER;
 	m_x = 0;
 	m_y = 0;
@@ -20,19 +19,16 @@ MarmaladeTouchPointer::MarmaladeTouchPointer()
 
 MarmaladeTouchPointer::~MarmaladeTouchPointer()
 {
-	STACK_TRACE;
 }
 
 void MarmaladeTouchPointer::ResetDeltas()
 {
-	STACK_TRACE;
 	m_deltaX = 0;
 	m_deltaY = 0;
 }
 
 BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint16_t left, uint16_t top, uint16_t right, uint16_t bottom) const
 {
-	STACK_TRACE;
 	if (m_isTouching && m_x >= left && m_y >= top && m_x <= right && m_y <= bottom)
 		return TRUE;
 	else
@@ -41,7 +37,6 @@ BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint16_t left, uint16_t top, ui
 
 BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Rect &area) const
 {
-	STACK_TRACE;
 	if (m_isTouching && m_x >= area.left && m_y >= area.top && m_x <= area.right && m_y <= area.bottom)
 		return TRUE;
 	else
@@ -50,7 +45,6 @@ BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Rect &area) const
 
 BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint16_t centerX, uint16_t centerY, uint16_t radius) const
 {
-	STACK_TRACE;
 	if (m_isTouching)
 	{
 		uint32_t squaredDistance = ((centerX - m_x) * (centerX - m_x)) + ((centerY - m_y) * (centerY - m_y));
@@ -64,7 +58,6 @@ BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint16_t centerX, uint16_t cent
 
 BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Circle &area) const
 {
-	STACK_TRACE;
 	if (m_isTouching)
 	{
 		uint32_t squaredDistance = ((area.x - m_x) * (area.x - m_x)) + ((area.y - m_y) * (area.y - m_y));
@@ -78,7 +71,6 @@ BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Circle &area) const
 
 void MarmaladeTouchPointer::OnDown(int32_t id, uint16_t x, uint16_t y)
 {
-	STACK_TRACE;
 	m_isTouching = TRUE;
 	m_x = x;
 	m_y = y;
@@ -89,7 +81,6 @@ void MarmaladeTouchPointer::OnDown(int32_t id, uint16_t x, uint16_t y)
 
 void MarmaladeTouchPointer::OnMove(int32_t id, uint16_t x, uint16_t y)
 {
-	STACK_TRACE;
 	// calculate the amount moved since the last time first...
 	m_deltaX = x - m_x;
 	m_deltaY = y - m_y;
@@ -101,7 +92,6 @@ void MarmaladeTouchPointer::OnMove(int32_t id, uint16_t x, uint16_t y)
 
 void MarmaladeTouchPointer::OnUp()
 {
-	STACK_TRACE;
 	m_id = INVALID_TOUCH_POINTER;
 	m_x = 0;
 	m_y = 0;
@@ -112,7 +102,6 @@ void MarmaladeTouchPointer::OnUp()
 
 MarmaladeTouchscreen::MarmaladeTouchscreen(MarmaladeSystem *system, BOOL isMultitouchAvailable)
 {
-	STACK_TRACE;
 	m_system = system;
 
 	m_isMultitouchAvailable = isMultitouchAvailable;
@@ -129,13 +118,11 @@ MarmaladeTouchscreen::MarmaladeTouchscreen(MarmaladeSystem *system, BOOL isMulti
 
 MarmaladeTouchscreen::~MarmaladeTouchscreen()
 {
-	STACK_TRACE;
 	SAFE_DELETE_ARRAY(m_pointers);
 }
 
 void MarmaladeTouchscreen::ResetDeltas()
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() != INVALID_TOUCH_POINTER)
@@ -145,27 +132,23 @@ void MarmaladeTouchscreen::ResetDeltas()
 
 void MarmaladeTouchscreen::ResetViewBounds(const Rect &viewBounds)
 {
-	STACK_TRACE;
 	m_viewBounds = viewBounds;
 }
 
 BOOL MarmaladeTouchscreen::OnSingleTouchTapEvent(const s3ePointerEvent *eventArgs)
 {
-	STACK_TRACE;
 	ASSERT(m_maxTouchPoints == 1);
 	return FALSE;
 }
 
 BOOL MarmaladeTouchscreen::OnSingleTouchMotionEvent(const s3ePointerMotionEvent *eventArgs)
 {
-	STACK_TRACE;
 	ASSERT(m_maxTouchPoints == 1);
 	return FALSE;
 }
 
 BOOL MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *eventArgs)
 {
-	STACK_TRACE;
 	ASSERT(m_maxTouchPoints > 1);
 	BOOL isDown = (BOOL)eventArgs->m_Pressed;
 	if (isDown)
@@ -238,7 +221,6 @@ BOOL MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *even
 
 BOOL MarmaladeTouchscreen::OnMultiTouchMotionEvent(const s3ePointerTouchMotionEvent *eventArgs)
 {
-	STACK_TRACE;
 	ASSERT(m_maxTouchPoints > 1);
 	MarmaladeTouchPointer *pointer = GetPointerById_internal(eventArgs->m_TouchID);
 	if (pointer != NULL)
@@ -269,7 +251,6 @@ BOOL MarmaladeTouchscreen::OnMultiTouchMotionEvent(const s3ePointerTouchMotionEv
 
 BOOL MarmaladeTouchscreen::WasTapped()
 {
-	STACK_TRACE;
 	if (m_isTouching && !m_isLocked)
 	{
 		m_isLocked = TRUE;
@@ -285,7 +266,6 @@ BOOL MarmaladeTouchscreen::WasTapped()
 
 const TouchPointer* MarmaladeTouchscreen::GetPointerById(int32_t id) const
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() == id)
@@ -297,7 +277,6 @@ const TouchPointer* MarmaladeTouchscreen::GetPointerById(int32_t id) const
 
 MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerById_internal(int32_t id)
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() == id)
@@ -309,7 +288,6 @@ MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerById_internal(int32_t id)
 
 MarmaladeTouchPointer* MarmaladeTouchscreen::GetFirstAvailablePointer()
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].GetId() == INVALID_TOUCH_POINTER)
@@ -321,7 +299,6 @@ MarmaladeTouchPointer* MarmaladeTouchscreen::GetFirstAvailablePointer()
 
 MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerByIdOrFirstAvailable(int32_t id)
 {
-	STACK_TRACE;
 	MarmaladeTouchPointer *result = GetPointerById_internal(id);
 	if (result == NULL)
 		result = GetFirstAvailablePointer();
@@ -331,7 +308,6 @@ MarmaladeTouchPointer* MarmaladeTouchscreen::GetPointerByIdOrFirstAvailable(int3
 
 MarmaladeTouchPointer* MarmaladeTouchscreen::GetNextDownPointer()
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_maxTouchPoints; ++i)
 	{
 		if (m_pointers[i].IsTouching())
@@ -346,7 +322,6 @@ MarmaladeTouchPointer* MarmaladeTouchscreen::GetNextDownPointer()
 
 void MarmaladeTouchscreen::Reset()
 {
-	STACK_TRACE;
 	MarmaladeTouchPointer *oldPrimaryPointer = m_primaryPointer;
 
 	m_primaryPointer = &m_pointers[0];
@@ -373,13 +348,11 @@ void MarmaladeTouchscreen::Reset()
 
 void MarmaladeTouchscreen::RegisterListener(TouchscreenListener *listener)
 {
-	STACK_TRACE;
 	m_listeners.insert(listener);
 }
 
 void MarmaladeTouchscreen::UnregisterListener(TouchscreenListener *listener)
 {
-	STACK_TRACE;
 	m_listeners.erase(listener);
 }
 

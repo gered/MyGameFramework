@@ -18,7 +18,6 @@
 
 TileChunk::TileChunk(uint32_t x, uint32_t y, uint32_t z, uint32_t width, uint32_t height, uint32_t depth, const TileMap *tileMap, GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	ASSERT(tileMap != NULL);
 	ASSERT(graphicsDevice != NULL);
 
@@ -59,7 +58,6 @@ TileChunk::TileChunk(uint32_t x, uint32_t y, uint32_t z, uint32_t width, uint32_
 
 TileChunk::~TileChunk()
 {
-	STACK_TRACE;
 	m_graphicsDevice->UnregisterManagedResource(m_vertices);
 	if (m_alphaVertices != NULL)
 		m_graphicsDevice->UnregisterManagedResource(m_alphaVertices);
@@ -71,7 +69,6 @@ TileChunk::~TileChunk()
 
 void TileChunk::GetBoundingBoxFor(uint32_t x, uint32_t y, uint32_t z, BoundingBox *box) const
 {
-	STACK_TRACE;
 	ASSERT(box != NULL);
 
 	// "chunk space"
@@ -85,7 +82,6 @@ void TileChunk::GetBoundingBoxFor(uint32_t x, uint32_t y, uint32_t z, BoundingBo
 
 BoundingBox TileChunk::GetBoundingBoxFor(uint32_t x, uint32_t y, uint32_t z) const
 {
-	STACK_TRACE;
 	BoundingBox box;
 
 	// "chunk space"
@@ -101,7 +97,6 @@ BoundingBox TileChunk::GetBoundingBoxFor(uint32_t x, uint32_t y, uint32_t z) con
 
 BOOL TileChunk::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32_t &z) const
 {
-	STACK_TRACE;
 	// make sure that the ray and this chunk can actually collide in the first place
 	Vector3 position;
 	if (!IntersectionTester::Test(ray, m_bounds, &position))
@@ -257,7 +252,6 @@ BOOL TileChunk::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint
 
 BOOL TileChunk::CheckForCollision(const Ray &ray, Vector3 &point, uint32_t &x, uint32_t &y, uint32_t &z) const
 {
-	STACK_TRACE;
 	// if the ray doesn't collide with any solid tiles in the first place, then
 	// we can skip this more expensive triangle collision check...
 	if (!CheckForCollision(ray, x, y, z))
@@ -270,7 +264,6 @@ BOOL TileChunk::CheckForCollision(const Ray &ray, Vector3 &point, uint32_t &x, u
 
 BOOL TileChunk::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint32_t x, uint32_t y, uint32_t z) const
 {
-	STACK_TRACE;
 	const Tile *tile = Get(x, y, z);
 	const TileMesh *mesh = m_tileMap->GetMeshes()->Get(tile);
 
@@ -317,7 +310,6 @@ BOOL TileChunk::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint32
 
 BOOL TileChunk::GetOverlappedTiles(const BoundingBox &box, uint32_t &x1, uint32_t &y1, uint32_t &z1, uint32_t &x2, uint32_t &y2, uint32_t &z2) const
 {
-	STACK_TRACE;
 	// make sure the given box actually intersects with this chunk in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
 		return FALSE;
@@ -375,7 +367,6 @@ Tile* TileChunk::GetWithinSelfOrNeighbourSafe(int32_t x, int32_t y, int32_t z) c
 
 void TileChunk::EnableAlphaVertices(BOOL enable)
 {
-	STACK_TRACE;
 	if (enable)
 	{
 		if (m_alphaVertices != NULL)
@@ -409,7 +400,6 @@ void TileChunk::EnableAlphaVertices(BOOL enable)
 
 void TileChunk::UpdateVertices(ChunkVertexGenerator *vertexGenerator)
 {
-	STACK_TRACE;
 	vertexGenerator->Generate(this, m_numVertices, m_numAlphaVertices);
 }
 

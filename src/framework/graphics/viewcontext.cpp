@@ -15,7 +15,6 @@
 
 ViewContext::ViewContext()
 {
-	STACK_TRACE;
 	m_graphicsDevice = NULL;
 	m_viewport = Rect(0, 0, 0, 0);
 	m_viewportIsFixedSize = FALSE;
@@ -25,13 +24,11 @@ ViewContext::ViewContext()
 
 ViewContext::~ViewContext()
 {
-	STACK_TRACE;
 	Release();
 }
 
 void ViewContext::Release()
 {
-	STACK_TRACE;
 	if (m_usingDefaultCamera)
 		SAFE_DELETE(m_camera);
 	
@@ -45,7 +42,6 @@ void ViewContext::Release()
 
 BOOL ViewContext::Create(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
 		return FALSE;
@@ -65,7 +61,6 @@ BOOL ViewContext::Create(GraphicsDevice *graphicsDevice)
 
 BOOL ViewContext::Create(GraphicsDevice *graphicsDevice, const Rect &fixedViewportSize)
 {
-	STACK_TRACE;
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
 		return FALSE;
@@ -85,7 +80,6 @@ BOOL ViewContext::Create(GraphicsDevice *graphicsDevice, const Rect &fixedViewpo
 
 void ViewContext::OnNewContext()
 {
-	STACK_TRACE;
 	m_modelviewStack.Clear();
 	m_modelviewStack.top = IDENTITY_MATRIX;
 	m_projectionStack.Clear();
@@ -94,25 +88,21 @@ void ViewContext::OnNewContext()
 
 void ViewContext::OnLostContext()
 {
-	STACK_TRACE;
 }
 
 void ViewContext::OnResize(const Rect &size, SCREEN_ORIENTATION_ANGLE screenOrientation)
 {
-	STACK_TRACE;
 	SetupViewport(size, screenOrientation);
 }
 
 void ViewContext::OnRender()
 {
-	STACK_TRACE;
 	if (m_camera != NULL)
 		m_camera->OnRender();
 }
 
 void ViewContext::OnApply(const Rect &size, SCREEN_ORIENTATION_ANGLE screenOrientation)
 {
-	STACK_TRACE;
 	SetupViewport(size, screenOrientation);
 	
 	// ensures it's set up for rendering immediately when this call returns
@@ -124,7 +114,6 @@ void ViewContext::OnApply(const Rect &size, SCREEN_ORIENTATION_ANGLE screenOrien
 
 void ViewContext::SetProjectionMatrix(const Matrix4x4 &m)
 {
-	STACK_TRACE;
 	if (!IgnoringScreenRotation() && m_screenOrientation != SCREEN_ANGLE_0)
 	{
 		// apply a rotation immediately _after_ the projection matrix transform
@@ -138,7 +127,6 @@ void ViewContext::SetProjectionMatrix(const Matrix4x4 &m)
 
 void ViewContext::PushProjectionMatrix()
 {
-	STACK_TRACE;
 	m_projectionStack.Push();
 	// with MatrixStack, pushing does not change the top matrix, so
 	// we don't need to re-set the projection matrix with OpenGL
@@ -146,13 +134,11 @@ void ViewContext::PushProjectionMatrix()
 
 void ViewContext::PopProjectionMatrix()
 {
-	STACK_TRACE;
 	m_projectionStack.Pop();
 }
 
 Matrix4x4 ViewContext::GetOrthographicProjectionMatrix()
 {
-	STACK_TRACE;
 	Matrix4x4 ortho = Matrix4x4::CreateOrthographic((float)m_viewport.left, (float)m_viewport.right, (float)m_viewport.top, (float)m_viewport.bottom, 0.0f, 1.0f);
 	
 	if (!IgnoringScreenRotation() && m_screenOrientation != SCREEN_ANGLE_0)
@@ -168,13 +154,11 @@ Matrix4x4 ViewContext::GetOrthographicProjectionMatrix()
 
 void ViewContext::SetModelViewMatrix(const Matrix4x4 &m)
 {
-	STACK_TRACE;
 	m_modelviewStack.top = m;
 }
 
 void ViewContext::PushModelViewMatrix()
 {
-	STACK_TRACE;
 	m_modelviewStack.Push();
 	// with MatrixStack, pushing does not change the top matrix, so
 	// we don't need to re-set the modelview matrix with OpenGL
@@ -182,13 +166,11 @@ void ViewContext::PushModelViewMatrix()
 
 void ViewContext::PopModelViewMatrix()
 {
-	STACK_TRACE;
 	m_modelviewStack.Pop();
 }
 
 void ViewContext::SetCamera(Camera *camera)
 {
-	STACK_TRACE;
 	// using the default camera but a new camera is being provided?
 	if (m_usingDefaultCamera && camera != NULL)
 	{
@@ -214,7 +196,6 @@ void ViewContext::SetCamera(Camera *camera)
 
 void ViewContext::SetupViewport(const Rect &size, SCREEN_ORIENTATION_ANGLE screenOrientation)
 {
-	STACK_TRACE;
 	Rect viewport;
 	
 	if (m_viewportIsFixedSize)

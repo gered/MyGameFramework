@@ -13,7 +13,6 @@
 
 TileMapRenderer::TileMapRenderer(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	m_graphicsDevice = graphicsDevice;
 
 	m_chunkRenderer	= new ChunkRenderer(graphicsDevice);
@@ -26,13 +25,11 @@ TileMapRenderer::TileMapRenderer(GraphicsDevice *graphicsDevice)
 
 TileMapRenderer::~TileMapRenderer()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_chunkRenderer);
 }
 
 void TileMapRenderer::Render(const TileMap *tileMap, Shader *shader)
 {
-	STACK_TRACE;
 	m_numChunksRendered = 0;
 	m_numVerticesRendered = 0;
 

@@ -12,21 +12,17 @@
 #include "util.h"
 
 MarmaladeFileSystem::MarmaladeFileSystem()
-	: FileSystem()
 {
-	STACK_TRACE;
 	m_assetsPath = ::GetAssetsPath();
 	LOG_INFO(LOGCAT_FILEIO, "FileSystem assets path is \"%s\".\n", m_assetsPath.c_str());
 }
 
 MarmaladeFileSystem::~MarmaladeFileSystem()
 {
-	STACK_TRACE;
 }
 
 File* MarmaladeFileSystem::Open(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	File *result = NULL;
 	stl::string realFilename = TranslateFilePath(filename);
 
@@ -40,7 +36,6 @@ File* MarmaladeFileSystem::Open(const stl::string &filename, int mode)
 
 File* MarmaladeFileSystem::OpenFile(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	MarmaladeFile *file = new MarmaladeFile();
 	ASSERT(file != NULL);
 
@@ -55,7 +50,6 @@ File* MarmaladeFileSystem::OpenFile(const stl::string &filename, int mode)
 
 File* MarmaladeFileSystem::OpenMemory(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	// open the specified file off the disk (or whatever)
 	File *file = OpenFile(filename, mode);
 	if (file == NULL)
@@ -78,7 +72,6 @@ File* MarmaladeFileSystem::OpenMemory(const stl::string &filename, int mode)
 
 stl::string MarmaladeFileSystem::TranslateFilePath(const stl::string &filename) const
 {
-	STACK_TRACE;
 	if (filename.substr(0, 9) == "assets://")
 		return m_assetsPath + filename.substr(9);
 	else

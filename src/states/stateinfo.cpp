@@ -7,7 +7,6 @@
 
 StateInfo::StateInfo(GameState *gameState)
 {
-	STACK_TRACE;
 	ASSERT(gameState != NULL);
 	this->gameState = gameState;
 	name = "";
@@ -24,7 +23,6 @@ StateInfo::StateInfo(GameState *gameState)
 
 StateInfo::StateInfo(GameState *gameState, const stl::string &name)
 {
-	STACK_TRACE;
 	ASSERT(gameState != NULL);
 	this->gameState = gameState;
 	this->name = name;
@@ -41,7 +39,6 @@ StateInfo::StateInfo(GameState *gameState, const stl::string &name)
 
 void StateInfo::SetDescriptor()
 {
-	STACK_TRACE;
 	m_descriptor = gameState->GetTypeOf();
 	
 	if (name.length() > 0)

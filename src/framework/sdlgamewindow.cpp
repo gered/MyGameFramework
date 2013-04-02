@@ -13,7 +13,6 @@
 SDLGameWindow::SDLGameWindow(BaseGameApp *gameApp)
 	: GameWindow(gameApp)
 {
-	STACK_TRACE;
 	m_active = FALSE;
 	m_focused = FALSE;
 	m_closing = FALSE;
@@ -35,13 +34,11 @@ SDLGameWindow::SDLGameWindow(BaseGameApp *gameApp)
 
 SDLGameWindow::~SDLGameWindow()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_WINDOW, "Releasing.\n");
 }
 
 BOOL SDLGameWindow::Create(GameWindowParams *params)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_WINDOW, "Creating a window.\n");
 
 	SDLGameWindowParams *sdlParams = (SDLGameWindowParams*)params;
@@ -88,7 +85,6 @@ BOOL SDLGameWindow::Create(GameWindowParams *params)
 
 BOOL SDLGameWindow::Resize(uint16_t width, uint16_t height)
 {
-	STACK_TRACE;
 	BOOL result = SetUpWindow(width, height);
 	GetGameApp()->OnNewContext();
 	GetGameApp()->OnResize();
@@ -97,7 +93,6 @@ BOOL SDLGameWindow::Resize(uint16_t width, uint16_t height)
 
 BOOL SDLGameWindow::ToggleFullscreen()
 {
-	STACK_TRACE;
 	BOOL screenToggleResult;
 	if (m_fullscreen)
 		LOG_INFO(LOGCAT_WINDOW, "Beginning switch to windowed mode...\n");
@@ -131,7 +126,6 @@ BOOL SDLGameWindow::ToggleFullscreen()
 
 void SDLGameWindow::DisplaySdlHardwareInfo()
 {
-	STACK_TRACE;
 	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();
 	char *videoDriver = new char[100];
 	videoDriver = SDL_VideoDriverName(videoDriver, 100);
@@ -190,7 +184,6 @@ void SDLGameWindow::DisplaySdlHardwareInfo()
 
 BOOL SDLGameWindow::SetUpWindow(uint16_t width, uint16_t height)
 {
-	STACK_TRACE;
 	int ret;
 	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();
 
@@ -266,7 +259,6 @@ BOOL SDLGameWindow::SetUpWindow(uint16_t width, uint16_t height)
 
 void SDLGameWindow::ProcessEvent(const OSEvent *event)
 {
-	STACK_TRACE;
 	if (IsClosing())
 		return;
 
@@ -344,7 +336,6 @@ void SDLGameWindow::ProcessEvent(const OSEvent *event)
 
 void SDLGameWindow::Close()
 {
-	STACK_TRACE;
 	if (m_active)
 	{
 		LOG_INFO(LOGCAT_WINDOW, "Window marked inactive.\n");
@@ -357,5 +348,5 @@ void SDLGameWindow::Close()
 	LOG_INFO(LOGCAT_WINDOW, "Closing.\n");
 	m_closing = TRUE;
 }
-#endif
 
+#endif

@@ -17,23 +17,19 @@
 KeyframeMeshLoader::KeyframeMeshLoader(ContentManager *contentManager)
 	: ContentLoaderMapStoreBase<KeyframeMesh>(LOGGING_TAG, contentManager, "assets://meshes/")
 {
-	STACK_TRACE;
 }
 
 KeyframeMeshLoader::KeyframeMeshLoader(ContentManager *contentManager, const stl::string &defaultPath)
 	: ContentLoaderMapStoreBase<KeyframeMesh>(LOGGING_TAG, contentManager, defaultPath)
 {
-	STACK_TRACE;
 }
 
 KeyframeMeshLoader::~KeyframeMeshLoader()
 {
-	STACK_TRACE;
 }
 
 KeyframeMesh* KeyframeMeshLoader::LoadContent(const stl::string &file, const ContentParam *params)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: loading \"%s\"\n", 
 			 GetLoggingTag(), 
 			 file.c_str()
@@ -56,7 +52,6 @@ KeyframeMesh* KeyframeMeshLoader::LoadContent(const stl::string &file, const Con
 
 void KeyframeMeshLoader::FreeContent(KeyframeMesh *content)
 {
-	STACK_TRACE;
 	SAFE_DELETE(content);
 }
 

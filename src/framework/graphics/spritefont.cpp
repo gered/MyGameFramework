@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "spritefont.h"
 
 #include <math.h>
@@ -12,7 +10,6 @@
 #include "textureatlas.h"
 
 SpriteFont::SpriteFont()
-	: Content()
 {
 	m_size = 0;
 	m_texture = NULL;
@@ -22,14 +19,12 @@ SpriteFont::SpriteFont()
 
 SpriteFont::~SpriteFont()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_glyphs);
 	SAFE_DELETE(m_texture);
 }
 
 void SpriteFont::Load(Texture *texture, TextureAtlas *glyphs, uint8_t size)
 {
-	STACK_TRACE;
 	m_texture = texture;
 	m_glyphs = glyphs;
 	m_size = size;
@@ -38,7 +33,6 @@ void SpriteFont::Load(Texture *texture, TextureAtlas *glyphs, uint8_t size)
 
 void SpriteFont::OnLostContext()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_glyphs);
 	m_letterHeight = 0;
 	SAFE_DELETE(m_texture);
@@ -46,7 +40,6 @@ void SpriteFont::OnLostContext()
 
 const TextureAtlasTile& SpriteFont::GetGlyph(unsigned char c) const
 {
-	STACK_TRACE;
 	if (c < LOW_GLYPH || c > HIGH_GLYPH)
 		return m_glyphs->GetTile(HIGH_GLYPH - LOW_GLYPH);
 	else
@@ -55,8 +48,9 @@ const TextureAtlasTile& SpriteFont::GetGlyph(unsigned char c) const
 
 void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, const char *format, ...) const
 {
-	STACK_TRACE;
-	ASSERT(width != NULL || height != NULL);
+	if (width == NULL && height == NULL)
+		return;
+
 	static char buffer[8096];     // probably way more then adequate
 
 	va_list args;
@@ -96,8 +90,9 @@ void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, const char *fo
 
 void SpriteFont::MeasureString(uint16_t *width, uint16_t *height, float scale, const char *format, ...) const
 {
-	STACK_TRACE;
-	ASSERT(width != NULL || height != NULL);
+	if (width == NULL && height == NULL)
+		return;
+
 	static char buffer[8096];     // probably way more then adequate
 
 	va_list args;

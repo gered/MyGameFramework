@@ -48,17 +48,14 @@ const char* Sprite3DShader::m_fragmentShaderSource =
 
 Sprite3DShader::Sprite3DShader()
 {
-	STACK_TRACE;
 }
 
 Sprite3DShader::~Sprite3DShader()
 {
-	STACK_TRACE;
 }
 
 BOOL Sprite3DShader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!SpriteShader::Initialize(graphicsDevice))
 		return FALSE;
 	

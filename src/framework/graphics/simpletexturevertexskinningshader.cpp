@@ -50,17 +50,14 @@ const char* SimpleTextureVertexSkinningShader::m_fragmentShaderSource =
 
 SimpleTextureVertexSkinningShader::SimpleTextureVertexSkinningShader()
 {
-	STACK_TRACE;
 }
 
 SimpleTextureVertexSkinningShader::~SimpleTextureVertexSkinningShader()
 {
-	STACK_TRACE;
 }
 
 BOOL SimpleTextureVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!VertexSkinningShader::Initialize(graphicsDevice))
 		return FALSE;
 	

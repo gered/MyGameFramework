@@ -12,21 +12,17 @@
 #include "util.h"
 
 SDLFileSystem::SDLFileSystem()
-	: FileSystem()
 {
-	STACK_TRACE;
 	m_assetsPath = ::GetAssetsPath();
 	LOG_INFO(LOGCAT_FILEIO, "FileSystem assets path is \"%s\".\n", m_assetsPath.c_str());
 }
 
 SDLFileSystem::~SDLFileSystem()
 {
-	STACK_TRACE;
 }
 
 File* SDLFileSystem::Open(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	File *result = NULL;
 	stl::string realFilename = TranslateFilePath(filename);
 
@@ -40,7 +36,6 @@ File* SDLFileSystem::Open(const stl::string &filename, int mode)
 
 File* SDLFileSystem::OpenFile(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	SDLFile *file = new SDLFile();
 	ASSERT(file != NULL);
 
@@ -55,7 +50,6 @@ File* SDLFileSystem::OpenFile(const stl::string &filename, int mode)
 
 File* SDLFileSystem::OpenMemory(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	// open the specified file off the disk (or whatever)
 	File *file = OpenFile(filename, mode);
 	if (file == NULL)
@@ -78,7 +72,6 @@ File* SDLFileSystem::OpenMemory(const stl::string &filename, int mode)
 
 stl::string SDLFileSystem::TranslateFilePath(const stl::string &filename) const
 {
-	STACK_TRACE;
 	if (filename.substr(0, 9) == "assets://")
 		return m_assetsPath + filename.substr(9);
 	else

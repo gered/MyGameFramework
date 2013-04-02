@@ -6,9 +6,7 @@
 #include "s3eFile.h"
 
 MarmaladeFile::MarmaladeFile()
-	: File()
 {
-	STACK_TRACE;
 	m_fp = NULL;
 	m_mode = 0;
 	m_canRead = FALSE;
@@ -17,13 +15,11 @@ MarmaladeFile::MarmaladeFile()
 
 MarmaladeFile::~MarmaladeFile()
 {
-	STACK_TRACE;
 	Close();
 }
 
 BOOL MarmaladeFile::Open(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen() == FALSE);
 	m_filename = filename;
 
@@ -72,7 +68,6 @@ BOOL MarmaladeFile::Open(const stl::string &filename, int mode)
 
 void MarmaladeFile::Close()
 {
-	STACK_TRACE;
 	if (IsOpen())
 	{
 		LOG_INFO(LOGCAT_FILEIO, "Closed MarmaladeFile \"%s\"\n", m_filename.c_str());
@@ -88,7 +83,6 @@ void MarmaladeFile::Close()
 
 int8_t MarmaladeFile::ReadChar()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	int8_t buffer;
@@ -98,7 +92,6 @@ int8_t MarmaladeFile::ReadChar()
 
 uint8_t MarmaladeFile::ReadUnsignedChar()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	uint8_t buffer;
@@ -108,7 +101,6 @@ uint8_t MarmaladeFile::ReadUnsignedChar()
 
 int16_t MarmaladeFile::ReadShort()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	int16_t buffer;
@@ -118,7 +110,6 @@ int16_t MarmaladeFile::ReadShort()
 
 uint16_t MarmaladeFile::ReadUnsignedShort()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	uint16_t buffer;
@@ -128,7 +119,6 @@ uint16_t MarmaladeFile::ReadUnsignedShort()
 
 int32_t MarmaladeFile::ReadInt()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	int32_t buffer;
@@ -138,7 +128,6 @@ int32_t MarmaladeFile::ReadInt()
 
 uint32_t MarmaladeFile::ReadUnsignedInt()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	uint32_t buffer;
@@ -148,7 +137,6 @@ uint32_t MarmaladeFile::ReadUnsignedInt()
 
 int64_t MarmaladeFile::ReadLong()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	int64_t buffer;
@@ -158,7 +146,6 @@ int64_t MarmaladeFile::ReadLong()
 
 uint64_t MarmaladeFile::ReadUnsignedLong()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	uint64_t buffer;
@@ -168,7 +155,6 @@ uint64_t MarmaladeFile::ReadUnsignedLong()
 
 float MarmaladeFile::ReadFloat()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	float buffer;
@@ -178,7 +164,6 @@ float MarmaladeFile::ReadFloat()
 
 double MarmaladeFile::ReadDouble()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	double buffer;
@@ -188,7 +173,6 @@ double MarmaladeFile::ReadDouble()
 
 size_t MarmaladeFile::Read(int8_t *buffer, size_t bytesToRead)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	ASSERT(buffer != NULL);
@@ -199,7 +183,6 @@ size_t MarmaladeFile::Read(int8_t *buffer, size_t bytesToRead)
 
 size_t MarmaladeFile::ReadString(stl::string &buffer)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	size_t charactersRead = 0;
@@ -219,7 +202,6 @@ size_t MarmaladeFile::ReadString(stl::string &buffer)
 
 size_t MarmaladeFile::ReadFixedString(stl::string &buffer, size_t maxLength)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanRead());
 	size_t charactersRead = 0;
@@ -241,7 +223,6 @@ size_t MarmaladeFile::ReadFixedString(stl::string &buffer, size_t maxLength)
 
 size_t MarmaladeFile::WriteChar(int8_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(int8_t), 1, m_fp);
@@ -250,7 +231,6 @@ size_t MarmaladeFile::WriteChar(int8_t data)
 
 size_t MarmaladeFile::WriteUnsignedChar(uint8_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(uint8_t), 1, m_fp);
@@ -259,7 +239,6 @@ size_t MarmaladeFile::WriteUnsignedChar(uint8_t data)
 
 size_t MarmaladeFile::WriteShort(int16_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(int16_t), 1, m_fp);
@@ -268,7 +247,6 @@ size_t MarmaladeFile::WriteShort(int16_t data)
 
 size_t MarmaladeFile::WriteUnsignedShort(uint16_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(uint16_t), 1, m_fp);
@@ -277,7 +255,6 @@ size_t MarmaladeFile::WriteUnsignedShort(uint16_t data)
 
 size_t MarmaladeFile::WriteInt(int32_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(int32_t), 1, m_fp);
@@ -286,7 +263,6 @@ size_t MarmaladeFile::WriteInt(int32_t data)
 
 size_t MarmaladeFile::WriteUnsignedInt(uint32_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(uint32_t), 1, m_fp);
@@ -295,7 +271,6 @@ size_t MarmaladeFile::WriteUnsignedInt(uint32_t data)
 
 size_t MarmaladeFile::WriteLong(int64_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(int64_t), 1, m_fp);
@@ -304,7 +279,6 @@ size_t MarmaladeFile::WriteLong(int64_t data)
 
 size_t MarmaladeFile::WriteUnsignedLong(uint64_t data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(uint64_t), 1, m_fp);
@@ -313,7 +287,6 @@ size_t MarmaladeFile::WriteUnsignedLong(uint64_t data)
 
 size_t MarmaladeFile::WriteFloat(float data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(float), 1, m_fp);
@@ -322,7 +295,6 @@ size_t MarmaladeFile::WriteFloat(float data)
 
 size_t MarmaladeFile::WriteDouble(double data)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	size_t numWritten = s3eFileWrite(&data, sizeof(double), 1, m_fp);
@@ -331,7 +303,6 @@ size_t MarmaladeFile::WriteDouble(double data)
 
 size_t MarmaladeFile::Write(int8_t *buffer, size_t bytesToWrite)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	ASSERT(CanWrite());
 	ASSERT(buffer != NULL);
@@ -342,14 +313,12 @@ size_t MarmaladeFile::Write(int8_t *buffer, size_t bytesToWrite)
 
 size_t MarmaladeFile::Tell()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	return (size_t)s3eFileTell(m_fp);
 }
 
 void MarmaladeFile::Seek(size_t offset, FileSeek from)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 
 	s3eFileSeekOrigin origin = S3E_FILESEEK_CUR;
@@ -363,7 +332,6 @@ void MarmaladeFile::Seek(size_t offset, FileSeek from)
 
 BOOL MarmaladeFile::AtEOF()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	if (s3eFileEOF(m_fp) == S3E_TRUE)
 		return TRUE;
@@ -373,7 +341,6 @@ BOOL MarmaladeFile::AtEOF()
 
 size_t MarmaladeFile::GetFileSize()
 {
-	STACK_TRACE;
 	ASSERT(IsOpen());
 	return (size_t)s3eFileGetSize(m_fp);
 }

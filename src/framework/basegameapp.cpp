@@ -18,7 +18,6 @@ const uint32_t DEFAULT_MAX_FRAMESKIP = 10;
 
 BaseGameApp::BaseGameApp()
 {
-	STACK_TRACE;
 	m_stop = FALSE;
 	m_isPaused = FALSE;
 	m_fps = 0;
@@ -43,7 +42,6 @@ BaseGameApp::BaseGameApp()
 
 BaseGameApp::~BaseGameApp()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Releasing.\n");
 	if (m_graphics != NULL)
 		OnLostContext();
@@ -54,7 +52,6 @@ BaseGameApp::~BaseGameApp()
 
 BOOL BaseGameApp::Start(OperatingSystem *system)
 {
-	STACK_TRACE;
 	m_system = system;
 
 	LOG_INFO(LOGCAT_GAMEAPP, "Starting.\n");
@@ -72,7 +69,6 @@ BOOL BaseGameApp::Start(OperatingSystem *system)
 
 BOOL BaseGameApp::Initialize(GameWindowParams *windowParams)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Starting initialization.\n");
 
 	if (!m_system->CreateGameWindow(this, windowParams))
@@ -106,7 +102,6 @@ BOOL BaseGameApp::Initialize(GameWindowParams *windowParams)
 
 void BaseGameApp::Loop()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "OnLoadGame event.\n");
 	m_content->OnLoadGame();
 	OnLoadGame();
@@ -208,7 +203,6 @@ void BaseGameApp::Loop()
 
 void BaseGameApp::Quit()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Quit requested.\n");
 	if (!m_system->IsQuitting())
 		m_system->Quit();
@@ -217,26 +211,22 @@ void BaseGameApp::Quit()
 
 void BaseGameApp::OnAppGainFocus()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Gained focus.\n");
 }
 
 void BaseGameApp::OnAppLostFocus()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Lost focus.\n");
 }
 
 void BaseGameApp::OnAppPause()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Paused.\n");
 	m_isPaused = TRUE;
 }
 
 void BaseGameApp::OnAppResume()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Resumed.\n");
 	m_isPaused = FALSE;
 
@@ -248,7 +238,6 @@ void BaseGameApp::OnAppResume()
 
 void BaseGameApp::OnLostContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Lost OpenGL context.\n");
 
 	if (m_graphics != NULL)
@@ -259,7 +248,6 @@ void BaseGameApp::OnLostContext()
 
 void BaseGameApp::OnNewContext()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "New OpenGL context.\n");
 	m_graphics->OnNewContext();
 	m_content->OnNewContext();
@@ -270,13 +258,11 @@ void BaseGameApp::OnNewContext()
 
 void BaseGameApp::OnRender()
 {
-	STACK_TRACE;
 	m_graphics->OnRender();
 }
 
 void BaseGameApp::OnResize()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_GAMEAPP, "Window resize complete.\n");
 	m_graphics->OnResize(m_window->GetRect());
 
@@ -286,7 +272,6 @@ void BaseGameApp::OnResize()
 
 void BaseGameApp::InternalUpdate()
 {
-	STACK_TRACE;
 	m_system->ProcessEvents();
 
 	if (m_window->IsClosing() && !m_stop)
@@ -295,13 +280,11 @@ void BaseGameApp::InternalUpdate()
 
 void BaseGameApp::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	InternalUpdate();
 }
 
 void BaseGameApp::SetUpdateFrequency(uint32_t targetFrequency)
 {
-	STACK_TRACE;
 	m_targetUpdatesPerSecond = targetFrequency;
 	m_ticksPerUpdate = 1000 / m_targetUpdatesPerSecond;
 	m_fixedUpdateInterval = m_ticksPerUpdate / 1000.0f;
@@ -309,7 +292,6 @@ void BaseGameApp::SetUpdateFrequency(uint32_t targetFrequency)
 
 BOOL BaseGameApp::IsAppFocused() const
 {
-	STACK_TRACE;
 	if (m_window != NULL)
 		return m_window->IsFocused();
 	else

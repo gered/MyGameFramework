@@ -1,4 +1,3 @@
-#include "../framework/debug.h"
 #include "../framework/log.h"
 #include "../framework/common.h"
 
@@ -21,19 +20,16 @@
 TestingState::TestingState(GameApp *gameApp, StateManager *stateManager)
 	: GameState(gameApp, stateManager)
 {
-	STACK_TRACE;
 	m_grid = NULL;
 	m_camera = NULL;
 }
 
 TestingState::~TestingState()
 {
-	STACK_TRACE;
 }
 
 void TestingState::OnPush()
 {
-	STACK_TRACE;
 	m_camera = new FreeCamera(GetGameApp()->GetGraphicsDevice()->GetViewContext(), GetGameApp());
 	m_camera->GetPosition().Set(0.0f, 1.0f, 0.0f);
 	GetGameApp()->GetGraphicsDevice()->GetViewContext()->SetCamera(m_camera);
@@ -45,7 +41,6 @@ void TestingState::OnPush()
 
 void TestingState::OnPop()
 {
-	STACK_TRACE;
 	GetGameApp()->GetGraphicsDevice()->GetViewContext()->SetCamera(NULL);
 	
 	SAFE_DELETE(m_grid);
@@ -54,43 +49,36 @@ void TestingState::OnPop()
 
 void TestingState::OnPause(BOOL dueToOverlay)
 {
-	STACK_TRACE;
 	GameState::OnPause(dueToOverlay);
 }
 
 void TestingState::OnResume(BOOL fromOverlay)
 {
-	STACK_TRACE;
 	GameState::OnResume(fromOverlay);
 }
 
 void TestingState::OnAppGainFocus()
 {
-	STACK_TRACE;
 	GameState::OnAppGainFocus();
 }
 
 void TestingState::OnAppLostFocus()
 {
-	STACK_TRACE;
 	GameState::OnAppLostFocus();
 }
 
 void TestingState::OnLostContext()
 {
-	STACK_TRACE;
 	GameState::OnLostContext();
 }
 
 void TestingState::OnNewContext()
 {
-	STACK_TRACE;
 	GameState::OnNewContext();
 }
 
 void TestingState::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	SimpleColorShader *colorShader = renderContext->GetGraphicsDevice()->GetSimpleColorShader();
 
 	renderContext->GetGraphicsDevice()->Clear(0.25f, 0.5f, 1.0f, 1.0f);	
@@ -107,13 +95,11 @@ void TestingState::OnRender(RenderContext *renderContext)
 
 void TestingState::OnResize()
 {
-	STACK_TRACE;
 	GameState::OnResize();
 }
 
 void TestingState::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	GameState::OnUpdate(delta);
 
 	if (GetGameApp()->GetKeyboard()->IsPressed(KSYM_ESCAPE))
@@ -124,6 +110,5 @@ void TestingState::OnUpdate(float delta)
 
 BOOL TestingState::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
 {
-	STACK_TRACE;
 	return TRUE;
 }

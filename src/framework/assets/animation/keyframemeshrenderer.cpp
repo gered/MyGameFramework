@@ -15,17 +15,14 @@
 
 KeyframeMeshRenderer::KeyframeMeshRenderer()
 {
-	STACK_TRACE;
 }
 
 KeyframeMeshRenderer::~KeyframeMeshRenderer()
 {
-	STACK_TRACE;
 }
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, VertexLerpShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	instance->GetRenderState()->Apply();
 	Render(graphicsDevice, instance->GetMesh(), instance->GetTexture(), instance->GetCurrentFrame(), instance->GetNextFrame(), instance->GetInterpolation(), shader);
@@ -33,7 +30,6 @@ void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshIn
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint32_t frame, VertexLerpShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	instance->GetRenderState()->Apply();
 	Render(graphicsDevice, instance->GetMesh(), instance->GetTexture(), frame, shader);
@@ -41,7 +37,6 @@ void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshIn
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint32_t startFrame, uint32_t endFrame, float interpolation, VertexLerpShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	instance->GetRenderState()->Apply();
 	Render(graphicsDevice, instance->GetMesh(), instance->GetTexture(), instance->GetCurrentFrame(), instance->GetNextFrame(), instance->GetInterpolation(), shader);
@@ -49,14 +44,12 @@ void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshIn
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, VertexLerpShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	Render(graphicsDevice, mesh, texture, 0, shader);
 }
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint32_t frame, VertexLerpShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	SetFrameVertices(mesh, frame);
 
@@ -72,7 +65,6 @@ void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint32_t startFrame, uint32_t endFrame, float interpolation, VertexLerpShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	SetFrameVertices(mesh, startFrame, endFrame);
 
@@ -88,7 +80,6 @@ void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *
 
 void KeyframeMeshRenderer::SetFrameVertices(KeyframeMesh *mesh, uint32_t frame)
 {
-	STACK_TRACE;
 	int pos;
 	Keyframe *keyframe = mesh->GetFrames()[frame];
 	KeyframeMeshTriangle *triangle;
@@ -121,7 +112,6 @@ void KeyframeMeshRenderer::SetFrameVertices(KeyframeMesh *mesh, uint32_t frame)
 
 void KeyframeMeshRenderer::SetFrameVertices(KeyframeMesh *mesh, uint32_t startFrame, uint32_t endFrame)
 {
-	STACK_TRACE;
 	uint32_t pos;
 	Keyframe *frame1 = mesh->GetFrames()[startFrame];
 	Keyframe *frame2 = mesh->GetFrames()[endFrame];

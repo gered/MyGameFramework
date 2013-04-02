@@ -6,18 +6,15 @@
 
 EventManager::EventManager()
 {
-	STACK_TRACE;
 	m_activeQueue = 0;
 }
 
 EventManager::~EventManager()
 {
-	STACK_TRACE;
 }
 
 BOOL EventManager::AddListener(EventListener *listener, EVENT_TYPE type)
 {
-	STACK_TRACE;
 	// TODO: validate type
 
 	EventListenerMap::iterator listenerItor = m_registry.find(type);
@@ -48,7 +45,6 @@ BOOL EventManager::AddListener(EventListener *listener, EVENT_TYPE type)
 
 BOOL EventManager::RemoveListener(EventListener *listener, EVENT_TYPE type)
 {
-	STACK_TRACE;
 	BOOL result = FALSE;
 
 	// TODO: validate type
@@ -82,7 +78,6 @@ BOOL EventManager::RemoveListener(EventListener *listener, EVENT_TYPE type)
 
 BOOL EventManager::Trigger(const Event *event) const
 {
-	STACK_TRACE;
 	// TODO: validate type
 
 	// trigger events for wildcard listeners first
@@ -121,7 +116,6 @@ BOOL EventManager::Trigger(const Event *event) const
 
 BOOL EventManager::Queue(const Event *event)
 {
-	STACK_TRACE;
 	ASSERT(m_activeQueue >= 0);
 	ASSERT(m_activeQueue < NUM_EVENT_QUEUES);
 
@@ -145,7 +139,6 @@ BOOL EventManager::Queue(const Event *event)
 
 BOOL EventManager::Abort(EVENT_TYPE type, BOOL allOfType)
 {
-	STACK_TRACE;
 	ASSERT(m_activeQueue >= 0);
 	ASSERT(m_activeQueue < NUM_EVENT_QUEUES);
 
@@ -179,7 +172,6 @@ BOOL EventManager::Abort(EVENT_TYPE type, BOOL allOfType)
 
 BOOL EventManager::ProcessQueue()
 {
-	STACK_TRACE;
 	EventListenerMap::const_iterator wildcardItor = m_registry.find(EVENT_TYPE_WILDCARD);
 
 	// swap active queues and empty the new queue
@@ -243,7 +235,6 @@ BOOL EventManager::ProcessQueue()
 
 EventListenerList EventManager::GetListenerList(EVENT_TYPE type) const
 {
-	STACK_TRACE;
 	EventListenerMap::const_iterator listenerItor = m_registry.find(type);
 	if (listenerItor == m_registry.end())
 		return EventListenerList();              // no registered listeners for this type
@@ -263,7 +254,6 @@ EventListenerList EventManager::GetListenerList(EVENT_TYPE type) const
 
 EventTypeList EventManager::GetTypeList() const
 {
-	STACK_TRACE;
 	if (m_typeList.size() == 0)
 		return EventTypeList();                  // no types have been registered
 

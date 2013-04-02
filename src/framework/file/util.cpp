@@ -23,7 +23,6 @@ stl::string g_assetsPath;
 
 const stl::string& GetAppPath()
 {
-	STACK_TRACE;
 	if (g_appPath.length() > 0)
 		return g_appPath;
 
@@ -94,7 +93,6 @@ const stl::string& GetAppPath()
 
 const stl::string& GetAssetsPath()
 {
-	STACK_TRACE;
 	if (g_assetsPath.length() > 0)
 		return g_assetsPath;
 	

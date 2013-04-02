@@ -36,17 +36,14 @@ const char* SimpleColorTextureShader::m_fragmentShaderSource =
 
 SimpleColorTextureShader::SimpleColorTextureShader()
 {
-	STACK_TRACE;
 }
 
 SimpleColorTextureShader::~SimpleColorTextureShader()
 {
-	STACK_TRACE;
 }
 
 BOOL SimpleColorTextureShader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!StandardShader::Initialize(graphicsDevice))
 		return FALSE;
 	

@@ -13,14 +13,12 @@
 
 ContentCache::ContentCache(ContentManager *contentManager)
 {
-	STACK_TRACE;
 	m_contentManager = contentManager;
 	m_uiFontSize = 0;
 }
 
 ContentCache::~ContentCache()
 {
-	STACK_TRACE;
 	m_contentManager->Free<Texture>(m_uiSkin, TRUE);
 	m_contentManager->Free<Image>(m_uiSkinImage, TRUE);
 	m_contentManager->Free<SpriteFont>(m_standardFont, TRUE);
@@ -29,7 +27,6 @@ ContentCache::~ContentCache()
 
 void ContentCache::OnLoadGame()
 {
-	STACK_TRACE;
 	m_uiSkinFilename = "assets://ui_skin.png";
 	m_uiSkinImage = m_contentManager->Get<Image>(m_uiSkinFilename, TRUE);
 	m_uiSkin = m_contentManager->Get<Texture>(m_uiSkinFilename, TRUE);

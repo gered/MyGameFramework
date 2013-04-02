@@ -6,9 +6,7 @@
 #include <string.h>
 
 MemoryFile::MemoryFile()
-	: File()
 {
-	STACK_TRACE;
 	m_data = NULL;
 	m_ownData = FALSE;
 	m_length = 0;
@@ -19,13 +17,11 @@ MemoryFile::MemoryFile()
 
 MemoryFile::~MemoryFile()
 {
-	STACK_TRACE;
 	Close();
 }
 
 BOOL MemoryFile::Open(File *srcFile)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen() == FALSE);
 	ASSERT(srcFile->IsOpen());
 	size_t filesize = srcFile->GetFileSize();
@@ -47,7 +43,6 @@ BOOL MemoryFile::Open(File *srcFile)
 
 BOOL MemoryFile::Open(const void *memory, size_t numBytes, BOOL canRead, BOOL canWrite, BOOL assumeOwnershipOfMemory)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen() == FALSE);
 	ASSERT(memory != NULL);
 	ASSERT(numBytes > 0);
@@ -66,7 +61,6 @@ BOOL MemoryFile::Open(const void *memory, size_t numBytes, BOOL canRead, BOOL ca
 
 void MemoryFile::Close()
 {
-	STACK_TRACE;
 	if (IsOpen())
 	{
 		if (m_ownData)

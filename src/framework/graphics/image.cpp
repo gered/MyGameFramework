@@ -13,7 +13,6 @@
 
 Image::Image()
 {
-	STACK_TRACE;
 	m_pixels = NULL;
 	m_width = 0;
 	m_height = 0;
@@ -24,7 +23,6 @@ Image::Image()
 
 void Image::Release()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_pixels);
 	m_width = 0;
 	m_height = 0;
@@ -36,7 +34,6 @@ void Image::Release()
 
 BOOL Image::Create(uint16_t width, uint16_t height, IMAGE_FORMAT format)
 {
-	STACK_TRACE;
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
 		return FALSE;
@@ -73,7 +70,6 @@ BOOL Image::Create(uint16_t width, uint16_t height, IMAGE_FORMAT format)
 
 BOOL Image::Create(const Image *source)
 {
-	STACK_TRACE;
 	ASSERT(source != NULL);
 	if (source == NULL)
 		return FALSE;
@@ -83,7 +79,6 @@ BOOL Image::Create(const Image *source)
 
 BOOL Image::Create(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 {
-	STACK_TRACE;
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
 		return FALSE;
@@ -112,7 +107,6 @@ BOOL Image::Create(const Image *source, uint16_t x, uint16_t y, uint16_t width, 
 
 BOOL Image::Create(File *file)
 {
-	STACK_TRACE;
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
 		return FALSE;
@@ -195,7 +189,6 @@ BOOL Image::Create(File *file)
 
 Color Image::GetColor(uint16_t x, uint16_t y) const
 {
-	STACK_TRACE;
 	ASSERT(m_format == IMAGE_FORMAT_RGB || m_format == IMAGE_FORMAT_RGBA);
 
 	if (m_format == IMAGE_FORMAT_RGB)
@@ -212,7 +205,6 @@ Color Image::GetColor(uint16_t x, uint16_t y) const
 
 void Image::SetColor(uint16_t x, uint16_t y, const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_format == IMAGE_FORMAT_RGB || m_format == IMAGE_FORMAT_RGBA);
 
 	if (m_format == IMAGE_FORMAT_RGB)
@@ -230,14 +222,12 @@ void Image::SetColor(uint16_t x, uint16_t y, const Color &color)
 
 void Image::Copy(const Image *source, uint16_t destX, uint16_t destY)
 {
-	STACK_TRACE;
 	ASSERT(source != NULL);
 	Copy(source, 0, 0, source->GetWidth(), source->GetHeight(), destX, destY);
 }
 
 void Image::Copy(const Image *source, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t destX, uint16_t destY)
 {
-	STACK_TRACE;
 	ASSERT(source != NULL);
 	if (source == NULL)
 		return;
@@ -264,13 +254,11 @@ void Image::Copy(const Image *source, uint16_t x, uint16_t y, uint16_t width, ui
 
 void Image::Clear()
 {
-	STACK_TRACE;
 	memset(m_pixels, 0, GetSizeInBytes());
 }
 
 void Image::Clear(const Color &color)
 {
-	STACK_TRACE;
 	ASSERT(m_format == IMAGE_FORMAT_RGB || m_format == IMAGE_FORMAT_RGBA);
 
 	uint32_t sizeInBytes = GetSizeInBytes();
@@ -299,20 +287,17 @@ void Image::Clear(const Color &color)
 
 void Image::Clear(const uint32_t color)
 {
-	STACK_TRACE;
 	Clear(Color::FromInt(color));
 }
 
 void Image::Clear(const uint8_t alpha)
 {
-	STACK_TRACE;
 	ASSERT(m_format == IMAGE_FORMAT_ALPHA);
 	memset(m_pixels, alpha, GetSizeInBytes());
 }
 
 void Image::FlipVertically()
 {
-	STACK_TRACE;
 	ASSERT(m_pixels != NULL);
 	if (m_pixels == NULL)
 		return;

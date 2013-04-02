@@ -5,17 +5,14 @@
 
 CustomVertexSkinningShader::CustomVertexSkinningShader()
 {
-	STACK_TRACE;
 }
 
 CustomVertexSkinningShader::~CustomVertexSkinningShader()
 {
-	STACK_TRACE;
 }
 
 BOOL CustomVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!VertexSkinningShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 	
@@ -29,7 +26,6 @@ BOOL CustomVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice, cons
 
 BOOL CustomVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!VertexSkinningShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 	

@@ -18,23 +18,19 @@ const char* LOGGING_TAG = "StaticMeshLoader";
 StaticMeshLoader::StaticMeshLoader(ContentManager *contentManager)
 	: ContentLoaderMapStoreBase<StaticMesh>(LOGGING_TAG, contentManager, "assets://meshes/")
 {
-	STACK_TRACE;
 }
 
 StaticMeshLoader::StaticMeshLoader(ContentManager *contentManager, const stl::string &defaultPath)
 	: ContentLoaderMapStoreBase<StaticMesh>(LOGGING_TAG, contentManager, defaultPath)
 {
-	STACK_TRACE;
 }
 
 StaticMeshLoader::~StaticMeshLoader()
 {
-	STACK_TRACE;
 }
 
 StaticMesh* StaticMeshLoader::LoadContent(const stl::string &file, const ContentParam *params)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: loading \"%s\"\n",
 			 GetLoggingTag(),
 			 file.c_str()
@@ -57,6 +53,5 @@ StaticMesh* StaticMeshLoader::LoadContent(const stl::string &file, const Content
 
 void StaticMeshLoader::FreeContent(StaticMesh *content)
 {
-	STACK_TRACE;
 	SAFE_DELETE(content);
 }

@@ -6,7 +6,6 @@
 
 MeshFile::MeshFile(File *file)
 {
-	STACK_TRACE;
 	ASSERT(file != NULL);
 	ASSERT(file->IsOpen());
 	m_file = file;
@@ -25,12 +24,10 @@ MeshFile::MeshFile(File *file)
 
 MeshFile::~MeshFile()
 {
-	STACK_TRACE;
 }
 
 void MeshFile::CollectChunks()
 {
-	STACK_TRACE;
 	m_chunks.clear();
 
 	// start off just after the header (start of the first chunk)
@@ -59,7 +56,6 @@ void MeshFile::CollectChunks()
 
 ChunkDescriptor* MeshFile::GetChunkDesc(const stl::string &name)
 {
-	STACK_TRACE;
 	ChunkMap::iterator itor = m_chunks.find(name);
 	if (itor == m_chunks.end())
 		return NULL;

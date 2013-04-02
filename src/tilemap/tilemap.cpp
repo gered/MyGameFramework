@@ -16,7 +16,6 @@
 
 TileMap::TileMap(TileMeshCollection *tileMeshes, ChunkVertexGenerator *vertexGenerator, TileMapLighter *lighter, GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	ASSERT(tileMeshes != NULL);
 	ASSERT(vertexGenerator != NULL);
 	ASSERT(graphicsDevice != NULL);
@@ -44,13 +43,11 @@ TileMap::TileMap(TileMeshCollection *tileMeshes, ChunkVertexGenerator *vertexGen
 
 TileMap::~TileMap()
 {
-	STACK_TRACE;
 	Clear();
 }
 
 void TileMap::SetSize(uint32_t numChunksX, uint32_t numChunksY, uint32_t numChunksZ, uint32_t chunkSizeX, uint32_t chunkSizeY, uint32_t chunkSizeZ)
 {
-	STACK_TRACE;
 	ASSERT(numChunksX > 0);
 	ASSERT(numChunksY > 0);
 	ASSERT(numChunksZ > 0);
@@ -94,7 +91,6 @@ void TileMap::SetSize(uint32_t numChunksX, uint32_t numChunksY, uint32_t numChun
 
 void TileMap::Clear()
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_numChunks; ++i)
 	{
 		TileChunk *chunk = m_chunks[i];
@@ -113,7 +109,6 @@ void TileMap::Clear()
 
 BOOL TileMap::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32_t &z) const
 {
-	STACK_TRACE;
 	// make sure that the ray can actually collide with this map in the first place
 	Vector3 position;
 	if (!IntersectionTester::Test(ray, m_bounds, &position))
@@ -264,7 +259,6 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint32_t &x, uint32_t &y, uint32
 
 BOOL TileMap::CheckForCollision(const Ray &ray, Vector3 &point, uint32_t &x, uint32_t &y, uint32_t &z) const
 {
-	STACK_TRACE;
 	// if the ray doesn't collide with any solid tiles in the first place, then
 	// we can skip this more expensive triangle collision check...
 	if (!CheckForCollision(ray, x, y, z))
@@ -277,7 +271,6 @@ BOOL TileMap::CheckForCollision(const Ray &ray, Vector3 &point, uint32_t &x, uin
 
 BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint32_t x, uint32_t y, uint32_t z) const
 {
-	STACK_TRACE;
 	const Tile *tile = Get(x, y, z);
 	const TileMesh *mesh = m_tileMeshes->Get(tile);
 
@@ -324,7 +317,6 @@ BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint32_t
 
 BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint32_t &x1, uint32_t &y1, uint32_t &z1, uint32_t &x2, uint32_t &y2, uint32_t &z2) const
 {
-	STACK_TRACE;
 	// make sure the given box actually intersects with the map in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
 		return FALSE;
@@ -363,7 +355,6 @@ BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint32_t &x1, uint32_t 
 
 BOOL TileMap::GetOverlappedChunks(const BoundingBox &box, uint32_t &x1, uint32_t &y1, uint32_t &z1, uint32_t &x2, uint32_t &y2, uint32_t &z2) const
 {
-	STACK_TRACE;
 	// make sure the given box actually intersects with the map in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
 		return FALSE;
@@ -410,7 +401,6 @@ BOOL TileMap::GetOverlappedChunks(const BoundingBox &box, uint32_t &x1, uint32_t
 
 void TileMap::UpdateVertices()
 {
-	STACK_TRACE;
 	ASSERT(m_numChunks > 0);
 
 	for (uint32_t i = 0; i < m_numChunks; ++i)
@@ -422,7 +412,6 @@ void TileMap::UpdateVertices()
 
 void TileMap::UpdateChunkVertices(TileChunk *chunk)
 {
-	STACK_TRACE;
 	ASSERT(m_numChunks > 0);
 	ASSERT(chunk != NULL);
 
@@ -431,7 +420,6 @@ void TileMap::UpdateChunkVertices(TileChunk *chunk)
 
 void TileMap::UpdateLighting()
 {
-	STACK_TRACE;
 	ASSERT(m_numChunks > 0);
 
 	if (m_lighter != NULL)

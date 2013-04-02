@@ -8,34 +8,27 @@
 const int32_t NUM_BUTTONS = S3E_POINTER_BUTTON_MAX;
 
 MarmaladeMouse::MarmaladeMouse()
-	: Mouse()
 {
-	STACK_TRACE;
 	m_buttons = new BOOL[NUM_BUTTONS];
-	ASSERT(m_buttons != NULL);
 	m_lockedButtons = new BOOL[NUM_BUTTONS];
-	ASSERT(m_lockedButtons != NULL);
 
 	Reset();
 }
 
 MarmaladeMouse::~MarmaladeMouse()
 {
-	STACK_TRACE;
 	SAFE_DELETE_ARRAY(m_buttons);
 	SAFE_DELETE_ARRAY(m_lockedButtons);
 }
 
 void MarmaladeMouse::ResetDeltas()
 {
-	STACK_TRACE;
 	m_deltaX = 0;
 	m_deltaY = 0;
 }
 
 BOOL MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 {
-	STACK_TRACE;
 	int32_t button = (int32_t)eventArgs->m_Button;
 	BOOL isDown = (BOOL)eventArgs->m_Pressed;
 	int32_t x = eventArgs->m_x;
@@ -76,7 +69,6 @@ BOOL MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 
 BOOL MarmaladeMouse::OnMotionEvent(const s3ePointerMotionEvent *eventArgs)
 {
-	STACK_TRACE;
 	m_deltaX = eventArgs->m_x - m_x;
 	m_deltaY = eventArgs->m_y - m_y;
 
@@ -98,7 +90,6 @@ BOOL MarmaladeMouse::OnMotionEvent(const s3ePointerMotionEvent *eventArgs)
 
 BOOL MarmaladeMouse::IsPressed(MOUSE_BUTTONS button)
 {
-	STACK_TRACE;
 	if (m_buttons[button] && !m_lockedButtons[button])
 	{
 		m_lockedButtons[button] = TRUE;
@@ -110,7 +101,6 @@ BOOL MarmaladeMouse::IsPressed(MOUSE_BUTTONS button)
 
 void MarmaladeMouse::Reset()
 {
-	STACK_TRACE;
 	memset(m_buttons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
 	memset(m_lockedButtons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
 	m_x = 0;
@@ -121,13 +111,11 @@ void MarmaladeMouse::Reset()
 
 void MarmaladeMouse::RegisterListener(MouseListener *listener)
 {
-	STACK_TRACE;
 	m_listeners.insert(listener);
 }
 
 void MarmaladeMouse::UnregisterListener(MouseListener *listener)
 {
-	STACK_TRACE;
 	m_listeners.erase(listener);
 }
 

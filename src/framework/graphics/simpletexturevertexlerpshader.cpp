@@ -32,17 +32,14 @@ const char* SimpleTextureVertexLerpShader::m_fragmentShaderSource =
 
 SimpleTextureVertexLerpShader::SimpleTextureVertexLerpShader()
 {
-	STACK_TRACE;
 }
 
 SimpleTextureVertexLerpShader::~SimpleTextureVertexLerpShader()
 {
-	STACK_TRACE;
 }
 
 BOOL SimpleTextureVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!VertexLerpShader::Initialize(graphicsDevice))
 		return FALSE;
 	

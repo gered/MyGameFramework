@@ -17,23 +17,19 @@
 SkeletalMeshLoader::SkeletalMeshLoader(ContentManager *contentManager)
 	: ContentLoaderMapStoreBase<SkeletalMesh>(LOGGING_TAG, contentManager, "assets://meshes/")
 {
-	STACK_TRACE;
 }
 
 SkeletalMeshLoader::SkeletalMeshLoader(ContentManager *contentManager, const stl::string &defaultPath)
 	: ContentLoaderMapStoreBase<SkeletalMesh>(LOGGING_TAG, contentManager, defaultPath)
 {
-	STACK_TRACE;
 }
 
 SkeletalMeshLoader::~SkeletalMeshLoader()
 {
-	STACK_TRACE;
 }
 
 SkeletalMesh* SkeletalMeshLoader::LoadContent(const stl::string &file, const ContentParam *params)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_ASSETS, "%s: loading \"%s\"\n", 
 			 GetLoggingTag(), 
 			 file.c_str()
@@ -56,7 +52,6 @@ SkeletalMesh* SkeletalMeshLoader::LoadContent(const stl::string &file, const Con
 
 void SkeletalMeshLoader::FreeContent(SkeletalMesh *content)
 {
-	STACK_TRACE;
 	SAFE_DELETE(content);
 }
 

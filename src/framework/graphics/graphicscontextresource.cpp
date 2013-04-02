@@ -5,13 +5,11 @@
 
 GraphicsContextResource::GraphicsContextResource()
 {
-	STACK_TRACE;
 	m_graphicsDevice = NULL;
 }
 
 void GraphicsContextResource::Release()
 {
-	STACK_TRACE;
 	if (m_graphicsDevice != NULL)
 		m_graphicsDevice->UnregisterManagedResource(this);
 	
@@ -20,7 +18,6 @@ void GraphicsContextResource::Release()
 
 BOOL GraphicsContextResource::Initialize()
 {
-	STACK_TRACE;
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
 		return FALSE;
@@ -30,7 +27,6 @@ BOOL GraphicsContextResource::Initialize()
 
 BOOL GraphicsContextResource::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
 		return FALSE;

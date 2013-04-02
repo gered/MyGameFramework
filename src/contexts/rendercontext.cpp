@@ -16,7 +16,6 @@
 
 RenderContext::RenderContext(GraphicsDevice *graphicsDevice, ContentManager *contentManager)
 {
-	STACK_TRACE;
 	ASSERT(graphicsDevice != NULL);
 	ASSERT(contentManager != NULL);
 
@@ -34,7 +33,6 @@ RenderContext::RenderContext(GraphicsDevice *graphicsDevice, ContentManager *con
 
 RenderContext::~RenderContext()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_spriteBatch);
 	SAFE_DELETE(m_billboardSpriteBatch);
 	SAFE_DELETE(m_keyframeMeshRenderer);
@@ -44,12 +42,10 @@ RenderContext::~RenderContext()
 
 void RenderContext::OnLoadGame()
 {
-	STACK_TRACE;
 }
 
 void RenderContext::OnPreRender()
 {
-	STACK_TRACE;
 	RENDERSTATE_DEFAULT.Apply();
 	BLENDSTATE_DEFAULT.Apply();
 
@@ -60,7 +56,6 @@ void RenderContext::OnPreRender()
 
 void RenderContext::OnPostRender()
 {
-	STACK_TRACE;
 	m_billboardSpriteBatch->End();
 	m_spriteBatch->End();
 	m_graphicsDevice->GetDebugRenderer()->End();
@@ -68,13 +63,11 @@ void RenderContext::OnPostRender()
 
 void RenderContext::OnResize()
 {
-	STACK_TRACE;
 	CalculateScreenScale();
 }
 
 void RenderContext::CalculateScreenScale()
 {
-	STACK_TRACE;
 	uint16_t width = m_graphicsDevice->GetViewContext()->GetViewportWidth();
 	uint16_t height = m_graphicsDevice->GetViewContext()->GetViewportHeight();
 

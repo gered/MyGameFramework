@@ -10,7 +10,6 @@
 SkeletalMeshAnimationInstance::SkeletalMeshAnimationInstance(SkeletalMesh *mesh)
 	: SkeletalMeshInstance(mesh)
 {
-	STACK_TRACE;
 	m_currentSequenceStart = 0;
 	m_currentSequenceEnd = 0;
 	m_currentSequenceLoop = FALSE;
@@ -23,12 +22,10 @@ SkeletalMeshAnimationInstance::SkeletalMeshAnimationInstance(SkeletalMesh *mesh)
 
 SkeletalMeshAnimationInstance::~SkeletalMeshAnimationInstance()
 {
-	STACK_TRACE;
 }
 
 void SkeletalMeshAnimationInstance::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	SkeletalMeshInstance::OnUpdate(delta);
 	if (m_currentSequenceStart != m_currentSequenceEnd)
 	{
@@ -70,7 +67,6 @@ void SkeletalMeshAnimationInstance::OnUpdate(float delta)
 
 void SkeletalMeshAnimationInstance::SetSequence(uint32_t startFrame, uint32_t endFrame, BOOL loop)
 {
-	STACK_TRACE;
 	m_currentSequenceName.clear();
 	m_currentSequenceStart = startFrame;
 	m_currentSequenceEnd = endFrame;
@@ -86,7 +82,6 @@ void SkeletalMeshAnimationInstance::SetSequence(uint32_t startFrame, uint32_t en
 
 void SkeletalMeshAnimationInstance::SetSequence(const stl::string &name, BOOL loop)
 {
-	STACK_TRACE;
 	if (m_currentSequenceName == name)
 		return;
 	
@@ -97,7 +92,6 @@ void SkeletalMeshAnimationInstance::SetSequence(const stl::string &name, BOOL lo
 
 void SkeletalMeshAnimationInstance::RunSequenceOnce(const stl::string &name)
 {
-	STACK_TRACE;
 	if (m_isRunningTempSequence)
 		return;
 	
@@ -111,7 +105,6 @@ void SkeletalMeshAnimationInstance::RunSequenceOnce(const stl::string &name)
 
 void SkeletalMeshAnimationInstance::RecoverFromTempSequence()
 {
-	STACK_TRACE;
 	m_isRunningTempSequence = FALSE;
 	SetSequence(m_oldSequenceName, m_oldSequenceLoop);
 	m_oldSequenceName.clear();

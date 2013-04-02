@@ -9,13 +9,11 @@
 
 ContentManager::ContentManager(BaseGameApp *gameApp)
 {
-	STACK_TRACE;
 	m_gameApp = gameApp;
 }
 
 ContentManager::~ContentManager()
 {
-	STACK_TRACE;
 	for (ContentLoaderMap::iterator itor = m_loaders.begin(); itor != m_loaders.end(); ++itor)
 	{
 		ContentLoaderBase *loader = itor->second;
@@ -26,7 +24,6 @@ ContentManager::~ContentManager()
 
 void ContentManager::OnLoadGame()
 {
-	STACK_TRACE;
 	for (ContentLoaderMap::iterator itor = m_loaders.begin(); itor != m_loaders.end(); ++itor)
 	{
 		ContentLoaderBase *loader = itor->second;
@@ -36,7 +33,6 @@ void ContentManager::OnLoadGame()
 
 void ContentManager::OnNewContext()
 {
-	STACK_TRACE;
 	for (ContentLoaderMap::iterator itor = m_loaders.begin(); itor != m_loaders.end(); ++itor)
 	{
 		ContentLoaderBase *loader = itor->second;
@@ -46,7 +42,6 @@ void ContentManager::OnNewContext()
 
 void ContentManager::OnLostContext()
 {
-	STACK_TRACE;
 	for (ContentLoaderMap::iterator itor = m_loaders.begin(); itor != m_loaders.end(); ++itor)
 	{
 		ContentLoaderBase *loader = itor->second;
@@ -56,7 +51,6 @@ void ContentManager::OnLostContext()
 
 void ContentManager::RegisterLoader(ContentLoaderBase *loader)
 {
-	STACK_TRACE;
 	ASSERT(loader != NULL);
 
 	ContentLoaderBase *existingLoader = GetLoaderFor(loader->GetTypeOf());
@@ -67,7 +61,6 @@ void ContentManager::RegisterLoader(ContentLoaderBase *loader)
 
 ContentLoaderBase* ContentManager::GetLoaderFor(CONTENT_TYPE type) const
 {
-	STACK_TRACE;
 	ContentLoaderMap::const_iterator itor = m_loaders.find(type);
 	if (itor == m_loaders.end())
 		return NULL;

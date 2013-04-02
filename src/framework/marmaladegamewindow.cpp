@@ -15,7 +15,6 @@
 MarmaladeGameWindow::MarmaladeGameWindow(BaseGameApp *gameApp, MarmaladeSystem *system)
 	: GameWindow(gameApp)
 {
-	STACK_TRACE;
 	m_system = system;
 	m_active = FALSE;
 	m_focused = FALSE;
@@ -31,7 +30,6 @@ MarmaladeGameWindow::MarmaladeGameWindow(BaseGameApp *gameApp, MarmaladeSystem *
 
 MarmaladeGameWindow::~MarmaladeGameWindow()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_WINDOW, "Releasing.\n");
 	if (!DestroyWindow())
 		LOG_ERROR(LOGCAT_WINDOW, "Failed to destroy the EGL context.\n");
@@ -39,7 +37,6 @@ MarmaladeGameWindow::~MarmaladeGameWindow()
 
 BOOL MarmaladeGameWindow::Create(GameWindowParams *params)
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_WINDOW, "Creating a window.\n");
 
 	LOG_INFO(LOGCAT_WINDOW, "Received window creation parameters:\n");
@@ -62,7 +59,6 @@ BOOL MarmaladeGameWindow::Create(GameWindowParams *params)
 
 BOOL MarmaladeGameWindow::Resize(uint16_t width, uint16_t height)
 {
-	STACK_TRACE;
 	// note that the parameters are ignored completely because they don't really
 	// make sense for our primary/only usage of Marmalade (mobile devices)
 	// the parameters need to be there obviously because of the GameWindow parent 
@@ -101,14 +97,12 @@ BOOL MarmaladeGameWindow::Resize(uint16_t width, uint16_t height)
 
 BOOL MarmaladeGameWindow::ToggleFullscreen()
 {
-	STACK_TRACE;
 	ASSERT(!"Not implemented.");
 	return FALSE;
 }
 
 BOOL MarmaladeGameWindow::SetUpWindow()
 {
-	STACK_TRACE;
 	if (!SetUpEGL())
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "EGL setup not completed successfully.\n");
@@ -120,7 +114,6 @@ BOOL MarmaladeGameWindow::SetUpWindow()
 
 BOOL MarmaladeGameWindow::DestroyWindow()
 {
-	STACK_TRACE;
 	if (!DestroyEGL())
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "EGL destroy not completed successfully.\n");
@@ -132,7 +125,6 @@ BOOL MarmaladeGameWindow::DestroyWindow()
 
 BOOL MarmaladeGameWindow::SetUpEGL()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_WINDOW, "Connecting to EGL display server.\n");
 	EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 	if (display == EGL_NO_DISPLAY)
@@ -321,7 +313,6 @@ BOOL MarmaladeGameWindow::SetUpEGL()
 
 BOOL MarmaladeGameWindow::DestroyEGL()
 {
-	STACK_TRACE;
 	if (m_eglDisplay != EGL_NO_DISPLAY)
 	{
 		LOG_INFO(LOGCAT_WINDOW, "Destroying EGL context.\n");
@@ -362,7 +353,6 @@ BOOL MarmaladeGameWindow::DestroyEGL()
 
 SCREEN_ORIENTATION_ANGLE MarmaladeGameWindow::GetCurrentScreenOrientationAngle()
 {
-	STACK_TRACE;
 	s3eSurfaceBlitDirection direction = (s3eSurfaceBlitDirection)s3eSurfaceGetInt(S3E_SURFACE_DEVICE_BLIT_DIRECTION);
 
 	SCREEN_ORIENTATION_ANGLE angle = SCREEN_ANGLE_0;
@@ -388,7 +378,6 @@ SCREEN_ORIENTATION_ANGLE MarmaladeGameWindow::GetCurrentScreenOrientationAngle()
 
 void MarmaladeGameWindow::Close()
 {
-	STACK_TRACE;
 	if (m_active)
 	{
 		LOG_INFO(LOGCAT_WINDOW, "Window marked inactive.\n");
@@ -404,7 +393,6 @@ void MarmaladeGameWindow::Close()
 
 void MarmaladeGameWindow::ProcessEvent(const OSEvent *event)
 {
-	STACK_TRACE;
 	if (IsClosing())
 		return;
 

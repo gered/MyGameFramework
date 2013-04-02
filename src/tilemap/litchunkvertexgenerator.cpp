@@ -1,5 +1,3 @@
-#include "../framework/debug.h"
-
 #include "litchunkvertexgenerator.h"
 #include "tile.h"
 #include "tilechunk.h"
@@ -12,12 +10,10 @@
 
 LitChunkVertexGenerator::LitChunkVertexGenerator()
 {
-	STACK_TRACE;
 }
 
 LitChunkVertexGenerator::~LitChunkVertexGenerator()
 {
-	STACK_TRACE;
 }
 
 void LitChunkVertexGenerator::CopyVertex(const TileChunk *chunk, VertexBuffer *sourceBuffer, VertexBuffer *destBuffer, const Vector3 &positionOffset, const Matrix4x4 *transform, const Color &color)

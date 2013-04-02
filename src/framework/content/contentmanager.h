@@ -189,7 +189,6 @@ private:
 template <class T>
 T* ContentManager::Get(const stl::string &name, BOOL preload)
 {
-	STACK_TRACE;
 	ContentLoader<T> *loader = GetLoader<T>();
 	T* content = loader->Get(name, NULL, preload);
 	return content;
@@ -198,7 +197,6 @@ T* ContentManager::Get(const stl::string &name, BOOL preload)
 template <class T>
 T* ContentManager::Get(const stl::string &name, const ContentParam &params, BOOL preload)
 {
-	STACK_TRACE;
 	ContentLoader<T> *loader = GetLoader<T>();
 	T* content = loader->Get(name, &params, preload);
 	return content;
@@ -207,21 +205,18 @@ T* ContentManager::Get(const stl::string &name, const ContentParam &params, BOOL
 template<class T>
 T* ContentManager::Load(const stl::string &name)
 {
-	STACK_TRACE;
 	return Get<T>(name, TRUE);
 }
 
 template<class T>
 T* ContentManager::Load(const stl::string &name, const ContentParam &params)
 {
-	STACK_TRACE;
 	return Get<T>(name, params, TRUE);
 }
 
 template <class T>
 void ContentManager::Free(const stl::string &name, BOOL preload)
 {
-	STACK_TRACE;
 	ContentLoader<T> *loader = GetLoader<T>();
 	loader->Free(name, NULL, preload);
 }
@@ -229,7 +224,6 @@ void ContentManager::Free(const stl::string &name, BOOL preload)
 template <class T>
 void ContentManager::Free(const stl::string &name, const ContentParam &params, BOOL preload)
 {
-	STACK_TRACE;
 	ContentLoader<T> *loader = GetLoader<T>();
 	loader->Free(name, &params, preload);
 }
@@ -237,7 +231,6 @@ void ContentManager::Free(const stl::string &name, const ContentParam &params, B
 template <class T>
 void ContentManager::Free(T *content, BOOL preload)
 {
-	STACK_TRACE;
 	ContentLoader<T> *loader = GetLoader<T>();
 	loader->Free(content, preload);
 }
@@ -245,28 +238,24 @@ void ContentManager::Free(T *content, BOOL preload)
 template <class T>
 void ContentManager::Unload(const stl::string &name)
 {
-	STACK_TRACE;
 	Free<T>(name, TRUE);
 }
 
 template <class T>
 void ContentManager::Unload(const stl::string &name, const ContentParam &params)
 {
-	STACK_TRACE;
 	Free<T>(name, params, TRUE);
 }
 
 template <class T>
 void ContentManager::Unload(T *content)
 {
-	STACK_TRACE;
 	Free<T>(content, TRUE);
 }
 
 template <class T>
 stl::string ContentManager::GetNameOf(T *content) const
 {
-	STACK_TRACE;
 	ContentLoader<T> *loader = GetLoader<T>();
 	return loader->GetNameOf(content);
 }
@@ -274,7 +263,6 @@ stl::string ContentManager::GetNameOf(T *content) const
 template <class T>
 ContentLoader<T>* ContentManager::GetLoaderForType() const
 {
-	STACK_TRACE;
 	return GetLoader<T>();
 }
 

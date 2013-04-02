@@ -6,7 +6,6 @@
 
 BoundingBox::BoundingBox(const Vector3 *vertices, int numVertices)
 {
-	STACK_TRACE;
 	ASSERT(vertices != NULL);
 	ASSERT(numVertices > 0);
 	float minX = 0.0f;
@@ -32,7 +31,6 @@ BoundingBox::BoundingBox(const Vector3 *vertices, int numVertices)
 
 float BoundingBox::GetSquaredDistanceFromPointToBox(const Vector3 &point, const BoundingBox &box)
 {
-	STACK_TRACE;
 	float distanceSq = 0.0f;
 	float v;
 
@@ -59,6 +57,5 @@ float BoundingBox::GetSquaredDistanceFromPointToBox(const Vector3 &point, const 
 
 float BoundingBox::GetDistanceFromPointToBox(const Vector3 &point, const BoundingBox &box)
 {
-	STACK_TRACE;
 	return sqrtf(GetSquaredDistanceFromPointToBox(point, box));
 }

@@ -1,6 +1,4 @@
 #ifdef SDL
-#include "../debug.h"
-
 #include "sdlkeyboard.h"
 #include "keyboardlistener.h"
 #include "../sdlincludes.h"
@@ -9,28 +7,23 @@
 
 SDLKeyboard::SDLKeyboard(SDLSystem *system, BOOL hasPhysicalKeysForGameControls)
 {
-	STACK_TRACE;
 	m_system = system;
 	m_hasPhysicalKeysForGameControls = hasPhysicalKeysForGameControls;
 
 	m_keys = new BOOL[KSYM_LAST];
-	ASSERT(m_keys != NULL);
 	m_lockedKeys = new BOOL[KSYM_LAST];
-	ASSERT(m_lockedKeys != NULL);
 
 	Reset();
 }
 
 SDLKeyboard::~SDLKeyboard()
 {
-	STACK_TRACE;
 	SAFE_DELETE_ARRAY(m_keys);
 	SAFE_DELETE_ARRAY(m_lockedKeys);
 }
 
 BOOL SDLKeyboard::OnKeyEvent(const SDL_KeyboardEvent *eventArgs)
 {
-	STACK_TRACE;
 	int32_t keyCode = (int32_t)eventArgs->keysym.sym;
 
 	if (eventArgs->state == SDL_PRESSED)
@@ -67,7 +60,6 @@ BOOL SDLKeyboard::OnKeyEvent(const SDL_KeyboardEvent *eventArgs)
 
 BOOL SDLKeyboard::IsPressed(KEYS key)
 {
-	STACK_TRACE;
 	if (m_keys[key] && !m_lockedKeys[key])
 	{
 		m_lockedKeys[key] = TRUE;
@@ -79,7 +71,6 @@ BOOL SDLKeyboard::IsPressed(KEYS key)
 
 void SDLKeyboard::Reset()
 {
-	STACK_TRACE;
 	memset(m_keys, FALSE, sizeof(BOOL) * KSYM_LAST);
 	memset(m_lockedKeys, FALSE, sizeof(BOOL) * KSYM_LAST);
 }

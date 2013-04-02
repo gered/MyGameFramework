@@ -16,7 +16,6 @@
 
 SkeletalMesh::SkeletalMesh()
 {
-	STACK_TRACE;
 	m_numVertices = 0;
 	m_numSubsets = 0;
 	m_numJoints = 0;
@@ -31,7 +30,6 @@ SkeletalMesh::SkeletalMesh()
 
 SkeletalMesh::~SkeletalMesh()
 {
-	STACK_TRACE;
 	SAFE_DELETE_ARRAY(m_joints);
 	SAFE_DELETE_ARRAY(m_jointMappings);
 	SAFE_DELETE_ARRAY(m_vertices);
@@ -42,7 +40,6 @@ SkeletalMesh::~SkeletalMesh()
 
 int32_t SkeletalMesh::GetIndexOfSubset(const stl::string &name) const
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_numSubsets; ++i)
 	{
 		if (m_subsets[i].GetName() == name)
@@ -54,7 +51,6 @@ int32_t SkeletalMesh::GetIndexOfSubset(const stl::string &name) const
 
 Joint* SkeletalMesh::GetJoint(const stl::string &name) const
 {
-	STACK_TRACE;
 	int32_t jointIndex = GetIndexOfJoint(name);
 	if (jointIndex == NO_JOINT)
 		return NULL;
@@ -64,7 +60,6 @@ Joint* SkeletalMesh::GetJoint(const stl::string &name) const
 
 int32_t SkeletalMesh::GetIndexOfJoint(const stl::string &name) const
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_numJoints; ++i)
 	{
 		if (m_joints[i].name == name)
@@ -76,7 +71,6 @@ int32_t SkeletalMesh::GetIndexOfJoint(const stl::string &name) const
 
 const AnimationSequence* SkeletalMesh::GetAnimation(const stl::string &name) const
 {
-	STACK_TRACE;
 	AnimationList::const_iterator itor = m_animations.find(name);
 	if (itor != m_animations.end())
 		return &itor->second;
@@ -86,7 +80,6 @@ const AnimationSequence* SkeletalMesh::GetAnimation(const stl::string &name) con
 
 void SkeletalMesh::FindAndSetRootJointIndex()
 {
-	STACK_TRACE;
 	ASSERT(m_numJoints > 0);
 	
 	// if this mesh has only one joint, then that one has to be the root...

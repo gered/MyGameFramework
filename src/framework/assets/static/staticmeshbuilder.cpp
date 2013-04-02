@@ -12,13 +12,11 @@
 
 StaticMeshBuilder::StaticMeshBuilder()
 {
-	STACK_TRACE;
 	m_transform = IDENTITY_MATRIX;
 }
 
 StaticMeshBuilder::~StaticMeshBuilder()
 {
-	STACK_TRACE;
 	// BuildMesh() will handle passing off the subset objects to a mesh object
 	// if it is called. if it's not called, this will free up the memory since
 	// it was never passed off anywhere else in that case
@@ -35,7 +33,6 @@ void StaticMeshBuilder::Reset()
 
 uint32_t StaticMeshBuilder::AddSubset(uint32_t numTriangles, Texture *texture)
 {
-	STACK_TRACE;
 	ASSERT(numTriangles > 0);
 	StaticMeshSubset *subset = new StaticMeshSubset(numTriangles, texture);
 	ASSERT(subset != NULL);
@@ -53,7 +50,6 @@ void StaticMeshBuilder::SetTriangle(
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
 	)
 {
-	STACK_TRACE;
 	ASSERT(m_subsets.size() > subsetIndex);
 
 	StaticMeshSubset *subset = m_subsets[subsetIndex];
@@ -79,7 +75,6 @@ void StaticMeshBuilder::SetTriangle(
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3
 	)
 {
-	STACK_TRACE;
 	ASSERT(m_subsets.size() > subsetIndex);
 
 	StaticMeshSubset *subset = m_subsets[subsetIndex];
@@ -105,7 +100,6 @@ void StaticMeshBuilder::SetQuad(
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3, const Vector2 &t4
 	)
 {
-	STACK_TRACE;
 	ASSERT(m_subsets.size() > subsetIndex);
 
 	StaticMeshSubset *subset = m_subsets[subsetIndex];
@@ -137,7 +131,6 @@ void StaticMeshBuilder::SetQuad(
 	const Vector2 &t1, const Vector2 &t2, const Vector2 &t3, const Vector2 &t4
 	)
 {
-	STACK_TRACE;
 	ASSERT(m_subsets.size() > subsetIndex);
 
 	StaticMeshSubset *subset = m_subsets[subsetIndex];
@@ -166,7 +159,6 @@ void StaticMeshBuilder::SetBox(
 	const Vector3 &center, float width, float height, float depth
 	)
 {
-	STACK_TRACE;
 	ASSERT(width > 0.0f);
 	ASSERT(height > 0.0f);
 	ASSERT(depth > 0.0f);
@@ -187,7 +179,6 @@ void StaticMeshBuilder::SetBox(
 	const Vector3 &min, const Vector3 &max
 	)
 {
-	STACK_TRACE;
 	// front
 	SetQuad(
 		subsetIndex, firstTriangle,
@@ -239,7 +230,6 @@ void StaticMeshBuilder::SetBox(
 
 void StaticMeshBuilder::GenerateNormals()
 {
-	STACK_TRACE;
 	ASSERT(m_subsets.size() > 0);
 
 	for (uint32_t i = 0; i < m_subsets.size(); ++i)
@@ -284,7 +274,6 @@ void StaticMeshBuilder::GenerateNormals()
 
 StaticMesh* StaticMeshBuilder::BuildMesh()
 {
-	STACK_TRACE;
 	ASSERT(m_subsets.size() > 0);
 
 	// convert the mesh vector to an array so it can be passed into the mesh object

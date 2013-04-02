@@ -20,17 +20,14 @@
 SkeletalMeshFile::SkeletalMeshFile(File *file)
 	: MeshFile(file)
 {
-	STACK_TRACE;
 }
 
 SkeletalMeshFile::~SkeletalMeshFile()
 {
-	STACK_TRACE;
 }
 
 SkeletalMesh* SkeletalMeshFile::CreateMesh()
 {
-	STACK_TRACE;
 	ChunkDescriptor *verticesDesc = GetChunkDesc("VTX");
 	ChunkDescriptor *normalsDesc = GetChunkDesc("NRL");
 	ChunkDescriptor *texCoordsDesc = GetChunkDesc("TXT");

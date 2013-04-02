@@ -14,24 +14,20 @@
 
 SkeletalMeshRenderer::SkeletalMeshRenderer()
 {
-	STACK_TRACE;
 }
 
 SkeletalMeshRenderer::~SkeletalMeshRenderer()
 {
-	STACK_TRACE;
 }
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, VertexSkinningShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	Render(graphicsDevice, instance, 0, shader);
 }
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint32_t frame, VertexSkinningShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	instance->CalculateJointTransformations(frame);
 	shader->SetJointPositions(instance->GetJointPositions(), instance->GetNumJoints());
@@ -41,7 +37,6 @@ void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshIn
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint32_t startFrame, uint32_t endFrame, float interpolation, VertexSkinningShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	instance->CalculateJointTransformations(startFrame, endFrame, interpolation);
 	shader->SetJointPositions(instance->GetJointPositions(), instance->GetNumJoints());
@@ -51,14 +46,12 @@ void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshIn
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshAnimationInstance *instance, VertexSkinningShader *shader)
 {
-	STACK_TRACE;
 	ASSERT(shader->IsBound() == TRUE);
 	Render(graphicsDevice, instance, instance->GetCurrentFrame(), instance->GetNextFrame(), instance->GetInterpolation(), shader);
 }
 
 void SkeletalMeshRenderer::RenderAllSubsets(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, VertexSkinningShader *shader)
 {
-	STACK_TRACE;
 	instance->GetRenderState()->Apply();
 	graphicsDevice->BindVertexBuffer(instance->GetMesh()->GetVertexBuffer());
 	
@@ -107,7 +100,6 @@ void SkeletalMeshRenderer::RenderAllSubsets(GraphicsDevice *graphicsDevice, Skel
 
 void SkeletalMeshRenderer::RenderSubset(GraphicsDevice *graphicsDevice, const SkeletalMeshSubset *subset, const Texture *texture)
 {
-	STACK_TRACE;
 	if (texture != NULL)
 		graphicsDevice->BindTexture(texture);
 	

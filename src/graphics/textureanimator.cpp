@@ -11,14 +11,12 @@
 
 TextureAnimator::TextureAnimator(ContentManager *contentManager, GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	m_contentManager = contentManager;
 	m_graphicsDevice = graphicsDevice;
 }
 
 TextureAnimator::~TextureAnimator()
 {
-	STACK_TRACE;
 	ResetAll();
 }
 
@@ -47,13 +45,11 @@ void TextureAnimator::ResetAll()
 
 void TextureAnimator::AddTileSequence(TextureAtlas *atlas, uint32_t tileToBeAnimated, uint32_t start, uint32_t stop, float delay, BOOL loop)
 {
-	STACK_TRACE;
 	AddTileSequence("", atlas, tileToBeAnimated, start, stop, delay, loop);
 }
 
 void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint32_t tileToBeAnimated, uint32_t start, uint32_t stop, float delay, BOOL loop)
 {
-	STACK_TRACE;
 	ASSERT(atlas != NULL);
 	ASSERT(tileToBeAnimated < atlas->GetNumTextures());
 	ASSERT(start < atlas->GetNumTextures());
@@ -105,7 +101,6 @@ void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atl
 
 void TextureAnimator::ResetTileSequence(const stl::string &name)
 {
-	STACK_TRACE;
 	ASSERT(name.length() != 0);
 
 	TextureAtlasAnimationSequence *existingSequence = FindTileSequenceByName(name);
@@ -120,7 +115,6 @@ void TextureAnimator::ResetTileSequence(const stl::string &name)
 
 void TextureAnimator::StopTileSequence(const stl::string &name, BOOL restoreOriginalTile)
 {
-	STACK_TRACE;
 	ASSERT(name.length() != 0);
 
 	TextureAtlasAnimationSequence *existingSequence = FindTileSequenceByName(name);
@@ -152,7 +146,6 @@ void TextureAnimator::EnableTileSequence(const stl::string &name, BOOL enable)
 
 void TextureAnimator::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	for (TextureAtlasAnimations::iterator i = m_textureAtlasAnimations.begin(); i != m_textureAtlasAnimations.end(); ++i)
 	{
 		TextureAtlasAnimationSequence &sequence = *i;
@@ -178,7 +171,6 @@ void TextureAnimator::OnUpdate(float delta)
 
 void TextureAnimator::OnNewContext()
 {
-	STACK_TRACE;
 	for (TextureAtlasAnimations::iterator i = m_textureAtlasAnimations.begin(); i != m_textureAtlasAnimations.end(); ++i)
 	{
 		TextureAtlasAnimationSequence &sequence = *i;
@@ -188,7 +180,6 @@ void TextureAnimator::OnNewContext()
 
 TextureAtlasAnimationSequence* TextureAnimator::FindTileSequenceByName(const stl::string &name)
 {
-	STACK_TRACE;
 	if (name.length() == 0)
 		return NULL;
 
@@ -204,7 +195,6 @@ TextureAtlasAnimationSequence* TextureAnimator::FindTileSequenceByName(const stl
 
 void TextureAnimator::UpdateTextureWithCurrentTileFrame(TextureAtlasAnimationSequence &sequence)
 {
-	STACK_TRACE;
 	uint32_t frameIndex = sequence.current - sequence.start;
 	ASSERT(frameIndex < sequence.GetNumFrames());
 	Image *frameImage = sequence.frames[frameIndex];
@@ -215,7 +205,6 @@ void TextureAnimator::UpdateTextureWithCurrentTileFrame(TextureAtlasAnimationSeq
 
 void TextureAnimator::RestoreTextureWithOriginalTile(TextureAtlasAnimationSequence &sequence)
 {
-	STACK_TRACE;
 	const TextureAtlasTile &tile = sequence.atlas->GetTile(sequence.animatingIndex);
 	sequence.atlas->GetTexture()->Update(sequence.originalAnimatingTile, tile.dimensions.left, tile.dimensions.top);
 }

@@ -7,20 +7,17 @@
 
 SkeletalMeshSubset::SkeletalMeshSubset()
 {
-	STACK_TRACE;
 	m_indices = NULL;
 	m_alpha = FALSE;
 }
 
 SkeletalMeshSubset::~SkeletalMeshSubset()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_indices);
 }
 
 void SkeletalMeshSubset::Create(const stl::string &name, uint32_t numTriangles, BOOL alpha)
 {
-	STACK_TRACE;
 	ASSERT(m_indices == NULL);
 	ASSERT(numTriangles > 0);
 	m_name = name;

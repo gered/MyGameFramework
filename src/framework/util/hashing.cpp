@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "hashing.h"
 
 #include <ctype.h>
@@ -7,7 +5,6 @@
 
 HashedValue HashString(const char *str)
 {
-	STACK_TRACE;
 	const unsigned long base = 65521L;
 	const unsigned long nmax = 5552;
 

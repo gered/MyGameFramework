@@ -48,7 +48,6 @@ private:
 template<class T>
 void GwenGameProcess::SetGwenHandler()
 {
-	STACK_TRACE;
 	ASSERT(m_gwenController == NULL);
 	T *gwenController = new T(this);
 	m_gwenController = (GwenGameProcessUIController*)gwenController;

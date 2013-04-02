@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "gwen_inputprocessor.h"
 #include <controls/gwen_canvas.h>
 #include "../basegameapp.h"
@@ -15,7 +13,6 @@ namespace Gwen
 	{
 		InputProcessor::InputProcessor(BaseGameApp *gameApp, Gwen::Controls::Canvas *canvas)
 		{
-			STACK_TRACE;
 			m_gameApp = gameApp;
 			m_canvas = canvas;
 			m_enabled = FALSE;
@@ -25,7 +22,6 @@ namespace Gwen
 
 		InputProcessor::~InputProcessor()
 		{
-			STACK_TRACE;
 			Enable(FALSE);
 		}
 

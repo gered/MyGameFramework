@@ -1,5 +1,3 @@
-#include "../framework/debug.h"
-
 #include "positionandskytilemaplighter.h"
 #include "tile.h"
 #include "tilechunk.h"
@@ -11,17 +9,14 @@
 
 PositionAndSkyTileMapLighter::PositionAndSkyTileMapLighter()
 {
-	STACK_TRACE;
 }
 
 PositionAndSkyTileMapLighter::~PositionAndSkyTileMapLighter()
 {
-	STACK_TRACE;
 }
 
 void PositionAndSkyTileMapLighter::Light(TileMap *tileMap)
 {
-	STACK_TRACE;
 	ResetLightValues(tileMap);
 	SetupSkyLight(tileMap);
 	ApplyLighting(tileMap);
@@ -29,7 +24,6 @@ void PositionAndSkyTileMapLighter::Light(TileMap *tileMap)
 
 void PositionAndSkyTileMapLighter::ResetLightValues(TileMap *tileMap)
 {
-	STACK_TRACE;
 	for (uint32_t y = 0; y < tileMap->GetHeight(); ++y)
 	{
 		for (uint32_t z = 0; z < tileMap->GetDepth(); ++z)
@@ -50,7 +44,6 @@ void PositionAndSkyTileMapLighter::ResetLightValues(TileMap *tileMap)
 
 void PositionAndSkyTileMapLighter::SetupSkyLight(TileMap *tileMap)
 {
-	STACK_TRACE;
 	// NOTE: ResetLightValues() clears sky light data in such a way that
 	//       doesn't require us to flood-fill 0 light values here for everything
 	//       that isn't sky-lit
@@ -89,7 +82,6 @@ void PositionAndSkyTileMapLighter::SetupSkyLight(TileMap *tileMap)
 
 void PositionAndSkyTileMapLighter::ApplyLighting(TileMap *tileMap)
 {
-	STACK_TRACE;
 	// for each light source (sky or not), recursively go through and set
 	// appropriate lighting for each adjacent tile
 	for (uint32_t y = 0; y < tileMap->GetHeight(); ++y)

@@ -11,9 +11,7 @@
 #include "../math/mathhelpers.h"
 
 Texture::Texture()
-	: Content()
 {
-	STACK_TRACE;
 	m_graphicsDevice = NULL;
 	m_textureName = 0;
 	m_width = 0;
@@ -23,13 +21,11 @@ Texture::Texture()
 
 Texture::~Texture()
 {
-	STACK_TRACE;
 	Release();
 }
 
 BOOL Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
 {
-	STACK_TRACE;
 	ASSERT(m_textureName == 0);
 	if (m_textureName != 0)
 		return FALSE;
@@ -85,7 +81,6 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
 
 BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t height, TEXTURE_FORMAT textureFormat)
 {
-	STACK_TRACE;
 	ASSERT(m_textureName == 0);
 	if (m_textureName != 0)
 		return FALSE;
@@ -132,7 +127,6 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint16_t width, uint16_t he
 
 void Texture::Release()
 {
-	STACK_TRACE;
 	if (m_textureName != 0)
 	{
 		m_graphicsDevice->UnbindTexture(this);
@@ -150,7 +144,6 @@ void Texture::Release()
 
 BOOL Texture::Update(Image *image, uint16_t destX, uint16_t destY)
 {
-	STACK_TRACE;
 	ASSERT(m_textureName != 0);
 	if (m_textureName == 0)
 		return FALSE;
@@ -198,13 +191,11 @@ BOOL Texture::Update(Image *image, uint16_t destX, uint16_t destY)
 
 void Texture::OnLostContext()
 {
-	STACK_TRACE;
 	m_textureName = 0;
 }
 
 void Texture::GetTextureSpecsFromFormat(TEXTURE_FORMAT textureFormat, int *bpp, uint32_t *format, uint32_t *type)
 {
-	STACK_TRACE;
 	switch (textureFormat)
 	{
 		case TEXTURE_FORMAT_ALPHA:

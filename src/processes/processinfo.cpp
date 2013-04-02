@@ -7,7 +7,6 @@
 
 ProcessInfo::ProcessInfo(GameProcess *process)
 {
-	STACK_TRACE;
 	ASSERT(process != NULL);
 	this->process = process;
 	name = "";
@@ -22,7 +21,6 @@ ProcessInfo::ProcessInfo(GameProcess *process)
 
 ProcessInfo::ProcessInfo(GameProcess *process, const stl::string &name)
 {
-	STACK_TRACE;
 	ASSERT(process != NULL);
 	this->process = process;
 	this->name = name;
@@ -37,7 +35,6 @@ ProcessInfo::ProcessInfo(GameProcess *process, const stl::string &name)
 
 void ProcessInfo::SetDescriptor()
 {
-	STACK_TRACE;
 	m_descriptor = process->GetTypeOf();
 	
 	if (name.length() > 0)

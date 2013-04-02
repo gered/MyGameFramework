@@ -4,9 +4,7 @@
 #include "diskfile.h"
 
 DiskFile::DiskFile()
-	: File()
 {
-	STACK_TRACE;
 	m_fp = NULL;
 	m_mode = 0;
 	m_canRead = FALSE;
@@ -15,13 +13,11 @@ DiskFile::DiskFile()
 
 DiskFile::~DiskFile()
 {
-	STACK_TRACE;
 	Close();
 }
 
 BOOL DiskFile::Open(const stl::string &filename, int mode)
 {
-	STACK_TRACE;
 	ASSERT(IsOpen() == FALSE);
 	m_filename = filename;
 
@@ -70,7 +66,6 @@ BOOL DiskFile::Open(const stl::string &filename, int mode)
 
 void DiskFile::Close()
 {
-	STACK_TRACE;
 	if (IsOpen())
 	{
 		LOG_INFO(LOGCAT_FILEIO, "Closed DiskFile \"%s\"\n", m_filename.c_str());

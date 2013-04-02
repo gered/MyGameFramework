@@ -9,7 +9,6 @@
 
 StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color, const StaticMesh *collisionMesh)
 {
-	STACK_TRACE;
 	// only work with the first mesh subset
 	StaticMeshSubset *subset = mesh->GetSubset(0);
 
@@ -39,7 +38,6 @@ StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlas
 
 StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, uint32_t numTiles, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color, const StaticMesh *collisionMesh)
 {
-	STACK_TRACE;
 	ASSERT(numTiles > 0);
 	ASSERT(mesh->GetNumSubsets() >= numTiles);
 
@@ -94,7 +92,6 @@ StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlas
 
 void StaticTileMesh::SetupCollisionVertices(const StaticMesh *collisionMesh)
 {
-	STACK_TRACE;
 	const VertexBuffer *srcCollisionVertices;
 	if (collisionMesh != NULL)
 		srcCollisionVertices = collisionMesh->GetSubset(0)->GetVertices();
@@ -112,10 +109,6 @@ void StaticTileMesh::SetupCollisionVertices(const StaticMesh *collisionMesh)
 
 StaticTileMesh::~StaticTileMesh()
 {
-	STACK_TRACE;
 	SAFE_DELETE(m_vertices);
 	SAFE_DELETE(m_collisionVertices);
 }
-
-
-

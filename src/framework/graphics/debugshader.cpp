@@ -32,17 +32,14 @@ const char* DebugShader::m_fragmentShaderSource =
 
 DebugShader::DebugShader()
 {
-	STACK_TRACE;
 }
 
 DebugShader::~DebugShader()
 {
-	STACK_TRACE;
 }
 
 BOOL DebugShader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!StandardShader::Initialize(graphicsDevice))
 		return FALSE;
 	

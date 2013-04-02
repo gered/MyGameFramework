@@ -15,7 +15,6 @@
 
 Framebuffer::Framebuffer()
 {
-	STACK_TRACE;
 	m_viewContext = NULL;
 	m_framebufferName = 0;
 	m_fixedWidth = 0;
@@ -24,7 +23,6 @@ Framebuffer::Framebuffer()
 
 BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName == 0);
 	if (m_framebufferName != 0)
 		return FALSE;
@@ -43,7 +41,6 @@ BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
 
 BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t fixedWidth, uint16_t fixedHeight)
 {
-	STACK_TRACE;
 	ASSERT(fixedWidth != 0);
 	ASSERT(fixedHeight != 0);
 	if (fixedWidth == 0 || fixedHeight == 0)
@@ -61,7 +58,6 @@ BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice, uint16_t fixedWidth
 
 void Framebuffer::Release()
 {
-	STACK_TRACE;
 	if (m_framebufferName != 0)
 	{
 		for (FramebufferRenderbufferMap::iterator i = m_renderbuffers.begin(); i != m_renderbuffers.end(); ++i)
@@ -98,14 +94,12 @@ void Framebuffer::Release()
 
 void Framebuffer::CreateFramebuffer()
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName == 0);
 	GL_CALL(glGenFramebuffers(1, &m_framebufferName));
 }
 
 BOOL Framebuffer::AttachViewContext()
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return FALSE;
@@ -131,7 +125,6 @@ BOOL Framebuffer::AttachViewContext()
 
 BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return FALSE;
@@ -204,7 +197,6 @@ BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 
 BOOL Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL releaseFirst)
 {
-	STACK_TRACE;
 	Texture *existing = itor->second;
 	
 	// determine attachment type
@@ -243,7 +235,6 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL 
 
 BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return FALSE;
@@ -301,7 +292,6 @@ BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 
 BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, BOOL releaseFirst)
 {
-	STACK_TRACE;
 	Renderbuffer *existing = itor->second;
 	
 	// determine framebuffer attachment type
@@ -341,7 +331,6 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, 
 
 BOOL Framebuffer::ReleaseViewContext()
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return FALSE;
@@ -360,7 +349,6 @@ BOOL Framebuffer::ReleaseViewContext()
 
 BOOL Framebuffer::ReleaseTexture(FRAMEBUFFER_DATA_TYPE type)
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return FALSE;
@@ -404,7 +392,6 @@ BOOL Framebuffer::ReleaseTexture(FRAMEBUFFER_DATA_TYPE type)
 
 BOOL Framebuffer::ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return FALSE;
@@ -448,7 +435,6 @@ BOOL Framebuffer::ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 
 Texture* Framebuffer::GetTexture(FRAMEBUFFER_DATA_TYPE type) const
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return NULL;
@@ -474,7 +460,6 @@ Texture* Framebuffer::GetTexture(FRAMEBUFFER_DATA_TYPE type) const
 
 Renderbuffer* Framebuffer::GetRenderbuffer(FRAMEBUFFER_DATA_TYPE type) const
 {
-	STACK_TRACE;
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
 		return NULL;
@@ -500,7 +485,6 @@ Renderbuffer* Framebuffer::GetRenderbuffer(FRAMEBUFFER_DATA_TYPE type) const
 
 void Framebuffer::OnNewContext()
 {
-	STACK_TRACE;
 	if (m_framebufferName == 0 && GetGraphicsDevice() != NULL)
 	{
 		// recreate the framebuffer
@@ -537,7 +521,6 @@ void Framebuffer::OnNewContext()
 
 void Framebuffer::OnLostContext()
 {
-	STACK_TRACE;
 	m_framebufferName = 0;
 	if (m_viewContext != NULL)
 		m_viewContext->OnLostContext();
@@ -549,7 +532,6 @@ void Framebuffer::OnLostContext()
 
 void Framebuffer::OnResize()
 {
-	STACK_TRACE;
 	if (m_framebufferName != 0 && GetGraphicsDevice() != NULL)
 	{
 		if (m_viewContext != NULL)
@@ -586,17 +568,14 @@ void Framebuffer::OnResize()
 
 void Framebuffer::OnBind()
 {
-	STACK_TRACE;
 }
 
 void Framebuffer::OnUnBind()
 {
-	STACK_TRACE;
 }
 
 BOOL Framebuffer::RemoveTexture(Texture *texture)
 {
-	STACK_TRACE;
 	for (FramebufferTextureMap::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
 	{
 		if (i->second == texture)
@@ -612,7 +591,6 @@ BOOL Framebuffer::RemoveTexture(Texture *texture)
 
 BOOL Framebuffer::RemoveRenderbuffer(Renderbuffer *renderbuffer)
 {
-	STACK_TRACE;
 	for (FramebufferRenderbufferMap::iterator i = m_renderbuffers.begin(); i != m_renderbuffers.end(); ++i)
 	{
 		if (i->second == renderbuffer)
@@ -628,7 +606,6 @@ BOOL Framebuffer::RemoveRenderbuffer(Renderbuffer *renderbuffer)
 
 void Framebuffer::GetDimensionsForAttachment(uint16_t &width, uint16_t &height) const
 {
-	STACK_TRACE;
 	if (IsUsingFixedDimensions())
 	{
 		width = m_fixedWidth;

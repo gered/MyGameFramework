@@ -12,7 +12,6 @@
 
 StateManager::StateManager(GameApp *gameApp)
 {
-	STACK_TRACE;
 	ASSERT(gameApp != NULL);
 	m_gameApp = gameApp;
 	m_stateReturnValue = 0;
@@ -24,7 +23,6 @@ StateManager::StateManager(GameApp *gameApp)
 
 StateManager::~StateManager()
 {
-	STACK_TRACE;
 	LOG_INFO(LOGCAT_STATEMANAGER, "StateManager shutting down.\n");
 
 	while (!m_states.empty())
@@ -58,7 +56,6 @@ StateManager::~StateManager()
 
 void StateManager::Pop()
 {
-	STACK_TRACE;
 	ASSERT(IsTransitioning() == FALSE);
 	LOG_INFO(LOGCAT_STATEMANAGER, "Pop initiated for top-most state only.\n");
 	StartOnlyTopStateTransitioningOut(FALSE);
@@ -66,7 +63,6 @@ void StateManager::Pop()
 
 void StateManager::PopTopNonOverlay()
 {
-	STACK_TRACE;
 	ASSERT(IsTransitioning() == FALSE);
 	LOG_INFO(LOGCAT_STATEMANAGER, "Pop initiated for all top active states.\n");
 	StartTopStatesTransitioningOut(FALSE);
@@ -74,7 +70,6 @@ void StateManager::PopTopNonOverlay()
 
 BOOL StateManager::HasState(const stl::string &name) const
 {
-	STACK_TRACE;
 	for (StateInfoList::const_iterator i = m_states.begin(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -87,7 +82,6 @@ BOOL StateManager::HasState(const stl::string &name) const
 
 void StateManager::OnAppGainFocus()
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -98,7 +92,6 @@ void StateManager::OnAppGainFocus()
 
 void StateManager::OnAppLostFocus()
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -109,7 +102,6 @@ void StateManager::OnAppLostFocus()
 
 void StateManager::OnAppPause()
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -120,7 +112,6 @@ void StateManager::OnAppPause()
 
 void StateManager::OnAppResume()
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -131,7 +122,6 @@ void StateManager::OnAppResume()
 
 void StateManager::OnLostContext()
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -142,7 +132,6 @@ void StateManager::OnLostContext()
 
 void StateManager::OnNewContext()
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -153,7 +142,6 @@ void StateManager::OnNewContext()
 
 void StateManager::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -167,7 +155,6 @@ void StateManager::OnRender(RenderContext *renderContext)
 
 void StateManager::OnResize()
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -178,7 +165,6 @@ void StateManager::OnResize()
 
 void StateManager::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	// clear return values (ensuring they're only accessible for 1 tick)
 	m_stateReturnValue = 0;
 	m_hasStateReturnValue = FALSE;
@@ -200,7 +186,6 @@ void StateManager::OnUpdate(float delta)
 
 void StateManager::ProcessQueues()
 {
-	STACK_TRACE;
 	// don't do anything if stuff is currently transitioning
 	if (IsTransitioning())
 		return;
@@ -271,7 +256,6 @@ void StateManager::ProcessQueues()
 
 void StateManager::ResumeStatesIfNeeded()
 {
-	STACK_TRACE;
 	if (m_states.empty())
 		return;
 
@@ -317,7 +301,6 @@ void StateManager::ResumeStatesIfNeeded()
 
 void StateManager::UpdateTransitions(float delta)
 {
-	STACK_TRACE;
 	if (m_states.empty())
 		return;
 
@@ -366,7 +349,6 @@ void StateManager::UpdateTransitions(float delta)
 
 void StateManager::TransitionOut(StateInfo *stateInfo, BOOL forPopping)
 {
-	STACK_TRACE;
 	stateInfo->isTransitioning = TRUE;
 	stateInfo->isTransitioningOut = TRUE;
 	stateInfo->isTransitionStarting = TRUE;
@@ -381,7 +363,6 @@ void StateManager::TransitionOut(StateInfo *stateInfo, BOOL forPopping)
 
 void StateManager::TransitionIn(StateInfo *stateInfo, BOOL forResuming)
 {
-	STACK_TRACE;
 	stateInfo->isInactive = FALSE;
 	stateInfo->isTransitioning = TRUE;
 	stateInfo->isTransitioningOut = FALSE;
@@ -394,7 +375,6 @@ void StateManager::TransitionIn(StateInfo *stateInfo, BOOL forResuming)
 
 void StateManager::QueueForPush(StateInfo *newStateInfo)
 {
-	STACK_TRACE;
 	//ASSERT(IsTransitioning() == FALSE);
 	//ASSERT(m_swapQueue.empty() == TRUE);
 	ASSERT(newStateInfo != NULL);
@@ -414,7 +394,6 @@ void StateManager::QueueForPush(StateInfo *newStateInfo)
 
 void StateManager::QueueForSwap(StateInfo *newStateInfo, BOOL swapTopNonOverlay)
 {
-	STACK_TRACE;
 	//ASSERT(IsTransitioning() == FALSE);
 	//ASSERT(m_pushQueue.empty() == TRUE);
 	ASSERT(newStateInfo != NULL);
@@ -436,7 +415,6 @@ void StateManager::QueueForSwap(StateInfo *newStateInfo, BOOL swapTopNonOverlay)
 
 StateInfo* StateManager::GetTopNonOverlay() const
 {
-	STACK_TRACE;
 	StateInfoList::const_reverse_iterator itor = m_states.rbegin();
 	while (itor != m_states.rend() && (*itor)->isOverlay)
 		++itor;
@@ -446,7 +424,6 @@ StateInfo* StateManager::GetTopNonOverlay() const
 
 StateInfoList::iterator StateManager::GetTopNonOverlayItor()
 {
-	STACK_TRACE;
 	// TODO: probably a more efficient way to do this using reverse iterators
 	StateInfoList::iterator result = m_states.end();
 	for (StateInfoList::iterator i = m_states.begin(); i != m_states.end(); ++i)
@@ -460,7 +437,6 @@ StateInfoList::iterator StateManager::GetTopNonOverlayItor()
 
 StateInfo* StateManager::GetStateInfoFor(const GameState *state) const
 {
-	STACK_TRACE;
 	ASSERT(state != NULL);
 	for (StateInfoList::const_iterator i = m_states.begin(); i != m_states.end(); ++i)
 	{
@@ -474,7 +450,6 @@ StateInfo* StateManager::GetStateInfoFor(const GameState *state) const
 
 BOOL StateManager::IsTransitioning() const
 {
-	STACK_TRACE;
 	for (StateInfoList::const_iterator i = m_states.begin(); i != m_states.end(); ++i)
 	{
 		const StateInfo *stateInfo = *i;
@@ -487,7 +462,6 @@ BOOL StateManager::IsTransitioning() const
 
 void StateManager::StartTopStatesTransitioningOut(BOOL pausing)
 {
-	STACK_TRACE;
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
@@ -500,7 +474,6 @@ void StateManager::StartTopStatesTransitioningOut(BOOL pausing)
 
 void StateManager::StartOnlyTopStateTransitioningOut(BOOL pausing)
 {
-	STACK_TRACE;
 	StateInfo *stateInfo = GetTop();
 	// if it's not active, then it's just been transitioned out and will be
 	// removed on the next OnUpdate()
@@ -510,7 +483,6 @@ void StateManager::StartOnlyTopStateTransitioningOut(BOOL pausing)
 
 void StateManager::CleanupInactiveStates()
 {
-	STACK_TRACE;
 	if (m_states.empty())
 		return;
 
@@ -551,7 +523,6 @@ void StateManager::CleanupInactiveStates()
 
 void StateManager::CheckForFinishedStates()
 {
-	STACK_TRACE;
 	if (m_states.empty())
 		return;
 

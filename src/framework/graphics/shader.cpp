@@ -32,7 +32,6 @@ STATIC_ASSERT(sizeof(Point3) == 3 * sizeof(int32_t));
 
 Shader::Shader()
 {
-	STACK_TRACE;
 	m_isBound = FALSE;
 	m_cachedVertexShaderSource = NULL;
 	m_cachedFragmentShaderSource = NULL;
@@ -48,7 +47,6 @@ Shader::Shader()
 
 BOOL Shader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!GraphicsContextResource::Initialize(graphicsDevice))
 		return FALSE;
 	
@@ -57,7 +55,6 @@ BOOL Shader::Initialize(GraphicsDevice *graphicsDevice)
 
 BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!GraphicsContextResource::Initialize(graphicsDevice))
 		return FALSE;
 	
@@ -79,7 +76,6 @@ BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShader
 
 BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
-	STACK_TRACE;
 	ASSERT(vertexShaderSource != NULL && vertexShaderSource->GetLength() > 0);
 	if (vertexShaderSource == NULL || vertexShaderSource->GetLength() == 0)
 		return FALSE;
@@ -93,7 +89,6 @@ BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShader
 
 void Shader::Release()
 {
-	STACK_TRACE;
 	if (m_vertexShaderId)
 	{
 		GL_CALL(glDeleteShader(m_vertexShaderId));
@@ -143,7 +138,6 @@ void Shader::Release()
 
 BOOL Shader::LoadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	const char *vertexShaderToLoad = vertexShaderSource;
 	const char *fragmentShaderToLoad = fragmentShaderSource;
 
@@ -171,7 +165,6 @@ BOOL Shader::LoadCompileAndLink(const char *vertexShaderSource, const char *frag
 
 BOOL Shader::ReloadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	// clear out data that will be reset during the reload first
 	m_isBound = FALSE;
 	m_vertexShaderCompileStatus = FALSE;
@@ -197,7 +190,6 @@ BOOL Shader::ReloadCompileAndLink(const char *vertexShaderSource, const char *fr
 
 void Shader::CacheShaderSources(const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	ASSERT(vertexShaderSource != NULL);
 	ASSERT(fragmentShaderSource != NULL);
 
@@ -226,7 +218,6 @@ void Shader::CacheShaderSources(const char *vertexShaderSource, const char *frag
 
 BOOL Shader::Compile(const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	ASSERT(m_vertexShaderId == 0);
 	ASSERT(m_fragmentShaderId == 0);
 	ASSERT(m_programId == 0);
@@ -308,7 +299,6 @@ BOOL Shader::Compile(const char *vertexShaderSource, const char *fragmentShaderS
 
 BOOL Shader::Link()
 {
-	STACK_TRACE;
 	ASSERT(m_vertexShaderId != 0);
 	ASSERT(m_fragmentShaderId != 0);
 	ASSERT(m_programId == 0);
@@ -344,7 +334,6 @@ BOOL Shader::Link()
 
 void Shader::LoadUniformInfo()
 {
-	STACK_TRACE;
 	ASSERT(m_programId != 0);
 
 	m_uniforms.clear();
@@ -396,7 +385,6 @@ void Shader::LoadUniformInfo()
 
 void Shader::LoadAttributeInfo()
 {
-	STACK_TRACE;
 	ASSERT(m_programId != 0);
 
 	m_attributes.clear();
@@ -457,7 +445,6 @@ void Shader::LoadAttributeInfo()
 
 BOOL Shader::HasUniform(const stl::string &name) const
 {
-	STACK_TRACE;
 	ShaderUniformMap::const_iterator i = m_uniforms.find(name);
 	if (i == m_uniforms.end())
 		return FALSE;
@@ -467,7 +454,6 @@ BOOL Shader::HasUniform(const stl::string &name) const
 
 const ShaderUniform* Shader::GetUniform(const stl::string &name) const
 {
-	STACK_TRACE;
 	ShaderUniformMap::const_iterator i = m_uniforms.find(name);
 	if (i == m_uniforms.end())
 		return NULL;
@@ -477,7 +463,6 @@ const ShaderUniform* Shader::GetUniform(const stl::string &name) const
 
 ShaderUniform* Shader::GetUniform(const stl::string &name)
 {
-	STACK_TRACE;
 	ShaderUniformMap::iterator i = m_uniforms.find(name);
 	if (i == m_uniforms.end())
 		return NULL;
@@ -487,7 +472,6 @@ ShaderUniform* Shader::GetUniform(const stl::string &name)
 
 BOOL Shader::HasAttribute(const stl::string &name) const
 {
-	STACK_TRACE;
 	ShaderAttributeMap::const_iterator i = m_attributes.find(name);
 	if (i == m_attributes.end())
 		return FALSE;
@@ -497,7 +481,6 @@ BOOL Shader::HasAttribute(const stl::string &name) const
 
 const ShaderAttribute* Shader::GetAttribute(const stl::string &name) const
 {
-	STACK_TRACE;
 	ShaderAttributeMap::const_iterator i = m_attributes.find(name);
 	if (i == m_attributes.end())
 		return NULL;
@@ -507,7 +490,6 @@ const ShaderAttribute* Shader::GetAttribute(const stl::string &name) const
 
 ShaderAttribute* Shader::GetAttribute(const stl::string &name)
 {
-	STACK_TRACE;
 	ShaderAttributeMap::iterator i = m_attributes.find(name);
 	if (i == m_attributes.end())
 		return NULL;
@@ -517,13 +499,11 @@ ShaderAttribute* Shader::GetAttribute(const stl::string &name)
 
 void Shader::CacheUniform(const stl::string &name, CachedShaderUniform uniform)
 {
-	STACK_TRACE;
 	m_cachedUniforms[name] = uniform;
 }
 
 CachedShaderUniform* Shader::GetCachedUniform(const stl::string &name)
 {
-	STACK_TRACE;
 	CachedShaderUniformMap::iterator i = m_cachedUniforms.find(name);
 	if (i == m_cachedUniforms.end())
 	{
@@ -536,7 +516,6 @@ CachedShaderUniform* Shader::GetCachedUniform(const stl::string &name)
 
 void Shader::FlushCachedUniforms()
 {
-	STACK_TRACE;
 	ASSERT(m_isBound == TRUE);
 	if (m_cachedUniforms.empty())
 		return;
@@ -570,7 +549,6 @@ void Shader::FlushCachedUniforms()
 
 void Shader::SetUniform(const stl::string &name, float x)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -589,7 +567,6 @@ void Shader::SetUniform(const stl::string &name, float x)
 
 void Shader::SetUniform(const stl::string &name, int32_t x)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -608,7 +585,6 @@ void Shader::SetUniform(const stl::string &name, int32_t x)
 
 void Shader::SetUniform(const stl::string &name, float x, float y)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -628,7 +604,6 @@ void Shader::SetUniform(const stl::string &name, float x, float y)
 
 void Shader::SetUniform(const stl::string &name, const Vector2 &v)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -648,7 +623,6 @@ void Shader::SetUniform(const stl::string &name, const Vector2 &v)
 
 void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -668,7 +642,6 @@ void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y)
 
 void Shader::SetUniform(const stl::string &name, const Point2 &p)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -688,7 +661,6 @@ void Shader::SetUniform(const stl::string &name, const Point2 &p)
 
 void Shader::SetUniform(const stl::string &name, float x, float y, float z)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -709,7 +681,6 @@ void Shader::SetUniform(const stl::string &name, float x, float y, float z)
 
 void Shader::SetUniform(const stl::string &name, const Vector3 &v)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -730,7 +701,6 @@ void Shader::SetUniform(const stl::string &name, const Vector3 &v)
 
 void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -751,7 +721,6 @@ void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z
 
 void Shader::SetUniform(const stl::string &name, const Point3 &p)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -772,7 +741,6 @@ void Shader::SetUniform(const stl::string &name, const Point3 &p)
 
 void Shader::SetUniform(const stl::string &name, float x, float y, float z, float w)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -794,7 +762,6 @@ void Shader::SetUniform(const stl::string &name, float x, float y, float z, floa
 
 void Shader::SetUniform(const stl::string &name, const Vector4 &v)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -816,7 +783,6 @@ void Shader::SetUniform(const stl::string &name, const Vector4 &v)
 
 void Shader::SetUniform(const stl::string &name, const Quaternion &q)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -838,7 +804,6 @@ void Shader::SetUniform(const stl::string &name, const Quaternion &q)
 
 void Shader::SetUniform(const stl::string &name, const Color &c)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -860,7 +825,6 @@ void Shader::SetUniform(const stl::string &name, const Color &c)
 
 void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z, int32_t w)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -882,7 +846,6 @@ void Shader::SetUniform(const stl::string &name, int32_t x, int32_t y, int32_t z
 
 void Shader::SetUniform(const stl::string &name, const Matrix3x3 &m)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -901,7 +864,6 @@ void Shader::SetUniform(const stl::string &name, const Matrix3x3 &m)
 
 void Shader::SetUniform(const stl::string &name, const Matrix4x4 &m)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -920,7 +882,6 @@ void Shader::SetUniform(const stl::string &name, const Matrix4x4 &m)
 
 void Shader::SetUniform(const stl::string &name, const float *x, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		const ShaderUniform *uniform = GetUniform(name);
@@ -936,7 +897,6 @@ void Shader::SetUniform(const stl::string &name, const float *x, uint32_t count)
 
 void Shader::SetUniform(const stl::string &name, const Vector2 *v, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		// TODO: erm... this _seems_ unnecessarily ugly... even for me
@@ -955,7 +915,6 @@ void Shader::SetUniform(const stl::string &name, const Vector2 *v, uint32_t coun
 
 void Shader::SetUniform(const stl::string &name, const Vector3 *v, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		// TODO: erm... this _seems_ unnecessarily ugly... even for me
@@ -974,7 +933,6 @@ void Shader::SetUniform(const stl::string &name, const Vector3 *v, uint32_t coun
 
 void Shader::SetUniform(const stl::string &name, const Vector4 *v, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		// TODO: erm... this _seems_ unnecessarily ugly... even for me
@@ -993,7 +951,6 @@ void Shader::SetUniform(const stl::string &name, const Vector4 *v, uint32_t coun
 
 void Shader::SetUniform(const stl::string &name, const Quaternion *q, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		// TODO: erm... this _seems_ unnecessarily ugly... even for me
@@ -1013,7 +970,6 @@ void Shader::SetUniform(const stl::string &name, const Quaternion *q, uint32_t c
 
 void Shader::SetUniform(const stl::string &name, const Color *c, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		// TODO: erm... this _seems_ unnecessarily ugly... even for me
@@ -1033,7 +989,6 @@ void Shader::SetUniform(const stl::string &name, const Color *c, uint32_t count)
 
 void Shader::SetUniform(const stl::string &name, const Matrix3x3 *m, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		// TODO: erm... this _seems_ unnecessarily ugly... even for me
@@ -1053,7 +1008,6 @@ void Shader::SetUniform(const stl::string &name, const Matrix3x3 *m, uint32_t co
 
 void Shader::SetUniform(const stl::string &name, const Matrix4x4 *m, uint32_t count)
 {
-	STACK_TRACE;
 	if (m_isBound)
 	{
 		// TODO: erm... this _seems_ unnecessarily ugly... even for me
@@ -1073,7 +1027,6 @@ void Shader::SetUniform(const stl::string &name, const Matrix4x4 *m, uint32_t co
 
 void Shader::MapAttributeToVboAttribIndex(const stl::string &name, uint32_t vboAttribIndex)
 {
-	STACK_TRACE;
 	ShaderAttribute *attribute = GetAttribute(name);
 	ASSERT(attribute != NULL);
 	ASSERT(attribute->location < m_numAttributes);
@@ -1087,7 +1040,6 @@ void Shader::MapAttributeToVboAttribIndex(const stl::string &name, uint32_t vboA
 
 void Shader::MapAttributeToStandardAttribType(const stl::string &name, VERTEX_STANDARD_ATTRIBS standardAttribType)
 {
-	STACK_TRACE;
 	ShaderAttribute *attribute = GetAttribute(name);
 	ASSERT(attribute != NULL);
 	ASSERT(attribute->location < m_numAttributes);
@@ -1101,18 +1053,15 @@ void Shader::MapAttributeToStandardAttribType(const stl::string &name, VERTEX_ST
 
 void Shader::OnNewContext()
 {
-	STACK_TRACE;
 	ReloadCompileAndLink(NULL, NULL);
 }
 
 void Shader::OnLostContext()
 {
-	STACK_TRACE;
 }
 
 void Shader::OnBind()
 {
-	STACK_TRACE;
 	ASSERT(m_isBound == FALSE);
 	m_isBound = TRUE;
 	FlushCachedUniforms();
@@ -1120,7 +1069,6 @@ void Shader::OnBind()
 
 void Shader::OnUnbind()
 {
-	STACK_TRACE;
 	ASSERT(m_isBound == TRUE);
 	m_isBound = FALSE;
 	m_cachedUniforms.clear();

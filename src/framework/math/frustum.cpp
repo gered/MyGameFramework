@@ -10,19 +10,16 @@
 
 Frustum::Frustum(ViewContext *viewContext)
 {
-	STACK_TRACE;
 	m_viewContext = viewContext;
 	Calculate();
 }
 
 Frustum::~Frustum()
 {
-	STACK_TRACE;
 }
 
 void Frustum::Calculate()
 {
-	STACK_TRACE;
 	Matrix4x4 projection = m_viewContext->GetProjectionMatrix();
 	Matrix4x4 modelview = m_viewContext->GetModelViewMatrix();
 
@@ -69,7 +66,6 @@ void Frustum::Calculate()
 
 BOOL Frustum::Test(const Vector3 &point) const
 {
-	STACK_TRACE;
 	for (int p = 0; p < NUM_FRUSTUM_SIDES; ++p)
 	{
 		if (Plane::ClassifyPoint(m_planes[p], point) == BEHIND)
@@ -81,7 +77,6 @@ BOOL Frustum::Test(const Vector3 &point) const
 
 BOOL Frustum::Test(const BoundingBox &box) const
 {
-	STACK_TRACE;
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_RIGHT], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
 		return FALSE;
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_LEFT], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
@@ -100,7 +95,6 @@ BOOL Frustum::Test(const BoundingBox &box) const
 
 BOOL Frustum::Test(const BoundingSphere &sphere) const
 {
-	STACK_TRACE;
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_RIGHT], sphere.center, sphere.radius))
 		return FALSE;
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_LEFT], sphere.center, sphere.radius))
@@ -119,7 +113,6 @@ BOOL Frustum::Test(const BoundingSphere &sphere) const
 
 BOOL Frustum::TestPlaneAgainstBox(const Plane &plane, float minX, float minY, float minZ, float width, float height, float depth) const
 {
-	STACK_TRACE;
 	if (Plane::ClassifyPoint(plane, Vector3(minX,         minY,          minZ))         != BEHIND)
 		return TRUE;
 	if (Plane::ClassifyPoint(plane, Vector3(minX,         minY,          minZ + depth)) != BEHIND)
@@ -142,7 +135,6 @@ BOOL Frustum::TestPlaneAgainstBox(const Plane &plane, float minX, float minY, fl
 
 BOOL Frustum::TestPlaneAgainstSphere(const Plane &plane, const Vector3 &center, float radius) const
 {
-	STACK_TRACE;
 	float distance = Plane::DistanceBetween(plane, center);
 	if (distance <= -radius)
 		return FALSE;

@@ -6,7 +6,6 @@
 
 IndexBuffer::IndexBuffer()
 {
-	STACK_TRACE;
 	m_currentIndex = 0;
 }
 
@@ -21,13 +20,11 @@ void IndexBuffer::Release()
 
 BOOL IndexBuffer::Initialize(uint32_t numIndices, BUFFEROBJECT_USAGE usage)
 {
-	STACK_TRACE;
 	return Initialize(NULL, numIndices, usage);
 }
 
 BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint32_t numIndices, BUFFEROBJECT_USAGE usage)
 {
-	STACK_TRACE;
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
 		return FALSE;
@@ -46,13 +43,11 @@ BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint32_t numIndices
 
 BOOL IndexBuffer::Initialize(const IndexBuffer *source)
 {
-	STACK_TRACE;
 	return Initialize(NULL, source);
 }
 
 BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *source)
 {
-	STACK_TRACE;
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
 		return FALSE;
@@ -74,13 +69,11 @@ BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *
 
 void IndexBuffer::Set(const uint16_t *indices, uint32_t numIndices)
 {
-	STACK_TRACE;
 	memcpy(&m_buffer[0], indices, GetNumElements() * GetElementWidthInBytes());
 }
 
 void IndexBuffer::Resize(uint32_t numIndices)
 {
-	STACK_TRACE;
 	ASSERT(numIndices > 0);
 	if (numIndices == 0)
 		return;
@@ -96,7 +89,6 @@ void IndexBuffer::Resize(uint32_t numIndices)
 
 void IndexBuffer::Extend(uint32_t amount)
 {
-	STACK_TRACE;
 	uint32_t newSize = GetNumElements() + amount;
 	Resize(newSize);
 }

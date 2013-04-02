@@ -14,7 +14,6 @@
 StaticMesh::StaticMesh(uint32_t numSubsets, StaticMeshSubset **subsets)
 	: Content()
 {
-	STACK_TRACE;
 	ASSERT(numSubsets > 0);
 	ASSERT(subsets != NULL);
 
@@ -28,14 +27,12 @@ StaticMesh::StaticMesh(uint32_t numSubsets, StaticMeshSubset **subsets)
 StaticMesh::StaticMesh(const StaticMeshFile *file, ContentManager *contentManager)
 	: Content()
 {
-	STACK_TRACE;
 	m_numSubsets = 0;
 	CreateSubsets(file, contentManager);
 }
 
 StaticMesh::~StaticMesh()
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_numSubsets; ++i)
 		SAFE_DELETE(m_subsets[i]);
 	SAFE_DELETE_ARRAY(m_subsets);
@@ -43,7 +40,6 @@ StaticMesh::~StaticMesh()
 
 void StaticMesh::CreateSubsets(const StaticMeshFile *file, ContentManager *contentManager)
 {
-	STACK_TRACE;
 	m_numSubsets = file->GetNumSubMeshes();
 	m_subsets = new StaticMeshSubset*[m_numSubsets];
 	ASSERT(m_subsets != NULL);

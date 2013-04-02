@@ -6,7 +6,6 @@
 
 BoundingSphere::BoundingSphere(const Vector3 *vertices, int numVertices)
 {
-	STACK_TRACE;
 	ASSERT(vertices != NULL);
 	ASSERT(numVertices > 0);
 

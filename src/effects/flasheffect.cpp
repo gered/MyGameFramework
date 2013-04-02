@@ -1,5 +1,3 @@
-#include "../framework/debug.h"
-
 #include "flasheffect.h"
 #include "../contexts/rendercontext.h"
 #include "../framework/graphics/color.h"
@@ -12,9 +10,7 @@ const float DEFAULT_FLASH_SPEED = 16.0f;
 const float DEFAULT_MAX_INTENSITY = 1.0f;
 
 FlashEffect::FlashEffect()
-	: Effect()
 {
-	STACK_TRACE;
 	m_flashingIn = TRUE;
 	m_flashInSpeed = DEFAULT_FLASH_SPEED;
 	m_flashOutSpeed = DEFAULT_FLASH_SPEED;
@@ -25,12 +21,10 @@ FlashEffect::FlashEffect()
 
 FlashEffect::~FlashEffect()
 {
-	STACK_TRACE;
 }
 
 void FlashEffect::OnRender(RenderContext *renderContext)
 {
-	STACK_TRACE;
 	uint16_t width = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportWidth();
 	uint16_t height = renderContext->GetGraphicsDevice()->GetViewContext()->GetViewportHeight();
 	
@@ -45,7 +39,6 @@ void FlashEffect::OnRender(RenderContext *renderContext)
 
 void FlashEffect::OnUpdate(float delta)
 {
-	STACK_TRACE;
 	if (m_flashingIn)
 	{
 		m_alpha += (delta * m_flashInSpeed);

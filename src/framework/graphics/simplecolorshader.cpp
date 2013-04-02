@@ -31,17 +31,14 @@ const char* SimpleColorShader::m_fragmentShaderSource =
 
 SimpleColorShader::SimpleColorShader()
 {
-	STACK_TRACE;
 }
 
 SimpleColorShader::~SimpleColorShader()
 {
-	STACK_TRACE;
 }
 
 BOOL SimpleColorShader::Initialize(GraphicsDevice *graphicsDevice)
 {
-	STACK_TRACE;
 	if (!StandardShader::Initialize(graphicsDevice))
 		return FALSE;
 	

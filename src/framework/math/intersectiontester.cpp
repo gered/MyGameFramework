@@ -1,5 +1,3 @@
-#include "../debug.h"
-
 #include "intersectiontester.h"
 
 #include <math.h>
@@ -15,7 +13,6 @@
 
 BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 &point)
 {
-	STACK_TRACE;
 	if ((point.x >= box.min.x && point.x <= box.max.x) &&
 		(point.y >= box.min.y && point.y <= box.max.y) && 
 		(point.z >= box.min.z && point.z <= box.max.z))
@@ -26,7 +23,6 @@ BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 &point)
 
 BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 &point)
 {
-	STACK_TRACE;
 	if (fabsf(Vector3::Distance(point, sphere.center)) < sphere.radius)
 		return TRUE;
 	else
@@ -35,7 +31,6 @@ BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 &point
 
 BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, int numVertices, Vector3 *firstIntersection)
 {
-	STACK_TRACE;
 	for (int i = 0; i < numVertices; ++i)
 	{
 		if ((vertices[i].x >= box.min.x && vertices[i].x <= box.max.x) &&
@@ -53,7 +48,6 @@ BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, i
 
 BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 *vertices, int numVertices, Vector3 *firstIntersection)
 {
-	STACK_TRACE;
 	for (int i = 0; i < numVertices; ++i)
 	{
 		if (fabsf(Vector3::Distance(vertices[i], sphere.center)) < sphere.radius)
@@ -69,7 +63,6 @@ BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 *verti
 
 BOOL IntersectionTester::Test(const BoundingBox &a, const BoundingBox &b)
 {
-	STACK_TRACE;
 	if (a.max.x < b.min.x || a.min.x > b.max.x)
 		return FALSE;
 	if (a.max.y < b.min.y || a.min.y > b.max.y)
@@ -82,7 +75,6 @@ BOOL IntersectionTester::Test(const BoundingBox &a, const BoundingBox &b)
 
 BOOL IntersectionTester::Test(const BoundingSphere &a, const BoundingSphere &b)
 {
-	STACK_TRACE;
 	Vector3 temp = a.center - b.center;
 	float distanceSquared = Vector3::Dot(temp, temp);
 
@@ -95,7 +87,6 @@ BOOL IntersectionTester::Test(const BoundingSphere &a, const BoundingSphere &b)
 
 BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Plane &plane)
 {
-	STACK_TRACE;
 	float distance = Vector3::Dot(sphere.center, plane.normal) - plane.d;
 	if (fabsf(distance) <= sphere.radius)
 		return TRUE;
@@ -105,7 +96,6 @@ BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Plane &plane)
 
 BOOL IntersectionTester::Test(const BoundingBox &box, const Plane &plane)
 {
-	STACK_TRACE;
 	Vector3 temp1 = (box.max + box.min) / 2.0f;
 	Vector3 temp2 = box.max - temp1;
 
@@ -121,7 +111,6 @@ BOOL IntersectionTester::Test(const BoundingBox &box, const Plane &plane)
 
 BOOL IntersectionTester::Test(const Ray &ray, const Plane &plane, Vector3 *intersection)
 {
-	STACK_TRACE;
 	float denominator = Vector3::Dot(ray.direction, plane.normal);
 	if (denominator == 0.0f)
 		return FALSE;
@@ -143,7 +132,6 @@ BOOL IntersectionTester::Test(const Ray &ray, const Plane &plane, Vector3 *inter
 
 BOOL IntersectionTester::Test(const Ray &ray, const BoundingSphere &sphere, Vector3 *intersection)
 {
-	STACK_TRACE;
 	Vector3 temp1 = ray.position - sphere.center;
 
 	float b = Vector3::Dot(temp1, ray.direction);
@@ -173,7 +161,6 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingSphere &sphere, Vect
 
 BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *intersection)
 {
-	STACK_TRACE;
 	float tmin = 0.0f;
 	float tmax = FLT_MAX;
 
@@ -265,7 +252,6 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *i
 
 BOOL IntersectionTester::Test(const BoundingBox &box, const BoundingSphere &sphere)
 {
-	STACK_TRACE;
 	float distanceSq = BoundingBox::GetSquaredDistanceFromPointToBox(sphere.center, box);
 
 	if (distanceSq <= (sphere.radius * sphere.radius))
@@ -276,7 +262,6 @@ BOOL IntersectionTester::Test(const BoundingBox &box, const BoundingSphere &sphe
 
 BOOL IntersectionTester::Test(const Ray &ray, const Vector3 &a, const Vector3 &b, const Vector3 &c, Vector3 *intersection)
 {
-	STACK_TRACE;
 	float r, num1, num2;
 
 	Vector3 temp1 = Vector3::Cross(b - a, c - a);
@@ -315,7 +300,6 @@ BOOL IntersectionTester::Test(const Ray &ray, const Vector3 &a, const Vector3 &b
 
 BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const Vector3 &v2, const Vector3 &v3)
 {
-	STACK_TRACE;
 	BOOL foundCollision = FALSE;
 
 	Vector3 p1 = v1 / packet.ellipsoidRadius;

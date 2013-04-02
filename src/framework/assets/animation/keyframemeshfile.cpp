@@ -13,7 +13,6 @@
 KeyframeMeshFile::KeyframeMeshFile(File *file)
 	: MeshFile(file)
 {
-	STACK_TRACE;
 	m_numFrames = 0;
 	m_numTexCoords = 0;
 	m_numTriangles = 0;
@@ -26,7 +25,6 @@ KeyframeMeshFile::KeyframeMeshFile(File *file)
 
 KeyframeMeshFile::~KeyframeMeshFile()
 {
-	STACK_TRACE;
 	for (uint32_t i = 0; i < m_numFrames; ++i)
 		SAFE_DELETE(m_frames[i]);
 	SAFE_DELETE_ARRAY(m_frames);
@@ -37,7 +35,6 @@ KeyframeMeshFile::~KeyframeMeshFile()
 
 void KeyframeMeshFile::Load()
 {
-	STACK_TRACE;
 	ChunkDescriptor *keyframesDesc = GetChunkDesc("KFR");
 	ChunkDescriptor *texCoordsDesc = GetChunkDesc("TXT");
 	ChunkDescriptor *trianglesDesc = GetChunkDesc("KTR");

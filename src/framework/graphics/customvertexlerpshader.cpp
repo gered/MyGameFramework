@@ -4,17 +4,14 @@
 
 CustomVertexLerpShader::CustomVertexLerpShader()
 {
-	STACK_TRACE;
 }
 
 CustomVertexLerpShader::~CustomVertexLerpShader()
 {
-	STACK_TRACE;
 }
 
 BOOL CustomVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!VertexLerpShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 
@@ -27,7 +24,6 @@ BOOL CustomVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice, const ch
 
 BOOL CustomVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
-	STACK_TRACE;
 	if (!VertexLerpShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
 		return FALSE;
 
