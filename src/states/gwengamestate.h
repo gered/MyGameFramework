@@ -24,16 +24,16 @@ public:
 	
 	virtual void OnPush();
 	virtual void OnPop();
-	virtual void OnPause(BOOL dueToOverlay);
-	virtual void OnResume(BOOL fromOverlay);
+	virtual void OnPause(bool dueToOverlay);
+	virtual void OnResume(bool fromOverlay);
 	virtual void OnLostContext();
 	virtual void OnNewContext();
 	virtual void OnRender(RenderContext *renderContext);
 	virtual void OnResize();
 	virtual void OnUpdate(float delta);
-	virtual BOOL OnTransition(float delta, BOOL isTransitioningOut, BOOL started);
+	virtual bool OnTransition(float delta, bool isTransitioningOut, bool started);
 	
-	virtual BOOL Handle(const Event *event);
+	virtual bool Handle(const Event *event);
 	
 private:
 	GwenGameStateUIController *m_gwenController;

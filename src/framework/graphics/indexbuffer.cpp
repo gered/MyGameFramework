@@ -18,53 +18,53 @@ void IndexBuffer::Release()
 	BufferObject::Release();
 }
 
-BOOL IndexBuffer::Initialize(uint numIndices, BUFFEROBJECT_USAGE usage)
+bool IndexBuffer::Initialize(uint numIndices, BUFFEROBJECT_USAGE usage)
 {
 	return Initialize(NULL, numIndices, usage);
 }
 
-BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint numIndices, BUFFEROBJECT_USAGE usage)
+bool IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint numIndices, BUFFEROBJECT_USAGE usage)
 {
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
-		return FALSE;
+		return false;
 
 	ASSERT(numIndices > 0);
 	if (numIndices == 0)
-		return FALSE;
+		return false;
 		
 	if (!BufferObject::Initialize(graphicsDevice, BUFFEROBJECT_TYPE_INDEX, usage))
-		return FALSE;
+		return false;
 	
 	Resize(numIndices);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL IndexBuffer::Initialize(const IndexBuffer *source)
+bool IndexBuffer::Initialize(const IndexBuffer *source)
 {
 	return Initialize(NULL, source);
 }
 
-BOOL IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *source)
+bool IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *source)
 {
 	ASSERT(m_buffer.size() == 0);
 	if (m_buffer.size() > 0)
-		return FALSE;
+		return false;
 
 	ASSERT(source != NULL);
 	if (source == NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(source->GetNumElements() > 0);
 	if (source->GetNumElements() == 0)
-		return FALSE;
+		return false;
 	
 	Resize(source->GetNumElements());
 	
 	memcpy(&m_buffer[0], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());	
 	
-	return TRUE;
+	return true;
 }
 
 void IndexBuffer::Set(const uint16_t *indices, uint numIndices)

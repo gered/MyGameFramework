@@ -13,8 +13,8 @@ EventLogger::~EventLogger()
 {
 }
 
-BOOL EventLogger::Handle(const Event *event)
+bool EventLogger::Handle(const Event *event)
 {
 	LOG_INFO("EVENTLOGGER", "Event \"%s\" occurred.\n", event->GetTypeOf());
-	return FALSE;
+	return false;
 }

@@ -10,24 +10,24 @@ CustomStandardShader::~CustomStandardShader()
 {
 }
 
-BOOL CustomStandardShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
+bool CustomStandardShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	if (!StandardShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL CustomStandardShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
+bool CustomStandardShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
 	if (!StandardShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
 	
-	return TRUE;
+	return true;
 }

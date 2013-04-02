@@ -39,9 +39,9 @@ public:
 	 * @param numAttributes the number of vertex attributes
 	 * @param numVertices the initial number of vertices this buffer will contain
 	 * @param usage the expected usage pattern of this vertex buffer
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(const VERTEX_ATTRIBS *attributes, uint numAttributes, uint numVertices, BUFFEROBJECT_USAGE usage);
+	bool Initialize(const VERTEX_ATTRIBS *attributes, uint numAttributes, uint numVertices, BUFFEROBJECT_USAGE usage);
 
 	/**
 	 * Initializes the vertex buffer.
@@ -51,17 +51,17 @@ public:
 	 * @param numAttributes the number of vertex attributes
 	 * @param numVertices the initial number of vertices this buffer will contain
 	 * @param usage the expected usage pattern of this vertex buffer
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRIBS *attributes, uint numAttributes, uint numVertices, BUFFEROBJECT_USAGE usage);
+	bool Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRIBS *attributes, uint numAttributes, uint numVertices, BUFFEROBJECT_USAGE usage);
 	
 	/**
 	 * Initializes the vertex buffer.
 	 * @param source the source buffer to create this buffer from. it's
 	 *               properties and vertex data will be used to create this one
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(const VertexBuffer *source);
+	bool Initialize(const VertexBuffer *source);
 
 	/**
 	 * Initializes the vertex buffer.
@@ -69,9 +69,9 @@ public:
 	 *                       on the GPU
 	 * @param source the source buffer to create this buffer from. it's
 	 *               properties and vertex data will be used to create this one
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer *source);
+	bool Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer *source);
 
 	/**
 	 * @return the number of attributes in this vertex buffer
@@ -96,10 +96,10 @@ public:
 	 * Checks whether this buffer's vertex data includes the specified standard
 	 * attribute.
 	 * @param standardAttrib the standard attribute to test
-	 * @return TRUE if the vertex data in this buffer contains this standard
+	 * @return true if the vertex data in this buffer contains this standard
 	 *              attribute
 	 */
-	BOOL HasStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const        { return (m_standardTypeAttribs & (uint)standardAttrib) > 0; }
+	bool HasStandardAttrib(VERTEX_STANDARD_ATTRIBS standardAttrib) const        { return (m_standardTypeAttribs & (uint)standardAttrib) > 0; }
 
 	/**
 	 * Returns the index of the specified standard attribute.
@@ -442,17 +442,17 @@ public:
 
 	/**
 	 * Moves the current vertex position to the next position.
-	 * @return TRUE if the move succeeded, FALSE if there is no more vertices
+	 * @return true if the move succeeded, false if there is no more vertices
 	 *              to move to after this one
 	 */
-	BOOL MoveNext();
+	bool MoveNext();
 
 	/**
 	 * Moves the current vertex position to the previous position.
-	 * @return TRUE if the move succeeded, FALSE if there is no more vertices
+	 * @return true if the move succeeded, false if there is no more vertices
 	 *              to move to before the current one
 	 */
-	BOOL MovePrevious();
+	bool MovePrevious();
 
 	/**
 	 * Moves the current vertex position by the specified amount relative
@@ -529,9 +529,9 @@ public:
 	uint GetRemainingSpace() const                                              { return (GetNumElements() - 1) - GetCurrentPosition(); }
 
 private:
-	BOOL SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint numAttributes);
+	bool SetSizesAndOffsets(const VERTEX_ATTRIBS *attributes, uint numAttributes);
 	
-	BOOL IsBufferAllocated() const                                              { return m_buffer.size() > 0; }
+	bool IsBufferAllocated() const                                              { return m_buffer.size() > 0; }
 
 	uint GetVertexPosition(uint index) const                                    { return (index * m_elementWidth); }
 	uint GetColorBufferPosition(uint index) const                               { return GetVertexPosition(index) + m_colorOffset; }
@@ -912,26 +912,26 @@ inline void VertexBuffer::Set16f(uint attrib, uint index, const Matrix4x4 &m)
 	SetDirty();
 }
 
-inline BOOL VertexBuffer::MoveNext()
+inline bool VertexBuffer::MoveNext()
 {
 	++m_currentVertex;
 	if (m_currentVertex >= GetNumElements())
 	{
 		--m_currentVertex;
-		return FALSE;
+		return false;
 	}
 	else
-		return TRUE;
+		return true;
 }
 
-inline BOOL VertexBuffer::MovePrevious()
+inline bool VertexBuffer::MovePrevious()
 {
 	if (m_currentVertex == 0)
-		return FALSE;
+		return false;
 	else
 	{
 		--m_currentVertex;
-		return TRUE;
+		return true;
 	}
 }
 

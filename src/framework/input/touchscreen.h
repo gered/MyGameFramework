@@ -46,9 +46,9 @@ public:
 	virtual int GetDeltaY() const = 0;
 
 	/**
-	 * @return TRUE if this touch point is currently down
+	 * @return true if this touch point is currently down
 	 */
-	virtual BOOL IsTouching() const = 0;
+	virtual bool IsTouching() const = 0;
 
 	/**
 	 * Checks if this touch point is currently down within a given area.
@@ -56,32 +56,32 @@ public:
 	 * @param top top Y coordinate of the area to check
 	 * @param right right X coordinate of the area to check
 	 * @param bottom bottom Y coordinate of the area to check
-	 * @return TRUE if the touch point is currently down within the given area
+	 * @return true if the touch point is currently down within the given area
 	 */
-	virtual BOOL IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const = 0;
+	virtual bool IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const = 0;
 
 	/**
 	 * Checks if this touch point is currently down within a given area.
 	 * @param area the area to check
-	 * @return TRUE if the touch point is currently down within the given area
+	 * @return true if the touch point is currently down within the given area
 	 */
-	virtual BOOL IsTouchingWithinArea(const Rect &area) const = 0;
+	virtual bool IsTouchingWithinArea(const Rect &area) const = 0;
 
 	/**
 	 * Checks if this touch point is currently down within a given area.
 	 * @param centerX X coordinate of the center of a circular area to check
 	 * @param centerY Y coordinate of the center of a circular area to check
 	 * @param radius the radius of the circular area to check
-	 * @return TRUE if the touch point is currently down within the given area
+	 * @return true if the touch point is currently down within the given area
 	 */
-	virtual BOOL IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const = 0;
+	virtual bool IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const = 0;
 
 	/**
 	 * Checks if this touch point is currently down within a given area.
 	 * @param area the area to check
-	 * @return TRUE if the touch point is currently down within the given area
+	 * @return true if the touch point is currently down within the given area
 	 */
-	virtual BOOL IsTouchingWithinArea(const Circle &area) const = 0;
+	virtual bool IsTouchingWithinArea(const Circle &area) const = 0;
 };
 
 /**
@@ -94,9 +94,9 @@ public:
 	virtual ~Touchscreen()                                 {}
 
 	/**
-	 * @return TRUE if multitouch support was detected in the touch screen input device
+	 * @return true if multitouch support was detected in the touch screen input device
 	 */
-	virtual BOOL IsMultitouchAvailable() const = 0;
+	virtual bool IsMultitouchAvailable() const = 0;
 
 	/**
 	 * @return the maximum number of touch points supported (not necessarily the number currently down)
@@ -104,21 +104,21 @@ public:
 	virtual uint GetPointerCount() const = 0;
 
 	/**
-	 * @return TRUE if at least one touch point is currently down
+	 * @return true if at least one touch point is currently down
 	 */
-	virtual BOOL IsTouching() const = 0;
+	virtual bool IsTouching() const = 0;
 
 	/**
 	 * Determines if the touch screen was tapped during the last tick, but not
 	 * the tick before that (in other words, was just initially tapped).
-	 * @return TRUE if the touch screen was just tapped in the last tick
+	 * @return true if the touch screen was just tapped in the last tick
 	 */
-	virtual BOOL WasTapped() = 0;
+	virtual bool WasTapped() = 0;
 
 	/**
 	 * @return the primary touch pointer (the first one down or the only one
 	 *         down). This will never be NULL, but it may refer to a touch
-	 *         point whose IsTouching returns FALSE.
+	 *         point whose IsTouching returns false.
 	 */
 	virtual const TouchPointer* GetPrimaryPointer() const = 0;
 

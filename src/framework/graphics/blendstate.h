@@ -47,9 +47,9 @@ public:
 	void Apply() const;
 
 	/**
-	 * @return TRUE if blending is enabled
+	 * @return true if blending is enabled
 	 */
-	BOOL GetBlending() const                               { return m_blending; }
+	bool GetBlending() const                               { return m_blending; }
 
 	/**
 	 * @return the source blending factor
@@ -64,7 +64,7 @@ public:
 	/**
 	 * Toggles blending on/off.
 	 */
-	void SetBlending(BOOL enable)                          { m_blending = enable; }
+	void SetBlending(bool enable)                          { m_blending = enable; }
 
 	/**
 	 * Sets the source blending factor.
@@ -80,7 +80,7 @@ private:
 	void Initialize();
 	int FindBlendFactorValue(BLEND_FACTOR factor) const;
 
-	BOOL m_blending;
+	bool m_blending;
 	BLEND_FACTOR m_sourceBlendFactor;
 	BLEND_FACTOR m_destBlendFactor;
 };

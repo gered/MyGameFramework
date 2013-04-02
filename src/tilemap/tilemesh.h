@@ -29,24 +29,24 @@ public:
 
 	virtual TILEMESH_TYPE GetType() const = 0;
 
-	BOOL IsCompletelyOpaque() const                        { return m_opaqueSides == SIDE_ALL; }
-	BOOL IsOpaque(MESH_SIDES sides) const                  { return IsBitSet(sides, m_opaqueSides); }
-	BOOL IsAlpha() const                                   { return m_alpha; }
+	bool IsCompletelyOpaque() const                        { return m_opaqueSides == SIDE_ALL; }
+	bool IsOpaque(MESH_SIDES sides) const                  { return IsBitSet(sides, m_opaqueSides); }
+	bool IsAlpha() const                                   { return m_alpha; }
 	const Color& GetColor() const                          { return m_color; }
 	float GetTranslucency() const                          { return m_translucency; }
-	BOOL IsLightSource() const                             { return m_lightValue > 0; }
+	bool IsLightSource() const                             { return m_lightValue > 0; }
 	TILE_LIGHT_VALUE GetLightValue() const                 { return m_lightValue; }
 
 protected:
 	void SetOpaque(MESH_SIDES sides)                       { m_opaqueSides = sides; }
-	void SetAlpha(BOOL alpha)                              { m_alpha = alpha; }
+	void SetAlpha(bool alpha)                              { m_alpha = alpha; }
 	void SetColor(const Color &color)                      { m_color = color; }
 	void SetTranslucency(float translucency)               { m_translucency = translucency; }
 	void SetLight(TILE_LIGHT_VALUE lightValue)             { m_lightValue = lightValue; }
 
 private:
 	MESH_SIDES m_opaqueSides;
-	BOOL m_alpha;
+	bool m_alpha;
 	Color m_color;
 	float m_translucency;
 	TILE_LIGHT_VALUE m_lightValue;

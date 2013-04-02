@@ -8,7 +8,7 @@
 SkeletalMeshSubset::SkeletalMeshSubset()
 {
 	m_indices = NULL;
-	m_alpha = FALSE;
+	m_alpha = false;
 }
 
 SkeletalMeshSubset::~SkeletalMeshSubset()
@@ -16,7 +16,7 @@ SkeletalMeshSubset::~SkeletalMeshSubset()
 	SAFE_DELETE(m_indices);
 }
 
-void SkeletalMeshSubset::Create(const stl::string &name, uint numTriangles, BOOL alpha)
+void SkeletalMeshSubset::Create(const stl::string &name, uint numTriangles, bool alpha)
 {
 	ASSERT(m_indices == NULL);
 	ASSERT(numTriangles > 0);

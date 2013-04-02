@@ -20,8 +20,8 @@ public:
 
 	void OnPush();
 	void OnPop();
-	void OnPause(BOOL dueToOverlay);
-	void OnResume(BOOL fromOverlay);
+	void OnPause(bool dueToOverlay);
+	void OnResume(bool fromOverlay);
 	void OnAppGainFocus();
 	void OnAppLostFocus();
 	void OnLostContext();
@@ -29,7 +29,7 @@ public:
 	void OnRender(RenderContext *renderContext);
 	void OnResize();
 	void OnUpdate(float delta);
-	BOOL OnTransition(float delta, BOOL isTransitioningOut, BOOL started);
+	bool OnTransition(float delta, bool isTransitioningOut, bool started);
 
 private:
 	Grid *m_grid;

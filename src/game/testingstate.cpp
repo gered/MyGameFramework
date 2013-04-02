@@ -47,12 +47,12 @@ void TestingState::OnPop()
 	SAFE_DELETE(m_camera);
 }
 
-void TestingState::OnPause(BOOL dueToOverlay)
+void TestingState::OnPause(bool dueToOverlay)
 {
 	GameState::OnPause(dueToOverlay);
 }
 
-void TestingState::OnResume(BOOL fromOverlay)
+void TestingState::OnResume(bool fromOverlay)
 {
 	GameState::OnResume(fromOverlay);
 }
@@ -108,7 +108,7 @@ void TestingState::OnUpdate(float delta)
 	GetGameApp()->GetGraphicsDevice()->GetViewContext()->GetCamera()->OnUpdate(delta);
 }
 
-BOOL TestingState::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
+bool TestingState::OnTransition(float delta, bool isTransitioningOut, bool started)
 {
-	return TRUE;
+	return true;
 }

@@ -32,10 +32,10 @@ public:
 	virtual void Release();
 
 	/**
-	 * @return TRUE if this buffer object is holding client side data only
+	 * @return true if this buffer object is holding client side data only
 	 *              (hasn't been created as a buffer object in video memory)
 	 */
-	BOOL IsClientSideBuffer() const                                             { return m_bufferId == 0; }
+	bool IsClientSideBuffer() const                                             { return m_bufferId == 0; }
 
 	/**
 	 * @return the type of data this buffer holds
@@ -63,10 +63,10 @@ public:
 	virtual size_t GetElementWidthInBytes() const = 0;
 
 	/**
-	 * @return TRUE if some or all of the buffer data has been changed since
+	 * @return true if some or all of the buffer data has been changed since
 	 *              the last Update() call
 	 */
-	BOOL IsDirty() const                                                        { return m_isDirty; }
+	bool IsDirty() const                                                        { return m_isDirty; }
 
 	/**
 	 * Uploads the current buffer data to video memory.
@@ -94,7 +94,7 @@ protected:
 	 *             will be stored in it
 	 * @param usage the expected usage pattern of this buffer object
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage);
+	bool Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage);
 	
 	/**
 	 * Creates a buffer object on the GPU but does not upload this 
@@ -118,14 +118,14 @@ protected:
 	void CreateBufferObject();
 	void FreeBufferObject();
 	void SizeBufferObject();
-	void SetDirty()                                                             { m_isDirty = TRUE; }
+	void SetDirty()                                                             { m_isDirty = true; }
 
 private:
 
 	BUFFEROBJECT_TYPE m_type;
 	BUFFEROBJECT_USAGE m_usage;
 	uint m_bufferId;
-	BOOL m_isDirty;
+	bool m_isDirty;
 	size_t m_sizeInBytes;
 };
 

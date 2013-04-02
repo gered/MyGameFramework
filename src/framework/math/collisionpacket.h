@@ -9,7 +9,7 @@ struct CollisionPacket
 	// defines the x/y/z radius of the entity being checked
 	Vector3 ellipsoidRadius;
 
-	BOOL foundCollision;
+	bool foundCollision;
 	float nearestDistance;
 
 	// the below fields are all in "ellipsoid space"
@@ -23,7 +23,7 @@ struct CollisionPacket
 	CollisionPacket()
 	{
 		ellipsoidRadius = ZERO_VECTOR;
-		foundCollision = FALSE;
+		foundCollision = false;
 		nearestDistance = 0.0f;
 		esVelocity = ZERO_VECTOR;
 		esNormalizedVelocity = ZERO_VECTOR;

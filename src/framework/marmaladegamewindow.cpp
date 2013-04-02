@@ -16,12 +16,12 @@ MarmaladeGameWindow::MarmaladeGameWindow(BaseGameApp *gameApp, MarmaladeSystem *
 	: GameWindow(gameApp)
 {
 	m_system = system;
-	m_active = FALSE;
-	m_focused = FALSE;
-	m_closing = FALSE;
+	m_active = false;
+	m_focused = false;
+	m_closing = false;
 	m_rect = Rect(0, 0, 0, 0);
 	m_bpp = 0;
-	m_fullscreen = TRUE;
+	m_fullscreen = true;
 	m_screenOrientation = SCREEN_ANGLE_0;
 	m_eglContext = EGL_NO_CONTEXT;
 	m_eglDisplay = EGL_NO_DISPLAY;
@@ -35,7 +35,7 @@ MarmaladeGameWindow::~MarmaladeGameWindow()
 		LOG_ERROR(LOGCAT_WINDOW, "Failed to destroy the EGL context.\n");
 }
 
-BOOL MarmaladeGameWindow::Create(GameWindowParams *params)
+bool MarmaladeGameWindow::Create(GameWindowParams *params)
 {
 	LOG_INFO(LOGCAT_WINDOW, "Creating a window.\n");
 
@@ -46,18 +46,18 @@ BOOL MarmaladeGameWindow::Create(GameWindowParams *params)
 
 	// Set up the window and EGL context
 	if (!SetUpWindow())
-		return FALSE;
+		return false;
 
 	LOG_INFO(LOGCAT_WINDOW, "Finished initialization.\n");
 
 	LOG_INFO(LOGCAT_WINDOW, "Window marked active.\n");
-	m_active = TRUE;
-	m_focused = TRUE;
+	m_active = true;
+	m_focused = true;
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeGameWindow::Resize(uint width, uint height)
+bool MarmaladeGameWindow::Resize(uint width, uint height)
 {
 	// note that the parameters are ignored completely because they don't really
 	// make sense for our primary/only usage of Marmalade (mobile devices)
@@ -92,49 +92,49 @@ BOOL MarmaladeGameWindow::Resize(uint width, uint height)
 	LOG_INFO(LOGCAT_WINDOW, "Device's current screen orientation angle: %d\n", angle);
 	m_screenOrientation = angle;
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeGameWindow::ToggleFullscreen()
+bool MarmaladeGameWindow::ToggleFullscreen()
 {
 	ASSERT(!"Not implemented.");
-	return FALSE;
+	return false;
 }
 
-BOOL MarmaladeGameWindow::SetUpWindow()
+bool MarmaladeGameWindow::SetUpWindow()
 {
 	if (!SetUpEGL())
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "EGL setup not completed successfully.\n");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeGameWindow::DestroyWindow()
+bool MarmaladeGameWindow::DestroyWindow()
 {
 	if (!DestroyEGL())
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "EGL destroy not completed successfully.\n");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeGameWindow::SetUpEGL()
+bool MarmaladeGameWindow::SetUpEGL()
 {
 	LOG_INFO(LOGCAT_WINDOW, "Connecting to EGL display server.\n");
 	EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 	if (display == EGL_NO_DISPLAY)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "eglGetDisplay() failed.\n");
-		return FALSE;
+		return false;
 	}
 
 	LOG_INFO(LOGCAT_WINDOW, "Initializing EGL.\n");
-	if (eglInitialize(display, 0, 0) == EGL_FALSE)
+	if (eglInitialize(display, 0, 0) == EGL_false)
 	{
 		EGLint initError = eglGetError();
 		if (initError == EGL_BAD_DISPLAY)
@@ -143,22 +143,22 @@ BOOL MarmaladeGameWindow::SetUpEGL()
 			LOG_ERROR(LOGCAT_WINDOW, "eglInitialize() failed: EGL_NOT_INITIALIZED\n");
 		else
 			LOG_ERROR(LOGCAT_WINDOW, "eglInitialize() failed.\n");
-		return FALSE;
+		return false;
 	}
 
 	LOG_INFO(LOGCAT_WINDOW, "Querying available EGL configs.\n");
 	const EGLint MAX_EGL_CONFIGS = 30;   // Too much? Or good enough?
 	EGLint numConfigsFound = 0;
 	EGLConfig configs[MAX_EGL_CONFIGS];
-	if (eglGetConfigs(display, configs, MAX_EGL_CONFIGS, &numConfigsFound) == EGL_FALSE)
+	if (eglGetConfigs(display, configs, MAX_EGL_CONFIGS, &numConfigsFound) == EGL_false)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "eglGetConfigs() failed.\n");
-		return FALSE;
+		return false;
 	}
 	if (numConfigsFound == 0)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "eglGetConfigs() found 0 EGL configs. Aborting.\n");
-		return FALSE;
+		return false;
 	}
 
 	// TODO: these should probably come from a config file or something
@@ -258,7 +258,7 @@ BOOL MarmaladeGameWindow::SetUpEGL()
 	if (surface == EGL_NO_SURFACE)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "eglCreateWindowSurface() failed.\n");
-		return FALSE;
+		return false;
 	}
 
 	LOG_INFO(LOGCAT_WINDOW, "Creating rendering context.\n");
@@ -267,14 +267,14 @@ BOOL MarmaladeGameWindow::SetUpEGL()
 	if (context == EGL_NO_CONTEXT)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "eglCreateContext() failed.\n");
-		return FALSE;
+		return false;
 	}
 
 	LOG_INFO(LOGCAT_WINDOW, "Making this rendering context current.\n");
-	if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE)
+	if (eglMakeCurrent(display, surface, surface, context) == EGL_false)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "eglMakeCurrent() failed.\n");
-		return FALSE;
+		return false;
 	}
 
 	LOG_INFO(LOGCAT_WINDOW, "EGL window set up successfully.\n");
@@ -308,10 +308,10 @@ BOOL MarmaladeGameWindow::SetUpEGL()
 	LOG_INFO(LOGCAT_WINDOW, "Device's current screen orientation angle: %d\n", angle);
 	m_screenOrientation = angle;
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeGameWindow::DestroyEGL()
+bool MarmaladeGameWindow::DestroyEGL()
 {
 	if (m_eglDisplay != EGL_NO_DISPLAY)
 	{
@@ -319,36 +319,36 @@ BOOL MarmaladeGameWindow::DestroyEGL()
 
 		// Used to check the return value from this call, but it seems that every code sample,
 		// article, book, or whatever doesn't do that ever. And this seems to always fail in
-		// the Marmalade simulator (return EGL_FALSE).
+		// the Marmalade simulator (return EGL_false).
 		eglMakeCurrent(EGL_NO_DISPLAY, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
 
 		if (m_eglContext != EGL_NO_CONTEXT)
 		{
-			if (eglDestroyContext(m_eglDisplay, m_eglContext) == EGL_FALSE)
+			if (eglDestroyContext(m_eglDisplay, m_eglContext) == EGL_false)
 			{
 				LOG_ERROR(LOGCAT_WINDOW, "Error destroying EGL context.\n");
-				return FALSE;
+				return false;
 			}
 		}
 		if (m_eglSurface != EGL_NO_SURFACE)
 		{
-			if (eglDestroySurface(m_eglDisplay, m_eglSurface) == EGL_FALSE)
+			if (eglDestroySurface(m_eglDisplay, m_eglSurface) == EGL_false)
 			{
 				LOG_ERROR(LOGCAT_WINDOW, "Error destroying EGL surface.\n");
-				return FALSE;
+				return false;
 			}
 		}
-		if (eglTerminate(m_eglDisplay) == EGL_FALSE)
+		if (eglTerminate(m_eglDisplay) == EGL_false)
 		{
 			LOG_ERROR(LOGCAT_WINDOW, "Error terminating EGL display.\n");
-			return FALSE;
+			return false;
 		}
 	}
 	m_eglDisplay = EGL_NO_DISPLAY;
 	m_eglContext = EGL_NO_CONTEXT;
 	m_eglSurface = EGL_NO_SURFACE;
 
-	return TRUE;
+	return true;
 }
 
 SCREEN_ORIENTATION_ANGLE MarmaladeGameWindow::GetCurrentScreenOrientationAngle()
@@ -381,14 +381,14 @@ void MarmaladeGameWindow::Close()
 	if (m_active)
 	{
 		LOG_INFO(LOGCAT_WINDOW, "Window marked inactive.\n");
-		m_active = FALSE;
-		m_focused = FALSE;
+		m_active = false;
+		m_focused = false;
 	}
 	else
 		LOG_INFO(LOGCAT_WINDOW, "Window was already marked inactive.\n");
 
 	LOG_INFO(LOGCAT_WINDOW, "Closing.\n");
-	m_closing = TRUE;
+	m_closing = true;
 }
 
 void MarmaladeGameWindow::ProcessEvent(const OSEvent *event)
@@ -405,8 +405,8 @@ void MarmaladeGameWindow::ProcessEvent(const OSEvent *event)
 		if (m_active)
 		{
 			LOG_INFO(LOGCAT_WINDOW, "Window marked inactive.\n");
-			m_active = FALSE;
-			m_focused = FALSE;
+			m_active = false;
+			m_focused = false;
 			LOG_INFO(LOGCAT_WINDOW, "Lost input device focus.\n");
 			GetGameApp()->OnAppLostFocus();
 			LOG_INFO(LOGCAT_WINDOW, "Pausing app.\n");
@@ -421,8 +421,8 @@ void MarmaladeGameWindow::ProcessEvent(const OSEvent *event)
 		if (!m_active)
 		{
 			LOG_INFO(LOGCAT_WINDOW, "Window marked active.\n");
-			m_active = TRUE;
-			m_focused = TRUE;
+			m_active = true;
+			m_focused = true;
 			LOG_INFO(LOGCAT_WINDOW, "Resuming app.\n");
 			GetGameApp()->OnAppResume();
 			LOG_INFO(LOGCAT_WINDOW, "Gained input device focus.\n");

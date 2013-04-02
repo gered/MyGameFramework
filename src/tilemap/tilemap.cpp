@@ -107,12 +107,12 @@ void TileMap::Clear()
 	m_chunkDepth = 0;
 }
 
-BOOL TileMap::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
+bool TileMap::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
 {
 	// make sure that the ray can actually collide with this map in the first place
 	Vector3 position;
 	if (!IntersectionTester::Test(ray, m_bounds, &position))
-		return FALSE;
+		return false;
 
 	// convert initial tilemap collision point to tile coords. this is in 
 	// "tilemap space" which is how we want it for the rest of this method
@@ -137,7 +137,7 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
 		z = currentZ;
 
 		// and we're done
-		return TRUE;
+		return true;
 	}
 
 	// no collision initially, continue on with the rest ...
@@ -200,8 +200,8 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
 	if (isnan(tDelta.z))
 		tDelta.z = INFINITY;
 
-	BOOL collided = FALSE;
-	BOOL outOfMap = FALSE;
+	bool collided = false;
+	bool outOfMap = false;
 	while (!outOfMap)
 	{
 		// step up to the next tile using the lowest step value
@@ -235,14 +235,14 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
 				currentY < 0 || currentY >= (int)GetHeight() ||
 				currentZ < 0 || currentZ >= (int)GetDepth()
 			)
-			outOfMap = TRUE;
+			outOfMap = true;
 		else
 		{
 			// still inside and at the next position, test for a solid tile
 			Tile *tile = Get(currentX, currentY, currentZ);
 			if (IsBitSet(TILE_COLLIDABLE, tile->flags))
 			{
-				collided = TRUE;
+				collided = true;
 
 				// set the tile coords of the collision
 				x = currentX;
@@ -257,19 +257,19 @@ BOOL TileMap::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
 	return collided;
 }
 
-BOOL TileMap::CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const
+bool TileMap::CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const
 {
 	// if the ray doesn't collide with any solid tiles in the first place, then
 	// we can skip this more expensive triangle collision check...
 	if (!CheckForCollision(ray, x, y, z))
-		return FALSE;
+		return false;
 
 	// now perform the per-triangle collision check against the tile position
 	// where the ray ended up at the end of the above CheckForCollision() call
 	return CheckForCollisionWithTile(ray, point, x, y, z);
 }
 
-BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const
+bool TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const
 {
 	const Tile *tile = Get(x, y, z);
 	const TileMesh *mesh = m_tileMeshes->Get(tile);
@@ -282,7 +282,7 @@ BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, 
 	Vector3 tileWorldPosition = Vector3((float)x, (float)y, (float)z);
 	
 	float closestSquaredDistance = FLT_MAX;
-	BOOL collided = FALSE;
+	bool collided = false;
 	Vector3 collisionPoint = ZERO_VECTOR;
 
 	for (uint i = 0; i < numVertices; i += 3)
@@ -299,7 +299,7 @@ BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, 
 
 		if (IntersectionTester::Test(ray, a, b, c, &collisionPoint))
 		{
-			collided = TRUE;
+			collided = true;
 
 			// if this is the closest collision yet, then keep the distance
 			// and point of collision
@@ -315,11 +315,11 @@ BOOL TileMap::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, 
 	return collided;
 }
 
-BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
+bool TileMap::GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
 {
 	// make sure the given box actually intersects with the map in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
-		return FALSE;
+		return false;
 
 	// convert to tile coords. this is in "tilemap space" which is how we want it
 	// HACK: ceil() calls and "-1"'s keep us from picking up too many/too few
@@ -350,14 +350,14 @@ BOOL TileMap::GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uin
 	y2 = maxY;
 	z2 = maxZ;
 
-	return TRUE;
+	return true;
 }
 
-BOOL TileMap::GetOverlappedChunks(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
+bool TileMap::GetOverlappedChunks(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
 {
 	// make sure the given box actually intersects with the map in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
-		return FALSE;
+		return false;
 
 	// convert to tile coords. this is in "tilemap space" which is how we want it
 	// HACK: ceil() calls and "-1"'s keep us from picking up too many/too few
@@ -396,7 +396,7 @@ BOOL TileMap::GetOverlappedChunks(const BoundingBox &box, uint &x1, uint &y1, ui
 	y2 = maxChunkY;
 	z2 = maxChunkZ;
 
-	return TRUE;
+	return true;
 }
 
 void TileMap::UpdateVertices()

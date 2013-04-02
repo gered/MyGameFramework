@@ -9,7 +9,7 @@
 #include "../framework/math/vector2.h"
 #include "../framework/math/vector3.h"
 
-CubeTileMesh::CubeTileMesh(CUBE_FACES faces, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color)
+CubeTileMesh::CubeTileMesh(CUBE_FACES faces, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color)
 {
 	m_faces = faces;
 

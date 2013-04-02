@@ -61,7 +61,7 @@ void GameApp::OnAppResume()
 	m_stateManager->OnAppResume();
 }
 
-BOOL GameApp::OnInit()
+bool GameApp::OnInit()
 {
 #if defined(DESKTOP) && defined(SDL)
 	SDLGameWindowParams windowParams;
@@ -69,17 +69,17 @@ BOOL GameApp::OnInit()
 	windowParams.width = 854;
 	windowParams.height = 480;
 	windowParams.bpp = 0;
-	windowParams.windowed = TRUE;
-	windowParams.resizable = TRUE;
+	windowParams.windowed = true;
+	windowParams.resizable = true;
 #elif MOBILE
 	GameWindowParams windowParams;
-	windowParams.windowed = FALSE;
+	windowParams.windowed = false;
 #else
 #error Undefined platform.
 #endif
 
 	if (!Initialize(&windowParams))
-		return FALSE;
+		return false;
 	
 	SeedRnd(GetOperatingSystem()->GetTicks());
 
@@ -96,7 +96,7 @@ BOOL GameApp::OnInit()
 	m_renderContext = new RenderContext(GetGraphicsDevice(), GetContentManager());
 	m_contentCache = new ContentCache(GetContentManager());
 
-	return TRUE;
+	return true;
 }
 
 void GameApp::OnLoadGame()

@@ -63,8 +63,8 @@ Texture* SolidColorTextureCache::CreateFor(const Color &color, Texture *existing
 	LOG_INFO(LOGCAT_ASSETS, "SolidColorTextureCache: creating texture for color 0x%8x.\n", color.ToInt());
 
 	Image *img = new Image();
-	BOOL imageCreateSuccess = img->Create(8, 8, IMAGE_FORMAT_RGBA);
-	ASSERT(imageCreateSuccess == TRUE);
+	bool imageCreateSuccess = img->Create(8, 8, IMAGE_FORMAT_RGBA);
+	ASSERT(imageCreateSuccess == true);
 
 	Texture *texture;
 	if (existing != NULL)
@@ -76,7 +76,7 @@ Texture* SolidColorTextureCache::CreateFor(const Color &color, Texture *existing
 		texture = new Texture();
 
 	img->Clear(color);	
-	BOOL success = texture->Create(m_graphicsDevice, img);
+	bool success = texture->Create(m_graphicsDevice, img);
 	SAFE_DELETE(img);
 
 	if (!success)

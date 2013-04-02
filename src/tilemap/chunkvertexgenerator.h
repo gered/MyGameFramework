@@ -23,7 +23,7 @@ public:
 	void Generate(TileChunk *chunk, uint &numVertices, uint &numAlphaVertices);
 
 private:
-	uint AddMesh(const TileMesh *mesh, TileChunk *chunk, BOOL isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint firstVertex, uint numVertices);
+	uint AddMesh(const TileMesh *mesh, TileChunk *chunk, bool isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint firstVertex, uint numVertices);
 	virtual void CopyVertex(const TileChunk *chunk, VertexBuffer *sourceBuffer, VertexBuffer *destBuffer, const Vector3 &positionOffset, const Matrix4x4 *transform, const Color &color);
 };
 

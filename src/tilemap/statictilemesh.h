@@ -15,8 +15,8 @@ struct Vector3;
 class StaticTileMesh : public TileMesh
 {
 public:
-	StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency = 1.0f, const Color &color = COLOR_WHITE, const StaticMesh *collisionMesh = NULL);
-	StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, uint numTiles, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency = 1.0f, const Color &color = COLOR_WHITE, const StaticMesh *collisionMesh = NULL);
+	StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency = 1.0f, const Color &color = COLOR_WHITE, const StaticMesh *collisionMesh = NULL);
+	StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, uint numTiles, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency = 1.0f, const Color &color = COLOR_WHITE, const StaticMesh *collisionMesh = NULL);
 	virtual ~StaticTileMesh();
 
 	VertexBuffer* GetBuffer() const                        { return m_vertices; }

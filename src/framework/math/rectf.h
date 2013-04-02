@@ -33,9 +33,9 @@ struct RectF
 	 * Tests if a point is contained inside this rectangle.
 	 * @param x x coordinate of the point to test
 	 * @param y y coordinate of the point to test
-	 * @return BOOL TRUE if the point is contained, FALSE if not
+	 * @return bool true if the point is contained, false if not
 	 */
-	BOOL Contains(float x, float y) const;
+	bool Contains(float x, float y) const;
 
 	/**
 	 * @return the rect's width
@@ -73,12 +73,12 @@ inline void RectF::Set(float left, float top, float right, float bottom)
 	this->bottom = bottom;
 }
 
-inline BOOL RectF::Contains(float x, float y) const
+inline bool RectF::Contains(float x, float y) const
 {
 	if (x >= left && y >= top && x <= right && y <= bottom)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 inline float RectF::GetWidth() const

@@ -12,7 +12,7 @@ BlendState::BlendState(BLEND_FACTOR sourceFactor, BLEND_FACTOR destinationFactor
 {
 	Initialize();
 
-	m_blending = TRUE;
+	m_blending = true;
 	m_sourceBlendFactor = sourceFactor;
 	m_destBlendFactor = destinationFactor;
 }
@@ -23,7 +23,7 @@ BlendState::~BlendState()
 
 void BlendState::Initialize()
 {
-	m_blending = FALSE;
+	m_blending = false;
 	m_sourceBlendFactor = ONE;
 	m_destBlendFactor = ZERO;
 }

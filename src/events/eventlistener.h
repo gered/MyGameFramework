@@ -8,7 +8,7 @@ struct Event;
 class EventListener
 {
 public:
-	virtual BOOL Handle(const Event *event) = 0;
+	virtual bool Handle(const Event *event) = 0;
 };
 
 #endif

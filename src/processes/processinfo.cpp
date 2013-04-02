@@ -10,11 +10,11 @@ ProcessInfo::ProcessInfo(GameProcess *process)
 	ASSERT(process != NULL);
 	this->process = process;
 	name = "";
-	isTransitioning = FALSE;
-	isTransitioningOut = FALSE;
-	isTransitionStarting = FALSE;
-	isInactive = FALSE;
-	isBeingRemoved = FALSE;
+	isTransitioning = false;
+	isTransitioningOut = false;
+	isTransitionStarting = false;
+	isInactive = false;
+	isBeingRemoved = false;
 	
 	SetDescriptor();
 }
@@ -24,11 +24,11 @@ ProcessInfo::ProcessInfo(GameProcess *process, const stl::string &name)
 	ASSERT(process != NULL);
 	this->process = process;
 	this->name = name;
-	isTransitioning = FALSE;
-	isTransitioningOut = FALSE;
-	isTransitionStarting = FALSE;
-	isInactive = FALSE;
-	isBeingRemoved = FALSE;
+	isTransitioning = false;
+	isTransitioningOut = false;
+	isTransitionStarting = false;
+	isInactive = false;
+	isBeingRemoved = false;
 	
 	SetDescriptor();
 }

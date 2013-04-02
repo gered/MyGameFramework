@@ -22,13 +22,13 @@ SkeletalMeshRenderer::~SkeletalMeshRenderer()
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, VertexSkinningShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	Render(graphicsDevice, instance, 0, shader);
 }
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint frame, VertexSkinningShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	instance->CalculateJointTransformations(frame);
 	shader->SetJointPositions(instance->GetJointPositions(), instance->GetNumJoints());
 	shader->SetJointRotations(instance->GetJointRotations(), instance->GetNumJoints());
@@ -37,7 +37,7 @@ void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshIn
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshInstance *instance, uint startFrame, uint endFrame, float interpolation, VertexSkinningShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	instance->CalculateJointTransformations(startFrame, endFrame, interpolation);
 	shader->SetJointPositions(instance->GetJointPositions(), instance->GetNumJoints());
 	shader->SetJointRotations(instance->GetJointRotations(), instance->GetNumJoints());
@@ -46,7 +46,7 @@ void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshIn
 
 void SkeletalMeshRenderer::Render(GraphicsDevice *graphicsDevice, SkeletalMeshAnimationInstance *instance, VertexSkinningShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	Render(graphicsDevice, instance, instance->GetCurrentFrame(), instance->GetNextFrame(), instance->GetInterpolation(), shader);
 }
 
@@ -55,14 +55,14 @@ void SkeletalMeshRenderer::RenderAllSubsets(GraphicsDevice *graphicsDevice, Skel
 	instance->GetRenderState()->Apply();
 	graphicsDevice->BindVertexBuffer(instance->GetMesh()->GetVertexBuffer());
 	
-	BOOL hasAlphaSubsets = FALSE;
+	bool hasAlphaSubsets = false;
 	
 	if (instance->GetRenderAllSubsetsAlphaBlended())
 	{
 		// this instance has been overridden to have all it's subsets rendered
 		// with alpha blending enabled. don't bother with the first loop to find
 		// non-alpha-enabled subsets...
-		hasAlphaSubsets = TRUE;
+		hasAlphaSubsets = true;
 	}
 	else
 	{
@@ -76,7 +76,7 @@ void SkeletalMeshRenderer::RenderAllSubsets(GraphicsDevice *graphicsDevice, Skel
 			const SkeletalMeshSubset *subset = &instance->GetMesh()->GetSubsets()[i];
 			if (subset->IsAlphaBlended())
 				// note we have an alpha subset, but don't render it quite yet
-				hasAlphaSubsets = TRUE;
+				hasAlphaSubsets = true;
 			else
 				RenderSubset(graphicsDevice, subset, instance->GetTextures()[i]);
 		}

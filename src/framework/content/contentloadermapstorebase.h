@@ -26,16 +26,16 @@ public:
 
 	void SetDefaultPath(const stl::string &path);
 	
-	T* Get(const stl::string &name, const ContentParam *params, BOOL preload = FALSE);
-	void Free(T *content, BOOL preload = FALSE);
-	void Free(const stl::string &name, const ContentParam *params, BOOL preload = FALSE);
+	T* Get(const stl::string &name, const ContentParam *params, bool preload = false);
+	void Free(T *content, bool preload = false);
+	void Free(const stl::string &name, const ContentParam *params, bool preload = false);
 	
 	void RemoveAllContent();
 	
 	stl::string GetNameOf(T *content) const;
 	
 protected:
-	void Free(ContentStoreItor &itor, BOOL force, BOOL preload);
+	void Free(ContentStoreItor &itor, bool force, bool preload);
 	
 	virtual ContentStoreItor FindContent(const stl::string &file, const ContentParam *params);
 	virtual T* LoadContent(const stl::string &file, const ContentParam *params) = 0;
@@ -70,7 +70,7 @@ ContentLoaderMapStoreBase<T>::~ContentLoaderMapStoreBase()
 }
 
 template<class T>
-T* ContentLoaderMapStoreBase<T>::Get(const stl::string &name, const ContentParam *params, BOOL preload)
+T* ContentLoaderMapStoreBase<T>::Get(const stl::string &name, const ContentParam *params, bool preload)
 {
 	ContentContainer<T> content;
 	
@@ -106,7 +106,7 @@ T* ContentLoaderMapStoreBase<T>::Get(const stl::string &name, const ContentParam
 }
 
 template<class T>
-void ContentLoaderMapStoreBase<T>::Free(T *content, BOOL preload)
+void ContentLoaderMapStoreBase<T>::Free(T *content, bool preload)
 {
 	ASSERT(content != NULL);
 	
@@ -114,27 +114,27 @@ void ContentLoaderMapStoreBase<T>::Free(T *content, BOOL preload)
 	{
 		if (itor->second.content == content)
 		{
-			Free(itor, FALSE, preload);
+			Free(itor, false, preload);
 			break;
 		}
 	}
 }
 
 template<class T>
-void ContentLoaderMapStoreBase<T>::Free(const stl::string &name, const ContentParam *params, BOOL preload)
+void ContentLoaderMapStoreBase<T>::Free(const stl::string &name, const ContentParam *params, bool preload)
 {
 	stl::string filename = AddDefaultPathIfNeeded(name);
 	filename = ProcessFilename(filename, params);
 	
 	ContentStoreItor itor = FindContent(filename, params);
 	if (itor != m_content.end())
-		Free(itor, FALSE, preload);
+		Free(itor, false, preload);
 }
 
 template<class T>
-void ContentLoaderMapStoreBase<T>::Free(ContentStoreItor &itor, BOOL force, BOOL preload)
+void ContentLoaderMapStoreBase<T>::Free(ContentStoreItor &itor, bool force, bool preload)
 {
-	ASSERT(itor->second.content->WasLoadedByContentLoader() == TRUE);
+	ASSERT(itor->second.content->WasLoadedByContentLoader() == true);
 	
 	if (!itor->second.isPreLoaded)
 		ContentLoaderBase::ReleaseReference(itor->second.content);
@@ -181,7 +181,7 @@ void ContentLoaderMapStoreBase<T>::RemoveAllContent()
 				 itor->second.content->GetNumReferences(), 
 				 (itor->second.isPreLoaded ? ", preloaded" : "")
 				 );
-		Free(itor, TRUE, itor->second.isPreLoaded);
+		Free(itor, true, itor->second.isPreLoaded);
 	}
 	
 	m_content.clear();

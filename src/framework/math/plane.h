@@ -80,7 +80,7 @@ struct Plane
 	 * @return true if the direction is pointing towards the front side of the 
 	 *         plane
 	 */
-	static BOOL IsFrontFacingTo(const Plane &plane, const Vector3 &direction);
+	static bool IsFrontFacingTo(const Plane &plane, const Vector3 &direction);
 
 	/**
 	 * Normalize a plane.
@@ -150,7 +150,7 @@ inline float Plane::DistanceBetween(const Plane &plane, const Vector3 &point)
 	return Vector3::Dot(point, plane.normal) + plane.d;
 }
 
-inline BOOL Plane::IsFrontFacingTo(const Plane &plane, const Vector3 &direction)
+inline bool Plane::IsFrontFacingTo(const Plane &plane, const Vector3 &direction)
 {
 	if (Vector3::Dot(plane.normal, direction) <= 0.0f)
 		return true;

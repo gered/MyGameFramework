@@ -7,7 +7,7 @@
 void ContentLoaderBase::MarkLoadedByContentLoader(Content *content)
 {
 	ASSERT(content != NULL);
-	content->m_wasLoadedByContentLoader = TRUE;
+	content->m_wasLoadedByContentLoader = true;
 }
 
 void ContentLoaderBase::Reference(Content *content)

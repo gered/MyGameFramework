@@ -14,7 +14,7 @@ MarmaladeTouchPointer::MarmaladeTouchPointer()
 	m_y = 0;
 	m_deltaX = 0;
 	m_deltaY = 0;
-	m_isTouching = FALSE;
+	m_isTouching = false;
 }
 
 MarmaladeTouchPointer::~MarmaladeTouchPointer()
@@ -27,51 +27,51 @@ void MarmaladeTouchPointer::ResetDeltas()
 	m_deltaY = 0;
 }
 
-BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const
+bool MarmaladeTouchPointer::IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const
 {
 	if (m_isTouching && m_x >= left && m_y >= top && m_x <= right && m_y <= bottom)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Rect &area) const
+bool MarmaladeTouchPointer::IsTouchingWithinArea(const Rect &area) const
 {
 	if (m_isTouching && m_x >= area.left && m_y >= area.top && m_x <= area.right && m_y <= area.bottom)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL MarmaladeTouchPointer::IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const
+bool MarmaladeTouchPointer::IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const
 {
 	if (m_isTouching)
 	{
 		uint squaredDistance = ((centerX - m_x) * (centerX - m_x)) + ((centerY - m_y) * (centerY - m_y));
 		uint squaredRadius = radius * radius;
 		if (squaredDistance <= squaredRadius)
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-BOOL MarmaladeTouchPointer::IsTouchingWithinArea(const Circle &area) const
+bool MarmaladeTouchPointer::IsTouchingWithinArea(const Circle &area) const
 {
 	if (m_isTouching)
 	{
 		uint squaredDistance = ((area.x - m_x) * (area.x - m_x)) + ((area.y - m_y) * (area.y - m_y));
 		uint squaredRadius = area.radius * area.radius;
 		if (squaredDistance <= squaredRadius)
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void MarmaladeTouchPointer::OnDown(int id, uint x, uint y)
 {
-	m_isTouching = TRUE;
+	m_isTouching = true;
 	m_x = x;
 	m_y = y;
 	m_deltaX = 0;
@@ -97,10 +97,10 @@ void MarmaladeTouchPointer::OnUp()
 	m_y = 0;
 	m_deltaX = 0;
 	m_deltaY = 0;
-	m_isTouching = FALSE;
+	m_isTouching = false;
 }
 
-MarmaladeTouchscreen::MarmaladeTouchscreen(MarmaladeSystem *system, BOOL isMultitouchAvailable)
+MarmaladeTouchscreen::MarmaladeTouchscreen(MarmaladeSystem *system, bool isMultitouchAvailable)
 {
 	m_system = system;
 
@@ -135,22 +135,22 @@ void MarmaladeTouchscreen::ResetViewBounds(const Rect &viewBounds)
 	m_viewBounds = viewBounds;
 }
 
-BOOL MarmaladeTouchscreen::OnSingleTouchTapEvent(const s3ePointerEvent *eventArgs)
+bool MarmaladeTouchscreen::OnSingleTouchTapEvent(const s3ePointerEvent *eventArgs)
 {
 	ASSERT(m_maxTouchPoints == 1);
-	return FALSE;
+	return false;
 }
 
-BOOL MarmaladeTouchscreen::OnSingleTouchMotionEvent(const s3ePointerMotionEvent *eventArgs)
+bool MarmaladeTouchscreen::OnSingleTouchMotionEvent(const s3ePointerMotionEvent *eventArgs)
 {
 	ASSERT(m_maxTouchPoints == 1);
-	return FALSE;
+	return false;
 }
 
-BOOL MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *eventArgs)
+bool MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *eventArgs)
 {
 	ASSERT(m_maxTouchPoints > 1);
-	BOOL isDown = (BOOL)eventArgs->m_Pressed;
+	bool isDown = (bool)eventArgs->m_Pressed;
 	if (isDown)
 	{
 		// this should only happen for new touch points?
@@ -163,11 +163,11 @@ BOOL MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *even
 
 			// if no other touch points are currently down, then this one is to be
 			// considered the primary one
-			BOOL isPrimary = FALSE;
+			bool isPrimary = false;
 			if (m_currentTouchPoints == 0)
 			{
 				m_primaryPointer = pointer;
-				isPrimary = TRUE;
+				isPrimary = true;
 			}
 
 			++m_currentTouchPoints;
@@ -193,11 +193,11 @@ BOOL MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *even
 
 			// if this pointer was the primary one, we need to switch the primary
 			// to one of the other currently down pointers
-			BOOL wasPrimary = FALSE;
+			bool wasPrimary = false;
 			if (m_primaryPointer == pointer)
 			{
 				m_primaryPointer = GetNextDownPointer();
-				wasPrimary = TRUE;
+				wasPrimary = true;
 			}
 
 			--m_currentTouchPoints;
@@ -216,10 +216,10 @@ BOOL MarmaladeTouchscreen::OnMultiTouchTapEvent(const s3ePointerTouchEvent *even
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeTouchscreen::OnMultiTouchMotionEvent(const s3ePointerTouchMotionEvent *eventArgs)
+bool MarmaladeTouchscreen::OnMultiTouchMotionEvent(const s3ePointerTouchMotionEvent *eventArgs)
 {
 	ASSERT(m_maxTouchPoints > 1);
 	MarmaladeTouchPointer *pointer = GetPointerById_internal(eventArgs->m_TouchID);
@@ -229,9 +229,9 @@ BOOL MarmaladeTouchscreen::OnMultiTouchMotionEvent(const s3ePointerTouchMotionEv
 		uint y = Clamp(eventArgs->m_y, m_viewBounds.top, m_viewBounds.bottom) - m_viewBounds.top;
 		pointer->OnMove(eventArgs->m_TouchID, x, y);
 		
-		BOOL isPrimary = FALSE;
+		bool isPrimary = false;
 		if (m_primaryPointer == pointer)
-			isPrimary = TRUE;
+			isPrimary = true;
 
 		for (stl::set<TouchscreenListener*>::iterator i = m_listeners.begin(); i != m_listeners.end(); ++i)
 		{
@@ -246,22 +246,22 @@ BOOL MarmaladeTouchscreen::OnMultiTouchMotionEvent(const s3ePointerTouchMotionEv
 		LOG_WARN("TOUCHSCREEN", "Received s3ePointerTouchMotionEvent, m_TouchID=%d which is not currently in m_pointers.\n", eventArgs->m_TouchID);
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeTouchscreen::WasTapped()
+bool MarmaladeTouchscreen::WasTapped()
 {
 	if (m_isTouching && !m_isLocked)
 	{
-		m_isLocked = TRUE;
+		m_isLocked = true;
 	}
 	else if (!m_isTouching && m_isLocked)
 	{
-		m_isLocked = FALSE;
-		return TRUE;
+		m_isLocked = false;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 const TouchPointer* MarmaladeTouchscreen::GetPointerById(int id) const
@@ -325,15 +325,15 @@ void MarmaladeTouchscreen::Reset()
 	MarmaladeTouchPointer *oldPrimaryPointer = m_primaryPointer;
 
 	m_primaryPointer = &m_pointers[0];
-	m_isTouching = FALSE;
-	m_isLocked = FALSE;
+	m_isTouching = false;
+	m_isLocked = false;
 	m_currentTouchPoints = 0;
 	
 	for (uint i = 0; i < m_maxTouchPoints; ++i)
 	{
-		BOOL isPrimary = FALSE;
+		bool isPrimary = false;
 		if (oldPrimaryPointer == &m_pointers[i])
-			isPrimary = TRUE;
+			isPrimary = true;
 		int id = m_pointers[i].GetId();
 		
 		m_pointers[i].OnUp();

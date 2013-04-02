@@ -16,8 +16,8 @@ public:
 	ViewContext();
 	virtual ~ViewContext();
 	
-	BOOL Create(GraphicsDevice *graphicsDevice);
-	BOOL Create(GraphicsDevice *graphicsDevice, const Rect &fixedViewportSize);
+	bool Create(GraphicsDevice *graphicsDevice);
+	bool Create(GraphicsDevice *graphicsDevice, const Rect &fixedViewportSize);
 	void Release();
 	
 	void OnNewContext();
@@ -47,8 +47,8 @@ public:
 	uint GetViewportWidth() const                          { return (uint)m_viewport.GetWidth(); }
 	uint GetViewportHeight() const                         { return (uint)m_viewport.GetHeight(); }
 
-	BOOL IsViewportFixedSize() const                       { return m_viewportIsFixedSize; }
-	BOOL IgnoringScreenRotation() const                    { return m_viewportIsFixedSize; }
+	bool IsViewportFixedSize() const                       { return m_viewportIsFixedSize; }
+	bool IgnoringScreenRotation() const                    { return m_viewportIsFixedSize; }
 	
 private:
 	void SetupViewport(const Rect &size, SCREEN_ORIENTATION_ANGLE screenOrientation);
@@ -56,11 +56,11 @@ private:
 	GraphicsDevice *m_graphicsDevice;
 	
 	Rect m_viewport;
-	BOOL m_viewportIsFixedSize;
+	bool m_viewportIsFixedSize;
 	SCREEN_ORIENTATION_ANGLE m_screenOrientation;
 	
 	Camera *m_camera;
-	BOOL m_usingDefaultCamera;
+	bool m_usingDefaultCamera;
 	
 	MatrixStack m_modelviewStack;
 	MatrixStack m_projectionStack;

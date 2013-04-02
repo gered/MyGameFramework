@@ -14,7 +14,7 @@ public:
 	SimpleColorShader();
 	virtual ~SimpleColorShader();
 	
-	BOOL Initialize(GraphicsDevice *graphicsDevice);
+	bool Initialize(GraphicsDevice *graphicsDevice);
 
 private:
 	static const char *m_vertexShaderSource;

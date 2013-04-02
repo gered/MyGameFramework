@@ -25,7 +25,7 @@ public:
 	virtual void OnResize()                                {}
 	virtual void OnUpdate(float delta)                     {}
 
-	virtual BOOL Handle(const Event *event);
+	virtual bool Handle(const Event *event);
 
 protected:
 	ComponentSystem(EntityManager *entityManager, EventManager *eventManager);
@@ -46,9 +46,9 @@ inline ComponentSystem::~ComponentSystem()
 {
 }
 
-inline BOOL ComponentSystem::Handle(const Event *event)
+inline bool ComponentSystem::Handle(const Event *event)
 {
-	return FALSE;
+	return false;
 }
 
 #endif

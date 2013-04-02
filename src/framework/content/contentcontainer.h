@@ -7,7 +7,7 @@ template <class T>
 struct ContentContainer
 {
 	T *content;
-	BOOL isPreLoaded;
+	bool isPreLoaded;
 	
 	ContentContainer();
 };
@@ -16,7 +16,7 @@ template<class T>
 inline ContentContainer<T>::ContentContainer()
 {
 	content = NULL;
-	isPreLoaded = FALSE;
+	isPreLoaded = false;
 }
 
 #endif

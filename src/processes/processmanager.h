@@ -25,10 +25,10 @@ public:
 	template<class T> void RemoveFirst();
 	void RemoveAll();
 	
-	BOOL HasProcess(const stl::string &name) const;
+	bool HasProcess(const stl::string &name) const;
 
-	void OnPause(BOOL dueToOverlay);
-	void OnResume(BOOL fromOverlay);
+	void OnPause(bool dueToOverlay);
+	void OnResume(bool fromOverlay);
 	void OnAppGainFocus();
 	void OnAppLostFocus();
 	void OnAppPause();
@@ -39,13 +39,13 @@ public:
 	void OnResize();
 	void OnUpdate(float delta);
 
-	BOOL IsTransitioning() const;
-	BOOL IsEmpty() const;
-	BOOL IsTransitioning(const GameProcess *process) const;
+	bool IsTransitioning() const;
+	bool IsEmpty() const;
+	bool IsTransitioning(const GameProcess *process) const;
 
 private:
 	void Queue(ProcessInfo *newProcessInfo);
-	void StartTransitionOut(ProcessInfoList::iterator itor, BOOL forRemoval);
+	void StartTransitionOut(ProcessInfoList::iterator itor, bool forRemoval);
 
 	ProcessInfoList::iterator GetProcessItorFor(const stl::string &name);
 	ProcessInfoList::iterator GetProcessItorForFirstOf(GAMEPROCESS_TYPE processType);
@@ -80,15 +80,15 @@ template<class T>
 void ProcessManager::RemoveFirst()
 {
 	ProcessInfoList::iterator itor = GetProcessItorForFirstOf(T::GetType());
-	StartTransitionOut(itor, TRUE);
+	StartTransitionOut(itor, true);
 }
 
-inline BOOL ProcessManager::IsEmpty() const
+inline bool ProcessManager::IsEmpty() const
 {
 	return (m_processes.empty() && m_queue.empty());
 }
 
-inline BOOL ProcessManager::IsTransitioning(const GameProcess *process) const
+inline bool ProcessManager::IsTransitioning(const GameProcess *process) const
 {
 	return GetProcessInfoFor(process)->isTransitioning;
 }

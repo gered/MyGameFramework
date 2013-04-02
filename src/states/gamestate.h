@@ -24,8 +24,8 @@ public:
 
 	virtual void OnPush();
 	virtual void OnPop();
-	virtual void OnPause(BOOL dueToOverlay);
-	virtual void OnResume(BOOL fromOverlay);
+	virtual void OnPause(bool dueToOverlay);
+	virtual void OnResume(bool fromOverlay);
 	virtual void OnAppGainFocus();
 	virtual void OnAppLostFocus();
 	virtual void OnAppPause();
@@ -35,18 +35,18 @@ public:
 	virtual void OnRender(RenderContext *renderContext);
 	virtual void OnResize();
 	virtual void OnUpdate(float delta);
-	virtual BOOL OnTransition(float delta, BOOL isTransitioningOut, BOOL started);
+	virtual bool OnTransition(float delta, bool isTransitioningOut, bool started);
 
-	virtual BOOL Handle(const Event *event);
+	virtual bool Handle(const Event *event);
 
 	GameApp* GetGameApp() const                                                 { return m_gameApp; }
 	ProcessManager* GetProcessManager() const                                   { return m_processManager; }
 	EffectManager* GetEffectManager() const                                     { return m_effectManager; }
 
-	BOOL IsTransitioning() const;
-	BOOL IsTopState() const;
-	BOOL IsFinished() const                                                     { return m_isFinished; }
-	BOOL HasReturnValue() const                                                 { return m_hasReturnValue; }
+	bool IsTransitioning() const;
+	bool IsTopState() const;
+	bool IsFinished() const                                                     { return m_isFinished; }
+	bool HasReturnValue() const                                                 { return m_hasReturnValue; }
 	int GetReturnValue() const                                                  { return m_returnValue; }
 
 protected:
@@ -60,9 +60,9 @@ private:
 	StateManager *m_stateManager;
 	ProcessManager *m_processManager;
 	EffectManager *m_effectManager;
-	BOOL m_isFinished;
+	bool m_isFinished;
 	int m_returnValue;
-	BOOL m_hasReturnValue;
+	bool m_hasReturnValue;
 };
 
 #endif

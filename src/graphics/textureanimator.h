@@ -22,11 +22,11 @@ public:
 
 	void ResetAll();
 
-	void AddTileSequence(TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop = TRUE);
-	void AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop = TRUE);
+	void AddTileSequence(TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, bool loop = true);
+	void AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, bool loop = true);
 	void ResetTileSequence(const stl::string &name);
-	void StopTileSequence(const stl::string &name, BOOL restoreOriginalTile = FALSE);
-	void EnableTileSequence(const stl::string &name, BOOL enable);
+	void StopTileSequence(const stl::string &name, bool restoreOriginalTile = false);
+	void EnableTileSequence(const stl::string &name, bool enable);
 
 	void OnUpdate(float delta);
 	void OnNewContext();

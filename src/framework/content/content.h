@@ -23,19 +23,19 @@ public:
 	virtual ~Content();
 	
 	/**
-	 * @return TRUE if this content object was created by a ContentLoader
+	 * @return true if this content object was created by a ContentLoader
 	 */
-	BOOL WasLoadedByContentLoader() const                  { return m_wasLoadedByContentLoader; }
+	bool WasLoadedByContentLoader() const                  { return m_wasLoadedByContentLoader; }
 
 	/**
-	 * @return TRUE if something else is currently referencing this content
+	 * @return true if something else is currently referencing this content
 	 */
-	BOOL IsReferenced() const                              { return m_referenceCount > 0; }
+	bool IsReferenced() const                              { return m_referenceCount > 0; }
 
 	/**
-	 * @return TRUE if this content is currently being reference counted
+	 * @return true if this content is currently being reference counted
 	 */
-	BOOL IsReferenceCounted() const                        { return m_isReferenceCounted; }
+	bool IsReferenceCounted() const                        { return m_isReferenceCounted; }
 
 	/**
 	 * @return the number of references currently being held for this content
@@ -53,8 +53,8 @@ private:
 	 */
 	void ReleaseReference();	
 
-	BOOL m_wasLoadedByContentLoader;
-	BOOL m_isReferenceCounted;
+	bool m_wasLoadedByContentLoader;
+	bool m_isReferenceCounted;
 	uint m_referenceCount;
 };
 

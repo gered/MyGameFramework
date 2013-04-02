@@ -23,17 +23,17 @@ public:
 	EventManager();
 	virtual ~EventManager();
 
-	template<class T> BOOL AddListener(EventListener *listener);
-	template<class T> BOOL RemoveListener(EventListener *listener);
-	BOOL AddListener(EventListener *listener, EVENT_TYPE type);
-	BOOL RemoveListener(EventListener *listener, EVENT_TYPE type);
+	template<class T> bool AddListener(EventListener *listener);
+	template<class T> bool RemoveListener(EventListener *listener);
+	bool AddListener(EventListener *listener, EVENT_TYPE type);
+	bool RemoveListener(EventListener *listener, EVENT_TYPE type);
 
-	BOOL Trigger(const Event *event) const;
-	BOOL Queue(const Event *event);
-	template<class T> BOOL Abort(BOOL allOfType = FALSE);
-	BOOL Abort(EVENT_TYPE type, BOOL allOfType = FALSE);
+	bool Trigger(const Event *event) const;
+	bool Queue(const Event *event);
+	template<class T> bool Abort(bool allOfType = false);
+	bool Abort(EVENT_TYPE type, bool allOfType = false);
 
-	BOOL ProcessQueue();
+	bool ProcessQueue();
 
 	template<class T> EventListenerList GetListenerList() const;
 	EventListenerList GetListenerList(EVENT_TYPE type) const;
@@ -41,11 +41,11 @@ public:
 
 private:
 	typedef stl::set<EVENT_TYPE> EventTypeSet;
-	typedef stl::pair<EventTypeSet::iterator, BOOL> EventTypeSetIRes;
+	typedef stl::pair<EventTypeSet::iterator, bool> EventTypeSetIRes;
 	typedef stl::list<EventListener*> EventListenerTable;
 	typedef stl::map<EVENT_TYPE, EventListenerTable> EventListenerMap;
 	typedef stl::pair<EVENT_TYPE, EventListenerTable> EventListenerMapEnt;
-	typedef stl::pair<EventListenerMap::iterator, BOOL> EventListenerMapIRes;
+	typedef stl::pair<EventListenerMap::iterator, bool> EventListenerMapIRes;
 	typedef stl::list<const Event*> EventQueue;
 
 	EventTypeSet m_typeList;
@@ -55,19 +55,19 @@ private:
 };
 
 template<class T>
-BOOL EventManager::AddListener(EventListener *listener)
+bool EventManager::AddListener(EventListener *listener)
 {
 	return AddListener(listener, T::GetType());
 }
 
 template<class T>
-BOOL EventManager::RemoveListener(EventListener *listener)
+bool EventManager::RemoveListener(EventListener *listener)
 {
 	return RemoveListener(listener, T::GetType());
 }
 
 template<class T>
-BOOL EventManager::Abort(BOOL allOfType)
+bool EventManager::Abort(bool allOfType)
 {
 	return Abort(T::GetType(), allOfType);
 }

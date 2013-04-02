@@ -11,9 +11,9 @@ const Color DEFAULT_FADE_COLOR = COLOR_BLACK;
 
 FadeEffect::FadeEffect()
 {
-	m_doneFading = FALSE;
+	m_doneFading = false;
 	m_fadeSpeed = DEFAULT_FADE_SPEED;
-	m_fadingOut = TRUE;
+	m_fadingOut = true;
 	m_alpha = 0.0f;
 	m_color = DEFAULT_FADE_COLOR;
 	m_fadeToAlpha = 0.0f;
@@ -48,7 +48,7 @@ void FadeEffect::OnUpdate(float delta)
 		if (m_alpha >= m_fadeToAlpha)
 		{
 			m_alpha = m_fadeToAlpha;
-			m_doneFading = TRUE;
+			m_doneFading = true;
 		}
 	}
 	else
@@ -57,7 +57,7 @@ void FadeEffect::OnUpdate(float delta)
 		if (m_alpha < m_fadeToAlpha)
 		{
 			m_alpha = m_fadeToAlpha;
-			m_doneFading = TRUE;
+			m_doneFading = true;
 		}
 	}
 }

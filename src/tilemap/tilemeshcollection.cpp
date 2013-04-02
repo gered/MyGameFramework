@@ -29,12 +29,12 @@ TileMeshCollection::~TileMeshCollection()
 	}
 }
 
-uint TileMeshCollection::Add(const StaticMesh *mesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color)
+uint TileMeshCollection::Add(const StaticMesh *mesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color)
 {
 	return Add(mesh, (StaticMesh*)NULL, textureIndex, opaqueSides, lightValue, alpha, translucency, color);
 }
 
-uint TileMeshCollection::Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color)
+uint TileMeshCollection::Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color)
 {
 	StaticTileMesh *tileMesh = new StaticTileMesh(mesh, &m_textureAtlas->GetTile(textureIndex).texCoords, opaqueSides, lightValue, alpha, translucency, color, collisionMesh);
 	ASSERT(tileMesh != NULL);
@@ -42,12 +42,12 @@ uint TileMeshCollection::Add(const StaticMesh *mesh, const StaticMesh *collision
 	return AddMesh(tileMesh);
 }
 
-uint TileMeshCollection::Add(const StaticMesh *mesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color)
+uint TileMeshCollection::Add(const StaticMesh *mesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color)
 {
 	return Add(mesh, (StaticMesh*)NULL, textureIndexes, numIndexes, opaqueSides, lightValue, alpha, translucency, color);
 }
 
-uint TileMeshCollection::Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color)
+uint TileMeshCollection::Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color)
 {
 	ASSERT(numIndexes > 0);
 	RectF *tileBoundaries = new RectF[numIndexes];
@@ -64,7 +64,7 @@ uint TileMeshCollection::Add(const StaticMesh *mesh, const StaticMesh *collision
 	return AddMesh(tileMesh);
 }
 
-uint TileMeshCollection::AddCube(uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color)
+uint TileMeshCollection::AddCube(uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color)
 {
 	CubeTileMesh *tileMesh = new CubeTileMesh(SIDE_ALL, &m_textureAtlas->GetTile(textureIndex).texCoords, opaqueSides, lightValue, alpha, translucency, color);
 	ASSERT(tileMesh != NULL);

@@ -16,12 +16,12 @@ StandardShader::~StandardShader()
 {
 }
 
-BOOL StandardShader::LoadCompileAndLinkInlineSources(const char *inlineVertexShaderSource, const char *inlineFragmentShaderSource)
+bool StandardShader::LoadCompileAndLinkInlineSources(const char *inlineVertexShaderSource, const char *inlineFragmentShaderSource)
 {
 	ASSERT(inlineVertexShaderSource != NULL);
 	ASSERT(inlineFragmentShaderSource != NULL);
 
-	BOOL result = LoadCompileAndLink(inlineVertexShaderSource, inlineFragmentShaderSource);
+	bool result = LoadCompileAndLink(inlineVertexShaderSource, inlineFragmentShaderSource);
 	if (result)
 	{
 		// keep the pointers around to the inline sources for easy reloading later
@@ -35,13 +35,13 @@ BOOL StandardShader::LoadCompileAndLinkInlineSources(const char *inlineVertexSha
 
 void StandardShader::SetModelViewMatrix(const Matrix4x4 &matrix)
 {
-	ASSERT(IsReadyForUse() == TRUE);
+	ASSERT(IsReadyForUse() == true);
 	SetUniform(m_modelViewMatrixUniform, matrix);
 }
 
 void StandardShader::SetProjectionMatrix(const Matrix4x4 &matrix)
 {
-	ASSERT(IsReadyForUse() == TRUE);
+	ASSERT(IsReadyForUse() == true);
 	SetUniform(m_projectionMatrixUniform, matrix);
 }
 

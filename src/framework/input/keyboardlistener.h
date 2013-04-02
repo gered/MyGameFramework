@@ -13,18 +13,18 @@ public:
 	/**
 	 * Callback for when a key is down (pressed).
 	 * @param key the key that the event is for
-	 * @return TRUE if no further listener callbacks of this kind should
+	 * @return true if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnKeyDown(KEYS key) = 0;
+	virtual bool OnKeyDown(KEYS key) = 0;
 
 	/**
 	 * Callback for when a key is up (released).
 	 * @param key the key that the event is for
-	 * @return TRUE if no further listener callbacks of this kind should
+	 * @return true if no further listener callbacks of this kind should
 	 *              be invoked until the next event occurs
 	 */
-	virtual BOOL OnKeyUp(KEYS key) = 0;
+	virtual bool OnKeyUp(KEYS key) = 0;
 };
 
 #endif

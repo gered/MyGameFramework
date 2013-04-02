@@ -18,12 +18,12 @@ public:
 
 	void ResetDeltas();
 
-	BOOL OnButtonEvent(const SDL_MouseButtonEvent *eventArgs);
-	BOOL OnMotionEvent(const SDL_MouseMotionEvent *eventArgs);
+	bool OnButtonEvent(const SDL_MouseButtonEvent *eventArgs);
+	bool OnMotionEvent(const SDL_MouseMotionEvent *eventArgs);
 
-	BOOL IsDown(MOUSE_BUTTONS button)                      { return m_buttons[button] && !m_lockedButtons[button]; }
-	BOOL IsPressed(MOUSE_BUTTONS button);
-	void Lock(MOUSE_BUTTONS button)                        { m_lockedButtons[button] = TRUE; }
+	bool IsDown(MOUSE_BUTTONS button)                      { return m_buttons[button] && !m_lockedButtons[button]; }
+	bool IsPressed(MOUSE_BUTTONS button);
+	void Lock(MOUSE_BUTTONS button)                        { m_lockedButtons[button] = true; }
 
 	uint GetX() const                                      { return m_x; }
 	uint GetY() const                                      { return m_y; }
@@ -39,8 +39,8 @@ private:
 	stl::set<MouseListener*> m_listeners;
 	SDLSystem *m_system;
 	
-	BOOL *m_buttons;
-	BOOL *m_lockedButtons;
+	bool *m_buttons;
+	bool *m_lockedButtons;
 
 	uint m_x;
 	uint m_y;

@@ -19,25 +19,25 @@ SkeletalMeshInstance::SkeletalMeshInstance(SkeletalMesh *mesh)
 
 	m_numSubsets = m_mesh->GetNumSubsets();
 	
-	m_enabledSubsets = new BOOL[m_numSubsets];
+	m_enabledSubsets = new bool[m_numSubsets];
 	m_textures = new Texture*[m_numSubsets];
 	
 	for (uint i = 0; i < m_numSubsets; ++i)
 	{
-		m_enabledSubsets[i] = TRUE;
+		m_enabledSubsets[i] = true;
 		m_textures[i] = NULL;
 	}
 
 	m_renderState = new RENDERSTATE_DEFAULT;
 	m_blendState = new BLENDSTATE_DEFAULT;
 	m_alphaBlendState = new BLENDSTATE_ALPHABLEND;
-	m_renderAllSubsetsAlphaBlended = FALSE;
+	m_renderAllSubsetsAlphaBlended = false;
 	
 	m_numJoints = mesh->GetNumJoints();
 	m_jointTransformations = new Matrix4x4[m_numJoints];
 	m_jointPositions = new Vector3[m_numJoints];
 	m_jointRotations = new Quaternion[m_numJoints];
-	m_rootJointHasFixedTransform = FALSE;
+	m_rootJointHasFixedTransform = false;
 }
 
 SkeletalMeshInstance::~SkeletalMeshInstance()
@@ -68,14 +68,14 @@ const Matrix4x4* SkeletalMeshInstance::GetJointTransformation(const stl::string 
 void SkeletalMeshInstance::SetFixedRootJointTransformation(const Matrix4x4 &transform)
 {
 	ASSERT(GetMesh()->GetRootJointIndex() != NO_JOINT);
-	m_rootJointHasFixedTransform = TRUE;
+	m_rootJointHasFixedTransform = true;
 	m_jointTransformations[GetMesh()->GetRootJointIndex()] = transform;
 }
 
 void SkeletalMeshInstance::ClearFixedRootJointTransformation()
 {
 	ASSERT(GetMesh()->GetRootJointIndex() != NO_JOINT);
-	m_rootJointHasFixedTransform = FALSE;
+	m_rootJointHasFixedTransform = false;
 }
 
 void SkeletalMeshInstance::CalculateJointTransformations(uint frame)
@@ -163,7 +163,7 @@ void SkeletalMeshInstance::BreakDownJointTransformationMatrix(uint jointMatrixIn
 	m_jointRotations[jointMatrixIndex] = Quaternion::CreateFromRotationMatrix(*jointMatrix);
 }
 
-void SkeletalMeshInstance::EnableSubset(const stl::string &subset, BOOL enable)
+void SkeletalMeshInstance::EnableSubset(const stl::string &subset, bool enable)
 {
 	int index = m_mesh->GetIndexOfSubset(subset);
 	ASSERT(index != -1);

@@ -65,15 +65,15 @@ Entity* EntityManager::AddUsingPreset(ENTITYPRESET_TYPE preset, EntityPresetArgs
 	return entity;
 }
 
-BOOL EntityManager::WasCreatedUsingPreset(const Entity *entity, ENTITYPRESET_TYPE type) const
+bool EntityManager::WasCreatedUsingPreset(const Entity *entity, ENTITYPRESET_TYPE type) const
 {
 	ASSERT(entity != NULL);
 	ASSERT(type != NULL);
 	EntityPresetComponent *preset = entity->Get<EntityPresetComponent>();
 	if (preset != NULL && preset->preset == type)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 void EntityManager::Remove(Entity *entity)
@@ -118,17 +118,17 @@ void EntityManager::RemoveAllComponentsFrom(Entity *entity)
 	}
 }
 
-BOOL EntityManager::IsValid(const Entity *entity) const
+bool EntityManager::IsValid(const Entity *entity) const
 {
 	if (entity == NULL)
-		return FALSE;
+		return false;
 	
 	// HACK: lol, this cast is aboslutely terrible and I shouldn't be doing this
 	EntitySet::const_iterator i = m_entities.find((Entity*)entity);
 	if (i == m_entities.end())
-		return FALSE;
+		return false;
 	else
-		return TRUE;
+		return true;
 }
 
 void EntityManager::GetAllComponentsFor(const Entity *entity, ComponentList &list) const

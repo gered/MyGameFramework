@@ -18,12 +18,12 @@ KeyframeMeshInstance::KeyframeMeshInstance(KeyframeMesh *mesh)
 
 	m_currentSequenceStart = 0;
 	m_currentSequenceEnd = 0;
-	m_currentSequenceLoop = FALSE;
+	m_currentSequenceLoop = false;
 	m_thisFrame = 0;
 	m_nextFrame = 0;
 	m_interpolation = 0.0f;
-	m_isRunningTempSequence = FALSE;
-	m_oldSequenceLoop = FALSE;
+	m_isRunningTempSequence = false;
+	m_oldSequenceLoop = false;
 }
 
 KeyframeMeshInstance::~KeyframeMeshInstance()
@@ -71,7 +71,7 @@ void KeyframeMeshInstance::OnUpdate(float delta)
 	}
 }
 
-void KeyframeMeshInstance::SetSequence(uint startFrame, uint endFrame, BOOL loop)
+void KeyframeMeshInstance::SetSequence(uint startFrame, uint endFrame, bool loop)
 {
 	m_currentSequenceName.clear();
 	m_currentSequenceStart = startFrame;
@@ -86,7 +86,7 @@ void KeyframeMeshInstance::SetSequence(uint startFrame, uint endFrame, BOOL loop
 	m_interpolation = 0.0f;
 }
 
-void KeyframeMeshInstance::SetSequence(const stl::string &name, BOOL loop)
+void KeyframeMeshInstance::SetSequence(const stl::string &name, bool loop)
 {
 	if (m_currentSequenceName == name)
 		return;
@@ -105,14 +105,14 @@ void KeyframeMeshInstance::RunSequenceOnce(const stl::string &name)
 	m_oldSequenceName = m_currentSequenceName;
 	m_oldSequenceLoop = m_currentSequenceLoop;
 
-	m_isRunningTempSequence = TRUE;
+	m_isRunningTempSequence = true;
 
-	SetSequence(name, FALSE);
+	SetSequence(name, false);
 }
 
 void KeyframeMeshInstance::RecoverFromTempSequence()
 {
-	m_isRunningTempSequence = FALSE;
+	m_isRunningTempSequence = false;
 	SetSequence(m_oldSequenceName, m_oldSequenceLoop);
 	m_oldSequenceName.clear();
 	m_oldSequenceLoop = false;

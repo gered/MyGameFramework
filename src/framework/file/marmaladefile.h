@@ -13,12 +13,12 @@ public:
 	MarmaladeFile();
 	virtual ~MarmaladeFile();
 
-	BOOL Open(const stl::string &filename, int mode);
+	bool Open(const stl::string &filename, int mode);
 	void Close();
 
-	BOOL IsOpen() const                                    { return m_fp != NULL; }
-	BOOL CanRead() const                                   { return m_canRead; }
-	BOOL CanWrite() const                                  { return m_canWrite; }
+	bool IsOpen() const                                    { return m_fp != NULL; }
+	bool CanRead() const                                   { return m_canRead; }
+	bool CanWrite() const                                  { return m_canWrite; }
 	FileType GetFileType() const                           { return FILETYPE_IO; }
 
 	int8_t ReadChar();
@@ -49,7 +49,7 @@ public:
 
 	size_t Tell();
 	void Seek(size_t offset, FileSeek from);
-	BOOL AtEOF();
+	bool AtEOF();
 	size_t GetFileSize();
 
 	const stl::string& GetFilename() const                 { return m_filename; }
@@ -57,8 +57,8 @@ public:
 private:
 	s3eFile *m_fp;
 	int m_mode;
-	BOOL m_canRead;
-	BOOL m_canWrite;
+	bool m_canRead;
+	bool m_canWrite;
 	stl::string m_filename;
 };
 

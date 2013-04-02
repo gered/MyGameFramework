@@ -3,12 +3,12 @@
 #include "keyboardlistener.h"
 #include <string.h>
 
-MarmaladeKeyboard::MarmaladeKeyboard(BOOL hasPhysicalKeysForGameControls)
+MarmaladeKeyboard::MarmaladeKeyboard(bool hasPhysicalKeysForGameControls)
 {
 	m_hasPhysicalKeysForGameControls = hasPhysicalKeysForGameControls;
 
-	m_keys = new BOOL[KSYM_LAST];
-	m_lockedKeys = new BOOL[KSYM_LAST];
+	m_keys = new bool[KSYM_LAST];
+	m_lockedKeys = new bool[KSYM_LAST];
 
 	Reset();
 }
@@ -19,10 +19,10 @@ MarmaladeKeyboard::~MarmaladeKeyboard()
 	SAFE_DELETE_ARRAY(m_lockedKeys);
 }
 
-BOOL MarmaladeKeyboard::OnKeyEvent(const s3eKeyboardEvent *eventArgs)
+bool MarmaladeKeyboard::OnKeyEvent(const s3eKeyboardEvent *eventArgs)
 {
 	int keyCode = (int)eventArgs->m_Key;
-	BOOL isDown = (BOOL)eventArgs->m_Pressed;
+	bool isDown = (bool)eventArgs->m_Pressed;
 
 	if (isDown)
 	{
@@ -49,34 +49,34 @@ BOOL MarmaladeKeyboard::OnKeyEvent(const s3eKeyboardEvent *eventArgs)
 			}
 		}
 
-		m_keys[keyCode] = FALSE;
-		m_lockedKeys[keyCode] = FALSE;
+		m_keys[keyCode] = false;
+		m_lockedKeys[keyCode] = false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeKeyboard::OnKeyCharEvent(const s3eKeyboardCharEvent *eventArgs)
+bool MarmaladeKeyboard::OnKeyCharEvent(const s3eKeyboardCharEvent *eventArgs)
 {
 	// TODO: implementation
-	return FALSE;
+	return false;
 }
 
-BOOL MarmaladeKeyboard::IsPressed(KEYS key)
+bool MarmaladeKeyboard::IsPressed(KEYS key)
 {
 	if (m_keys[key] && !m_lockedKeys[key])
 	{
-		m_lockedKeys[key] = TRUE;
-		return TRUE;
+		m_lockedKeys[key] = true;
+		return true;
 	}
 	else
-		return FALSE;
+		return false;
 }
 
 void MarmaladeKeyboard::Reset()
 {
-	memset(m_keys, FALSE, sizeof(BOOL) * KSYM_LAST);
-	memset(m_lockedKeys, FALSE, sizeof(BOOL) * KSYM_LAST);
+	memset(m_keys, false, sizeof(bool) * KSYM_LAST);
+	memset(m_lockedKeys, false, sizeof(bool) * KSYM_LAST);
 }
 
 void MarmaladeKeyboard::RegisterListener(KeyboardListener *listener)

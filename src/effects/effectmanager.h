@@ -21,7 +21,7 @@ public:
 	virtual ~EffectManager();
 
 	template<class T> T* Get() const;
-	template<class T> T* Add(BOOL isLocalEffect = TRUE);
+	template<class T> T* Add(bool isLocalEffect = true);
 	template<class T> void Remove();
 	void RemoveAll();
 
@@ -56,7 +56,7 @@ T* EffectManager::Get() const
 }
 
 template<class T>
-T* EffectManager::Add(BOOL isLocalEffect)
+T* EffectManager::Add(bool isLocalEffect)
 {
 	if (Get<T>() != NULL)
 		return NULL;

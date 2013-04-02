@@ -10,26 +10,26 @@ CustomVertexLerpShader::~CustomVertexLerpShader()
 {
 }
 
-BOOL CustomVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
+bool CustomVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	if (!VertexLerpShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetLerpUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
+	ASSERT(HasUniform(GetLerpUniform()) == true);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL CustomVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
+bool CustomVertexLerpShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
 	if (!VertexLerpShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetLerpUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
+	ASSERT(HasUniform(GetLerpUniform()) == true);
 	
-	return TRUE;
+	return true;
 }

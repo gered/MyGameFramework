@@ -44,11 +44,11 @@ const unsigned int MAX_GPU_ATTRIB_SLOTS = 8;
 
 GraphicsDevice::GraphicsDevice()
 {
-	m_hasNewContextRunYet = FALSE;
+	m_hasNewContextRunYet = false;
 	m_boundVertexBuffer = NULL;
 	m_boundIndexBuffer = NULL;
 	m_boundShader = NULL;
-	m_shaderVertexAttribsSet = FALSE;
+	m_shaderVertexAttribsSet = false;
 	m_boundTextures = NULL;
 	m_boundFramebuffer = NULL;
 	m_boundRenderbuffer = NULL;
@@ -64,22 +64,22 @@ GraphicsDevice::GraphicsDevice()
 	m_sprite2dShader = NULL;
 	m_sprite3dShader = NULL;
 	m_debugShader = NULL;
-	m_isDepthTextureSupported = FALSE;
-	m_isNonPowerOfTwoTextureSupported = FALSE;
+	m_isDepthTextureSupported = false;
+	m_isNonPowerOfTwoTextureSupported = false;
 	m_window = NULL;
 }
 
-BOOL GraphicsDevice::Initialize(GameWindow *window)
+bool GraphicsDevice::Initialize(GameWindow *window)
 {
 	ASSERT(m_window == NULL);
 	if (m_window != NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(window != NULL);
 	if (window == NULL)
-		return FALSE;
+		return false;
 	
-	m_hasNewContextRunYet = FALSE;
+	m_hasNewContextRunYet = false;
 	m_boundTextures = new const Texture*[MAX_BOUND_TEXTURES];
 	m_enabledVertexAttribIndices.reserve(MAX_GPU_ATTRIB_SLOTS);
 
@@ -106,7 +106,7 @@ BOOL GraphicsDevice::Initialize(GameWindow *window)
 	
 	m_solidColorTextures = new SolidColorTextureCache(this);
 	
-	return TRUE;
+	return true;
 }
 
 void GraphicsDevice::Release()
@@ -126,16 +126,16 @@ void GraphicsDevice::Release()
 	m_enabledVertexAttribIndices.clear();
 	m_managedResources.clear();
 	
-	m_hasNewContextRunYet = FALSE;
+	m_hasNewContextRunYet = false;
 	m_boundVertexBuffer = NULL;
 	m_boundIndexBuffer = NULL;
 	m_boundShader = NULL;
-	m_shaderVertexAttribsSet = FALSE;
+	m_shaderVertexAttribsSet = false;
 	m_boundFramebuffer = NULL;
 	m_boundRenderbuffer = NULL;
 	m_activeViewContext = NULL;
-	m_isDepthTextureSupported = FALSE;
-	m_isNonPowerOfTwoTextureSupported = FALSE;
+	m_isDepthTextureSupported = false;
+	m_isNonPowerOfTwoTextureSupported = false;
 	m_window = NULL;
 }
 
@@ -256,7 +256,7 @@ void GraphicsDevice::OnNewContext()
 			(*i)->OnNewContext();
 	}
 	
-	m_hasNewContextRunYet = TRUE;
+	m_hasNewContextRunYet = true;
 }
 
 void GraphicsDevice::OnLostContext()
@@ -317,7 +317,7 @@ void GraphicsDevice::BindTexture(const Texture *texture, uint unit)
 {
 	ASSERT(unit < MAX_BOUND_TEXTURES);
 	ASSERT(texture != NULL);
-	ASSERT(texture->IsInvalidated() == FALSE);
+	ASSERT(texture->IsInvalidated() == false);
 	if (texture != m_boundTextures[unit])
 	{
 		GL_CALL(glActiveTexture(GL_TEXTURE0 + unit));
@@ -356,7 +356,7 @@ void GraphicsDevice::UnbindTexture(const Texture *texture)
 void GraphicsDevice::BindRenderbuffer(Renderbuffer *renderbuffer)
 {
 	ASSERT(renderbuffer != NULL);
-	ASSERT(renderbuffer->IsInvalidated() == FALSE);
+	ASSERT(renderbuffer->IsInvalidated() == false);
 	if (m_boundRenderbuffer != renderbuffer)
 	{
 		GL_CALL(glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer->GetRenderbufferName()));
@@ -383,7 +383,7 @@ void GraphicsDevice::UnbindRenderBuffer(Renderbuffer *renderBuffer)
 void GraphicsDevice::BindFramebuffer(Framebuffer *framebuffer)
 {
 	ASSERT(framebuffer != NULL);
-	ASSERT(framebuffer->IsInvalidated() == FALSE);
+	ASSERT(framebuffer->IsInvalidated() == false);
 	if (m_boundFramebuffer != framebuffer)
 	{
 		GL_CALL(glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->GetFramebufferName()));
@@ -505,7 +505,7 @@ void GraphicsDevice::UnbindIndexBuffer()
 void GraphicsDevice::BindShader(Shader *shader)
 {
 	ASSERT(shader != NULL);
-	ASSERT(shader->IsReadyForUse() == TRUE);
+	ASSERT(shader->IsReadyForUse() == true);
 	GL_CALL(glUseProgram(shader->GetProgramId()));
 	
 	m_boundShader = shader;
@@ -557,7 +557,7 @@ void GraphicsDevice::SetShaderVertexAttributes()
 {
 	ASSERT(m_boundVertexBuffer != NULL);
 	ASSERT(m_boundShader != NULL);
-	ASSERT(m_enabledVertexAttribIndices.empty() == TRUE);
+	ASSERT(m_enabledVertexAttribIndices.empty() == true);
 	ASSERT(m_boundVertexBuffer->GetNumAttributes() >= m_boundShader->GetNumAttributes());
 
 	uint numAttributes = m_boundShader->GetNumAttributes();
@@ -593,12 +593,12 @@ void GraphicsDevice::SetShaderVertexAttributes()
 			buffer = (int8_t*)NULL + (offset * sizeof(float));
 
 		GL_CALL(glEnableVertexAttribArray(i));
-		GL_CALL(glVertexAttribPointer(i, size, GL_FLOAT, FALSE, m_boundVertexBuffer->GetElementWidthInBytes(), buffer));
+		GL_CALL(glVertexAttribPointer(i, size, GL_FLOAT, false, m_boundVertexBuffer->GetElementWidthInBytes(), buffer));
 
 		m_enabledVertexAttribIndices.push_back(i);
 	}
 
-	m_shaderVertexAttribsSet = TRUE;
+	m_shaderVertexAttribsSet = true;
 }
 
 void GraphicsDevice::ClearSetShaderVertexAttributes()
@@ -610,13 +610,13 @@ void GraphicsDevice::ClearSetShaderVertexAttributes()
 		GL_CALL(glDisableVertexAttribArray(index));
 	}
 
-	m_shaderVertexAttribsSet = FALSE;
+	m_shaderVertexAttribsSet = false;
 }
 
 void GraphicsDevice::RenderTriangles(const IndexBuffer *buffer)
 {
 	ASSERT(buffer != NULL);
-	ASSERT(buffer->IsClientSideBuffer() == TRUE);
+	ASSERT(buffer->IsClientSideBuffer() == true);
 	ASSERT(m_boundVertexBuffer != NULL);
 	ASSERT(m_boundIndexBuffer == NULL);
 	if (!m_shaderVertexAttribsSet)
@@ -692,7 +692,7 @@ void GraphicsDevice::RenderTriangles(uint startVertex, uint numTriangles)
 void GraphicsDevice::RenderLines(const IndexBuffer *buffer)
 {
 	ASSERT(buffer != NULL);
-	ASSERT(buffer->IsClientSideBuffer() == TRUE);
+	ASSERT(buffer->IsClientSideBuffer() == true);
 	ASSERT(m_boundVertexBuffer != NULL);
 	ASSERT(m_boundIndexBuffer == NULL);
 	if (!m_shaderVertexAttribsSet)
@@ -768,7 +768,7 @@ void GraphicsDevice::RenderLines(uint startVertex, uint numLines)
 void GraphicsDevice::RenderPoints(const IndexBuffer *buffer)
 {
 	ASSERT(buffer != NULL);
-	ASSERT(buffer->IsClientSideBuffer() == TRUE);
+	ASSERT(buffer->IsClientSideBuffer() == true);
 	ASSERT(m_boundVertexBuffer != NULL);
 	ASSERT(m_boundIndexBuffer == NULL);
 	if (!m_shaderVertexAttribsSet)

@@ -43,8 +43,8 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	ASSERT(jointsDesc != NULL);
 	ASSERT(jointsToVerticesDesc != NULL);
 	
-	BOOL hasNormals = (normalsDesc != NULL ? TRUE : FALSE);
-	BOOL hasTexCoords = (texCoordsDesc != NULL ? TRUE : FALSE);
+	bool hasNormals = (normalsDesc != NULL ? true : false);
+	bool hasTexCoords = (texCoordsDesc != NULL ? true : false);
 	
 	File *file = GetFile();
 	SkeletalMesh *mesh = new SkeletalMesh();
@@ -116,12 +116,12 @@ SkeletalMesh* SkeletalMeshFile::CreateMesh()
 	{
 		stl::string name;
 		stl::string texture;
-		BOOL alpha;
+		bool alpha;
 		uint numTriangles;
 
 		file->ReadString(name);
 		file->ReadString(texture);
-		alpha = file->ReadChar() == 0 ? FALSE : TRUE;
+		alpha = file->ReadChar() == 0 ? false : true;
 		numTriangles = file->ReadUnsignedInt();
 		
 		mesh->m_subsets[i].Create(name, numTriangles, alpha);

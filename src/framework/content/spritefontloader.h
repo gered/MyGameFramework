@@ -80,7 +80,7 @@ private:
 	void DecomposeFilename(const stl::string &filename, stl::string &outFilename, uint &outSize) const;
 	SpriteFont* Load(File *file, uint size, SpriteFont *existing) const;
 
-	BOOL GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint size, SpriteFontGlyphMetrics *glyphMetrics) const;
+	bool GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint size, SpriteFontGlyphMetrics *glyphMetrics) const;
 };
 
 #endif

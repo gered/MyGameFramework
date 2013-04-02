@@ -38,16 +38,16 @@ DebugShader::~DebugShader()
 {
 }
 
-BOOL DebugShader::Initialize(GraphicsDevice *graphicsDevice)
+bool DebugShader::Initialize(GraphicsDevice *graphicsDevice)
 {
 	if (!StandardShader::Initialize(graphicsDevice))
-		return FALSE;
+		return false;
 	
-	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
-	ASSERT(result == TRUE);
+	bool result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
+	ASSERT(result == true);
 
 	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
 	MapAttributeToStandardAttribType("a_color", VERTEX_STD_COLOR);
 	
-	return TRUE;
+	return true;
 }

@@ -13,13 +13,13 @@ struct StateInfo
 
 	GameState *gameState;
 	stl::string name;
-	BOOL isOverlay;
-	BOOL isOverlayed;
-	BOOL isTransitioning;
-	BOOL isTransitioningOut;
-	BOOL isTransitionStarting;
-	BOOL isInactive;
-	BOOL isBeingPopped;
+	bool isOverlay;
+	bool isOverlayed;
+	bool isTransitioning;
+	bool isTransitioningOut;
+	bool isTransitionStarting;
+	bool isInactive;
+	bool isBeingPopped;
 	
 	const stl::string& GetDescriptor() const                                    { return m_descriptor; }
 	

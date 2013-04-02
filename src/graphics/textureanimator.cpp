@@ -43,19 +43,19 @@ void TextureAnimator::ResetAll()
 	m_textureAtlasAnimations.clear();
 }
 
-void TextureAnimator::AddTileSequence(TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop)
+void TextureAnimator::AddTileSequence(TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, bool loop)
 {
 	AddTileSequence("", atlas, tileToBeAnimated, start, stop, delay, loop);
 }
 
-void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, BOOL loop)
+void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atlas, uint tileToBeAnimated, uint start, uint stop, float delay, bool loop)
 {
 	ASSERT(atlas != NULL);
 	ASSERT(tileToBeAnimated < atlas->GetNumTextures());
 	ASSERT(start < atlas->GetNumTextures());
 	ASSERT(stop < atlas->GetNumTextures());
 	ASSERT(start < stop);
-	ASSERT((tileToBeAnimated >= start && tileToBeAnimated <= stop) == FALSE);
+	ASSERT((tileToBeAnimated >= start && tileToBeAnimated <= stop) == false);
 
 	TextureAtlasAnimationSequence *existingSequence = FindTileSequenceByName(name);
 	ASSERT(existingSequence == NULL);
@@ -68,7 +68,7 @@ void TextureAnimator::AddTileSequence(const stl::string &name, TextureAtlas *atl
 	sequence.start = start;
 	sequence.stop = stop;
 	sequence.delay = delay;
-	sequence.isAnimating = TRUE;
+	sequence.isAnimating = true;
 	sequence.loop = loop;
 	sequence.frames = new Image*[sequence.GetNumFrames()];
 	sequence.name = name;
@@ -106,21 +106,21 @@ void TextureAnimator::ResetTileSequence(const stl::string &name)
 	TextureAtlasAnimationSequence *existingSequence = FindTileSequenceByName(name);
 	ASSERT(existingSequence != NULL);
 
-	existingSequence->isAnimating = TRUE;
+	existingSequence->isAnimating = true;
 	existingSequence->current = existingSequence->start;
 	existingSequence->currentFrameTime = 0.0f;
 
 	UpdateTextureWithCurrentTileFrame(*existingSequence);
 }
 
-void TextureAnimator::StopTileSequence(const stl::string &name, BOOL restoreOriginalTile)
+void TextureAnimator::StopTileSequence(const stl::string &name, bool restoreOriginalTile)
 {
 	ASSERT(name.length() != 0);
 
 	TextureAtlasAnimationSequence *existingSequence = FindTileSequenceByName(name);
 	ASSERT(existingSequence != NULL);
 
-	existingSequence->isAnimating = FALSE;
+	existingSequence->isAnimating = false;
 	existingSequence->current = existingSequence->stop;
 	existingSequence->currentFrameTime = 0.0f;
 
@@ -130,7 +130,7 @@ void TextureAnimator::StopTileSequence(const stl::string &name, BOOL restoreOrig
 		UpdateTextureWithCurrentTileFrame(*existingSequence);
 }
 
-void TextureAnimator::EnableTileSequence(const stl::string &name, BOOL enable)
+void TextureAnimator::EnableTileSequence(const stl::string &name, bool enable)
 {
 	ASSERT(name.length() != 0);
 

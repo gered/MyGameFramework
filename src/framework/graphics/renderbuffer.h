@@ -29,9 +29,9 @@ public:
 	 * @param width the width of the renderbuffer in pixels
 	 * @param height the height of the renderbuffer in pixels
 	 * @param format the type of data this renderbuffer contains
-	 * @return TRUE if the renderbuffer was created successfully
+	 * @return true if the renderbuffer was created successfully
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, uint width, uint height, FRAMEBUFFER_DATA_TYPE type);
+	bool Initialize(GraphicsDevice *graphicsDevice, uint width, uint height, FRAMEBUFFER_DATA_TYPE type);
 	
 	/**
 	 * @return the name or ID assigned to this renderbuffer by OpenGL
@@ -54,9 +54,9 @@ public:
 	FRAMEBUFFER_DATA_TYPE GetType() const                                       { return m_type; }
 	
 	/**
-	 * @return TRUE if the renderbuffer has been marked as invalid and needs to be recreated
+	 * @return true if the renderbuffer has been marked as invalid and needs to be recreated
 	 */
-	BOOL IsInvalidated() const                                                  { return m_renderbufferName == 0; }
+	bool IsInvalidated() const                                                  { return m_renderbufferName == 0; }
 		
 	/**
 	 * New OpenGL graphics context creation callback.
@@ -69,7 +69,7 @@ public:
 	void OnLostContext();
 	
 private:
-	BOOL CreateRenderbuffer();
+	bool CreateRenderbuffer();
 	
 	uint m_renderbufferName;
 	uint m_width;

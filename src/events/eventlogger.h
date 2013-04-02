@@ -13,7 +13,7 @@ public:
 	EventLogger(EventManager *eventManager);
 	virtual ~EventLogger();
 
-	BOOL Handle(const Event *event);
+	bool Handle(const Event *event);
 };
 
 #endif

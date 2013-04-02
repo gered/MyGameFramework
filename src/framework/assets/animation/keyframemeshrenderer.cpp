@@ -23,34 +23,34 @@ KeyframeMeshRenderer::~KeyframeMeshRenderer()
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, VertexLerpShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	instance->GetRenderState()->Apply();
 	Render(graphicsDevice, instance->GetMesh(), instance->GetTexture(), instance->GetCurrentFrame(), instance->GetNextFrame(), instance->GetInterpolation(), shader);
 }
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint frame, VertexLerpShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	instance->GetRenderState()->Apply();
 	Render(graphicsDevice, instance->GetMesh(), instance->GetTexture(), frame, shader);
 }
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMeshInstance *instance, uint startFrame, uint endFrame, float interpolation, VertexLerpShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	instance->GetRenderState()->Apply();
 	Render(graphicsDevice, instance->GetMesh(), instance->GetTexture(), instance->GetCurrentFrame(), instance->GetNextFrame(), instance->GetInterpolation(), shader);
 }
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, VertexLerpShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	Render(graphicsDevice, mesh, texture, 0, shader);
 }
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint frame, VertexLerpShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	SetFrameVertices(mesh, frame);
 
 	if (texture != NULL)
@@ -65,7 +65,7 @@ void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *
 
 void KeyframeMeshRenderer::Render(GraphicsDevice *graphicsDevice, KeyframeMesh *mesh, const Texture *texture, uint startFrame, uint endFrame, float interpolation, VertexLerpShader *shader)
 {
-	ASSERT(shader->IsBound() == TRUE);
+	ASSERT(shader->IsBound() == true);
 	SetFrameVertices(mesh, startFrame, endFrame);
 
 	if (texture != NULL)

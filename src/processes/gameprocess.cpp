@@ -14,7 +14,7 @@ GameProcess::GameProcess(GameState *gameState, ProcessManager *processManager)
 	
 	m_gameState = gameState;
 	m_processManager = processManager;
-	m_finished = FALSE;
+	m_finished = false;
 }
 
 GameProcess::~GameProcess()
@@ -29,11 +29,11 @@ void GameProcess::OnRemove()
 {
 }
 
-void GameProcess::OnPause(BOOL dueToOverlay)
+void GameProcess::OnPause(bool dueToOverlay)
 {
 }
 
-void GameProcess::OnResume(BOOL fromOverlay)
+void GameProcess::OnResume(bool fromOverlay)
 {
 }
 
@@ -73,23 +73,23 @@ void GameProcess::OnUpdate(float delta)
 {
 }
 
-BOOL GameProcess::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
+bool GameProcess::OnTransition(float delta, bool isTransitioningOut, bool started)
 {
-	return TRUE;
+	return true;
 }
 
-BOOL GameProcess::Handle(const Event *event)
+bool GameProcess::Handle(const Event *event)
 {
-	return FALSE;
+	return false;
 }
 
-BOOL GameProcess::IsTransitioning() const
+bool GameProcess::IsTransitioning() const
 {
 	return m_processManager->IsTransitioning(this);
 }
 
 void GameProcess::SetFinished()
 {
-	m_finished = TRUE;
+	m_finished = true;
 }
 

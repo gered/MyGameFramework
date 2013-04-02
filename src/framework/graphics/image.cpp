@@ -32,16 +32,16 @@ void Image::Release()
 }
 
 
-BOOL Image::Create(uint width, uint height, IMAGE_FORMAT format)
+bool Image::Create(uint width, uint height, IMAGE_FORMAT format)
 {
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(width != 0);
 	ASSERT(height != 0);
 	if (width == 0 || height == 0)
-		return FALSE;
+		return false;
 	
 	int bpp = 0;
 	if (format == IMAGE_FORMAT_RGB)
@@ -53,7 +53,7 @@ BOOL Image::Create(uint width, uint height, IMAGE_FORMAT format)
 	
 	ASSERT(bpp != 0);
 	if (bpp == 0)
-		return FALSE;
+		return false;
 	
 	uint pixelsLength = (width * height) * (bpp / 8);
 	m_pixels = new uint8_t[pixelsLength];
@@ -65,59 +65,59 @@ BOOL Image::Create(uint width, uint height, IMAGE_FORMAT format)
 	m_format = format;
 	m_pitch = width * (bpp / 8);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Image::Create(const Image *source)
+bool Image::Create(const Image *source)
 {
 	ASSERT(source != NULL);
 	if (source == NULL)
-		return FALSE;
+		return false;
 	else
 		return Create(source, 0, 0, source->GetWidth(), source->GetHeight());
 }
 
-BOOL Image::Create(const Image *source, uint x, uint y, uint width, uint height)
+bool Image::Create(const Image *source, uint x, uint y, uint width, uint height)
 {
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(source != NULL);
 	if (source == NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(source->GetPixels() != NULL);
 	if (source->GetPixels() == NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(x < source->GetWidth());
 	ASSERT(y < source->GetHeight());
 	ASSERT((x + width) <= source->GetWidth());
 	ASSERT((y + height) <= source->GetHeight());
 	
-	BOOL baseCreateSuccess = Create(width, height, source->GetFormat());
+	bool baseCreateSuccess = Create(width, height, source->GetFormat());
 	if (!baseCreateSuccess)
-		return FALSE;
+		return false;
 
 	Copy(source, x, y, width, height, 0, 0);
 
-	return TRUE;
+	return true;
 }
 
-BOOL Image::Create(File *file)
+bool Image::Create(File *file)
 {
 	ASSERT(m_pixels == NULL);
 	if (m_pixels != NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(file != NULL);
 	if (file == NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(file->IsOpen());
 	if (!file->IsOpen())
-		return FALSE;
+		return false;
 	
 	uint8_t *imageFileBytes = NULL;
 	size_t imageFileSize = file->GetFileSize();
@@ -147,7 +147,7 @@ BOOL Image::Create(File *file)
 		if (file->GetFileType() != FILETYPE_MEMORY)
 			SAFE_DELETE_ARRAY(imageFileBytes);
 		
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -166,7 +166,7 @@ BOOL Image::Create(File *file)
 		{
 			ASSERT(!"Unrecognized componentsPerPixel value.");
 			stbi_image_free(pixels);
-			return FALSE;
+			return false;
 		}
 		
 		// copy from STB "owned" memory to our own, then free up the STB stuff
@@ -183,7 +183,7 @@ BOOL Image::Create(File *file)
 		m_format = format;
 		m_pitch = width * componentsPerPixel;		
 		
-		return TRUE;
+		return true;
 	}
 }
 

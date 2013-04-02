@@ -4,12 +4,6 @@
 #include <stdint.h>
 #include <cstddef>
 
-#if !defined(TRUE) && !defined(FALSE)
-typedef int32_t BOOL;
-const BOOL TRUE = 1;
-const BOOL FALSE = 0;
-#endif
-
 typedef unsigned long ulong;
 typedef unsigned int uint;
 typedef unsigned short ushort;
@@ -55,10 +49,10 @@ inline T Max(T a, T b)
  * Determines if a bit is set in the given bitfield.
  * @param bit the bit to check
  * @param bitfield the bit field to check the bit in
- * @return TRUE if set, FALSE if not
+ * @return true if set, false if not
  */
 template <class T1, class T2>
-inline BOOL IsBitSet(T1 bit, T2 bitfield)
+inline bool IsBitSet(T1 bit, T2 bitfield)
 {
 	return (bitfield & bit) != 0;
 }

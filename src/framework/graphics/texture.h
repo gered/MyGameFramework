@@ -24,9 +24,9 @@ public:
 	 * Creates a new texture from the specified image.
 	 * @param graphicsDevice the graphics device this texture is associated with
 	 * @param image the image to create the texture from
-	 * @return TRUE if the texture was created successfully
+	 * @return true if the texture was created successfully
 	 */
-	BOOL Create(GraphicsDevice *graphicsDevice, Image *image);
+	bool Create(GraphicsDevice *graphicsDevice, Image *image);
 	
 	/**
 	 * Creates a new texture with uninitialized image data. Image data should
@@ -36,7 +36,7 @@ public:
 	 * @param height the height of the texture in pixels
 	 * @param textureFormat the format of the pixel data this texture contains
 	 */
-	BOOL Create(GraphicsDevice *graphicsDevice, uint width, uint height, TEXTURE_FORMAT textureFormat);
+	bool Create(GraphicsDevice *graphicsDevice, uint width, uint height, TEXTURE_FORMAT textureFormat);
 	
 	/**
 	 * Frees the texture resources.
@@ -49,9 +49,9 @@ public:
 	 *              have dimensions equal to or less then this texture.
 	 * @param destX the X coordinate on the texture to place the new image at
 	 * @param destY the Y coordinate on the texture to place the new image at
-	 * @return TRUE if the texture was updated successfully
+	 * @return true if the texture was updated successfully
 	 */
-	BOOL Update(Image *image, uint destX = 0, uint destY = 0);
+	bool Update(Image *image, uint destX = 0, uint destY = 0);
 
 	/**
 	 * @return the texture name or ID assigned to this texture by OpenGL
@@ -74,9 +74,9 @@ public:
 	TEXTURE_FORMAT GetFormat() const                       { return m_format; }
 
 	/**
-	 * @return TRUE if the texture has invalidated and needs to be recreated
+	 * @return true if the texture has invalidated and needs to be recreated
 	 */
-	BOOL IsInvalidated() const                             { return m_textureName == 0; }
+	bool IsInvalidated() const                             { return m_textureName == 0; }
 
 	/**
 	 * Callback which handles freeing the texture resources when the OpenGL

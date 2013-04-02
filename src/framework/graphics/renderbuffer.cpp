@@ -15,20 +15,20 @@ Renderbuffer::Renderbuffer()
 	m_type = FRAMEBUFFER_DATA_NONE;
 }
 
-BOOL Renderbuffer::Initialize(GraphicsDevice *graphicsDevice, uint width, uint height, FRAMEBUFFER_DATA_TYPE type)
+bool Renderbuffer::Initialize(GraphicsDevice *graphicsDevice, uint width, uint height, FRAMEBUFFER_DATA_TYPE type)
 {
 	ASSERT(m_renderbufferName == 0);
 	if (m_renderbufferName != 0)
-		return FALSE;
+		return false;
 	
 	if (!GraphicsContextResource::Initialize(graphicsDevice))
-		return FALSE;
+		return false;
 	
 	m_width = width;
 	m_height = height;
 	m_type = type;
 	
-	BOOL success = CreateRenderbuffer();
+	bool success = CreateRenderbuffer();
 	if (!success)
 	{
 		m_width = 0;
@@ -54,7 +54,7 @@ void Renderbuffer::Release()
 	GraphicsContextResource::Release();
 }
 
-BOOL Renderbuffer::CreateRenderbuffer()
+bool Renderbuffer::CreateRenderbuffer()
 {
 	ASSERT(m_renderbufferName == 0);
 	
@@ -95,7 +95,7 @@ BOOL Renderbuffer::CreateRenderbuffer()
 #endif
 	ASSERT(format != 0);
 	if (format == 0)
-		return FALSE;
+		return false;
 	
 	GL_CALL(glGenRenderbuffers(1, &m_renderbufferName));
 	
@@ -108,15 +108,15 @@ BOOL Renderbuffer::CreateRenderbuffer()
 	// object that this will get attached to manage that for itself...
 	GetGraphicsDevice()->UnbindRenderbuffer();
 	
-	return TRUE;
+	return true;
 }
 
 void Renderbuffer::OnNewContext()
 {
 	if (m_renderbufferName == 0 && GetGraphicsDevice() != NULL)
 	{
-		BOOL success = CreateRenderbuffer();
-		ASSERT(success == TRUE);
+		bool success = CreateRenderbuffer();
+		ASSERT(success == true);
 	}
 }
 

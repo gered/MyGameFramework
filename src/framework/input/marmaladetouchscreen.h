@@ -25,12 +25,12 @@ public:
 	uint GetY() const                                      { return m_y; }
 	int GetDeltaX() const                                  { return m_deltaX; }
 	int GetDeltaY() const                                  { return m_deltaY; }
-	BOOL IsTouching() const                                { return m_isTouching; }
+	bool IsTouching() const                                { return m_isTouching; }
 
-	BOOL IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const;
-	BOOL IsTouchingWithinArea(const Rect &area) const;
-	BOOL IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const;
-	BOOL IsTouchingWithinArea(const Circle &area) const;
+	bool IsTouchingWithinArea(uint left, uint top, uint right, uint bottom) const;
+	bool IsTouchingWithinArea(const Rect &area) const;
+	bool IsTouchingWithinArea(uint centerX, uint centerY, uint radius) const;
+	bool IsTouchingWithinArea(const Circle &area) const;
 
 	void OnDown(int id, uint x, uint y);
 	void OnMove(int id, uint x, uint y);
@@ -42,28 +42,28 @@ private:
 	uint m_y;
 	int m_deltaX;
 	int m_deltaY;
-	BOOL m_isTouching;
+	bool m_isTouching;
 };
 
 class MarmaladeTouchscreen : public Touchscreen
 {
 public:
-	MarmaladeTouchscreen(MarmaladeSystem *system, BOOL isMultitouchAvailable);
+	MarmaladeTouchscreen(MarmaladeSystem *system, bool isMultitouchAvailable);
 	virtual ~MarmaladeTouchscreen();
 
 	void ResetDeltas();
 	void ResetViewBounds(const Rect &viewBounds);
 
-	BOOL OnSingleTouchTapEvent(const s3ePointerEvent *eventArgs);
-	BOOL OnSingleTouchMotionEvent(const s3ePointerMotionEvent *eventArgs);
-	BOOL OnMultiTouchTapEvent(const s3ePointerTouchEvent *eventArgs);
-	BOOL OnMultiTouchMotionEvent(const s3ePointerTouchMotionEvent *eventArgs);
+	bool OnSingleTouchTapEvent(const s3ePointerEvent *eventArgs);
+	bool OnSingleTouchMotionEvent(const s3ePointerMotionEvent *eventArgs);
+	bool OnMultiTouchTapEvent(const s3ePointerTouchEvent *eventArgs);
+	bool OnMultiTouchMotionEvent(const s3ePointerTouchMotionEvent *eventArgs);
 
-	BOOL IsMultitouchAvailable() const                     { return m_isMultitouchAvailable; }
+	bool IsMultitouchAvailable() const                     { return m_isMultitouchAvailable; }
 	uint GetPointerCount() const                           { return m_maxTouchPoints; }
 	uint GetCurrentPointerCount() const                    { return m_currentTouchPoints; }
-	BOOL IsTouching() const                                { return m_isTouching; }
-	BOOL WasTapped();
+	bool IsTouching() const                                { return m_isTouching; }
+	bool WasTapped();
 	const TouchPointer* GetPrimaryPointer() const          { return (TouchPointer*)m_primaryPointer; }
 	const TouchPointer* GetPointer(uint index) const   { return (TouchPointer*)&m_pointers[index]; }
 	const TouchPointer* GetPointerById(int id) const;
@@ -84,11 +84,11 @@ private:
 	stl::set<TouchscreenListener*> m_listeners;
 	MarmaladeTouchPointer *m_pointers;
 	MarmaladeTouchPointer *m_primaryPointer;
-	BOOL m_isTouching;
-	BOOL m_isLocked;
+	bool m_isTouching;
+	bool m_isLocked;
 
 	MarmaladeSystem *m_system;
-	BOOL m_isMultitouchAvailable;
+	bool m_isMultitouchAvailable;
 	uint m_maxTouchPoints;
 	uint m_currentTouchPoints;
 };

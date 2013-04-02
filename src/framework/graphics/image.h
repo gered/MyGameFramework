@@ -26,16 +26,16 @@ public:
 	 * @param width the width of the image
 	 * @param height the height of the image
 	 * @param format the pixel format of the image
-	 * @return TRUE if successful
+	 * @return true if successful
 	 */
-	BOOL Create(uint width, uint height, IMAGE_FORMAT format);
+	bool Create(uint width, uint height, IMAGE_FORMAT format);
 	
 	/**
 	 * Creates a copy of an image from another image object.
 	 * @param source the source image object to copy
-	 * @return TRUE if successful
+	 * @return true if successful
 	 */
-	BOOL Create(const Image *source);
+	bool Create(const Image *source);
 	
 	/**
 	 * Creates a copy of a subsection of an image.
@@ -44,16 +44,16 @@ public:
 	 * @param y top Y coordinate of the source region to copy
 	 * @param width the width of the source region to copy
 	 * @param height the height of the source region to copy
-	 * @return TRUE if successful
+	 * @return true if successful
 	 */
-	BOOL Create(const Image *source, uint x, uint y, uint width, uint height);
+	bool Create(const Image *source, uint x, uint y, uint width, uint height);
 	
 	/**
 	 * Creates an image from an image file.
 	 * @param file the file to load as an image
-	 * @return TRUE if successful
+	 * @return true if successful
 	 */
-	BOOL Create(File *file);
+	bool Create(File *file);
 	
 	/**
 	 * Frees all image resources.

@@ -8,8 +8,8 @@ SDLFile::SDLFile()
 {
 	m_fp = NULL;
 	m_mode = 0;
-	m_canRead = FALSE;
-	m_canWrite = FALSE;
+	m_canRead = false;
+	m_canWrite = false;
 }
 
 SDLFile::~SDLFile()
@@ -17,26 +17,26 @@ SDLFile::~SDLFile()
 	Close();
 }
 
-BOOL SDLFile::Open(const stl::string &filename, int mode)
+bool SDLFile::Open(const stl::string &filename, int mode)
 {
-	ASSERT(IsOpen() == FALSE);
+	ASSERT(IsOpen() == false);
 	m_filename = filename;
 
 	char fopenMode[3] = { '\0', '\0', '\0' };
 	if (mode & FILEMODE_READ)
 	{
 		fopenMode[0] = 'r';
-		m_canRead = TRUE;
+		m_canRead = true;
 	}
 	else if (mode & FILEMODE_WRITE)
 	{
 		fopenMode[0] = 'w';
-		m_canWrite = TRUE;
+		m_canWrite = true;
 	}
 	else if (mode & FILEMODE_APPEND)
 	{
 		fopenMode[0] = 'a';
-		m_canWrite = TRUE;
+		m_canWrite = true;
 	}
 	if (mode & FILEMODE_BINARY && fopenMode[0] != '\0')
 		fopenMode[1] = 'b';
@@ -44,23 +44,23 @@ BOOL SDLFile::Open(const stl::string &filename, int mode)
 	if (fopenMode[0] == '\0')
 	{
 		ASSERT(!"Unrecognized mode.");
-		return FALSE;
+		return false;
 	}
 	else
 	{
-		ASSERT(m_canRead == TRUE || m_canWrite == TRUE);
+		ASSERT(m_canRead == true || m_canWrite == true);
 
 		m_fp = SDL_RWFromFile(filename.c_str(), fopenMode);
 		if (m_fp)
 		{
 			LOG_INFO(LOGCAT_FILEIO, "Opened SDLFile \"%s\", mode = %s\n", filename.c_str(), fopenMode);
 			m_mode = mode;
-			return TRUE;
+			return true;
 		}
 		else
 		{
 			LOG_WARN(LOGCAT_FILEIO, "Failed to open SDLFile \"%s\", mode = %s\n", filename.c_str(), fopenMode);
-			return FALSE;
+			return false;
 		}
 	}
 }
@@ -75,8 +75,8 @@ void SDLFile::Close()
 
 	m_fp = NULL;
 	m_mode = 0;
-	m_canRead = FALSE;
-	m_canWrite = FALSE;
+	m_canRead = false;
+	m_canWrite = false;
 	m_filename.clear();
 }
 
@@ -329,15 +329,15 @@ void SDLFile::Seek(size_t offset, FileSeek from)
 	SDL_RWseek(m_fp, offset, origin);
 }
 
-BOOL SDLFile::AtEOF()
+bool SDLFile::AtEOF()
 {
 	ASSERT(IsOpen());
 	size_t filesize = GetFileSize();
 	size_t currentPos = Tell();
 	if (filesize == currentPos)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 size_t SDLFile::GetFileSize()

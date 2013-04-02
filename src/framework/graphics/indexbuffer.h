@@ -28,9 +28,9 @@ public:
 	 * Initializes the index buffer.
 	 * @param numIndices the initial number of indices the buffer should hold
 	 * @param usage the expected usage pattern of this index buffer
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(uint numIndices, BUFFEROBJECT_USAGE usage);
+	bool Initialize(uint numIndices, BUFFEROBJECT_USAGE usage);
 	
 	/**
 	 * Initializes the index buffer.
@@ -38,25 +38,25 @@ public:
 	 *                       on the GPU
 	 * @param numIndices the initial number of indices the buffer should hold
 	 * @param usage the expected usage pattern of this index buffer
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, uint numIndices, BUFFEROBJECT_USAGE usage);
+	bool Initialize(GraphicsDevice *graphicsDevice, uint numIndices, BUFFEROBJECT_USAGE usage);
 	
 	/**
 	 * Initializes the index buffer.
 	 * @param source the source buffer to copy during creation of this buffer
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(const IndexBuffer *source);
+	bool Initialize(const IndexBuffer *source);
 	
 	/**
 	 * Initializes the index buffer.
 	 * @param graphicsDevice the graphics device to use to create this buffer
 	 *                       on the GPU
 	 * @param source the source buffer to copy during creation of this buffer
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *source);
+	bool Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *source);
 
 	/**
 	 * Copies the source indices over top of this buffer's existing indices.
@@ -74,17 +74,17 @@ public:
 
 	/**
 	 * Moves the current index position to the next position.
-	 * @return TRUE if the move succeeded, FALSE if there is no more indices
+	 * @return true if the move succeeded, false if there is no more indices
 	 *              to move to after this one
 	 */
-	BOOL MoveNext();
+	bool MoveNext();
 
 	/**
 	 * Moves the current index position to the previous position.
-	 * @return TRUE if the move succeeded, FALSE if there is no more indices
+	 * @return true if the move succeeded, false if there is no more indices
 	 *              to move to before the current one
 	 */
-	BOOL MovePrevious();
+	bool MovePrevious();
 
 	/**
 	 * Moves the current index position by the specified amount relative
@@ -168,26 +168,26 @@ inline void IndexBuffer::SetIndex(uint index, uint16_t value)
 	m_buffer[index] = value;
 }
 
-inline BOOL IndexBuffer::MoveNext()
+inline bool IndexBuffer::MoveNext()
 {
 	++m_currentIndex;
 	if (m_currentIndex >= GetNumElements())
 	{
 		--m_currentIndex;
-		return FALSE;
+		return false;
 	}
 	else
-		return TRUE;
+		return true;
 }
 
-inline BOOL IndexBuffer::MovePrevious()
+inline bool IndexBuffer::MovePrevious()
 {
 	if (m_currentIndex == 0)
-		return FALSE;
+		return false;
 	else
 	{
 		--m_currentIndex;
-		return TRUE;
+		return true;
 	}
 }
 

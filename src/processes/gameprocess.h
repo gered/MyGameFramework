@@ -24,8 +24,8 @@ public:
 
 	virtual void OnAdd();
 	virtual void OnRemove();
-	virtual void OnPause(BOOL dueToOverlay);
-	virtual void OnResume(BOOL fromOverlay);
+	virtual void OnPause(bool dueToOverlay);
+	virtual void OnResume(bool fromOverlay);
 	virtual void OnAppGainFocus();
 	virtual void OnAppLostFocus();
 	virtual void OnAppPause();
@@ -35,14 +35,14 @@ public:
 	virtual void OnRender(RenderContext *renderContext);
 	virtual void OnResize();
 	virtual void OnUpdate(float delta);
-	virtual BOOL OnTransition(float delta, BOOL isTransitioningOut, BOOL started);
+	virtual bool OnTransition(float delta, bool isTransitioningOut, bool started);
 
-	virtual BOOL Handle(const Event *event);
+	virtual bool Handle(const Event *event);
 
 	GameApp* GetGameApp() const                                                 { return m_gameState->GetGameApp(); }
 
-	BOOL IsFinished() const                                                     { return m_finished; }
-	BOOL IsTransitioning() const;
+	bool IsFinished() const                                                     { return m_finished; }
+	bool IsTransitioning() const;
 
 protected:
 	GameState* GetGameState() const                                             { return m_gameState; }
@@ -53,7 +53,7 @@ protected:
 private:
 	GameState* m_gameState;
 	ProcessManager *m_processManager;
-	BOOL m_finished;
+	bool m_finished;
 };
 
 #endif

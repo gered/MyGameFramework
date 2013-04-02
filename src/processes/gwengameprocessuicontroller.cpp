@@ -39,14 +39,14 @@ void GwenGameProcessUIController::OnRemove()
 {
 }
 
-void GwenGameProcessUIController::OnPause(BOOL dueToOverlay)
+void GwenGameProcessUIController::OnPause(bool dueToOverlay)
 {
-	EnableGwenInput(FALSE);
+	EnableGwenInput(false);
 }
 
-void GwenGameProcessUIController::OnResume(BOOL fromOverlay)
+void GwenGameProcessUIController::OnResume(bool fromOverlay)
 {
-	EnableGwenInput(TRUE);
+	EnableGwenInput(true);
 }
 
 void GwenGameProcessUIController::OnLostContext()
@@ -77,14 +77,14 @@ void GwenGameProcessUIController::OnUpdate(float delta)
 	m_canvas->DoThink();
 }
 
-BOOL GwenGameProcessUIController::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
+bool GwenGameProcessUIController::OnTransition(float delta, bool isTransitioningOut, bool started)
 {
-	return TRUE;
+	return true;
 }
 
-BOOL GwenGameProcessUIController::Handle(const Event *event)
+bool GwenGameProcessUIController::Handle(const Event *event)
 {
-	return FALSE;
+	return false;
 }
 
 Gwen::Controls::Canvas* GwenGameProcessUIController::InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint fontSize)
@@ -126,7 +126,7 @@ void GwenGameProcessUIController::ResizeAndScaleCanvas()
 	}
 }
 
-void GwenGameProcessUIController::EnableGwenInput(BOOL enable)
+void GwenGameProcessUIController::EnableGwenInput(bool enable)
 {
 	if (m_inputProcessor != NULL)
 		m_inputProcessor->Enable(enable);

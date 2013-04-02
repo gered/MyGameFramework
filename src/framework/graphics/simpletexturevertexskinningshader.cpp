@@ -56,17 +56,17 @@ SimpleTextureVertexSkinningShader::~SimpleTextureVertexSkinningShader()
 {
 }
 
-BOOL SimpleTextureVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice)
+bool SimpleTextureVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice)
 {
 	if (!VertexSkinningShader::Initialize(graphicsDevice))
-		return FALSE;
+		return false;
 	
-	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
-	ASSERT(result == TRUE);
+	bool result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
+	ASSERT(result == true);
 	
 	MapAttributeToVboAttribIndex("a_jointIndex", 0);
 	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
 	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
 	
-	return TRUE;
+	return true;
 }

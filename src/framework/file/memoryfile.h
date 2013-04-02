@@ -14,13 +14,13 @@ public:
 	MemoryFile();
 	virtual ~MemoryFile();
 
-	BOOL Open(File *srcFile);
-	BOOL Open(const void *memory, size_t numBytes, BOOL canRead, BOOL canWrite, BOOL assumeOwnershipOfMemory = FALSE);
+	bool Open(File *srcFile);
+	bool Open(const void *memory, size_t numBytes, bool canRead, bool canWrite, bool assumeOwnershipOfMemory = false);
 	void Close();
 
-	BOOL IsOpen() const                                    { return m_data != NULL; }
-	BOOL CanRead() const                                   { return m_canRead; }
-	BOOL CanWrite() const                                  { return m_canWrite; }
+	bool IsOpen() const                                    { return m_data != NULL; }
+	bool CanRead() const                                   { return m_canRead; }
+	bool CanWrite() const                                  { return m_canWrite; }
 	FileType GetFileType() const                           { return FILETYPE_MEMORY; }
 
 	int8_t ReadChar();
@@ -51,7 +51,7 @@ public:
 
 	size_t Tell();
 	void Seek(size_t offset, FileSeek from);
-	BOOL AtEOF();
+	bool AtEOF();
 	size_t GetFileSize();
 
 	const stl::string& GetFilename() const                 { return m_filename; }
@@ -60,11 +60,11 @@ public:
 
 private:
 	int8_t *m_data;
-	BOOL m_ownData;
+	bool m_ownData;
 	size_t m_length;
 	size_t m_position;
-	BOOL m_canRead;
-	BOOL m_canWrite;
+	bool m_canRead;
+	bool m_canWrite;
 	stl::string m_filename;
 };
 

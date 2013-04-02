@@ -19,7 +19,7 @@ public:
 	 * the way which color modulation is done using vertex colors.
 	 * @param hasAlphaOnly whether the texture has only an alpha component
 	 */
-	void SetTextureHasAlphaOnly(BOOL hasAlphaOnly);
+	void SetTextureHasAlphaOnly(bool hasAlphaOnly);
 
 protected:
 	/**

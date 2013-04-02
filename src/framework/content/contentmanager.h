@@ -53,22 +53,22 @@ public:
 	 * Retrieves the specified content either from a cache or from the
 	 * platform's backing storage.
 	 * @param name the path and filename of the content to retrieve
-	 * @param preload TRUE to mark the content as preloaded after loading it
+	 * @param preload true to mark the content as preloaded after loading it
 	 * @param <T> the type of content to load
 	 * @return the loaded content or NULL on failure
 	 */
-	template <class T> T* Get(const stl::string &name, BOOL preload = FALSE);
+	template <class T> T* Get(const stl::string &name, bool preload = false);
 
 	/**
 	 * Retrieves the specified content either from a cache or from the
 	 * platform's backing storage.
 	 * @param name the path and filename of the content to retrieve
 	 * @param params content-type-specified parameters used during loading or NULL
-	 * @param preload TRUE to mark the content as preloaded after loading it
+	 * @param preload true to mark the content as preloaded after loading it
 	 * @param <T> the type of content to load
 	 * @return the loaded content or NULL on failure
 	 */
-	template <class T> T* Get(const stl::string &name, const ContentParam &params, BOOL preload = FALSE);
+	template <class T> T* Get(const stl::string &name, const ContentParam &params, bool preload = false);
 	
 	/**
 	 * Loads the content so that it is pre-loaded and subsequent calls to Get()
@@ -98,11 +98,11 @@ public:
 	 * and filename has been loaded. Content is only actually freed when it has
 	 * no more references to it.
 	 * @param name the path and filename of the content to free
-	 * @param preload TRUE to allow this content to be freed even if it has
+	 * @param preload true to allow this content to be freed even if it has
 	 *                been preloaded
 	 * @param <T> the type of content to be freed
 	 */
-	template <class T> void Free(const stl::string &name, BOOL preload = FALSE);
+	template <class T> void Free(const stl::string &name, bool preload = false);
 
 	/**
 	 * Frees the specified content if the content pointed to by the given path
@@ -111,21 +111,21 @@ public:
 	 * @param name the path and filename of the content to free
 	 * @param params content-type-specific parameters that further describe the
 	 *               exact content object to be freed, or NULL
-	 * @param preload TRUE to allow this content to be freed even if it has
+	 * @param preload true to allow this content to be freed even if it has
 	 *                been preloaded
 	 * @param <T> the type of content to be freed
 	 */
-	template <class T> void Free(const stl::string &name, const ContentParam &params, BOOL preload = FALSE);
+	template <class T> void Free(const stl::string &name, const ContentParam &params, bool preload = false);
 
 	/**
 	 * Frees the specified content object. Content is only actually freed
 	 * when it has no more references to it.
 	 * @param content the content object to be freed
-	 * @param preload TRUE to allow this content to be freed even if it has
+	 * @param preload true to allow this content to be freed even if it has
 	 *                been preloaded
 	 * @param <T> the type of content to be freed
 	 */
-	template <class T> void Free(T *content, BOOL preload = FALSE);
+	template <class T> void Free(T *content, bool preload = false);
 	
 	/**
 	 * Frees the specified pre-loaded content. This will free the content
@@ -187,7 +187,7 @@ private:
 };
 
 template <class T>
-T* ContentManager::Get(const stl::string &name, BOOL preload)
+T* ContentManager::Get(const stl::string &name, bool preload)
 {
 	ContentLoader<T> *loader = GetLoader<T>();
 	T* content = loader->Get(name, NULL, preload);
@@ -195,7 +195,7 @@ T* ContentManager::Get(const stl::string &name, BOOL preload)
 }
 
 template <class T>
-T* ContentManager::Get(const stl::string &name, const ContentParam &params, BOOL preload)
+T* ContentManager::Get(const stl::string &name, const ContentParam &params, bool preload)
 {
 	ContentLoader<T> *loader = GetLoader<T>();
 	T* content = loader->Get(name, &params, preload);
@@ -205,31 +205,31 @@ T* ContentManager::Get(const stl::string &name, const ContentParam &params, BOOL
 template<class T>
 T* ContentManager::Load(const stl::string &name)
 {
-	return Get<T>(name, TRUE);
+	return Get<T>(name, true);
 }
 
 template<class T>
 T* ContentManager::Load(const stl::string &name, const ContentParam &params)
 {
-	return Get<T>(name, params, TRUE);
+	return Get<T>(name, params, true);
 }
 
 template <class T>
-void ContentManager::Free(const stl::string &name, BOOL preload)
+void ContentManager::Free(const stl::string &name, bool preload)
 {
 	ContentLoader<T> *loader = GetLoader<T>();
 	loader->Free(name, NULL, preload);
 }
 
 template <class T>
-void ContentManager::Free(const stl::string &name, const ContentParam &params, BOOL preload)
+void ContentManager::Free(const stl::string &name, const ContentParam &params, bool preload)
 {
 	ContentLoader<T> *loader = GetLoader<T>();
 	loader->Free(name, &params, preload);
 }
 
 template <class T>
-void ContentManager::Free(T *content, BOOL preload)
+void ContentManager::Free(T *content, bool preload)
 {
 	ContentLoader<T> *loader = GetLoader<T>();
 	loader->Free(content, preload);
@@ -238,19 +238,19 @@ void ContentManager::Free(T *content, BOOL preload)
 template <class T>
 void ContentManager::Unload(const stl::string &name)
 {
-	Free<T>(name, TRUE);
+	Free<T>(name, true);
 }
 
 template <class T>
 void ContentManager::Unload(const stl::string &name, const ContentParam &params)
 {
-	Free<T>(name, params, TRUE);
+	Free<T>(name, params, true);
 }
 
 template <class T>
 void ContentManager::Unload(T *content)
 {
-	Free<T>(content, TRUE);
+	Free<T>(content, true);
 }
 
 template <class T>

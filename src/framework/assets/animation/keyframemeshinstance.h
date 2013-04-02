@@ -33,18 +33,18 @@ public:
 	 * Sets the current animation sequence.
 	 * @param startFrame the first frame of the sequence
 	 * @param endFrame the last frame of the sequence
-	 * @param loop TRUE to loop the sequence, FALSE to stop when done
+	 * @param loop true to loop the sequence, false to stop when done
 	 *             and leave the current frame as the end frame
 	 */
-	void SetSequence(uint startFrame, uint endFrame, BOOL loop);
+	void SetSequence(uint startFrame, uint endFrame, bool loop);
 
 	/**
 	 * Sets the current animation sequence.
 	 * @param name the name of the sequence from the mesh's list of sequences
-	 * @param loop TRUE to loop the sequence, FALSE to stop when done
+	 * @param loop true to loop the sequence, false to stop when done
 	 *             and leave the current frame as the end frame
 	 */
-	void SetSequence(const stl::string &name, BOOL loop);
+	void SetSequence(const stl::string &name, bool loop);
 
 	/**
 	 * Temporarily override the current animation sequence to run the specified
@@ -99,13 +99,13 @@ private:
 	stl::string m_currentSequenceName;
 	uint m_currentSequenceStart;
 	uint m_currentSequenceEnd;
-	BOOL m_currentSequenceLoop;
+	bool m_currentSequenceLoop;
 	uint m_thisFrame;
 	uint m_nextFrame;
 	float m_interpolation;
-	BOOL m_isRunningTempSequence;
+	bool m_isRunningTempSequence;
 	stl::string m_oldSequenceName;
-	BOOL m_oldSequenceLoop;
+	bool m_oldSequenceLoop;
 };
 
 #endif

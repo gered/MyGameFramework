@@ -8,15 +8,15 @@ class Effect;
 class EffectInfo
 {
 public:
-	EffectInfo(Effect *effect, BOOL isLocal);
+	EffectInfo(Effect *effect, bool isLocal);
 	virtual ~EffectInfo();
 
 	Effect* GetEffect() const                              { return m_effect; }
-	BOOL IsLocal() const                                   { return m_isLocal; }
+	bool IsLocal() const                                   { return m_isLocal; }
 
 private:
 	Effect *m_effect;
-	BOOL m_isLocal;
+	bool m_isLocal;
 };
 
 #endif

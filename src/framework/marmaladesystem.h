@@ -27,15 +27,15 @@ public:
 	MarmaladeSystem();
 	virtual ~MarmaladeSystem();
 
-	BOOL Initialize();
-	BOOL CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params);
+	bool Initialize();
+	bool CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params);
 	void ProcessEvents();
 	int OnEvent(const MarmaladeSystemEvent *eventArgs);
 	void Quit();
 
-	BOOL IsQuitting() const                                { return m_isQuitting; }
+	bool IsQuitting() const                                { return m_isQuitting; }
 
-	BOOL HasShaderSupport() const                          { return m_hasShaderSupport; }
+	bool HasShaderSupport() const                          { return m_hasShaderSupport; }
 	float GetSupportedShaderVersion() const                { return m_supportedShaderVersion; }
 
 	GameWindow* GetWindow() const                          { return (GameWindow*)m_window; }
@@ -48,7 +48,7 @@ public:
 	void Delay(uint milliseconds) const;
 
 private:
-	BOOL m_isQuitting;
+	bool m_isQuitting;
 
 	MarmaladeGameWindow *m_window;
 	MarmaladeFileSystem *m_filesystem;
@@ -56,7 +56,7 @@ private:
 	MarmaladeMouse *m_mouse;
 	MarmaladeTouchscreen *m_touchscreen;
 
-	BOOL m_hasShaderSupport;
+	bool m_hasShaderSupport;
 	float m_supportedShaderVersion;
 };
 

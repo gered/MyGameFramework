@@ -201,9 +201,9 @@ private:
 	SpriteShader *m_shader;
 	RenderState *m_renderState;
 	BlendState *m_blendState;
-	BOOL m_isRenderStateOverridden;
+	bool m_isRenderStateOverridden;
 	RenderState m_overrideRenderState;
-	BOOL m_isBlendStateOverridden;
+	bool m_isBlendStateOverridden;
 	BlendState m_overrideBlendState;
 	VertexBuffer *m_vertices;
 	stl::vector<const Texture*> m_textures;
@@ -212,7 +212,7 @@ private:
 	Vector3 m_cameraPosition;
 	Vector3 m_cameraForward;
 
-	BOOL m_begunRendering;
+	bool m_begunRendering;
 };
 
 #endif

@@ -11,25 +11,25 @@
 #include "ray.h"
 #include "vector3.h"
 
-BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 &point)
+bool IntersectionTester::Test(const BoundingBox &box, const Vector3 &point)
 {
 	if ((point.x >= box.min.x && point.x <= box.max.x) &&
 		(point.y >= box.min.y && point.y <= box.max.y) && 
 		(point.z >= box.min.z && point.z <= box.max.z))
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 &point)
+bool IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 &point)
 {
 	if (fabsf(Vector3::Distance(point, sphere.center)) < sphere.radius)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection)
+bool IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection)
 {
 	for (uint i = 0; i < numVertices; ++i)
 	{
@@ -39,14 +39,14 @@ BOOL IntersectionTester::Test(const BoundingBox &box, const Vector3 *vertices, u
 		{
 			if (firstIntersection)
 				*firstIntersection = vertices[i];
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection)
+bool IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 *vertices, uint numVertices, Vector3 *firstIntersection)
 {
 	for (uint i = 0; i < numVertices; ++i)
 	{
@@ -54,47 +54,47 @@ BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Vector3 *verti
 		{
 			if (firstIntersection)
 				*firstIntersection = vertices[i];
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BOOL IntersectionTester::Test(const BoundingBox &a, const BoundingBox &b)
+bool IntersectionTester::Test(const BoundingBox &a, const BoundingBox &b)
 {
 	if (a.max.x < b.min.x || a.min.x > b.max.x)
-		return FALSE;
+		return false;
 	if (a.max.y < b.min.y || a.min.y > b.max.y)
-		return FALSE;
+		return false;
 	if (a.max.z < b.min.z || a.min.z > b.max.z)
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
-BOOL IntersectionTester::Test(const BoundingSphere &a, const BoundingSphere &b)
+bool IntersectionTester::Test(const BoundingSphere &a, const BoundingSphere &b)
 {
 	Vector3 temp = a.center - b.center;
 	float distanceSquared = Vector3::Dot(temp, temp);
 
 	float radiusSum = a.radius + b.radius;
 	if (distanceSquared <= radiusSum * radiusSum)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL IntersectionTester::Test(const BoundingSphere &sphere, const Plane &plane)
+bool IntersectionTester::Test(const BoundingSphere &sphere, const Plane &plane)
 {
 	float distance = Vector3::Dot(sphere.center, plane.normal) - plane.d;
 	if (fabsf(distance) <= sphere.radius)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL IntersectionTester::Test(const BoundingBox &box, const Plane &plane)
+bool IntersectionTester::Test(const BoundingBox &box, const Plane &plane)
 {
 	Vector3 temp1 = (box.max + box.min) / 2.0f;
 	Vector3 temp2 = box.max - temp1;
@@ -104,20 +104,20 @@ BOOL IntersectionTester::Test(const BoundingBox &box, const Plane &plane)
 	float distance = Vector3::Dot(plane.normal, temp1) - plane.d;
 
 	if (fabsf(distance) <= radius)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL IntersectionTester::Test(const Ray &ray, const Plane &plane, Vector3 *intersection)
+bool IntersectionTester::Test(const Ray &ray, const Plane &plane, Vector3 *intersection)
 {
 	float denominator = Vector3::Dot(ray.direction, plane.normal);
 	if (denominator == 0.0f)
-		return FALSE;
+		return false;
 
 	float t = ((-plane.d - Vector3::Dot(ray.position, plane.normal)) / denominator);
 	if (t < 0.0f)
-		return FALSE;
+		return false;
 
 	if (intersection)
 	{
@@ -127,10 +127,10 @@ BOOL IntersectionTester::Test(const Ray &ray, const Plane &plane, Vector3 *inter
 		intersection->z = temp1.z;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL IntersectionTester::Test(const Ray &ray, const BoundingSphere &sphere, Vector3 *intersection)
+bool IntersectionTester::Test(const Ray &ray, const BoundingSphere &sphere, Vector3 *intersection)
 {
 	Vector3 temp1 = ray.position - sphere.center;
 
@@ -138,11 +138,11 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingSphere &sphere, Vect
 	float c = Vector3::Dot(temp1, temp1) - (sphere.radius * sphere.radius);
 
 	if (c > 0.0f && b > 0.0f)
-		return FALSE;
+		return false;
 
 	float discriminant = b * b - c;
 	if (discriminant < 0.0f)
-		return FALSE;
+		return false;
 
 	float t = -b - sqrtf(discriminant);
 	if (t < 0.0f)
@@ -156,10 +156,10 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingSphere &sphere, Vect
 		intersection->z = temp2.z;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *intersection)
+bool IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *intersection)
 {
 	float tmin = 0.0f;
 	float tmax = FLT_MAX;
@@ -167,7 +167,7 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *i
 	if (fabsf(ray.direction.x) < EPSILON)
 	{
 		if (ray.position.x < box.min.x || ray.position.x > box.max.x)
-			return FALSE;
+			return false;
 	}
 	else
 	{
@@ -186,13 +186,13 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *i
 		tmax = Min(tmax, t2);
 
 		if (tmin > tmax)
-			return FALSE;
+			return false;
 	}
 
 	if (fabsf(ray.direction.y) < EPSILON)
 	{
 		if (ray.position.y < box.min.y || ray.position.y > box.max.y)
-			return FALSE;
+			return false;
 	}
 	else
 	{
@@ -211,13 +211,13 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *i
 		tmax = Min(tmax, t2);
 
 		if (tmin > tmax)
-			return FALSE;
+			return false;
 	}
 
 	if (fabsf(ray.direction.z) < EPSILON)
 	{
 		if (ray.position.z < box.min.z || ray.position.z > box.max.z)
-			return FALSE;
+			return false;
 	}
 	else
 	{
@@ -236,7 +236,7 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *i
 		tmax = Min(tmax, t2);
 
 		if (tmin > tmax)
-			return FALSE;
+			return false;
 	}
 
 	if (intersection)
@@ -247,26 +247,26 @@ BOOL IntersectionTester::Test(const Ray &ray, const BoundingBox &box, Vector3 *i
 		intersection->z = temp1.z;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL IntersectionTester::Test(const BoundingBox &box, const BoundingSphere &sphere)
+bool IntersectionTester::Test(const BoundingBox &box, const BoundingSphere &sphere)
 {
 	float distanceSq = BoundingBox::GetSquaredDistanceFromPointToBox(sphere.center, box);
 
 	if (distanceSq <= (sphere.radius * sphere.radius))
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL IntersectionTester::Test(const Ray &ray, const Vector3 &a, const Vector3 &b, const Vector3 &c, Vector3 *intersection)
+bool IntersectionTester::Test(const Ray &ray, const Vector3 &a, const Vector3 &b, const Vector3 &c, Vector3 *intersection)
 {
 	float r, num1, num2;
 
 	Vector3 temp1 = Vector3::Cross(b - a, c - a);
 	if (temp1.x == 0.0f && temp1.y == 0.0f && temp1.z == 0.0f)
-		return FALSE;
+		return false;
 
 	Vector3 temp2 = ray.position - a;
 	num1 = -Vector3::Dot(temp1, temp2);
@@ -277,30 +277,30 @@ BOOL IntersectionTester::Test(const Ray &ray, const Vector3 &a, const Vector3 &b
 		{
 			if (intersection)
 				*intersection = ray.position;
-			return TRUE;
+			return true;
 		}
 		else
-			return FALSE;
+			return false;
 	}
 
 	r = num1 / num2;
 	if (r < 0.0f)
-		return FALSE;
+		return false;
 
 	Vector3 temp3 = ray.GetPositionAt(r);
 	if (Vector3::IsPointInTriangle(temp3, a, b, c))
 	{
 		if (intersection)
 			*intersection = temp3;
-		return TRUE;
+		return true;
 	}
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const Vector3 &v2, const Vector3 &v3)
+bool IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const Vector3 &v2, const Vector3 &v3)
 {
-	BOOL foundCollision = FALSE;
+	bool foundCollision = false;
 
 	Vector3 p1 = v1 / packet.ellipsoidRadius;
 	Vector3 p2 = v2 / packet.ellipsoidRadius;
@@ -313,7 +313,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 	{
 		float t0;
 		float t1;
-		BOOL embeddedInPlane = FALSE;
+		bool embeddedInPlane = false;
 		float distToTrianglePlane = Plane::DistanceBetween(trianglePlane, packet.esPosition);
 		float normalDotVelocity = Vector3::Dot(trianglePlane.normal, packet.esVelocity);
 
@@ -323,12 +323,12 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 			if (fabsf(distToTrianglePlane) >= 1.0f)
 			{
 				// Sphere is not embedded in the plane, no collision possible
-				return FALSE;
+				return false;
 			}
 			else
 			{
 				// Sphere is embedded in the plane, it intersects throughout the whole time period
-				embeddedInPlane = TRUE;
+				embeddedInPlane = true;
 				t0 = 0.0f;
 				t1 = 1.0f;
 			}
@@ -351,7 +351,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 			if (t0 > 1.0f || t1 < 0.0f)
 			{
 				// Both values outside the range [0,1], no collision possible
-				return FALSE;
+				return false;
 			}
 
 			t0 = Clamp(t0, 0.0f, 1.0f);
@@ -372,7 +372,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 
 			if (Vector3::IsPointInTriangle(planeIntersectionPoint, p1, p2, p3))
 			{
-				foundCollision = TRUE;
+				foundCollision = true;
 				t = t0;
 				collisionPoint = planeIntersectionPoint;
 			}
@@ -380,7 +380,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 
 		// If we haven't found a collision at this point, we need to check the 
 		// points and edges of the triangle
-		if (foundCollision == FALSE)
+		if (foundCollision == false)
 		{
 			Vector3 velocity = packet.esVelocity;
 			Vector3 base = packet.esPosition;
@@ -399,7 +399,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 			if (GetLowestQuadraticRoot(a, b, c, t, newT))
 			{
 				t = newT;
-				foundCollision = TRUE;
+				foundCollision = true;
 				collisionPoint = p1;
 			}
 
@@ -409,7 +409,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 			if (GetLowestQuadraticRoot(a, b, c, t, newT))
 			{
 				t = newT;
-				foundCollision = TRUE;
+				foundCollision = true;
 				collisionPoint = p2;
 			}
 
@@ -419,7 +419,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 			if (GetLowestQuadraticRoot(a, b, c, t, newT))
 			{
 				t = newT;
-				foundCollision = TRUE;
+				foundCollision = true;
 				collisionPoint = p3;
 			}
 
@@ -444,7 +444,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 				{
 					// Intersection took place within the segment
 					t = newT;
-					foundCollision = TRUE;
+					foundCollision = true;
 					collisionPoint = p1 + edge * f;
 				}
 			}
@@ -468,7 +468,7 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 				{
 					// Intersection took place within the segment
 					t = newT;
-					foundCollision = TRUE;
+					foundCollision = true;
 					collisionPoint = p2 + edge * f;
 				}
 			}
@@ -492,23 +492,23 @@ BOOL IntersectionTester::Test(CollisionPacket &packet, const Vector3 &v1, const 
 				{
 					// Intersection took place within the segment
 					t = newT;
-					foundCollision = TRUE;
+					foundCollision = true;
 					collisionPoint = p3 + edge * f;
 				}
 			}
 		}
 
 		// Set result of test
-		if (foundCollision == TRUE)
+		if (foundCollision == true)
 		{
 			float distanceToCollision = t * Vector3::Length(packet.esVelocity);
 
 			// Does this triangle qualify for the closest collision?
-			if (packet.foundCollision == FALSE || distanceToCollision < packet.nearestDistance)
+			if (packet.foundCollision == false || distanceToCollision < packet.nearestDistance)
 			{
 				packet.nearestDistance = distanceToCollision;
 				packet.esIntersectionPoint = collisionPoint;
-				packet.foundCollision = TRUE;
+				packet.foundCollision = true;
 			}
 		}
 	}

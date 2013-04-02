@@ -84,7 +84,7 @@ Texture* TextureLoader::Load(const stl::string &file, Texture *existingTexture)
 		texture = new Texture();
 	
 	// load image into it
-	BOOL success = texture->Create(GetContentManager()->GetGameApp()->GetGraphicsDevice(), image);
+	bool success = texture->Create(GetContentManager()->GetGameApp()->GetGraphicsDevice(), image);
 	
 	// don't need to keep the underlying image around if not being used elsewhere
 	GetContentManager()->Free<Image>(image);

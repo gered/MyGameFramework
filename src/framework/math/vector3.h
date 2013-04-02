@@ -87,9 +87,9 @@ struct Vector3
 	 * @param a first vector of the triangle
 	 * @param b second vector of the triangle
 	 * @param c third vector of the triangle
-	 * @return TRUE if the point lies inside the triangle
+	 * @return true if the point lies inside the triangle
 	 */
-	static BOOL IsPointInTriangle(const Vector3 &point, const Vector3 &a, const Vector3 &b, const Vector3 &c);
+	static bool IsPointInTriangle(const Vector3 &point, const Vector3 &a, const Vector3 &b, const Vector3 &c);
 
 	/**
 	 * Returns the length (magnitude) of a vector.
@@ -239,7 +239,7 @@ inline float Vector3::Dot(const Vector3 &a, const Vector3 &b)
 		(a.z * b.z);
 }
 
-inline BOOL Vector3::IsPointInTriangle(const Vector3 &point, const Vector3 &a, const Vector3 &b, const Vector3 &c)
+inline bool Vector3::IsPointInTriangle(const Vector3 &point, const Vector3 &a, const Vector3 &b, const Vector3 &c)
 {
 	Vector3 v0 = c - a;
 	Vector3 v1 = b - a;
@@ -253,15 +253,15 @@ inline BOOL Vector3::IsPointInTriangle(const Vector3 &point, const Vector3 &a, c
 		
 	float denom = dot00 * dot11 - dot01 * dot01;
 	if (denom == 0)
-		return FALSE;
+		return false;
 		
 	float u = (dot11 * dot02 - dot01 * dot12) / denom;
 	float v = (dot00 * dot12 - dot01 * dot02) / denom;
 		
 	if (u >= 0 && v >= 0 && u + v <= 1)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 inline float Vector3::Length(const Vector3 &v)

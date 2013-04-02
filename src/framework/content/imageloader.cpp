@@ -38,7 +38,7 @@ Image* ImageLoader::LoadContent(const stl::string &file, const ContentParam *par
 	ASSERT(imageFile != NULL);
 
 	Image *image = new Image();
-	BOOL success = image->Create(imageFile);
+	bool success = image->Create(imageFile);
 	
 	SAFE_DELETE(imageFile);
 

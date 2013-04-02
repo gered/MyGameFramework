@@ -16,7 +16,7 @@
 #include "../math/point3.h"
 #include "../math/ray.h"
 
-GeometryDebugRenderer::GeometryDebugRenderer(GraphicsDevice *graphicsDevice, BOOL depthTesting)
+GeometryDebugRenderer::GeometryDebugRenderer(GraphicsDevice *graphicsDevice, bool depthTesting)
 {
 	m_graphicsDevice = graphicsDevice;
 	m_color1 = Color(1.0f, 1.0f, 0.0f);
@@ -37,7 +37,7 @@ GeometryDebugRenderer::GeometryDebugRenderer(GraphicsDevice *graphicsDevice, BOO
 	m_vertices->Initialize(attribs, 2, 16384, BUFFEROBJECT_USAGE_STREAM);
 	m_currentVertex = 0;
 
-	m_begunRendering = FALSE;
+	m_begunRendering = false;
 }
 
 GeometryDebugRenderer::~GeometryDebugRenderer()
@@ -49,12 +49,12 @@ GeometryDebugRenderer::~GeometryDebugRenderer()
 void GeometryDebugRenderer::Begin()
 {
 	m_currentVertex = 0;
-	m_begunRendering = TRUE;
+	m_begunRendering = true;
 }
 
 void GeometryDebugRenderer::Render(const BoundingBox &box, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 24));
 
 	uint i = m_currentVertex;
@@ -117,7 +117,7 @@ void GeometryDebugRenderer::Render(const Point3 &boxMin, const Point3 &boxMax, c
 
 void GeometryDebugRenderer::Render(const BoundingSphere &sphere, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 615));
 
 	uint p = m_currentVertex;
@@ -178,7 +178,7 @@ void GeometryDebugRenderer::Render(const BoundingSphere &sphere, const Color &co
 
 void GeometryDebugRenderer::Render(const Ray &ray, float length, const Color &color1, const Color &color2)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 2));
 
 	Vector3 temp = ray.GetPositionAt(length);
@@ -193,7 +193,7 @@ void GeometryDebugRenderer::Render(const Ray &ray, float length, const Color &co
 
 void GeometryDebugRenderer::Render(const LineSegment &line, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 2));
 
 	m_vertices->SetPosition3(m_currentVertex, line.a);
@@ -206,7 +206,7 @@ void GeometryDebugRenderer::Render(const LineSegment &line, const Color &color)
 
 void GeometryDebugRenderer::Render(const Vector3 &a, const Vector3 &b, const Vector3 &c, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	ASSERT(m_vertices->GetNumElements() > (m_currentVertex + 6));
 
 	m_vertices->SetPosition3(m_currentVertex, a);
@@ -227,7 +227,7 @@ void GeometryDebugRenderer::Render(const Vector3 &a, const Vector3 &b, const Vec
 
 void GeometryDebugRenderer::End()
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	if (m_currentVertex > 0)
 	{
@@ -247,5 +247,5 @@ void GeometryDebugRenderer::End()
 		m_graphicsDevice->UnbindShader();
 	}
 
-	m_begunRendering = FALSE;
+	m_begunRendering = false;
 }

@@ -24,19 +24,19 @@ public:
 	
 	void Release();
 	
-	BOOL Initialize(GraphicsDevice *graphicsDevice);
-	BOOL Initialize(GraphicsDevice *graphicsDevice, uint fixedWidth, uint fixedHeight);
+	bool Initialize(GraphicsDevice *graphicsDevice);
+	bool Initialize(GraphicsDevice *graphicsDevice, uint fixedWidth, uint fixedHeight);
 	
 	uint GetFramebufferName() const                                             { return m_framebufferName; }
-	BOOL IsInvalidated() const                                                  { return m_framebufferName == 0; }
-	BOOL IsUsingFixedDimensions() const                                         { return (m_fixedWidth != 0 && m_fixedHeight != 0); }
+	bool IsInvalidated() const                                                  { return m_framebufferName == 0; }
+	bool IsUsingFixedDimensions() const                                         { return (m_fixedWidth != 0 && m_fixedHeight != 0); }
 	
-	BOOL AttachViewContext();
-	BOOL AttachTexture(FRAMEBUFFER_DATA_TYPE type);
-	BOOL AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type);
-	BOOL ReleaseViewContext();
-	BOOL ReleaseTexture(FRAMEBUFFER_DATA_TYPE type);
-	BOOL ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type);
+	bool AttachViewContext();
+	bool AttachTexture(FRAMEBUFFER_DATA_TYPE type);
+	bool AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type);
+	bool ReleaseViewContext();
+	bool ReleaseTexture(FRAMEBUFFER_DATA_TYPE type);
+	bool ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type);
 	
 	ViewContext* GetViewContext() const                                         { return m_viewContext; }
 	Texture* GetTexture(FRAMEBUFFER_DATA_TYPE type) const;
@@ -52,10 +52,10 @@ private:
 	
 	void CreateFramebuffer();
 	
-	BOOL ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL releaseFirst);
-	BOOL ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, BOOL releaseFirst);
-	BOOL RemoveTexture(Texture *texture);
-	BOOL RemoveRenderbuffer(Renderbuffer *renderbuffer);
+	bool ReCreateAndAttach(FramebufferTextureMap::iterator &itor, bool releaseFirst);
+	bool ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, bool releaseFirst);
+	bool RemoveTexture(Texture *texture);
+	bool RemoveRenderbuffer(Renderbuffer *renderbuffer);
 	
 	void GetDimensionsForAttachment(uint &width, uint &height) const;
 	

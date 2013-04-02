@@ -9,7 +9,7 @@ BufferObject::BufferObject()
 	m_type = BUFFEROBJECT_TYPE_VERTEX;
 	m_usage = BUFFEROBJECT_USAGE_STATIC;
 	m_bufferId = 0;
-	m_isDirty = FALSE;
+	m_isDirty = false;
 	m_sizeInBytes = 0;
 }
 
@@ -21,15 +21,15 @@ void BufferObject::Release()
 	m_type = BUFFEROBJECT_TYPE_VERTEX;
 	m_usage = BUFFEROBJECT_USAGE_STATIC;
 	m_bufferId = 0;
-	m_isDirty = FALSE;
+	m_isDirty = false;
 	m_sizeInBytes = 0;
 	
 	GraphicsContextResource::Release();
 }
 
-BOOL BufferObject::Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
+bool BufferObject::Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE type, BUFFEROBJECT_USAGE usage)
 {
-	BOOL success = TRUE;
+	bool success = true;
 	if (graphicsDevice != NULL)
 		success = GraphicsContextResource::Initialize(graphicsDevice);
 	else
@@ -43,20 +43,20 @@ BOOL BufferObject::Initialize(GraphicsDevice *graphicsDevice, BUFFEROBJECT_TYPE 
 
 void BufferObject::CreateOnGpu()
 {
-	ASSERT(IsClientSideBuffer() == TRUE);
+	ASSERT(IsClientSideBuffer() == true);
 	CreateBufferObject();
 }
 
 void BufferObject::RecreateOnGpu()
 {
-	ASSERT(IsClientSideBuffer() == FALSE);
+	ASSERT(IsClientSideBuffer() == false);
 	FreeBufferObject();
 	CreateBufferObject();
 }
 
 void BufferObject::FreeFromGpu()
 {
-	ASSERT(IsClientSideBuffer() == FALSE);
+	ASSERT(IsClientSideBuffer() == false);
 	FreeBufferObject();
 }
 
@@ -65,7 +65,7 @@ void BufferObject::CreateBufferObject()
 	GL_CALL(glGenBuffers(1, &m_bufferId));
 	SizeBufferObject();
 
-	m_isDirty = TRUE;
+	m_isDirty = true;
 }
 
 void BufferObject::FreeBufferObject()
@@ -74,14 +74,14 @@ void BufferObject::FreeBufferObject()
 	GL_CALL(glDeleteBuffers(1, &m_bufferId));
 
 	m_bufferId = 0;
-	m_isDirty = FALSE;
+	m_isDirty = false;
 	m_sizeInBytes = 0;
 }
 
 void BufferObject::Update()
 {
-	ASSERT(IsClientSideBuffer() == FALSE);
-	ASSERT(IsDirty() == TRUE);
+	ASSERT(IsClientSideBuffer() == false);
+	ASSERT(IsDirty() == true);
 	ASSERT(GetNumElements() > 0);
 	ASSERT(GetElementWidthInBytes() > 0);
 
@@ -128,12 +128,12 @@ void BufferObject::Update()
 
 	GL_CALL(glBindBuffer(target, 0));
 
-	m_isDirty = FALSE;
+	m_isDirty = false;
 }
 
 void BufferObject::SizeBufferObject()
 {
-	ASSERT(IsClientSideBuffer() == FALSE);
+	ASSERT(IsClientSideBuffer() == false);
 	ASSERT(GetNumElements() > 0);
 	ASSERT(GetElementWidthInBytes() > 0);
 
@@ -160,7 +160,7 @@ void BufferObject::SizeBufferObject()
 	GL_CALL(glBufferData(target, m_sizeInBytes, NULL, usage));
 	GL_CALL(glBindBuffer(target, 0));
 
-	m_isDirty = TRUE;
+	m_isDirty = true;
 }
 
 void BufferObject::OnNewContext()

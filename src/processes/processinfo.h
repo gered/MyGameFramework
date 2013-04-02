@@ -13,11 +13,11 @@ struct ProcessInfo
 
 	GameProcess *process;
 	stl::string name;
-	BOOL isTransitioning;
-	BOOL isTransitioningOut;
-	BOOL isTransitionStarting;
-	BOOL isInactive;
-	BOOL isBeingRemoved;
+	bool isTransitioning;
+	bool isTransitioningOut;
+	bool isTransitionStarting;
+	bool isInactive;
+	bool isBeingRemoved;
 
 	const stl::string& GetDescriptor() const                                    { return m_descriptor; }
 	

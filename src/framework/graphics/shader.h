@@ -41,9 +41,9 @@ public:
 	 * @param graphicsDevice the graphics device to associate this shader with
 	 * @param vertexShaderSource GLSL source for a vertex shader
 	 * @param fragmentShaderSource GLSL source for a vertex shader
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	virtual BOOL Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource);
+	virtual bool Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource);
 	
 	/**
 	 * Initializes the shader object using the given vertex and fragment shader
@@ -51,36 +51,36 @@ public:
 	 * @param graphicsDevice the graphics device to associate this shader with
 	 * @param vertexShaderSource GLSL source for a vertex shader
 	 * @param fragmentShaderSource GLSL source for a vertex shader
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	virtual BOOL Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource);
+	virtual bool Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource);
 	
 	/**
-	 * @return TRUE if this shader has been compiled and linked into a program
+	 * @return true if this shader has been compiled and linked into a program
 	 *         that can be bound and rendered with
 	 */
-	BOOL IsReadyForUse() const;
+	bool IsReadyForUse() const;
 	
 	/**
-	 * @return TRUE if this shader is currently bound to the graphics device
+	 * @return true if this shader is currently bound to the graphics device
 	 */
-	BOOL IsBound() const                                                        { return m_isBound; }
+	bool IsBound() const                                                        { return m_isBound; }
 
 	/**
-	 * @return TRUE if the vertex shader was compiled without errors
+	 * @return true if the vertex shader was compiled without errors
 	 */
-	BOOL GetVertexShaderCompileStatus() const                                   { return m_vertexShaderCompileStatus; }
+	bool GetVertexShaderCompileStatus() const                                   { return m_vertexShaderCompileStatus; }
 
 	/**
-	 * @return TRUE if the fragment shader was compiled without errors
+	 * @return true if the fragment shader was compiled without errors
 	 */
-	BOOL GetFragmentShaderCompileStatus() const                                 { return m_fragmentShaderCompileStatus; }
+	bool GetFragmentShaderCompileStatus() const                                 { return m_fragmentShaderCompileStatus; }
 
 	/**
-	 * @return TRUE if the compiled vertex and fragment shaders were linked
+	 * @return true if the compiled vertex and fragment shaders were linked
 	 *         without errors
 	 */
-	BOOL GetLinkStatus() const                                                  { return m_linkStatus; }
+	bool GetLinkStatus() const                                                  { return m_linkStatus; }
 
 	/**
 	 * @return the OpenGL program ID that can be bound
@@ -91,18 +91,18 @@ public:
 	 * Checks if this shader contains a uniform. Note that the GLSL compiler
 	 * could optimize out uniforms if they aren't used in the GLSL code.
 	 * @param name the name of the uniform to check for
-	 * @return TRUE if the uniform is present
+	 * @return true if the uniform is present
 	 */
-	BOOL HasUniform(const stl::string &name) const;
+	bool HasUniform(const stl::string &name) const;
 
 	/**
 	 * Checks if this shader contains an attribute. Note that the GLSL
 	 * compiler could optimize out attributes if they aren't used in the
 	 * GLSL code.
 	 * @param name the name of the attribute to check for
-	 * @return TRUE if the attribute is present
+	 * @return true if the attribute is present
 	 */
-	BOOL HasAttribute(const stl::string &name) const;
+	bool HasAttribute(const stl::string &name) const;
 
 	/**
 	 * Sets the value of a uniform.
@@ -225,10 +225,10 @@ public:
 	 * attribute type or not.
 	 * @param attribIndex the index of the shader attribute to check the 
 	 *                    mapping of
-	 * @return TRUE if this shader attribute was mapped to a standard attribute
-	 *         type or FALSE if it wasn't
+	 * @return true if this shader attribute was mapped to a standard attribute
+	 *         type or false if it wasn't
 	 */
-	BOOL IsAttributeMappedToStandardType(uint attribIndex) const;
+	bool IsAttributeMappedToStandardType(uint attribIndex) const;
 
 	/**
 	 * Gets a vertex buffer object attribute index that corresponds to the
@@ -289,19 +289,19 @@ protected:
 	 * for shader subclasses to begin initializing their own custom state
 	 * immediately afterward.
 	 * @param graphicsDevice the graphics device to associate this shader with
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice);
+	bool Initialize(GraphicsDevice *graphicsDevice);
 	
 	/**
 	 * Loads the provided shader sources, compiles and links them and
 	 * caches information about attributes and uniforms.
 	 * @param vertexShaderSource vertex shader source
 	 * @param fragmentShaderSource fragment shader source
-	 * @return TRUE if compilation and linking succeeded and the shader
+	 * @return true if compilation and linking succeeded and the shader
 	 *              is now ready for use
 	 */
-	BOOL LoadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource);
+	bool LoadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource);
 
 	/**
 	 * Reloads shader sources either from those provided or from the
@@ -311,10 +311,10 @@ protected:
 	 *                           the source from the cache
 	 * @param fragmentShaderSource fragment shader source, or NULL to load
 	 *                             the source from the cache
-	 * @return TRUE if compilation and linking succeeded and the shader
+	 * @return true if compilation and linking succeeded and the shader
 	 *              is now ready for use
 	 */
-	BOOL ReloadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource);
+	bool ReloadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource);
 
 	/**
 	 * Caches the provided shader sources. ReloadCompileAndLink() can
@@ -353,8 +353,8 @@ protected:
 	ShaderAttribute* GetAttribute(const stl::string &name);
 
 private:
-	BOOL Compile(const char *vertexShaderSource, const char *fragmentShaderSource);
-	BOOL Link();
+	bool Compile(const char *vertexShaderSource, const char *fragmentShaderSource);
+	bool Link();
 	void LoadUniformInfo();
 	void LoadAttributeInfo();
 
@@ -367,13 +367,13 @@ private:
 
 	char *m_cachedVertexShaderSource;
 	char *m_cachedFragmentShaderSource;
-	BOOL m_vertexShaderCompileStatus;
-	BOOL m_fragmentShaderCompileStatus;
-	BOOL m_linkStatus;
+	int m_vertexShaderCompileStatus;
+	int m_fragmentShaderCompileStatus;
+	int m_linkStatus;
 	uint m_vertexShaderId;
 	uint m_fragmentShaderId;
 	uint m_programId;
-	BOOL m_isBound;
+	bool m_isBound;
 
 	ShaderUniformMap m_uniforms;
 	ShaderAttributeMap m_attributes;
@@ -383,15 +383,15 @@ private:
 	CachedShaderUniformMap m_cachedUniforms;
 };
 
-inline BOOL Shader::IsReadyForUse() const
+inline bool Shader::IsReadyForUse() const
 {
 	if (GetVertexShaderCompileStatus() && GetFragmentShaderCompileStatus() && GetLinkStatus())
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-inline BOOL Shader::IsAttributeMappedToStandardType(uint attribIndex) const
+inline bool Shader::IsAttributeMappedToStandardType(uint attribIndex) const
 {
 	return m_attributeMapping[attribIndex].usesStandardType;
 }

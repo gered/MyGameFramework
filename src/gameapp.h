@@ -19,7 +19,7 @@ public:
 	void OnAppLostFocus();
 	void OnAppPause();
 	void OnAppResume();
-	BOOL OnInit();
+	bool OnInit();
 	void OnLoadGame();
 	void OnLostContext();
 	void OnNewContext();

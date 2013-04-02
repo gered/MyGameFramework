@@ -13,10 +13,10 @@
 SDLGameWindow::SDLGameWindow(BaseGameApp *gameApp)
 	: GameWindow(gameApp)
 {
-	m_active = FALSE;
-	m_focused = FALSE;
-	m_closing = FALSE;
-	m_hasCurrentGLContext = FALSE;
+	m_active = false;
+	m_focused = false;
+	m_closing = false;
+	m_hasCurrentGLContext = false;
 	m_screenOrientation = SCREEN_ANGLE_0;
 	m_SDLflags = 0;
 	m_originalWidth = 0;
@@ -28,7 +28,7 @@ SDLGameWindow::SDLGameWindow(BaseGameApp *gameApp)
 	m_rect.right = 0;
 	m_rect.bottom = 0;
 	m_bpp = 0;
-	m_fullscreen = FALSE;
+	m_fullscreen = false;
 	m_screen = NULL;
 }
 
@@ -37,7 +37,7 @@ SDLGameWindow::~SDLGameWindow()
 	LOG_INFO(LOGCAT_WINDOW, "Releasing.\n");
 }
 
-BOOL SDLGameWindow::Create(GameWindowParams *params)
+bool SDLGameWindow::Create(GameWindowParams *params)
 {
 	LOG_INFO(LOGCAT_WINDOW, "Creating a window.\n");
 
@@ -69,7 +69,7 @@ BOOL SDLGameWindow::Create(GameWindowParams *params)
 
 	// Set the video mode
 	if (!SetUpWindow(sdlParams->width, sdlParams->height))
-		return FALSE;
+		return false;
 
 	SDL_WM_SetCaption(sdlParams->title.c_str(), sdlParams->title.c_str());
 	LOG_INFO(LOGCAT_WINDOW, "Application window caption set: \"%s\"\n", sdlParams->title.c_str());
@@ -77,43 +77,43 @@ BOOL SDLGameWindow::Create(GameWindowParams *params)
 	LOG_INFO(LOGCAT_WINDOW, "Finished initialization.\n");
 
 	LOG_INFO(LOGCAT_WINDOW, "Window marked active.\n");
-	m_active = TRUE;
-	m_focused = TRUE;
+	m_active = true;
+	m_focused = true;
 
-	return TRUE;
+	return true;
 }
 
-BOOL SDLGameWindow::Resize(uint width, uint height)
+bool SDLGameWindow::Resize(uint width, uint height)
 {
-	BOOL result = SetUpWindow(width, height);
+	bool result = SetUpWindow(width, height);
 	GetGameApp()->OnNewContext();
 	GetGameApp()->OnResize();
 	return result;
 }
 
-BOOL SDLGameWindow::ToggleFullscreen()
+bool SDLGameWindow::ToggleFullscreen()
 {
-	BOOL screenToggleResult;
+	bool screenToggleResult;
 	if (m_fullscreen)
 		LOG_INFO(LOGCAT_WINDOW, "Beginning switch to windowed mode...\n");
 	else
 		LOG_INFO(LOGCAT_WINDOW, "Beginning switch to fullscreen mode...\n");
 
 	GetGameApp()->OnLostContext();
-	m_hasCurrentGLContext = FALSE;
+	m_hasCurrentGLContext = false;
 
 	m_SDLflags ^= SDL_FULLSCREEN;
 	if (m_SDLflags & SDL_FULLSCREEN)
-		m_fullscreen = TRUE;
+		m_fullscreen = true;
 	else
-		m_fullscreen = FALSE;
+		m_fullscreen = false;
 
 	screenToggleResult = Resize(m_width, m_height);
 	if (!screenToggleResult)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "Failed to toggle fullscreen/windowed mode (%dx%dx%d, fullscreen = %d).\n", m_width, m_height, m_bpp, m_fullscreen);
-		ASSERT(screenToggleResult == TRUE);
-		return FALSE;
+		ASSERT(screenToggleResult == true);
+		return false;
 	}
 
 	if (m_fullscreen)
@@ -121,7 +121,7 @@ BOOL SDLGameWindow::ToggleFullscreen()
 	else
 		LOG_INFO(LOGCAT_WINDOW, "Finished switch to windowed mode.\n");
 
-	return TRUE;
+	return true;
 }
 
 void SDLGameWindow::DisplaySdlHardwareInfo()
@@ -182,7 +182,7 @@ void SDLGameWindow::DisplaySdlHardwareInfo()
 	}
 }
 
-BOOL SDLGameWindow::SetUpWindow(uint width, uint height)
+bool SDLGameWindow::SetUpWindow(uint width, uint height)
 {
 	int ret;
 	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();
@@ -197,7 +197,7 @@ BOOL SDLGameWindow::SetUpWindow(uint width, uint height)
 		if (!ret)
 		{
 			LOG_WARN(LOGCAT_WINDOW, "Video mode %dx%d @ %d bpp not supported.\n", width, height, m_bpp);
-			return FALSE;
+			return false;
 		}
 
 		width = m_originalWidth;
@@ -217,7 +217,7 @@ BOOL SDLGameWindow::SetUpWindow(uint width, uint height)
 	if ((m_screen = SDL_SetVideoMode(width, height, m_bpp, m_SDLflags)) == NULL)
 	{
 		LOG_ERROR(LOGCAT_WINDOW, "Could not set video mode %dx%dx%d (flags = %ld): %s\n", width, height, m_bpp, m_SDLflags, SDL_GetError());
-		return FALSE;
+		return false;
 	}
 	LOG_INFO(LOGCAT_WINDOW, "Video mode %dx%d @ %d bpp set.\n", width, height, m_bpp);
 
@@ -252,9 +252,9 @@ BOOL SDLGameWindow::SetUpWindow(uint width, uint height)
 		m_rect.bottom = m_rect.top + height;
 	}
 
-	m_hasCurrentGLContext = TRUE;
+	m_hasCurrentGLContext = true;
 
-	return TRUE;
+	return true;
 }
 
 void SDLGameWindow::ProcessEvent(const OSEvent *event)
@@ -263,7 +263,7 @@ void SDLGameWindow::ProcessEvent(const OSEvent *event)
 		return;
 
 	const SDLSystemEvent *evt = (SDLSystemEvent*)event;
-	BOOL resizeResult;
+	bool resizeResult;
 
 	switch (evt->event->type)
 	{
@@ -276,7 +276,7 @@ void SDLGameWindow::ProcessEvent(const OSEvent *event)
 			{
 				LOG_INFO(LOGCAT_WINDOW, "Window focus gained.\n");
 				LOG_INFO(LOGCAT_WINDOW, "Window marked active.\n");
-				m_active = TRUE;
+				m_active = true;
 
 				// ensure we render again now that rendering has been resumed
 				// (the window might have been minimized or covered up)
@@ -286,7 +286,7 @@ void SDLGameWindow::ProcessEvent(const OSEvent *event)
 			{
 				LOG_INFO(LOGCAT_WINDOW, "Window focus lost.\n");
 				LOG_INFO(LOGCAT_WINDOW, "Window marked inactive.\n");
-				m_active = FALSE;
+				m_active = false;
 			}
 		}
 		if (evt->event->active.state & SDL_APPMOUSEFOCUS)
@@ -301,13 +301,13 @@ void SDLGameWindow::ProcessEvent(const OSEvent *event)
 			if (evt->event->active.gain)
 			{
 				LOG_INFO(LOGCAT_WINDOW, "Gained input device focus.\n");
-				m_focused = TRUE;
+				m_focused = true;
 				GetGameApp()->OnAppGainFocus();
 			}
 			else
 			{
 				LOG_INFO(LOGCAT_WINDOW, "Lost input device focus.\n");
-				m_focused = FALSE;
+				m_focused = false;
 				GetGameApp()->OnAppLostFocus();
 			}
 		}
@@ -319,14 +319,14 @@ void SDLGameWindow::ProcessEvent(const OSEvent *event)
 		// re-initializing OpenGL
 		LOG_INFO(LOGCAT_WINDOW, "Window resized to %dx%d.\n", evt->event->resize.w, evt->event->resize.h);
 		GetGameApp()->OnLostContext();
-		m_hasCurrentGLContext = FALSE;
+		m_hasCurrentGLContext = false;
 		resizeResult = SetUpWindow(evt->event->resize.w, evt->event->resize.h);
 		GetGameApp()->OnNewContext();
 		GetGameApp()->OnResize();
 		if (!resizeResult)
 		{
 			LOG_ERROR(LOGCAT_WINDOW, "Window resize to %dx%d failed!\n", evt->event->resize.w, evt->event->resize.h);
-			ASSERT(resizeResult == TRUE);
+			ASSERT(resizeResult == true);
 			Close();
 			return;
 		}
@@ -339,14 +339,14 @@ void SDLGameWindow::Close()
 	if (m_active)
 	{
 		LOG_INFO(LOGCAT_WINDOW, "Window marked inactive.\n");
-		m_active = FALSE;
-		m_focused = FALSE;
+		m_active = false;
+		m_focused = false;
 	}
 	else
 		LOG_INFO(LOGCAT_WINDOW, "Window was already marked inactive.\n");
 
 	LOG_INFO(LOGCAT_WINDOW, "Closing.\n");
-	m_closing = TRUE;
+	m_closing = true;
 }
 
 #endif

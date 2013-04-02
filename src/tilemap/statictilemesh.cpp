@@ -7,7 +7,7 @@
 #include "../framework/math/mathhelpers.h"
 #include "../framework/math/rectf.h"
 
-StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color, const StaticMesh *collisionMesh)
+StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color, const StaticMesh *collisionMesh)
 {
 	// only work with the first mesh subset
 	StaticMeshSubset *subset = mesh->GetSubset(0);
@@ -36,7 +36,7 @@ StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlas
 	SetupCollisionVertices(collisionMesh);
 }
 
-StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, uint numTiles, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, BOOL alpha, float translucency, const Color &color, const StaticMesh *collisionMesh)
+StaticTileMesh::StaticTileMesh(const StaticMesh *mesh, const RectF *textureAtlasTileBoundaries, uint numTiles, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue, bool alpha, float translucency, const Color &color, const StaticMesh *collisionMesh)
 {
 	ASSERT(numTiles > 0);
 	ASSERT(mesh->GetNumSubsets() >= numTiles);

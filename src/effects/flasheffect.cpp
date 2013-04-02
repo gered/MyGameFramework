@@ -11,7 +11,7 @@ const float DEFAULT_MAX_INTENSITY = 1.0f;
 
 FlashEffect::FlashEffect()
 {
-	m_flashingIn = TRUE;
+	m_flashingIn = true;
 	m_flashInSpeed = DEFAULT_FLASH_SPEED;
 	m_flashOutSpeed = DEFAULT_FLASH_SPEED;
 	m_maximumIntensity = DEFAULT_MAX_INTENSITY;
@@ -45,7 +45,7 @@ void FlashEffect::OnUpdate(float delta)
 		if (m_alpha >= m_maximumIntensity)
 		{
 			m_alpha = m_maximumIntensity;
-			m_flashingIn = FALSE;
+			m_flashingIn = false;
 		}
 	}
 	else
@@ -55,7 +55,7 @@ void FlashEffect::OnUpdate(float delta)
 			m_alpha = 0.0f;
 	}
 
-	if (m_alpha == 0.0f && m_flashingIn == FALSE)
+	if (m_alpha == 0.0f && m_flashingIn == false)
 		MarkInactive();
 }
 

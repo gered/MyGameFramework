@@ -113,13 +113,13 @@ void SkeletalMesh::FindAndSetRootJointIndex()
 		}
 		
 		// ensure it has child joints
-		BOOL hasChildJoints = FALSE;
+		bool hasChildJoints = false;
 		for (uint i = 0; i < m_numJoints; ++i)
 		{
 			int parentIndex = m_joints[i].parentIndex;
 			if (parentIndex == parentlessJoint)
 			{
-				hasChildJoints = TRUE;
+				hasChildJoints = true;
 				break;
 			}
 		}

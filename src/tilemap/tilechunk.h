@@ -19,8 +19,8 @@ public:
 	TileChunk(uint x, uint y, uint z, uint width, uint height, uint depth, const TileMap *tileMap, GraphicsDevice *graphicsDevice);
 	virtual ~TileChunk();
 
-	void EnableAlphaVertices(BOOL enable);
-	BOOL IsAlphaEnabled() const                            { return m_alphaVertices != NULL; }
+	void EnableAlphaVertices(bool enable);
+	bool IsAlphaEnabled() const                            { return m_alphaVertices != NULL; }
 	void UpdateVertices(ChunkVertexGenerator *vertexGenerator);
 
 	Tile* Get(uint x, uint y, uint z) const;
@@ -30,13 +30,13 @@ public:
 	void GetBoundingBoxFor(uint x, uint y, uint z, BoundingBox *box) const;
 	BoundingBox GetBoundingBoxFor(uint x, uint y, uint z) const;
 
-	BOOL CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const;
-	BOOL CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const;
-	BOOL CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const;
-	BOOL GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const;
+	bool CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const;
+	bool CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const;
+	bool CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const;
+	bool GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const;
 
-	BOOL IsWithinBounds(int x, int y, int z) const;
-	BOOL IsWithinLocalBounds(int x, int y, int z) const;
+	bool IsWithinBounds(int x, int y, int z) const;
+	bool IsWithinLocalBounds(int x, int y, int z) const;
 
 	uint GetX() const                                      { return m_x; }
 	uint GetY() const                                      { return m_y; }
@@ -93,28 +93,28 @@ inline uint TileChunk::GetIndexOf(uint x, uint y, uint z) const
 	return (y * m_width * m_depth) + (z * m_width) + x;
 }
 
-inline BOOL TileChunk::IsWithinBounds(int x, int y, int z) const
+inline bool TileChunk::IsWithinBounds(int x, int y, int z) const
 {
 	if (x < (int)GetX() || x >= (int)(GetX() + m_width))
-		return FALSE;
+		return false;
 	if (y < (int)GetY() || y >= (int)(GetY() + m_height))
-		return FALSE;
+		return false;
 	if (z < (int)GetZ() || z >= (int)(GetZ() + m_depth))
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
-inline BOOL TileChunk::IsWithinLocalBounds(int x, int y, int z) const
+inline bool TileChunk::IsWithinLocalBounds(int x, int y, int z) const
 {
 	if (x < 0 || x >= (int)m_width)
-		return FALSE;
+		return false;
 	if (y < 0 || y >= (int)m_height)
-		return FALSE;
+		return false;
 	if (z < 0 || z >= (int)m_depth)
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
 #endif

@@ -30,7 +30,7 @@ public:
 	void Pop();
 	void PopTopNonOverlay();
 	
-	BOOL HasState(const stl::string &name) const;
+	bool HasState(const stl::string &name) const;
 
 	void OnAppGainFocus();
 	void OnAppLostFocus();
@@ -42,46 +42,46 @@ public:
 	void OnResize();
 	void OnUpdate(float delta);
 
-	BOOL IsTransitioning() const;
-	BOOL IsEmpty() const;
-	BOOL IsTop(const GameState *state) const;
-	BOOL IsTransitioning(const GameState *state) const;
+	bool IsTransitioning() const;
+	bool IsEmpty() const;
+	bool IsTop(const GameState *state) const;
+	bool IsTransitioning(const GameState *state) const;
 
 	GameState* GetTopState() const;
 	GameState* GetTopNonOverlayState() const;
 
 	int GetLastReturnValue() const                                              { return m_stateReturnValue; }
-	BOOL HasLastReturnValue() const                                             { return m_hasStateReturnValue; }
+	bool HasLastReturnValue() const                                             { return m_hasStateReturnValue; }
 
 private:
 	void QueueForPush(StateInfo *newStateInfo);
-	void QueueForSwap(StateInfo *newStateInfo, BOOL swapTopNonOverlay);
+	void QueueForSwap(StateInfo *newStateInfo, bool swapTopNonOverlay);
 
 	StateInfo* GetTop() const;
 	StateInfo* GetTopNonOverlay() const;
 	StateInfoList::iterator GetTopNonOverlayItor();
 	StateInfo* GetStateInfoFor(const GameState *state) const;
 
-	void StartTopStatesTransitioningOut(BOOL pausing);
-	void StartOnlyTopStateTransitioningOut(BOOL pausing);
+	void StartTopStatesTransitioningOut(bool pausing);
+	void StartOnlyTopStateTransitioningOut(bool pausing);
 	void CleanupInactiveStates();
 	void CheckForFinishedStates();
 	void ProcessQueues();
 	void ResumeStatesIfNeeded();
 	void UpdateTransitions(float delta);
 
-	void TransitionOut(StateInfo *stateInfo, BOOL forPopping);
-	void TransitionIn(StateInfo *stateInfo, BOOL forResuming);
+	void TransitionOut(StateInfo *stateInfo, bool forPopping);
+	void TransitionIn(StateInfo *stateInfo, bool forResuming);
 
 	GameApp *m_gameApp;
 	StateInfoList m_states;
 	StateInfoQueue m_pushQueue;
 	StateInfoQueue m_swapQueue;
 	int m_stateReturnValue; 
-	BOOL m_hasStateReturnValue;
-	BOOL m_pushQueueHasOverlay;
-	BOOL m_swapQueueHasOverlay;
-	BOOL m_lastCleanedStatesWereAllOverlays;
+	bool m_hasStateReturnValue;
+	bool m_pushQueueHasOverlay;
+	bool m_swapQueueHasOverlay;
+	bool m_lastCleanedStatesWereAllOverlays;
 };
 
 template<class T>
@@ -110,7 +110,7 @@ T* StateManager::Overlay(const stl::string &name)
 {
 	T* newState = new T(m_gameApp, this);
 	StateInfo *newStateInfo = new StateInfo(newState, name);
-	newStateInfo->isOverlay = TRUE;
+	newStateInfo->isOverlay = true;
 	QueueForPush(newStateInfo);
 	return newState;
 }
@@ -127,12 +127,12 @@ T* StateManager::SwapTopWith(const stl::string &name)
 	// figure out if the current top state is an overlay or not. use that
 	// same setting for the new state that is to be swapped in
 	StateInfo *currentTopStateInfo = GetTop();
-	BOOL isOverlay = currentTopStateInfo->isOverlay;
+	bool isOverlay = currentTopStateInfo->isOverlay;
 
 	T* newState = new T(m_gameApp, this);
 	StateInfo *newStateInfo = new StateInfo(newState, name);
 	newStateInfo->isOverlay = isOverlay;
-	QueueForSwap(newStateInfo, FALSE);
+	QueueForSwap(newStateInfo, false);
 	return newState;
 }
 
@@ -147,21 +147,21 @@ T* StateManager::SwapTopNonOverlayWith(const stl::string &name)
 {
 	T *newState = new T(m_gameApp, this);
 	StateInfo *newStateInfo = new StateInfo(newState, name);
-	QueueForSwap(newStateInfo, TRUE);
+	QueueForSwap(newStateInfo, true);
 	return newState;
 }
 
-inline BOOL StateManager::IsEmpty() const
+inline bool StateManager::IsEmpty() const
 {
 	return (m_states.empty() && m_pushQueue.empty() && m_swapQueue.empty());
 }
 
-inline BOOL StateManager::IsTop(const GameState *state) const
+inline bool StateManager::IsTop(const GameState *state) const
 {
 	return GetTop()->gameState == state;
 }
 
-inline BOOL StateManager::IsTransitioning(const GameState *state) const
+inline bool StateManager::IsTransitioning(const GameState *state) const
 {
 	return GetStateInfoFor(state)->isTransitioning;
 }

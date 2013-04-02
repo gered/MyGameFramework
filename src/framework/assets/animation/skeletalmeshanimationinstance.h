@@ -14,8 +14,8 @@ public:
 	virtual ~SkeletalMeshAnimationInstance();
 	
 	void OnUpdate(float delta);
-	void SetSequence(uint startFrame, uint endFrame, BOOL loop);
-	void SetSequence(const stl::string &name, BOOL loop);
+	void SetSequence(uint startFrame, uint endFrame, bool loop);
+	void SetSequence(const stl::string &name, bool loop);
 	void RunSequenceOnce(const stl::string &name);
 	
 	uint GetCurrentFrame() const                           { return m_thisFrame; }
@@ -28,13 +28,13 @@ private:
 	stl::string m_currentSequenceName;
 	uint m_currentSequenceStart;
 	uint m_currentSequenceEnd;
-	BOOL m_currentSequenceLoop;
+	bool m_currentSequenceLoop;
 	uint m_thisFrame;
 	uint m_nextFrame;
 	float m_interpolation;
-	BOOL m_isRunningTempSequence;
+	bool m_isRunningTempSequence;
 	stl::string m_oldSequenceName;
-	BOOL m_oldSequenceLoop;
+	bool m_oldSequenceLoop;
 };
 
 #endif

@@ -16,26 +16,26 @@ public:
 	virtual ~Keyboard()                                    {}
 
 	/**
-	 * @return TRUE if the underlying keyboard device was detected to have
+	 * @return true if the underlying keyboard device was detected to have
 	 *         enough physical keys for full game control
 	 */
-	virtual BOOL HasPhysicalKeysForGameControls() const = 0;
+	virtual bool HasPhysicalKeysForGameControls() const = 0;
 
 	/**
 	 * Checks if the key is currently down, but not locked.
 	 * @param key the key to check
-	 * @return TRUE if down and not locked, FALSE if not down or locked
+	 * @return true if down and not locked, false if not down or locked
 	 */
-	virtual BOOL IsDown(KEYS key) = 0;
+	virtual bool IsDown(KEYS key) = 0;
 
 	/**
 	 * Checks if the key is currently down, but not locked. If so, the key is
 	 * locked until released so that duplicate "down" events will not be
 	 * registered for this key until it is released and pressed down again.
 	 * @param key the key to check
-	 * @return TRUE if down and not locked, FALSE if not down or locked
+	 * @return true if down and not locked, false if not down or locked
 	 */
-	virtual BOOL IsPressed(KEYS key) = 0;
+	virtual bool IsPressed(KEYS key) = 0;
 
 	/**
 	 * Locks the key so that it will not be reported as down until it is

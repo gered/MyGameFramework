@@ -3,14 +3,14 @@
 #include "glutils.h"
 #include <string.h>
 
-BOOL IsGLExtensionPresent(const char* extension)
+bool IsGLExtensionPresent(const char* extension)
 {
 	ASSERT(extension != NULL);
 	ASSERT(strlen(extension) > 0);
 	
 	const char* extensionsList = (const char*)glGetString(GL_EXTENSIONS);
 	
-	return (strstr(extensionsList, extension) != NULL ? TRUE : FALSE);
+	return (strstr(extensionsList, extension) != NULL ? true : false);
 }
 
 const char* GetGLErrorString(GLenum error)

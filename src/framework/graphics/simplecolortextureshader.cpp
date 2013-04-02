@@ -42,17 +42,17 @@ SimpleColorTextureShader::~SimpleColorTextureShader()
 {
 }
 
-BOOL SimpleColorTextureShader::Initialize(GraphicsDevice *graphicsDevice)
+bool SimpleColorTextureShader::Initialize(GraphicsDevice *graphicsDevice)
 {
 	if (!StandardShader::Initialize(graphicsDevice))
-		return FALSE;
+		return false;
 	
-	BOOL result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
-	ASSERT(result == TRUE);
+	bool result = LoadCompileAndLinkInlineSources(m_vertexShaderSource, m_fragmentShaderSource);
+	ASSERT(result == true);
 
 	MapAttributeToStandardAttribType("a_position", VERTEX_STD_POS_3D);
 	MapAttributeToStandardAttribType("a_color", VERTEX_STD_COLOR);
 	MapAttributeToStandardAttribType("a_texcoord0", VERTEX_STD_TEXCOORD);
 	
-	return TRUE;
+	return true;
 }

@@ -48,10 +48,10 @@ protected:
 	 * defined via constants or statically in the application C++ code.
 	 * @param vertexShaderSource vertex shader source
 	 * @param fragmentShaderSource fragment shader source
-	 * @return TRUE if compilation and linking succeeded and the shader
+	 * @return true if compilation and linking succeeded and the shader
 	 *              is now ready for use
 	 */
-	BOOL LoadCompileAndLinkInlineSources(const char *inlineVertexShaderSource, const char *inlineFragmentShaderSource);
+	bool LoadCompileAndLinkInlineSources(const char *inlineVertexShaderSource, const char *inlineFragmentShaderSource);
 
 	/**
 	 * @return the name of the modelview matrix uniform

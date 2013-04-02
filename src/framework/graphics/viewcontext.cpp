@@ -17,9 +17,9 @@ ViewContext::ViewContext()
 {
 	m_graphicsDevice = NULL;
 	m_viewport = Rect(0, 0, 0, 0);
-	m_viewportIsFixedSize = FALSE;
+	m_viewportIsFixedSize = false;
 	m_camera = NULL;
-	m_usingDefaultCamera = FALSE;
+	m_usingDefaultCamera = false;
 }
 
 ViewContext::~ViewContext()
@@ -34,48 +34,48 @@ void ViewContext::Release()
 	
 	m_graphicsDevice = NULL;
 	m_viewport = Rect(0, 0, 0, 0);
-	m_viewportIsFixedSize = FALSE;
+	m_viewportIsFixedSize = false;
 	m_screenOrientation = SCREEN_ANGLE_0;
 	m_camera = NULL;
-	m_usingDefaultCamera = FALSE;
+	m_usingDefaultCamera = false;
 }
 
-BOOL ViewContext::Create(GraphicsDevice *graphicsDevice)
+bool ViewContext::Create(GraphicsDevice *graphicsDevice)
 {
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(graphicsDevice != NULL);
 	m_graphicsDevice = graphicsDevice;
 	
 	m_viewport = m_graphicsDevice->GetWindow()->GetRect();
-	m_viewportIsFixedSize = FALSE;
+	m_viewportIsFixedSize = false;
 	m_screenOrientation = SCREEN_ANGLE_0;
 
 	m_camera = new Camera(this);
-	m_usingDefaultCamera = TRUE;
+	m_usingDefaultCamera = true;
 	
-	return TRUE;
+	return true;
 }
 
-BOOL ViewContext::Create(GraphicsDevice *graphicsDevice, const Rect &fixedViewportSize)
+bool ViewContext::Create(GraphicsDevice *graphicsDevice, const Rect &fixedViewportSize)
 {
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
-		return FALSE;
+		return false;
 
 	ASSERT(graphicsDevice != NULL);
 	m_graphicsDevice = graphicsDevice;
 	
 	m_viewport = fixedViewportSize;
-	m_viewportIsFixedSize = TRUE;
+	m_viewportIsFixedSize = true;
 	m_screenOrientation = SCREEN_ANGLE_0;
 	
 	m_camera = new Camera(this);
-	m_usingDefaultCamera = TRUE;
+	m_usingDefaultCamera = true;
 	
-	return TRUE;
+	return true;
 }
 
 void ViewContext::OnNewContext()
@@ -175,7 +175,7 @@ void ViewContext::SetCamera(Camera *camera)
 	if (m_usingDefaultCamera && camera != NULL)
 	{
 		SAFE_DELETE(m_camera);
-		m_usingDefaultCamera = FALSE;
+		m_usingDefaultCamera = false;
 		m_camera = camera;
 	}
 	
@@ -190,7 +190,7 @@ void ViewContext::SetCamera(Camera *camera)
 	{
 		m_camera = new Camera(this);
 		ASSERT(m_camera != NULL);
-		m_usingDefaultCamera = TRUE;
+		m_usingDefaultCamera = true;
 	}
 }
 

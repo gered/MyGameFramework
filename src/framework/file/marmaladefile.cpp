@@ -9,8 +9,8 @@ MarmaladeFile::MarmaladeFile()
 {
 	m_fp = NULL;
 	m_mode = 0;
-	m_canRead = FALSE;
-	m_canWrite = FALSE;
+	m_canRead = false;
+	m_canWrite = false;
 }
 
 MarmaladeFile::~MarmaladeFile()
@@ -18,26 +18,26 @@ MarmaladeFile::~MarmaladeFile()
 	Close();
 }
 
-BOOL MarmaladeFile::Open(const stl::string &filename, int mode)
+bool MarmaladeFile::Open(const stl::string &filename, int mode)
 {
-	ASSERT(IsOpen() == FALSE);
+	ASSERT(IsOpen() == false);
 	m_filename = filename;
 
 	char fopenMode[3] = { '\0', '\0', '\0' };
 	if (mode & FILEMODE_READ)
 	{
 		fopenMode[0] = 'r';
-		m_canRead = TRUE;
+		m_canRead = true;
 	}
 	else if (mode & FILEMODE_WRITE)
 	{
 		fopenMode[0] = 'w';
-		m_canWrite = TRUE;
+		m_canWrite = true;
 	}
 	else if (mode & FILEMODE_APPEND)
 	{
 		fopenMode[0] = 'a';
-		m_canWrite = TRUE;
+		m_canWrite = true;
 	}
 	if (mode & FILEMODE_BINARY && fopenMode[0] != '\0')
 		fopenMode[1] = 'b';
@@ -45,23 +45,23 @@ BOOL MarmaladeFile::Open(const stl::string &filename, int mode)
 	if (fopenMode[0] == '\0')
 	{
 		ASSERT(!"Unrecognized mode.");
-		return FALSE;
+		return false;
 	}
 	else
 	{
-		ASSERT(m_canRead == TRUE || m_canWrite == TRUE);
+		ASSERT(m_canRead == true || m_canWrite == true);
 
 		m_fp = s3eFileOpen(filename.c_str(), fopenMode);
 		if (m_fp)
 		{
 			LOG_INFO(LOGCAT_FILEIO, "Opened MarmaladeFile \"%s\", mode = %s\n", filename.c_str(), fopenMode);
 			m_mode = mode;
-			return TRUE;
+			return true;
 		}
 		else
 		{
 			LOG_WARN(LOGCAT_FILEIO, "Failed to open MarmaladeFile \"%s\", mode = %s. Error: %d, %s\n", filename.c_str(), fopenMode, s3eFileGetError(), s3eFileGetErrorString());
-			return FALSE;
+			return false;
 		}
 	}
 }
@@ -76,8 +76,8 @@ void MarmaladeFile::Close()
 
 	m_fp = NULL;
 	m_mode = 0;
-	m_canRead = FALSE;
-	m_canWrite = FALSE;
+	m_canRead = false;
+	m_canWrite = false;
 	m_filename.clear();
 }
 
@@ -330,13 +330,13 @@ void MarmaladeFile::Seek(size_t offset, FileSeek from)
 	s3eFileSeek(m_fp, offset, origin);
 }
 
-BOOL MarmaladeFile::AtEOF()
+bool MarmaladeFile::AtEOF()
 {
 	ASSERT(IsOpen());
-	if (s3eFileEOF(m_fp) == S3E_TRUE)
-		return TRUE;
+	if (s3eFileEOF(m_fp) == S3E_true)
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 size_t MarmaladeFile::GetFileSize()

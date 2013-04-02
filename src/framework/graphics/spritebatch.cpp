@@ -51,17 +51,17 @@ SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
 
 	m_renderState = new RENDERSTATE_DEFAULT;
 	ASSERT(m_renderState != NULL);
-	m_renderState->SetDepthTesting(FALSE);
+	m_renderState->SetDepthTesting(false);
 
 	m_blendState = new BLENDSTATE_ALPHABLEND;
 	ASSERT(m_blendState != NULL);
 
-	m_begunRendering = FALSE;
+	m_begunRendering = false;
 
-	m_isRenderStateOverridden = FALSE;
-	m_isBlendStateOverridden = FALSE;
+	m_isRenderStateOverridden = false;
+	m_isBlendStateOverridden = false;
 
-	m_isClipping = FALSE;
+	m_isClipping = false;
 }
 
 SpriteBatch::~SpriteBatch()
@@ -73,7 +73,7 @@ SpriteBatch::~SpriteBatch()
 
 void SpriteBatch::InternalBegin(const RenderState *renderState, const BlendState *blendState, SpriteShader *shader)
 {
-	ASSERT(m_begunRendering == FALSE);
+	ASSERT(m_begunRendering == false);
 
 	// keep these around for any 3d -> 2d coordinate projection we may need to do
 	// (since we're switching to a 2d orthographic projection mode next)
@@ -84,28 +84,28 @@ void SpriteBatch::InternalBegin(const RenderState *renderState, const BlendState
 		m_shader = m_graphicsDevice->GetSprite2DShader();
 	else
 	{
-		ASSERT(shader->IsReadyForUse() == TRUE);
+		ASSERT(shader->IsReadyForUse() == true);
 		m_shader = shader;
 	}
 
 	if (renderState != NULL)
 	{
-		m_isRenderStateOverridden = TRUE;
+		m_isRenderStateOverridden = true;
 		m_overrideRenderState = *renderState;
 	}
 	else
-		m_isRenderStateOverridden = FALSE;
+		m_isRenderStateOverridden = false;
 
 	if (blendState != NULL)
 	{
-		m_isBlendStateOverridden = TRUE;
+		m_isBlendStateOverridden = true;
 		m_overrideBlendState = *blendState;
 	}
 	else
-		m_isBlendStateOverridden = FALSE;
+		m_isBlendStateOverridden = false;
 
 	m_currentSpritePointer = 0;
-	m_begunRendering = TRUE;
+	m_begunRendering = true;
 	m_vertices->MoveToStart();
 }
 
@@ -436,7 +436,7 @@ void SpriteBatch::RenderFilledBox(const Rect &rect, const Color &color)
 
 void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, int destRight, int destBottom, uint sourceLeft, uint sourceTop, uint sourceRight, uint sourceBottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	uint width = sourceRight - sourceLeft;
 	ASSERT(width > 0);
@@ -464,7 +464,7 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 
 void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, int destRight, int destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	float destLeftF = (float)destLeft;
 	float destTopF = (float)destTop;
@@ -484,7 +484,7 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 
 void SpriteBatch::AddSprite(const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	if (m_isClipping)
 	{
@@ -497,17 +497,17 @@ void SpriteBatch::AddSprite(const Texture *texture, float destLeft, float destTo
 	++m_currentSpritePointer;
 }
 
-BOOL SpriteBatch::ClipSpriteCoords(float &left, float &top, float &right, float &bottom, float &texCoordLeft, float &texCoordTop, float &texCoordRight, float &texCoordBottom)
+bool SpriteBatch::ClipSpriteCoords(float &left, float &top, float &right, float &bottom, float &texCoordLeft, float &texCoordTop, float &texCoordRight, float &texCoordBottom)
 {
 	// check for completely out of bounds scenarios first
 	if (left >= m_clipRegion.right)
-		return FALSE;
+		return false;
 	if (right < m_clipRegion.left)
-		return FALSE;
+		return false;
 	if (top >= m_clipRegion.bottom)
-		return FALSE;
+		return false;
 	if (bottom < m_clipRegion.top)
-		return FALSE;
+		return false;
 
 	float clippedLeft = left;
 	float clippedTop = top;
@@ -552,7 +552,7 @@ BOOL SpriteBatch::ClipSpriteCoords(float &left, float &top, float &right, float 
 	texCoordRight = clippedTexCoordRight;
 	texCoordBottom = clippedTexCoordBottom;
 
-	return TRUE;
+	return true;
 }
 
 void SpriteBatch::SetSpriteInfo(uint spriteIndex, const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
@@ -593,7 +593,7 @@ void SpriteBatch::SetSpriteInfo(uint spriteIndex, const Texture *texture, float 
 
 void SpriteBatch::AddLine(float x1, float y1, float x2, float y2, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	if (m_isClipping)
 	{
@@ -631,16 +631,16 @@ void SpriteBatch::SetLineInfo(uint spriteIndex, float x1, float y1, float x2, fl
 	entity.lastVertex = base + 1;
 }
 
-BOOL SpriteBatch::ClipLineCoords(float &x1, float &y1, float &x2, float &y2)
+bool SpriteBatch::ClipLineCoords(float &x1, float &y1, float &x2, float &y2)
 {
 	// TODO: implementation
 
-	return TRUE;
+	return true;
 }
 
 void SpriteBatch::AddFilledBox(float left, float top, float right, float bottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	if (m_isClipping)
 	{
@@ -690,17 +690,17 @@ void SpriteBatch::SetFilledBoxInfo(uint spriteIndex, float left, float top, floa
 	entity.lastVertex = base + 5;
 }
 
-BOOL SpriteBatch::ClipFilledBoxCoords(float &left, float &top, float &right, float &bottom)
+bool SpriteBatch::ClipFilledBoxCoords(float &left, float &top, float &right, float &bottom)
 {
 	// check for completely out of bounds scenarios first
 	if (left >= m_clipRegion.right)
-		return FALSE;
+		return false;
 	if (right < m_clipRegion.left)
-		return FALSE;
+		return false;
 	if (top >= m_clipRegion.bottom)
-		return FALSE;
+		return false;
 	if (bottom < m_clipRegion.top)
-		return FALSE;
+		return false;
 
 	float clippedLeft = left;
 	float clippedTop = top;
@@ -721,19 +721,19 @@ BOOL SpriteBatch::ClipFilledBoxCoords(float &left, float &top, float &right, flo
 	right = clippedRight;
 	bottom = clippedBottom;
 
-	return TRUE;
+	return true;
 }
 
 void SpriteBatch::End()
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	// don't do anything if nothing is to be rendered!
 	if (m_currentSpritePointer == 0)
 	{
 		// should do this regardless if we're rendering anything or not
 		ClearClipRegion();
-		m_begunRendering = FALSE;
+		m_begunRendering = false;
 		return;
 	}
 
@@ -752,9 +752,9 @@ void SpriteBatch::End()
 	RenderQueue();
 	m_graphicsDevice->UnbindShader();
 
-	// ClearClipRegion expects that m_begunRendering == TRUE, so we need to set that last
+	// ClearClipRegion expects that m_begunRendering == true, so we need to set that last
 	ClearClipRegion();
-	m_begunRendering = FALSE;
+	m_begunRendering = false;
 }
 
 void SpriteBatch::RenderQueue()
@@ -870,8 +870,8 @@ inline float SpriteBatch::FixYCoord(int y, float sourceHeight) const
 
 void SpriteBatch::SetClipRegion(const Rect &rect)
 {
-	ASSERT(m_begunRendering == TRUE);
-	m_isClipping = TRUE;
+	ASSERT(m_begunRendering == true);
+	m_isClipping = true;
 
 	int fixedTop = ((int)m_graphicsDevice->GetViewContext()->GetViewportHeight() - rect.top - rect.GetHeight());
 	int fixedBottom = fixedTop + rect.GetHeight();
@@ -884,8 +884,8 @@ void SpriteBatch::SetClipRegion(const Rect &rect)
 
 void SpriteBatch::SetClipRegion(int left, int top, int right, int bottom)
 {
-	ASSERT(m_begunRendering == TRUE);
-	m_isClipping = TRUE;
+	ASSERT(m_begunRendering == true);
+	m_isClipping = true;
 
 	int height = bottom - top;
 	int fixedTop = (m_graphicsDevice->GetViewContext()->GetViewportHeight() - top - height);
@@ -899,7 +899,7 @@ void SpriteBatch::SetClipRegion(int left, int top, int right, int bottom)
 
 void SpriteBatch::ClearClipRegion()
 {
-	ASSERT(m_begunRendering == TRUE);
-	m_isClipping = FALSE;
+	ASSERT(m_begunRendering == true);
+	m_isClipping = false;
 }
 

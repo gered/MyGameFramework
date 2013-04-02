@@ -10,13 +10,13 @@ StateInfo::StateInfo(GameState *gameState)
 	ASSERT(gameState != NULL);
 	this->gameState = gameState;
 	name = "";
-	isOverlay = FALSE;
-	isOverlayed = FALSE;
-	isTransitioning = FALSE;
-	isTransitioningOut = FALSE;
-	isTransitionStarting = FALSE;
-	isInactive = FALSE;
-	isBeingPopped = FALSE;
+	isOverlay = false;
+	isOverlayed = false;
+	isTransitioning = false;
+	isTransitioningOut = false;
+	isTransitionStarting = false;
+	isInactive = false;
+	isBeingPopped = false;
 	
 	SetDescriptor();
 }
@@ -26,13 +26,13 @@ StateInfo::StateInfo(GameState *gameState, const stl::string &name)
 	ASSERT(gameState != NULL);
 	this->gameState = gameState;
 	this->name = name;
-	isOverlay = FALSE;
-	isOverlayed = FALSE;
-	isTransitioning = FALSE;
-	isTransitioningOut = FALSE;
-	isTransitionStarting = FALSE;
-	isInactive = FALSE;
-	isBeingPopped = FALSE;
+	isOverlay = false;
+	isOverlayed = false;
+	isTransitioning = false;
+	isTransitioningOut = false;
+	isTransitionStarting = false;
+	isInactive = false;
+	isBeingPopped = false;
 	
 	SetDescriptor();
 }

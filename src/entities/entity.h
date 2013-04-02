@@ -15,10 +15,10 @@ public:
 	template<class T> T* Get() const;
 	template<class T> T* Add();
 	template<class T> void Remove();
-	template<class T> BOOL Has() const;
+	template<class T> bool Has() const;
 	
-	template<class T> BOOL WasCreatedUsingPreset() const;
-	BOOL WasCreatedUsingPreset(ENTITYPRESET_TYPE type) const;
+	template<class T> bool WasCreatedUsingPreset() const;
+	bool WasCreatedUsingPreset(ENTITYPRESET_TYPE type) const;
 
 protected:
 	EntityManager *m_entityManager;
@@ -43,18 +43,18 @@ inline void Entity::Remove()
 }
 
 template<class T>
-inline BOOL Entity::Has() const
+inline bool Entity::Has() const
 {
 	return m_entityManager->HasComponent<T>(this);
 }
 
 template<class T>
-inline BOOL Entity::WasCreatedUsingPreset() const
+inline bool Entity::WasCreatedUsingPreset() const
 {
 	return m_entityManager->WasCreatedUsingPreset<T>(this);
 }
 
-inline BOOL Entity::WasCreatedUsingPreset(ENTITYPRESET_TYPE type) const
+inline bool Entity::WasCreatedUsingPreset(ENTITYPRESET_TYPE type) const
 {
 	return m_entityManager->WasCreatedUsingPreset(this, type);
 }

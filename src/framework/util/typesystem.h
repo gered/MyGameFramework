@@ -15,8 +15,8 @@ typedef const char* TYPE_IDENT;
 //
 //   - comparison of two types using either template methods (static) or 
 //     variables containing type identifiers
-//         BOOL result = object.Is<ObjectType>()          or
-//         BOOL result = object.Is(objectTypeId)
+//         bool result = object.Is<ObjectType>()          or
+//         bool result = object.Is(objectTypeId)
 //
 //   - "safe" casting - if the type doesn't match, NULL is returned
 //         ObjectType* type = object.As<ObjectType>()
@@ -30,11 +30,11 @@ typedef const char* TYPE_IDENT;
  */
 #define TYPE_BASE(type)                                                        \
 	virtual type GetTypeOf() const = 0;                                        \
-	template<class T> BOOL Is() const                                          \
+	template<class T> bool Is() const                                          \
 	{                                                                          \
 		return (GetTypeOf() == T::GetType());                                  \
 	}                                                                          \
-	BOOL Is(type otherType) const                                              \
+	bool Is(type otherType) const                                              \
 	{                                                                          \
 		return (GetTypeOf() == otherType);                                     \
 	}                                                                          \

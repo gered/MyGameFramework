@@ -19,19 +19,19 @@ namespace Gwen
 			InputProcessor(BaseGameApp *gameApp, Gwen::Controls::Canvas *canvas);
 			virtual ~InputProcessor();
 
-			BOOL OnKeyDown(KEYS key);
-			BOOL OnKeyUp(KEYS key);
+			bool OnKeyDown(KEYS key);
+			bool OnKeyUp(KEYS key);
 
-			BOOL OnMouseButtonDown(MOUSE_BUTTONS button, uint x, uint y);
-			BOOL OnMouseButtonUp(MOUSE_BUTTONS button, uint x, uint y);
-			BOOL OnMouseMove(uint x, uint y, int deltaX, int deltaY);
+			bool OnMouseButtonDown(MOUSE_BUTTONS button, uint x, uint y);
+			bool OnMouseButtonUp(MOUSE_BUTTONS button, uint x, uint y);
+			bool OnMouseMove(uint x, uint y, int deltaX, int deltaY);
 
-			BOOL OnTouchDown(int id, uint x, uint y, BOOL isPrimary);
-			BOOL OnTouchUp(int id, BOOL isPrimary);
-			BOOL OnTouchMove(int id, uint x, uint y, int deltaX, int deltaY, BOOL isPrimary);
+			bool OnTouchDown(int id, uint x, uint y, bool isPrimary);
+			bool OnTouchUp(int id, bool isPrimary);
+			bool OnTouchMove(int id, uint x, uint y, int deltaX, int deltaY, bool isPrimary);
 
-			BOOL IsEnabled() const                         { return m_enabled; }
-			void Enable(BOOL enable);
+			bool IsEnabled() const                         { return m_enabled; }
+			void Enable(bool enable);
 
 		private:
 			unsigned char ConvertToGwenKey(KEYS key) const;
@@ -39,7 +39,7 @@ namespace Gwen
 
 			BaseGameApp *m_gameApp;
 			Gwen::Controls::Canvas *m_canvas;
-			BOOL m_enabled;
+			bool m_enabled;
 		};
 	}
 }

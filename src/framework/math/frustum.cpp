@@ -64,80 +64,80 @@ void Frustum::Calculate()
 	m_planes[FRUSTUM_FRONT] = Plane::Normalize(m_planes[FRUSTUM_FRONT]);
 }
 
-BOOL Frustum::Test(const Vector3 &point) const
+bool Frustum::Test(const Vector3 &point) const
 {
 	for (int p = 0; p < NUM_FRUSTUM_SIDES; ++p)
 	{
 		if (Plane::ClassifyPoint(m_planes[p], point) == BEHIND)
-			return FALSE;
+			return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL Frustum::Test(const BoundingBox &box) const
+bool Frustum::Test(const BoundingBox &box) const
 {
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_RIGHT], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_LEFT], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_BOTTOM], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_TOP], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_BACK], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstBox(m_planes[FRUSTUM_FRONT], box.min.x, box.min.y, box.min.z, box.GetWidth(), box.GetHeight(), box.GetDepth()))
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
-BOOL Frustum::Test(const BoundingSphere &sphere) const
+bool Frustum::Test(const BoundingSphere &sphere) const
 {
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_RIGHT], sphere.center, sphere.radius))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_LEFT], sphere.center, sphere.radius))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_BOTTOM], sphere.center, sphere.radius))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_TOP], sphere.center, sphere.radius))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_BACK], sphere.center, sphere.radius))
-		return FALSE;
+		return false;
 	if (!TestPlaneAgainstSphere(m_planes[FRUSTUM_FRONT], sphere.center, sphere.radius))
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
-BOOL Frustum::TestPlaneAgainstBox(const Plane &plane, float minX, float minY, float minZ, float width, float height, float depth) const
+bool Frustum::TestPlaneAgainstBox(const Plane &plane, float minX, float minY, float minZ, float width, float height, float depth) const
 {
 	if (Plane::ClassifyPoint(plane, Vector3(minX,         minY,          minZ))         != BEHIND)
-		return TRUE;
+		return true;
 	if (Plane::ClassifyPoint(plane, Vector3(minX,         minY,          minZ + depth)) != BEHIND)
-		return TRUE;
+		return true;
 	if (Plane::ClassifyPoint(plane, Vector3(minX + width, minY,          minZ + depth)) != BEHIND)
-		return TRUE;
+		return true;
 	if (Plane::ClassifyPoint(plane, Vector3(minX + width, minY,          minZ))         != BEHIND)
-		return TRUE;
+		return true;
 	if (Plane::ClassifyPoint(plane, Vector3(minX,         minY + height, minZ))         != BEHIND)
-		return TRUE;
+		return true;
 	if (Plane::ClassifyPoint(plane, Vector3(minX,         minY + height, minZ + depth)) != BEHIND)
-		return TRUE;
+		return true;
 	if (Plane::ClassifyPoint(plane, Vector3(minX + width, minY + height, minZ + depth)) != BEHIND)
-		return TRUE;
+		return true;
 	if (Plane::ClassifyPoint(plane, Vector3(minX + width, minY + height, minZ))         != BEHIND)
-		return TRUE;
+		return true;
 
-	return FALSE;
+	return false;
 }
 
-BOOL Frustum::TestPlaneAgainstSphere(const Plane &plane, const Vector3 &center, float radius) const
+bool Frustum::TestPlaneAgainstSphere(const Plane &plane, const Vector3 &center, float radius) const
 {
 	float distance = Plane::DistanceBetween(plane, center);
 	if (distance <= -radius)
-		return FALSE;
+		return false;
 	else
-		return TRUE;
+		return true;
 }

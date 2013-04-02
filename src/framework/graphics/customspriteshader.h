@@ -22,9 +22,9 @@ public:
 	 * @param graphicsDevice the graphics device to associate this shader with
 	 * @param vertexShaderSource GLSL source for a vertex shader
 	 * @param fragmentShaderSource GLSL source for a vertex shader
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource);
+	bool Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource);
 
 	/**
 	 * Initializes the shader object for rendering sprites using the given vertex
@@ -32,9 +32,9 @@ public:
 	 * @param graphicsDevice the graphics device to associate this shader with
 	 * @param vertexShaderSource GLSL source for a vertex shader
 	 * @param fragmentShaderSource GLSL source for a vertex shader
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource);
+	bool Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource);
 };
 
 #endif

@@ -19,9 +19,9 @@ GameState::GameState(GameApp *gameApp, StateManager *stateManager)
 	m_effectManager = new EffectManager();
 	m_processManager = new ProcessManager(this);
 
-	m_isFinished = FALSE;
+	m_isFinished = false;
 	m_returnValue = 0;
-	m_hasReturnValue = FALSE;
+	m_hasReturnValue = false;
 }
 
 GameState::~GameState()
@@ -38,12 +38,12 @@ void GameState::OnPop()
 {
 }
 
-void GameState::OnPause(BOOL dueToOverlay)
+void GameState::OnPause(bool dueToOverlay)
 {
 	m_processManager->OnPause(dueToOverlay);
 }
 
-void GameState::OnResume(BOOL fromOverlay)
+void GameState::OnResume(bool fromOverlay)
 {
 	m_processManager->OnResume(fromOverlay);
 }
@@ -105,36 +105,36 @@ void GameState::OnUpdate(float delta)
 	m_effectManager->OnUpdate(delta);
 }
 
-BOOL GameState::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
+bool GameState::OnTransition(float delta, bool isTransitioningOut, bool started)
 {
-	return TRUE;
+	return true;
 }
 
-BOOL GameState::Handle(const Event *event)
+bool GameState::Handle(const Event *event)
 {
-	return FALSE;
+	return false;
 }
 
-BOOL GameState::IsTransitioning() const
+bool GameState::IsTransitioning() const
 {
 	return m_stateManager->IsTransitioning(this);
 }
 
-BOOL GameState::IsTopState() const
+bool GameState::IsTopState() const
 {
 	return m_stateManager->IsTop(this);
 }
 
 void GameState::SetFinished()
 {
-	m_isFinished = TRUE;
+	m_isFinished = true;
 	m_returnValue = 0;
-	m_hasReturnValue = FALSE;
+	m_hasReturnValue = false;
 }
 
 void GameState::SetFinished(int returnValue)
 {
-	m_isFinished = TRUE;
+	m_isFinished = true;
 	m_returnValue = returnValue;
-	m_hasReturnValue = TRUE;
+	m_hasReturnValue = true;
 }

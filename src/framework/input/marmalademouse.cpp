@@ -9,8 +9,8 @@ const int32_t NUM_BUTTONS = S3E_POINTER_BUTTON_MAX;
 
 MarmaladeMouse::MarmaladeMouse()
 {
-	m_buttons = new BOOL[NUM_BUTTONS];
-	m_lockedButtons = new BOOL[NUM_BUTTONS];
+	m_buttons = new bool[NUM_BUTTONS];
+	m_lockedButtons = new bool[NUM_BUTTONS];
 
 	Reset();
 }
@@ -27,10 +27,10 @@ void MarmaladeMouse::ResetDeltas()
 	m_deltaY = 0;
 }
 
-BOOL MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
+bool MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 {
 	int button = (int32_t)eventArgs->m_Button;
-	BOOL isDown = (BOOL)eventArgs->m_Pressed;
+	bool isDown = (bool)eventArgs->m_Pressed;
 	int x = eventArgs->m_x;
 	int y = eventArgs->m_y;
 
@@ -60,14 +60,14 @@ BOOL MarmaladeMouse::OnButtonEvent(const s3ePointerEvent *eventArgs)
 			}
 		}
 
-		m_buttons[button] = FALSE;
-		m_lockedButtons[button] = FALSE;
+		m_buttons[button] = false;
+		m_lockedButtons[button] = false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeMouse::OnMotionEvent(const s3ePointerMotionEvent *eventArgs)
+bool MarmaladeMouse::OnMotionEvent(const s3ePointerMotionEvent *eventArgs)
 {
 	m_deltaX = eventArgs->m_x - m_x;
 	m_deltaY = eventArgs->m_y - m_y;
@@ -85,24 +85,24 @@ BOOL MarmaladeMouse::OnMotionEvent(const s3ePointerMotionEvent *eventArgs)
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeMouse::IsPressed(MOUSE_BUTTONS button)
+bool MarmaladeMouse::IsPressed(MOUSE_BUTTONS button)
 {
 	if (m_buttons[button] && !m_lockedButtons[button])
 	{
-		m_lockedButtons[button] = TRUE;
-		return TRUE;
+		m_lockedButtons[button] = true;
+		return true;
 	}
 	else
-		return FALSE;
+		return false;
 }
 
 void MarmaladeMouse::Reset()
 {
-	memset(m_buttons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
-	memset(m_lockedButtons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
+	memset(m_buttons, false, sizeof(bool) * NUM_BUTTONS);
+	memset(m_lockedButtons, false, sizeof(bool) * NUM_BUTTONS);
 	m_x = 0;
 	m_y = 0;
 	m_deltaX = 0;

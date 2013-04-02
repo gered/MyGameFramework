@@ -13,6 +13,6 @@ VertexLerpShader::~VertexLerpShader()
 
 void VertexLerpShader::SetLerp(float t)
 {
-	ASSERT(IsReadyForUse() == TRUE);
+	ASSERT(IsReadyForUse() == true);
 	SetUniform(m_lerpUniform, t);
 }

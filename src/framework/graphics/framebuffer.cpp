@@ -21,14 +21,14 @@ Framebuffer::Framebuffer()
 	m_fixedHeight = 0;
 }
 
-BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
+bool Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
 {
 	ASSERT(m_framebufferName == 0);
 	if (m_framebufferName != 0)
-		return FALSE;
+		return false;
 	
 	if (!GraphicsContextResource::Initialize(graphicsDevice))
-		return FALSE;
+		return false;
 	
 	CreateFramebuffer();
 	
@@ -36,24 +36,24 @@ BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice)
 	m_fixedWidth = 0;
 	m_fixedHeight = 0;
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::Initialize(GraphicsDevice *graphicsDevice, uint fixedWidth, uint fixedHeight)
+bool Framebuffer::Initialize(GraphicsDevice *graphicsDevice, uint fixedWidth, uint fixedHeight)
 {
 	ASSERT(fixedWidth != 0);
 	ASSERT(fixedHeight != 0);
 	if (fixedWidth == 0 || fixedHeight == 0)
-		return FALSE;
+		return false;
 	
-	BOOL createSuccess = Initialize(graphicsDevice);
+	bool createSuccess = Initialize(graphicsDevice);
 	if (!createSuccess)
-		return FALSE;
+		return false;
 	
 	m_fixedWidth = fixedWidth;
 	m_fixedHeight = fixedHeight;
 	
-	return TRUE;
+	return true;
 }
 
 void Framebuffer::Release()
@@ -98,18 +98,18 @@ void Framebuffer::CreateFramebuffer()
 	GL_CALL(glGenFramebuffers(1, &m_framebufferName));
 }
 
-BOOL Framebuffer::AttachViewContext()
+bool Framebuffer::AttachViewContext()
 {
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return false;
 	
 	ASSERT(m_viewContext == NULL);
 	if (m_viewContext != NULL)
-		return FALSE;
+		return false;
 	
 	m_viewContext = new ViewContext();
-	BOOL success;
+	bool success;
 	if (IsUsingFixedDimensions())
 		success = m_viewContext->Create(GetGraphicsDevice(), Rect(0, 0, m_fixedWidth, m_fixedHeight));
 	else
@@ -117,36 +117,36 @@ BOOL Framebuffer::AttachViewContext()
 	if (!success)
 	{
 		SAFE_DELETE(m_viewContext);
-		return FALSE;
+		return false;
 	}
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
+bool Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 {
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return false;
 	
 	Texture *existing = GetTexture(type);
 	ASSERT(existing == NULL);
 	if (existing != NULL)
-		return FALSE;
+		return false;
 	
 	// also need to make sure a renderbuffer isn't already attached to this type!
 	Renderbuffer *existingRenderbuffer = GetRenderbuffer(type);
 	ASSERT(existingRenderbuffer == NULL);
 	if (existingRenderbuffer != NULL)
-		return FALSE;
+		return false;
 	
 	// don't allow unsupported types!
 	if (type == FRAMEBUFFER_DATA_NONE)
-		return FALSE;
+		return false;
 	if (type == FRAMEBUFFER_DATA_DEPTH && !GetGraphicsDevice()->IsDepthTextureSupported())
-		return FALSE;
+		return false;
 	if (type == FRAMEBUFFER_DATA_STENCIL)
-		return FALSE;
+		return false;
 	
 	// determine texture format and framebuffer attachment type
 	TEXTURE_FORMAT textureFormat;
@@ -171,19 +171,19 @@ BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 	}
 	ASSERT(attachmentType != 0);
 	if (attachmentType == 0)
-		return FALSE;
+		return false;
 	
 	uint width = 0;
 	uint height = 0;
 	GetDimensionsForAttachment(width, height);
 	
 	Texture *attach = new Texture();
-	BOOL textureSuccess = attach->Create(GetGraphicsDevice(), width, height, textureFormat);
-	ASSERT(textureSuccess == TRUE);
+	bool textureSuccess = attach->Create(GetGraphicsDevice(), width, height, textureFormat);
+	ASSERT(textureSuccess == true);
 	if (!textureSuccess)
 	{
 		SAFE_DELETE(attach);
-		return FALSE;
+		return false;
 	}
 	
 	GetGraphicsDevice()->BindFramebuffer(this);
@@ -192,10 +192,10 @@ BOOL Framebuffer::AttachTexture(FRAMEBUFFER_DATA_TYPE type)
 
 	m_textures[type] = attach;
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL releaseFirst)
+bool Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, bool releaseFirst)
 {
 	Texture *existing = itor->second;
 	
@@ -210,7 +210,7 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL 
 	}
 	ASSERT(attachmentType != 0);
 	if (attachmentType == 0)
-		return FALSE;
+		return false;
 	
 	uint width = 0;
 	uint height = 0;
@@ -221,38 +221,38 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferTextureMap::iterator &itor, BOOL 
 	if (releaseFirst)
 		existing->Release();
 	
-	BOOL textureSuccess = existing->Create(GetGraphicsDevice(), width, height, existingFormat);
-	ASSERT(textureSuccess == TRUE);
+	bool textureSuccess = existing->Create(GetGraphicsDevice(), width, height, existingFormat);
+	ASSERT(textureSuccess == true);
 	if (!textureSuccess)
-		return FALSE;
+		return false;
 	
 	GetGraphicsDevice()->BindFramebuffer(this);
 	GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, existing->GetTextureName(), 0));
 	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
+bool Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 {
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return false;
 	
 	Renderbuffer *existing = GetRenderbuffer(type);
 	ASSERT(existing == NULL);
 	if (existing != NULL)
-		return FALSE;
+		return false;
 
 	// also need to make sure a texture isn't already attached to this type!
 	Texture *existingTexture = GetTexture(type);
 	ASSERT(existingTexture == NULL);
 	if (existingTexture != NULL)
-		return FALSE;
+		return false;
 	
 	// don't allow unsupported types!
 	if (type == FRAMEBUFFER_DATA_NONE)
-		return FALSE;
+		return false;
 
 	// determine framebuffer attachment type
 	GLenum attachmentType;
@@ -266,19 +266,19 @@ BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 	}
 	ASSERT(attachmentType != 0);
 	if (attachmentType == 0)
-		return FALSE;
+		return false;
 
 	uint width = 0;
 	uint height = 0;
 	GetDimensionsForAttachment(width, height);
 	
 	Renderbuffer *attach = new Renderbuffer();
-	BOOL renderbufferSuccess = attach->Initialize(GetGraphicsDevice(), width, height, type);
-	ASSERT(renderbufferSuccess == TRUE);
+	bool renderbufferSuccess = attach->Initialize(GetGraphicsDevice(), width, height, type);
+	ASSERT(renderbufferSuccess == true);
 	if (!renderbufferSuccess)
 	{
 		SAFE_DELETE(attach);
-		return FALSE;
+		return false;
 	}
 	
 	GetGraphicsDevice()->BindFramebuffer(this);	
@@ -287,10 +287,10 @@ BOOL Framebuffer::AttachRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 
 	m_renderbuffers[type] = attach;
 
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, BOOL releaseFirst)
+bool Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, bool releaseFirst)
 {
 	Renderbuffer *existing = itor->second;
 	
@@ -306,7 +306,7 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, 
 	}
 	ASSERT(attachmentType != 0);
 	if (attachmentType == 0)
-		return FALSE;
+		return false;
 
 	uint width = 0;
 	uint height = 0;
@@ -317,46 +317,46 @@ BOOL Framebuffer::ReCreateAndAttach(FramebufferRenderbufferMap::iterator &itor, 
 	if (releaseFirst)
 		existing->Release();
 
-	BOOL renderbufferSuccess = existing->Initialize(GetGraphicsDevice(), width, height, existingType);
-	ASSERT(renderbufferSuccess == TRUE);
+	bool renderbufferSuccess = existing->Initialize(GetGraphicsDevice(), width, height, existingType);
+	ASSERT(renderbufferSuccess == true);
 	if (!renderbufferSuccess)
-		return FALSE;
+		return false;
 	
 	GetGraphicsDevice()->BindFramebuffer(this);	
 	GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, existing->GetRenderbufferName()));
 	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::ReleaseViewContext()
+bool Framebuffer::ReleaseViewContext()
 {
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return false;
 	
 	ASSERT(m_viewContext != NULL);
 	if (m_viewContext == NULL)
-		return FALSE;
+		return false;
 	
 	if (GetGraphicsDevice()->GetViewContext() == m_viewContext)
 		GetGraphicsDevice()->SetViewContext(NULL);
 	
 	SAFE_DELETE(m_viewContext);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::ReleaseTexture(FRAMEBUFFER_DATA_TYPE type)
+bool Framebuffer::ReleaseTexture(FRAMEBUFFER_DATA_TYPE type)
 {
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return false;
 	
 	Texture *existing = GetTexture(type);
 	ASSERT(existing != NULL);
 	if (existing == NULL)
-		return FALSE;
+		return false;
 	
 	// determine attachment type
 	GLenum attachmentType;
@@ -376,30 +376,30 @@ BOOL Framebuffer::ReleaseTexture(FRAMEBUFFER_DATA_TYPE type)
 	}
 	ASSERT(attachmentType != 0);
 	if (attachmentType == 0)
-		return FALSE;
+		return false;
 
 	GetGraphicsDevice()->BindFramebuffer(this);
 	GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, 0, 0));
 	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
-	BOOL removeSuccess = RemoveTexture(existing);
-	ASSERT(removeSuccess == TRUE);
+	bool removeSuccess = RemoveTexture(existing);
+	ASSERT(removeSuccess == true);
 	if (!removeSuccess)
-		return FALSE;
+		return false;
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Framebuffer::ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
+bool Framebuffer::ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 {
 	ASSERT(m_framebufferName != 0);
 	if (m_framebufferName == 0)
-		return FALSE;
+		return false;
 	
 	Renderbuffer *existing = GetRenderbuffer(type);
 	ASSERT(existing != NULL);
 	if (existing == NULL)
-		return FALSE;
+		return false;
 
 	// determine attachment type
 	GLenum attachmentType;
@@ -419,18 +419,18 @@ BOOL Framebuffer::ReleaseRenderbuffer(FRAMEBUFFER_DATA_TYPE type)
 	}
 	ASSERT(attachmentType != 0);
 	if (attachmentType == 0)
-		return FALSE;
+		return false;
 	
 	GetGraphicsDevice()->BindFramebuffer(this);
 	GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, 0));
 	GetGraphicsDevice()->UnbindFramebuffer(this);
 	
-	BOOL removeSuccess = RemoveRenderbuffer(existing);
-	ASSERT(removeSuccess == TRUE);
+	bool removeSuccess = RemoveRenderbuffer(existing);
+	ASSERT(removeSuccess == true);
 	if (!removeSuccess)
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
 Texture* Framebuffer::GetTexture(FRAMEBUFFER_DATA_TYPE type) const
@@ -497,8 +497,8 @@ void Framebuffer::OnNewContext()
 		
 		for (FramebufferTextureMap::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
 		{
-			BOOL success = ReCreateAndAttach(i, FALSE);
-			ASSERT(success == TRUE);
+			bool success = ReCreateAndAttach(i, false);
+			ASSERT(success == true);
 			if (!success)
 			{
 				Release();
@@ -508,8 +508,8 @@ void Framebuffer::OnNewContext()
 		
 		for (FramebufferRenderbufferMap::iterator i = m_renderbuffers.begin(); i != m_renderbuffers.end(); ++i)
 		{
-			BOOL success = ReCreateAndAttach(i, FALSE);
-			ASSERT(success == TRUE);
+			bool success = ReCreateAndAttach(i, false);
+			ASSERT(success == true);
 			if (!success)
 			{
 				Release();
@@ -544,8 +544,8 @@ void Framebuffer::OnResize()
 		
 		for (FramebufferTextureMap::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
 		{
-			BOOL success = ReCreateAndAttach(i, TRUE);
-			ASSERT(success == TRUE);
+			bool success = ReCreateAndAttach(i, true);
+			ASSERT(success == true);
 			if (!success)
 			{
 				Release();
@@ -555,8 +555,8 @@ void Framebuffer::OnResize()
 		
 		for (FramebufferRenderbufferMap::iterator i = m_renderbuffers.begin(); i != m_renderbuffers.end(); ++i)
 		{
-			BOOL success = ReCreateAndAttach(i, TRUE);
-			ASSERT(success == TRUE);
+			bool success = ReCreateAndAttach(i, true);
+			ASSERT(success == true);
 			if (!success)
 			{
 				Release();
@@ -574,7 +574,7 @@ void Framebuffer::OnUnBind()
 {
 }
 
-BOOL Framebuffer::RemoveTexture(Texture *texture)
+bool Framebuffer::RemoveTexture(Texture *texture)
 {
 	for (FramebufferTextureMap::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
 	{
@@ -582,14 +582,14 @@ BOOL Framebuffer::RemoveTexture(Texture *texture)
 		{
 			SAFE_DELETE(texture);
 			m_textures.erase(i);
-			return TRUE;
+			return true;
 		}
 	}
 	
-	return FALSE;
+	return false;
 }
 
-BOOL Framebuffer::RemoveRenderbuffer(Renderbuffer *renderbuffer)
+bool Framebuffer::RemoveRenderbuffer(Renderbuffer *renderbuffer)
 {
 	for (FramebufferRenderbufferMap::iterator i = m_renderbuffers.begin(); i != m_renderbuffers.end(); ++i)
 	{
@@ -597,11 +597,11 @@ BOOL Framebuffer::RemoveRenderbuffer(Renderbuffer *renderbuffer)
 		{
 			SAFE_DELETE(renderbuffer);
 			m_renderbuffers.erase(i);
-			return TRUE;
+			return true;
 		}
 	}
 	
-	return FALSE;
+	return false;
 }
 
 void Framebuffer::GetDimensionsForAttachment(uint &width, uint &height) const

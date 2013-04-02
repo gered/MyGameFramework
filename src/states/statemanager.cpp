@@ -15,10 +15,10 @@ StateManager::StateManager(GameApp *gameApp)
 	ASSERT(gameApp != NULL);
 	m_gameApp = gameApp;
 	m_stateReturnValue = 0;
-	m_hasStateReturnValue = FALSE;
-	m_pushQueueHasOverlay = FALSE;
-	m_swapQueueHasOverlay = FALSE;
-	m_lastCleanedStatesWereAllOverlays = FALSE;
+	m_hasStateReturnValue = false;
+	m_pushQueueHasOverlay = false;
+	m_swapQueueHasOverlay = false;
+	m_lastCleanedStatesWereAllOverlays = false;
 }
 
 StateManager::~StateManager()
@@ -56,28 +56,28 @@ StateManager::~StateManager()
 
 void StateManager::Pop()
 {
-	ASSERT(IsTransitioning() == FALSE);
+	ASSERT(IsTransitioning() == false);
 	LOG_INFO(LOGCAT_STATEMANAGER, "Pop initiated for top-most state only.\n");
-	StartOnlyTopStateTransitioningOut(FALSE);
+	StartOnlyTopStateTransitioningOut(false);
 }
 
 void StateManager::PopTopNonOverlay()
 {
-	ASSERT(IsTransitioning() == FALSE);
+	ASSERT(IsTransitioning() == false);
 	LOG_INFO(LOGCAT_STATEMANAGER, "Pop initiated for all top active states.\n");
-	StartTopStatesTransitioningOut(FALSE);
+	StartTopStatesTransitioningOut(false);
 }
 
-BOOL StateManager::HasState(const stl::string &name) const
+bool StateManager::HasState(const stl::string &name) const
 {
 	for (StateInfoList::const_iterator i = m_states.begin(); i != m_states.end(); ++i)
 	{
 		StateInfo *stateInfo = *i;
 		if (stateInfo->name.length() > 0 && name == stateInfo->name)
-			return TRUE;
+			return true;
 	}
 	
-	return FALSE;
+	return false;
 }
 
 void StateManager::OnAppGainFocus()
@@ -167,8 +167,8 @@ void StateManager::OnUpdate(float delta)
 {
 	// clear return values (ensuring they're only accessible for 1 tick)
 	m_stateReturnValue = 0;
-	m_hasStateReturnValue = FALSE;
-	m_lastCleanedStatesWereAllOverlays = FALSE;
+	m_hasStateReturnValue = false;
+	m_lastCleanedStatesWereAllOverlays = false;
 
 	CleanupInactiveStates();
 	CheckForFinishedStates();
@@ -190,7 +190,7 @@ void StateManager::ProcessQueues()
 	if (IsTransitioning())
 		return;
 
-	ASSERT(m_pushQueue.empty() == TRUE || m_swapQueue.empty() == TRUE);
+	ASSERT(m_pushQueue.empty() == true || m_swapQueue.empty() == true);
 
 	// for each state in the queue, add it to the main list and start it 
 	// transitioning in
@@ -207,17 +207,17 @@ void StateManager::ProcessQueues()
 			if (stateInfo->isOverlay && !currentTopStateInfo->isInactive && !currentTopStateInfo->isOverlayed)
 			{
 				LOG_INFO(LOGCAT_STATEMANAGER, "Pausing %sstate %s due to overlay.\n", (currentTopStateInfo->isOverlay ? "overlay " : ""), currentTopStateInfo->GetDescriptor().c_str());
-				currentTopStateInfo->gameState->OnPause(TRUE);
+				currentTopStateInfo->gameState->OnPause(true);
 			
 				// also mark the current top state as being overlay-ed
-				currentTopStateInfo->isOverlayed = TRUE;
+				currentTopStateInfo->isOverlayed = true;
 			}
 		}
 
 		LOG_INFO(LOGCAT_STATEMANAGER, "Pushing %sstate %s from push-queue.\n", (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
 		stateInfo->gameState->OnPush();
 
-		TransitionIn(stateInfo, FALSE);
+		TransitionIn(stateInfo, false);
 
 		m_states.push_back(stateInfo);
 
@@ -234,24 +234,24 @@ void StateManager::ProcessQueues()
 		if (stateInfo->isOverlay && !currentTopStateInfo->isInactive && !currentTopStateInfo->isOverlayed)
 		{
 			LOG_INFO(LOGCAT_STATEMANAGER, "Pausing %sstate %s due to overlay.\n", (currentTopStateInfo->isOverlay ? "overlay " : ""), currentTopStateInfo->GetDescriptor().c_str());
-			currentTopStateInfo->gameState->OnPause(TRUE);
+			currentTopStateInfo->gameState->OnPause(true);
 			
 			// also mark the current top state as being overlay-ed
-			currentTopStateInfo->isOverlayed = TRUE;
+			currentTopStateInfo->isOverlayed = true;
 		}
 
 		LOG_INFO(LOGCAT_STATEMANAGER, "Pushing %sstate %s from swap-queue.\n", (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
 		stateInfo->gameState->OnPush();
 
-		TransitionIn(stateInfo, FALSE);
+		TransitionIn(stateInfo, false);
 
 		m_states.push_back(stateInfo);
 
 		m_swapQueue.pop_front();
 	}
 
-	m_pushQueueHasOverlay = FALSE;
-	m_swapQueueHasOverlay = FALSE;
+	m_pushQueueHasOverlay = false;
+	m_swapQueueHasOverlay = false;
 }
 
 void StateManager::ResumeStatesIfNeeded()
@@ -268,13 +268,13 @@ void StateManager::ResumeStatesIfNeeded()
 	{
 		// then we need to resume the current top state (flagged as "from an overlay")
 		StateInfo *stateInfo = GetTop();
-		ASSERT(stateInfo->isInactive == FALSE);
-		ASSERT(stateInfo->isOverlayed == TRUE);
+		ASSERT(stateInfo->isInactive == false);
+		ASSERT(stateInfo->isOverlayed == true);
 
 		LOG_INFO(LOGCAT_STATEMANAGER, "Resuming %sstate %s due to overlay removal.\n", (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
-		stateInfo->gameState->OnResume(TRUE);
+		stateInfo->gameState->OnResume(true);
 
-		stateInfo->isOverlayed = FALSE;
+		stateInfo->isOverlayed = false;
 
 		return;
 	}
@@ -293,9 +293,9 @@ void StateManager::ResumeStatesIfNeeded()
 		StateInfo *stateInfo = *i;
 
 		LOG_INFO(LOGCAT_STATEMANAGER, "Resuming %sstate %s.\n", (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
-		stateInfo->gameState->OnResume(FALSE);
+		stateInfo->gameState->OnResume(false);
 
-		TransitionIn(stateInfo, TRUE);
+		TransitionIn(stateInfo, true);
 	}
 }
 
@@ -309,7 +309,7 @@ void StateManager::UpdateTransitions(float delta)
 		StateInfo *stateInfo = *i;
 		if (stateInfo->isTransitioning)
 		{
-			BOOL isDone = stateInfo->gameState->OnTransition(delta, stateInfo->isTransitioningOut, stateInfo->isTransitionStarting);
+			bool isDone = stateInfo->gameState->OnTransition(delta, stateInfo->isTransitioningOut, stateInfo->isTransitionStarting);
 			if (isDone)
 			{
 				LOG_INFO(LOGCAT_STATEMANAGER, "Transition %s %sstate %s finished.\n", (stateInfo->isTransitioningOut ? "out of" : "into"), (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
@@ -326,91 +326,91 @@ void StateManager::UpdateTransitions(float delta)
 						if (stateInfo->gameState->HasReturnValue())
 						{
 							m_stateReturnValue = stateInfo->gameState->GetReturnValue();
-							m_hasStateReturnValue = TRUE;
+							m_hasStateReturnValue = true;
 							LOG_INFO(LOGCAT_STATEMANAGER, "Return value of %d retrieved from %s.\n", m_stateReturnValue, stateInfo->GetDescriptor().c_str());
 						}
 					}
 					else
 					{
 						LOG_INFO(LOGCAT_STATEMANAGER, "Pausing %sstate %s.\n", (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
-						stateInfo->gameState->OnPause(FALSE);
+						stateInfo->gameState->OnPause(false);
 					}
-					stateInfo->isInactive = TRUE;
+					stateInfo->isInactive = true;
 				}
 
 				// done transitioning
-				stateInfo->isTransitioning = FALSE;
-				stateInfo->isTransitioningOut = FALSE;
+				stateInfo->isTransitioning = false;
+				stateInfo->isTransitioningOut = false;
 			}
-			stateInfo->isTransitionStarting = FALSE;
+			stateInfo->isTransitionStarting = false;
 		}
 	}
 }
 
-void StateManager::TransitionOut(StateInfo *stateInfo, BOOL forPopping)
+void StateManager::TransitionOut(StateInfo *stateInfo, bool forPopping)
 {
-	stateInfo->isTransitioning = TRUE;
-	stateInfo->isTransitioningOut = TRUE;
-	stateInfo->isTransitionStarting = TRUE;
+	stateInfo->isTransitioning = true;
+	stateInfo->isTransitioningOut = true;
+	stateInfo->isTransitionStarting = true;
 	stateInfo->isBeingPopped = forPopping;
 	LOG_INFO(LOGCAT_STATEMANAGER, "Transition out of %sstate %s started.\n", (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
 
 	if (forPopping)
 		stateInfo->gameState->GetProcessManager()->RemoveAll();
 	else
-		stateInfo->gameState->GetProcessManager()->OnPause(FALSE);
+		stateInfo->gameState->GetProcessManager()->OnPause(false);
 }
 
-void StateManager::TransitionIn(StateInfo *stateInfo, BOOL forResuming)
+void StateManager::TransitionIn(StateInfo *stateInfo, bool forResuming)
 {
-	stateInfo->isInactive = FALSE;
-	stateInfo->isTransitioning = TRUE;
-	stateInfo->isTransitioningOut = FALSE;
-	stateInfo->isTransitionStarting = TRUE;
+	stateInfo->isInactive = false;
+	stateInfo->isTransitioning = true;
+	stateInfo->isTransitioningOut = false;
+	stateInfo->isTransitionStarting = true;
 	LOG_INFO(LOGCAT_STATEMANAGER, "Transition into %sstate %s started.\n", (stateInfo->isOverlay ? "overlay " : ""), stateInfo->GetDescriptor().c_str());
 
 	if (forResuming)
-		stateInfo->gameState->GetProcessManager()->OnResume(FALSE);
+		stateInfo->gameState->GetProcessManager()->OnResume(false);
 }
 
 void StateManager::QueueForPush(StateInfo *newStateInfo)
 {
-	//ASSERT(IsTransitioning() == FALSE);
-	//ASSERT(m_swapQueue.empty() == TRUE);
+	//ASSERT(IsTransitioning() == false);
+	//ASSERT(m_swapQueue.empty() == true);
 	ASSERT(newStateInfo != NULL);
 	ASSERT(newStateInfo->gameState != NULL);
-	ASSERT(m_pushQueueHasOverlay == FALSE || (m_pushQueueHasOverlay == TRUE && newStateInfo->isOverlay == TRUE));
+	ASSERT(m_pushQueueHasOverlay == false || (m_pushQueueHasOverlay == true && newStateInfo->isOverlay == true));
 
 	LOG_INFO(LOGCAT_STATEMANAGER, "Queueing state %s for pushing.\n", newStateInfo->GetDescriptor().c_str());
 
 	if (!newStateInfo->isOverlay)
-		StartTopStatesTransitioningOut(TRUE);
+		StartTopStatesTransitioningOut(true);
 
 	m_pushQueue.push_back(newStateInfo);
 
 	if (newStateInfo->isOverlay)
-		m_pushQueueHasOverlay = TRUE;
+		m_pushQueueHasOverlay = true;
 }
 
-void StateManager::QueueForSwap(StateInfo *newStateInfo, BOOL swapTopNonOverlay)
+void StateManager::QueueForSwap(StateInfo *newStateInfo, bool swapTopNonOverlay)
 {
-	//ASSERT(IsTransitioning() == FALSE);
-	//ASSERT(m_pushQueue.empty() == TRUE);
+	//ASSERT(IsTransitioning() == false);
+	//ASSERT(m_pushQueue.empty() == true);
 	ASSERT(newStateInfo != NULL);
 	ASSERT(newStateInfo->gameState != NULL);
-	ASSERT(m_swapQueueHasOverlay == FALSE || (m_swapQueueHasOverlay == TRUE && newStateInfo->isOverlay == TRUE));
+	ASSERT(m_swapQueueHasOverlay == false || (m_swapQueueHasOverlay == true && newStateInfo->isOverlay == true));
 
 	LOG_INFO(LOGCAT_STATEMANAGER, "Queueing state %s for swapping with %s.\n", newStateInfo->GetDescriptor().c_str(), (swapTopNonOverlay ? "all top active states" : "only top-most active state."));
 
 	if (swapTopNonOverlay)
-		StartTopStatesTransitioningOut(FALSE);
+		StartTopStatesTransitioningOut(false);
 	else
-		StartOnlyTopStateTransitioningOut(FALSE);
+		StartOnlyTopStateTransitioningOut(false);
 
 	m_swapQueue.push_back(newStateInfo);
 
 	if (newStateInfo->isOverlay)
-		m_swapQueueHasOverlay = TRUE;
+		m_swapQueueHasOverlay = true;
 }
 
 StateInfo* StateManager::GetTopNonOverlay() const
@@ -428,7 +428,7 @@ StateInfoList::iterator StateManager::GetTopNonOverlayItor()
 	StateInfoList::iterator result = m_states.end();
 	for (StateInfoList::iterator i = m_states.begin(); i != m_states.end(); ++i)
 	{
-		if ((*i)->isOverlay == FALSE)
+		if ((*i)->isOverlay == false)
 			result = i;
 	}
 
@@ -448,19 +448,19 @@ StateInfo* StateManager::GetStateInfoFor(const GameState *state) const
 	return NULL;
 }
 
-BOOL StateManager::IsTransitioning() const
+bool StateManager::IsTransitioning() const
 {
 	for (StateInfoList::const_iterator i = m_states.begin(); i != m_states.end(); ++i)
 	{
 		const StateInfo *stateInfo = *i;
 		if (stateInfo->isTransitioning)
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-void StateManager::StartTopStatesTransitioningOut(BOOL pausing)
+void StateManager::StartTopStatesTransitioningOut(bool pausing)
 {
 	for (StateInfoList::iterator i = GetTopNonOverlayItor(); i != m_states.end(); ++i)
 	{
@@ -472,7 +472,7 @@ void StateManager::StartTopStatesTransitioningOut(BOOL pausing)
 	}
 }
 
-void StateManager::StartOnlyTopStateTransitioningOut(BOOL pausing)
+void StateManager::StartOnlyTopStateTransitioningOut(bool pausing)
 {
 	StateInfo *stateInfo = GetTop();
 	// if it's not active, then it's just been transitioned out and will be
@@ -494,8 +494,8 @@ void StateManager::CleanupInactiveStates()
 	if (IsTransitioning())
 		return;
 
-	BOOL cleanedUpSomething = FALSE;
-	BOOL cleanedUpNonOverlay = FALSE;
+	bool cleanedUpSomething = false;
+	bool cleanedUpNonOverlay = false;
 
 	StateInfoList::iterator i = m_states.begin();
 	while (i != m_states.end())
@@ -503,9 +503,9 @@ void StateManager::CleanupInactiveStates()
 		StateInfo *stateInfo = *i;
 		if (stateInfo->isInactive && stateInfo->isBeingPopped)
 		{
-			cleanedUpSomething = TRUE;
+			cleanedUpSomething = true;
 			if (!stateInfo->isOverlay)
-				cleanedUpNonOverlay = TRUE;
+				cleanedUpNonOverlay = true;
 
 			m_states.erase(i++);
 
@@ -518,7 +518,7 @@ void StateManager::CleanupInactiveStates()
 	}
 
 	if (cleanedUpSomething && !cleanedUpNonOverlay)
-		m_lastCleanedStatesWereAllOverlays = TRUE;
+		m_lastCleanedStatesWereAllOverlays = true;
 }
 
 void StateManager::CheckForFinishedStates()
@@ -530,7 +530,7 @@ void StateManager::CheckForFinishedStates()
 	if (IsTransitioning())
 		return;
 
-	BOOL needToAlsoTransitionOutOverlays = FALSE;
+	bool needToAlsoTransitionOutOverlays = false;
 	
 	// check the top non-overlay state first to see if it's finished and
 	// should be transitioned out
@@ -538,9 +538,9 @@ void StateManager::CheckForFinishedStates()
 	if (!topNonOverlayStateInfo->isInactive && topNonOverlayStateInfo->gameState->IsFinished())
 	{
 		LOG_INFO(LOGCAT_STATEMANAGER, "State %s marked as finished.\n", topNonOverlayStateInfo->GetDescriptor().c_str());
-		TransitionOut(topNonOverlayStateInfo, TRUE);
+		TransitionOut(topNonOverlayStateInfo, true);
 		
-		needToAlsoTransitionOutOverlays = TRUE;
+		needToAlsoTransitionOutOverlays = true;
 	}
 	
 	// now also check the overlay states (if there were any). we force them to
@@ -556,7 +556,7 @@ void StateManager::CheckForFinishedStates()
 		if (!stateInfo->isInactive && (stateInfo->gameState->IsFinished() || needToAlsoTransitionOutOverlays))
 		{
 			LOG_INFO(LOGCAT_STATEMANAGER, "State %s marked as finished.\n", stateInfo->GetDescriptor().c_str());
-			TransitionOut(stateInfo, TRUE);
+			TransitionOut(stateInfo, true);
 		}
 	}
 }

@@ -41,19 +41,19 @@ public:
 	virtual void Close() = 0;
 
 	/**
-	 * @return TRUE if the file is currently open
+	 * @return true if the file is currently open
 	 */
-	virtual BOOL IsOpen() const = 0;
+	virtual bool IsOpen() const = 0;
 
 	/**
-	 * @return TRUE if this file supports reading
+	 * @return true if this file supports reading
 	 */
-	virtual BOOL CanRead() const = 0;
+	virtual bool CanRead() const = 0;
 
 	/**
-	 * @return TRUE if this file supports writing
+	 * @return true if this file supports writing
 	 */
-	virtual BOOL CanWrite() const = 0;
+	virtual bool CanWrite() const = 0;
 
 	/**
 	 * @return a type value representing the backing storage where this file's
@@ -250,9 +250,9 @@ public:
 	virtual void Seek(size_t offset, FileSeek from) = 0;
 
 	/**
-	 * @return TRUE if the current file pointer is at the end of the file
+	 * @return true if the current file pointer is at the end of the file
 	 */
-	virtual BOOL AtEOF() = 0;
+	virtual bool AtEOF() = 0;
 
 	/**
 	 * @return the size of this file in bytes

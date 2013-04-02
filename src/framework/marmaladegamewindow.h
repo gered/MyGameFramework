@@ -20,44 +20,44 @@ public:
 	MarmaladeGameWindow(BaseGameApp *gameApp, MarmaladeSystem *system);
 	virtual ~MarmaladeGameWindow();
 
-	BOOL Create(GameWindowParams *params);
-	BOOL Resize(uint width = IGNORE_DIMENSIONS, uint height = IGNORE_DIMENSIONS);
-	BOOL ToggleFullscreen();
+	bool Create(GameWindowParams *params);
+	bool Resize(uint width = IGNORE_DIMENSIONS, uint height = IGNORE_DIMENSIONS);
+	bool ToggleFullscreen();
 	void Close();
 
 	uint GetWidth() const                                  { return m_rect.GetWidth(); }
 	uint GetHeight() const                                 { return m_rect.GetHeight(); }
 	const Rect& GetRect() const                            { return m_rect; }
 	uint GetBPP() const                                    { return m_bpp; }
-	BOOL IsWindowed() const                                { return !m_fullscreen; }
+	bool IsWindowed() const                                { return !m_fullscreen; }
 	SCREEN_ORIENTATION_ANGLE GetScreenOrientation() const  { return m_screenOrientation; }
 
-	BOOL IsActive() const                                  { return m_active; }
-	BOOL IsFocused() const                                 { return m_focused; }
-	BOOL IsClosing() const                                 { return m_closing; }
-	BOOL HasGLContext() const                              { return eglGetCurrentContext() != EGL_NO_CONTEXT; }
+	bool IsActive() const                                  { return m_active; }
+	bool IsFocused() const                                 { return m_focused; }
+	bool IsClosing() const                                 { return m_closing; }
+	bool HasGLContext() const                              { return eglGetCurrentContext() != EGL_NO_CONTEXT; }
 
 	void ProcessEvent(const OSEvent *event);
 	void Flip()                                            { eglSwapBuffers(m_eglDisplay, m_eglSurface); }
 
 private:
-	BOOL SetUpWindow();
-	BOOL DestroyWindow();
+	bool SetUpWindow();
+	bool DestroyWindow();
 
-	BOOL SetUpEGL();
-	BOOL DestroyEGL();
+	bool SetUpEGL();
+	bool DestroyEGL();
 
 	SCREEN_ORIENTATION_ANGLE GetCurrentScreenOrientationAngle();
 
 	MarmaladeSystem *m_system;
 
-	BOOL m_active;
-	BOOL m_focused;
-	BOOL m_closing;
+	bool m_active;
+	bool m_focused;
+	bool m_closing;
 
 	Rect m_rect;
 	uint m_bpp;
-	BOOL m_fullscreen;
+	bool m_fullscreen;
 	SCREEN_ORIENTATION_ANGLE m_screenOrientation;
 
 	EGLDisplay m_eglDisplay;

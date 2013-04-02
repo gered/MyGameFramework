@@ -11,8 +11,8 @@ SpriteShader::~SpriteShader()
 {
 }
 
-void SpriteShader::SetTextureHasAlphaOnly(BOOL hasAlphaOnly)
+void SpriteShader::SetTextureHasAlphaOnly(bool hasAlphaOnly)
 {
-	ASSERT(IsReadyForUse() == TRUE);
+	ASSERT(IsReadyForUse() == true);
 	SetUniform(m_textureHasAlphaOnlyUniform, (int)hasAlphaOnly);
 }

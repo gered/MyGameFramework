@@ -16,12 +16,12 @@ VertexSkinningShader::~VertexSkinningShader()
 
 void VertexSkinningShader::SetJointPositions(const Vector3 *positions, uint count)
 {
-	ASSERT(IsReadyForUse() == TRUE);
+	ASSERT(IsReadyForUse() == true);
 	SetUniform(m_positionsUniform, positions, count);
 }
 
 void VertexSkinningShader::SetJointRotations(const Quaternion *rotations, uint count)
 {
-	ASSERT(IsReadyForUse() == TRUE);
+	ASSERT(IsReadyForUse() == true);
 	SetUniform(m_rotationsUniform, rotations, count);
 }

@@ -25,9 +25,9 @@ public:
 	/**
 	 * Creates a geometry debug renderer.
 	 * @param graphicsDevice the graphics device to use for rendering
-	 * @param depthTesting TRUE to enable depth testing for all geometry rendering
+	 * @param depthTesting true to enable depth testing for all geometry rendering
 	 */
-	GeometryDebugRenderer(GraphicsDevice *graphicsDevice, BOOL depthTesting = FALSE);
+	GeometryDebugRenderer(GraphicsDevice *graphicsDevice, bool depthTesting = false);
 
 	virtual ~GeometryDebugRenderer();
 
@@ -126,7 +126,7 @@ private:
 	VertexBuffer *m_vertices;
 	uint m_currentVertex;
 
-	BOOL m_begunRendering;
+	bool m_begunRendering;
 };
 
 inline void GeometryDebugRenderer::Render(const BoundingBox &box)

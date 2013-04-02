@@ -28,16 +28,16 @@ public:
 	virtual void OnResize()                                {};
 	virtual void OnUpdate(float delta)                     {};
 
-	BOOL IsActive() const                                  { return m_isActive; }
+	bool IsActive() const                                  { return m_isActive; }
 	void MarkInactive();
 
 private:
-	BOOL m_isActive;
+	bool m_isActive;
 };
 
 inline Effect::Effect()
 {
-	m_isActive = TRUE;
+	m_isActive = true;
 }
 
 inline Effect::~Effect()
@@ -46,7 +46,7 @@ inline Effect::~Effect()
 
 inline void Effect::MarkInactive()
 {
-	m_isActive = FALSE;
+	m_isActive = false;
 }
 
 #endif

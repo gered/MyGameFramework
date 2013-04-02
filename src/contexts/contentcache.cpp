@@ -19,20 +19,20 @@ ContentCache::ContentCache(ContentManager *contentManager)
 
 ContentCache::~ContentCache()
 {
-	m_contentManager->Free<Texture>(m_uiSkin, TRUE);
-	m_contentManager->Free<Image>(m_uiSkinImage, TRUE);
-	m_contentManager->Free<SpriteFont>(m_standardFont, TRUE);
-	m_contentManager->Free<SpriteFont>(m_uiFont, TRUE);
+	m_contentManager->Free<Texture>(m_uiSkin, true);
+	m_contentManager->Free<Image>(m_uiSkinImage, true);
+	m_contentManager->Free<SpriteFont>(m_standardFont, true);
+	m_contentManager->Free<SpriteFont>(m_uiFont, true);
 }
 
 void ContentCache::OnLoadGame()
 {
 	m_uiSkinFilename = "assets://ui_skin.png";
-	m_uiSkinImage = m_contentManager->Get<Image>(m_uiSkinFilename, TRUE);
-	m_uiSkin = m_contentManager->Get<Texture>(m_uiSkinFilename, TRUE);
-	m_standardFont = m_contentManager->Get<SpriteFont>("assets://fonts/dlxfont.ttf", SpriteFontParam(8), TRUE);
+	m_uiSkinImage = m_contentManager->Get<Image>(m_uiSkinFilename, true);
+	m_uiSkin = m_contentManager->Get<Texture>(m_uiSkinFilename, true);
+	m_standardFont = m_contentManager->Get<SpriteFont>("assets://fonts/dlxfont.ttf", SpriteFontParam(8), true);
 	m_uiFontFilename = "assets://fonts/dlxfont.ttf";
 	m_uiFontSize = 8;
-	m_uiFont = m_contentManager->Get<SpriteFont>(m_uiFontFilename, SpriteFontParam(m_uiFontSize), TRUE);
+	m_uiFont = m_contentManager->Get<SpriteFont>(m_uiFontFilename, SpriteFontParam(m_uiFontSize), true);
 }
 

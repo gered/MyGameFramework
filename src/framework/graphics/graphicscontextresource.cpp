@@ -16,27 +16,27 @@ void GraphicsContextResource::Release()
 	m_graphicsDevice = NULL;
 }
 
-BOOL GraphicsContextResource::Initialize()
+bool GraphicsContextResource::Initialize()
 {
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
-		return FALSE;
+		return false;
 	
-	return TRUE;
+	return true;
 }
 
-BOOL GraphicsContextResource::Initialize(GraphicsDevice *graphicsDevice)
+bool GraphicsContextResource::Initialize(GraphicsDevice *graphicsDevice)
 {
 	ASSERT(m_graphicsDevice == NULL);
 	if (m_graphicsDevice != NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(graphicsDevice != NULL);
 	if (graphicsDevice == NULL)
-		return FALSE;
+		return false;
 	
 	m_graphicsDevice = graphicsDevice;
 	m_graphicsDevice->RegisterManagedResource(this);
 	
-	return TRUE;
+	return true;
 }

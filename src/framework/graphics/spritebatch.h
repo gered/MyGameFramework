@@ -380,16 +380,16 @@ private:
 	void AddSprite(const Texture *texture, int destLeft, int destTop, int destRight, int destBottom, uint sourceLeft, uint sourceTop, uint sourceRight, uint sourceBottom, const Color &color);
 	void AddSprite(const Texture *texture, int destLeft, int destTop, int destRight, int destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color);
 	void AddSprite(const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color);
-	BOOL ClipSpriteCoords(float &left, float &top, float &right, float &bottom, float &texCoordLeft, float &texCoordTop, float &texCoordRight, float &texCoordBottom);
+	bool ClipSpriteCoords(float &left, float &top, float &right, float &bottom, float &texCoordLeft, float &texCoordTop, float &texCoordRight, float &texCoordBottom);
 	void SetSpriteInfo(uint spriteIndex, const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color);
 
 	void AddLine(float x1, float y1, float x2, float y2, const Color &color);
 	void SetLineInfo(uint spriteIndex, float x1, float y1, float x2, float y2, const Color &color);
-	BOOL ClipLineCoords(float &x1, float &y1, float &x2, float &y2);
+	bool ClipLineCoords(float &x1, float &y1, float &x2, float &y2);
 
 	void AddFilledBox(float left, float top, float right, float bottom, const Color &color);
 	void SetFilledBoxInfo(uint spriteIndex, float left, float top, float right, float bottom, const Color &color);
-	BOOL ClipFilledBoxCoords(float &left, float &top, float &right, float &bottom);
+	bool ClipFilledBoxCoords(float &left, float &top, float &right, float &bottom);
 
 	void RenderQueue();
 	void RenderQueueRange(const SpriteBatchEntity *firstEntity, const SpriteBatchEntity *lastEntity);
@@ -404,19 +404,19 @@ private:
 	SpriteShader *m_shader;
 	RenderState *m_renderState;
 	BlendState *m_blendState;
-	BOOL m_isRenderStateOverridden;
+	bool m_isRenderStateOverridden;
 	RenderState m_overrideRenderState;
-	BOOL m_isBlendStateOverridden;
+	bool m_isBlendStateOverridden;
 	BlendState m_overrideBlendState;
 	VertexBuffer *m_vertices;
 	stl::vector<SpriteBatchEntity> m_entities;
 	uint m_currentSpritePointer;
 	Matrix4x4 m_previousProjection;
 	Matrix4x4 m_previousModelview;
-	BOOL m_isClipping;
+	bool m_isClipping;
 	RectF m_clipRegion;
 
-	BOOL m_begunRendering;
+	bool m_begunRendering;
 };
 
 #endif

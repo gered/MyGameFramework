@@ -5,25 +5,25 @@
 Content::Content()
 {
 	m_referenceCount = 0;
-	m_isReferenceCounted = FALSE;
-	m_wasLoadedByContentLoader = FALSE;
+	m_isReferenceCounted = false;
+	m_wasLoadedByContentLoader = false;
 }
 
 Content::~Content()
 {
-	ASSERT(m_isReferenceCounted == FALSE || m_referenceCount == 0);
+	ASSERT(m_isReferenceCounted == false || m_referenceCount == 0);
 }
 
 void Content::Reference()
 {
-	m_isReferenceCounted = TRUE;
+	m_isReferenceCounted = true;
 	++m_referenceCount;
 }
 
 void Content::ReleaseReference()
 {
-	ASSERT(m_isReferenceCounted == TRUE);
-	ASSERT(IsReferenced() == TRUE);
+	ASSERT(m_isReferenceCounted == true);
+	ASSERT(IsReferenced() == true);
 	if (m_referenceCount > 0)
 		--m_referenceCount;
 }

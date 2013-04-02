@@ -5,13 +5,13 @@
 #include "../sdlsystem.h"
 #include <string.h>
 
-SDLKeyboard::SDLKeyboard(SDLSystem *system, BOOL hasPhysicalKeysForGameControls)
+SDLKeyboard::SDLKeyboard(SDLSystem *system, bool hasPhysicalKeysForGameControls)
 {
 	m_system = system;
 	m_hasPhysicalKeysForGameControls = hasPhysicalKeysForGameControls;
 
-	m_keys = new BOOL[KSYM_LAST];
-	m_lockedKeys = new BOOL[KSYM_LAST];
+	m_keys = new bool[KSYM_LAST];
+	m_lockedKeys = new bool[KSYM_LAST];
 
 	Reset();
 }
@@ -22,7 +22,7 @@ SDLKeyboard::~SDLKeyboard()
 	SAFE_DELETE_ARRAY(m_lockedKeys);
 }
 
-BOOL SDLKeyboard::OnKeyEvent(const SDL_KeyboardEvent *eventArgs)
+bool SDLKeyboard::OnKeyEvent(const SDL_KeyboardEvent *eventArgs)
 {
 	int keyCode = (int)eventArgs->keysym.sym;
 
@@ -51,28 +51,28 @@ BOOL SDLKeyboard::OnKeyEvent(const SDL_KeyboardEvent *eventArgs)
 			}
 		}
 
-		m_keys[keyCode] = FALSE;
-		m_lockedKeys[keyCode] = FALSE;
+		m_keys[keyCode] = false;
+		m_lockedKeys[keyCode] = false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL SDLKeyboard::IsPressed(KEYS key)
+bool SDLKeyboard::IsPressed(KEYS key)
 {
 	if (m_keys[key] && !m_lockedKeys[key])
 	{
-		m_lockedKeys[key] = TRUE;
-		return TRUE;
+		m_lockedKeys[key] = true;
+		return true;
 	}
 	else
-		return FALSE;
+		return false;
 }
 
 void SDLKeyboard::Reset()
 {
-	memset(m_keys, FALSE, sizeof(BOOL) * KSYM_LAST);
-	memset(m_lockedKeys, FALSE, sizeof(BOOL) * KSYM_LAST);
+	memset(m_keys, false, sizeof(bool) * KSYM_LAST);
+	memset(m_lockedKeys, false, sizeof(bool) * KSYM_LAST);
 }
 
 void SDLKeyboard::RegisterListener(KeyboardListener *listener)

@@ -11,28 +11,28 @@ CustomVertexSkinningShader::~CustomVertexSkinningShader()
 {
 }
 
-BOOL CustomVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
+bool CustomVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	if (!VertexSkinningShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 	
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetJointPositionsUniform()) == TRUE);
-	ASSERT(HasUniform(GetJointRotationsUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
+	ASSERT(HasUniform(GetJointPositionsUniform()) == true);
+	ASSERT(HasUniform(GetJointRotationsUniform()) == true);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL CustomVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
+bool CustomVertexSkinningShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
 	if (!VertexSkinningShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 	
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetJointPositionsUniform()) == TRUE);
-	ASSERT(HasUniform(GetJointRotationsUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
+	ASSERT(HasUniform(GetJointPositionsUniform()) == true);
+	ASSERT(HasUniform(GetJointRotationsUniform()) == true);
 	
-	return TRUE;
+	return true;
 }

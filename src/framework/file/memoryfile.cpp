@@ -8,11 +8,11 @@
 MemoryFile::MemoryFile()
 {
 	m_data = NULL;
-	m_ownData = FALSE;
+	m_ownData = false;
 	m_length = 0;
 	m_position = 0;
-	m_canRead = FALSE;
-	m_canWrite = FALSE;
+	m_canRead = false;
+	m_canWrite = false;
 }
 
 MemoryFile::~MemoryFile()
@@ -20,14 +20,14 @@ MemoryFile::~MemoryFile()
 	Close();
 }
 
-BOOL MemoryFile::Open(File *srcFile)
+bool MemoryFile::Open(File *srcFile)
 {
-	ASSERT(IsOpen() == FALSE);
+	ASSERT(IsOpen() == false);
 	ASSERT(srcFile->IsOpen());
 	size_t filesize = srcFile->GetFileSize();
 	m_data = new int8_t[filesize];
 	ASSERT(m_data != NULL);
-	m_ownData = TRUE;
+	m_ownData = true;
 	m_length = filesize;
 	m_filename = srcFile->GetFilename();
 
@@ -38,15 +38,15 @@ BOOL MemoryFile::Open(File *srcFile)
 
 	LOG_INFO(LOGCAT_FILEIO, "Create MemoryFile from source file \"%s\"\n", srcFile->GetFilename().c_str());
 
-	return TRUE;
+	return true;
 }
 
-BOOL MemoryFile::Open(const void *memory, size_t numBytes, BOOL canRead, BOOL canWrite, BOOL assumeOwnershipOfMemory)
+bool MemoryFile::Open(const void *memory, size_t numBytes, bool canRead, bool canWrite, bool assumeOwnershipOfMemory)
 {
-	ASSERT(IsOpen() == FALSE);
+	ASSERT(IsOpen() == false);
 	ASSERT(memory != NULL);
 	ASSERT(numBytes > 0);
-	ASSERT(canRead == TRUE || canWrite == TRUE);
+	ASSERT(canRead == true || canWrite == true);
 
 	m_data = (int8_t*)memory;
 	m_ownData = assumeOwnershipOfMemory;
@@ -56,7 +56,7 @@ BOOL MemoryFile::Open(const void *memory, size_t numBytes, BOOL canRead, BOOL ca
 	m_canRead = canRead;
 	m_canWrite = canWrite;
 
-	return TRUE;
+	return true;
 }
 
 void MemoryFile::Close()
@@ -70,11 +70,11 @@ void MemoryFile::Close()
 			LOG_INFO(LOGCAT_FILEIO, "Free MemoryFile \"%s\"\n", m_filename.c_str());
 	}
 
-	m_ownData = FALSE;
+	m_ownData = false;
 	m_length = 0;
 	m_position = 0;
-	m_canRead = FALSE;
-	m_canWrite = FALSE;
+	m_canRead = false;
+	m_canWrite = false;
 	m_filename.clear();
 }
 
@@ -352,7 +352,7 @@ void MemoryFile::Seek(size_t offset, FileSeek from)
 		m_position += offset;
 }
 
-BOOL MemoryFile::AtEOF()
+bool MemoryFile::AtEOF()
 {
 	ASSERT(IsOpen());
 	return m_position >= m_length;

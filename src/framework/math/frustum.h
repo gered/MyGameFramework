@@ -43,29 +43,29 @@ public:
 	/**
 	 * Tests a point for visibility.
 	 * @param point the point to be tested
-	 * @return BOOL TRUE if visible, FALSE if not
+	 * @return bool true if visible, false if not
 	 */
-	BOOL Test(const Vector3 &point) const;
+	bool Test(const Vector3 &point) const;
 
 	/**
 	 * Tests a box for visibility.
 	 * @param box the box to be tested
-	 * @return BOOL TRUE if at least partially visible, FALSE if entirely
+	 * @return bool true if at least partially visible, false if entirely
 	 *              outside the viewing frustum
 	 */
-	BOOL Test(const BoundingBox &box) const;
+	bool Test(const BoundingBox &box) const;
 
 	/**
 	 * Tests a sphere for visibility.
 	 * @param sphere the sphere to be tested
-	 * @return BOOL TRUE if at least partially visible, FALSE if entirely
+	 * @return bool true if at least partially visible, false if entirely
 	 *              outside the viewing frustum
 	 */
-	BOOL Test(const BoundingSphere &sphere) const;
+	bool Test(const BoundingSphere &sphere) const;
 
 private:
-	BOOL TestPlaneAgainstBox(const Plane &plane, float minX, float minY, float minZ, float width, float height, float depth) const;
-	BOOL TestPlaneAgainstSphere(const Plane &plane, const Vector3 &center, float radius) const;
+	bool TestPlaneAgainstBox(const Plane &plane, float minX, float minY, float minZ, float width, float height, float depth) const;
+	bool TestPlaneAgainstSphere(const Plane &plane, const Vector3 &center, float radius) const;
 
 	ViewContext *m_viewContext;
 	Plane m_planes[NUM_FRUSTUM_SIDES];

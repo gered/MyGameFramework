@@ -41,7 +41,7 @@ void TileMapRenderer::Render(const TileMap *tileMap, Shader *shader)
 	}
 	else
 	{
-		ASSERT(shader->IsReadyForUse() == TRUE);
+		ASSERT(shader->IsReadyForUse() == true);
 		m_graphicsDevice->BindShader(shader);
 	}
 
@@ -77,7 +77,7 @@ void TileMapRenderer::RenderAlpha(const TileMap *tileMap, Shader *shader)
 	}
 	else
 	{
-		ASSERT(shader->IsReadyForUse() == TRUE);
+		ASSERT(shader->IsReadyForUse() == true);
 		m_graphicsDevice->BindShader(shader);
 	}
 

@@ -150,8 +150,8 @@ SpriteFont* SpriteFontLoader::Load(File *file, uint size, SpriteFont *existing) 
 	// general size of each glyph in this font. Uppercase 'W' seems to be a 
 	// pretty good glyph to represent this "maximum size".
 	SpriteFontGlyphMetrics maxMetrics;
-	BOOL maxMetricResult = GetGlyphMetrics(&fontinfo, 'W', size, &maxMetrics);
-	ASSERT(maxMetricResult == TRUE);
+	bool maxMetricResult = GetGlyphMetrics(&fontinfo, 'W', size, &maxMetrics);
+	ASSERT(maxMetricResult == true);
 
 	// if we can't even get this glyph's metrics then stop now
 	if (!maxMetricResult)
@@ -161,8 +161,8 @@ SpriteFont* SpriteFontLoader::Load(File *file, uint size, SpriteFont *existing) 
 	// that we're allowing as long as the font pixel size doesn't get too large
 	// this bitmap is *only* going to contain alpha values (not any kind of rgb colour data)
 	Image *bitmap = new Image();
-	BOOL bitmapCreateSuccess = bitmap->Create(FONT_BITMAP_WIDTH, FONT_BITMAP_HEIGHT, IMAGE_FORMAT_ALPHA);
-	ASSERT(bitmapCreateSuccess == TRUE);
+	bool bitmapCreateSuccess = bitmap->Create(FONT_BITMAP_WIDTH, FONT_BITMAP_HEIGHT, IMAGE_FORMAT_ALPHA);
+	ASSERT(bitmapCreateSuccess == true);
 	bitmap->Clear();
 
 	// the texture atlas to store the position/texcoords of each glyph
@@ -186,8 +186,8 @@ SpriteFont* SpriteFontLoader::Load(File *file, uint size, SpriteFont *existing) 
 		// get metrics for the current glyph
 		char c = (char)(i + LOW_GLYPH);
 		SpriteFontGlyphMetrics glyphMetrics;
-		BOOL metricResult = GetGlyphMetrics(&fontinfo, c, size, &glyphMetrics);
-		ASSERT(metricResult == TRUE);
+		bool metricResult = GetGlyphMetrics(&fontinfo, c, size, &glyphMetrics);
+		ASSERT(metricResult == true);
 
 		// adjust each glyph's rect so that it has it's own space that doesn't
 		// collide with any of it's neighbour glyphs (neighbour as seen on the 
@@ -237,8 +237,8 @@ SpriteFont* SpriteFontLoader::Load(File *file, uint size, SpriteFont *existing) 
 	}
 
 	Texture *fontTexture = new Texture();
-	BOOL textureCreated = fontTexture->Create(GetContentManager()->GetGameApp()->GetGraphicsDevice(), bitmap);
-	ASSERT(textureCreated == TRUE);
+	bool textureCreated = fontTexture->Create(GetContentManager()->GetGameApp()->GetGraphicsDevice(), bitmap);
+	ASSERT(textureCreated == true);
 	SAFE_DELETE(bitmap);
 	if (!textureCreated)
 	{
@@ -271,7 +271,7 @@ void SpriteFontLoader::FreeContent(SpriteFont *content)
 	SAFE_DELETE(content);
 }
 
-BOOL SpriteFontLoader::GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint size, SpriteFontGlyphMetrics *metrics) const
+bool SpriteFontLoader::GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uint size, SpriteFontGlyphMetrics *metrics) const
 {
 	ASSERT(metrics != NULL);
 
@@ -284,7 +284,7 @@ BOOL SpriteFontLoader::GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uin
 
 	metrics->index = stbtt_FindGlyphIndex(fontInfo, glyph);
 	if (metrics->index == 0)
-		return FALSE;
+		return false;
 
 	stbtt_GetGlyphBox(fontInfo, metrics->index, &metrics->dimensions.left, &metrics->dimensions.top, &metrics->dimensions.right, &metrics->dimensions.bottom);
 	stbtt_GetFontVMetrics(fontInfo, &metrics->ascent, &metrics->descent, &metrics->lineGap);
@@ -310,5 +310,5 @@ BOOL SpriteFontLoader::GetGlyphMetrics(stbtt_fontinfo *fontInfo, char glyph, uin
 	if (heightDifference != metrics->lineGap && metrics->lineGap == 0)
 		metrics->lineGap = heightDifference;
 
-	return TRUE;
+	return true;
 }

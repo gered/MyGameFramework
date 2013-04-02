@@ -13,16 +13,16 @@ class SDLSystem;
 class SDLKeyboard : public Keyboard
 {
 public:
-	SDLKeyboard(SDLSystem *system, BOOL hasPhysicalKeysForGameControls);
+	SDLKeyboard(SDLSystem *system, bool hasPhysicalKeysForGameControls);
 	virtual ~SDLKeyboard();
 
-	BOOL OnKeyEvent(const SDL_KeyboardEvent *eventArgs);
+	bool OnKeyEvent(const SDL_KeyboardEvent *eventArgs);
 
-	BOOL HasPhysicalKeysForGameControls() const            { return m_hasPhysicalKeysForGameControls; }
+	bool HasPhysicalKeysForGameControls() const            { return m_hasPhysicalKeysForGameControls; }
 
-	BOOL IsDown(KEYS key)                                  { return m_keys[key] && !m_lockedKeys[key]; }
-	BOOL IsPressed(KEYS key);
-	void Lock(KEYS key)                                    { m_lockedKeys[key] = TRUE; }
+	bool IsDown(KEYS key)                                  { return m_keys[key] && !m_lockedKeys[key]; }
+	bool IsPressed(KEYS key);
+	void Lock(KEYS key)                                    { m_lockedKeys[key] = true; }
 
 	void Reset();
 
@@ -33,9 +33,9 @@ private:
 	stl::set<KeyboardListener*> m_listeners;
 	SDLSystem *m_system;
 
-	BOOL *m_keys;
-	BOOL *m_lockedKeys;
-	BOOL m_hasPhysicalKeysForGameControls;
+	bool *m_keys;
+	bool *m_lockedKeys;
+	bool m_hasPhysicalKeysForGameControls;
 };
 
 #endif

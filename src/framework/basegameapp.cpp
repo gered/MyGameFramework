@@ -18,8 +18,8 @@ const uint DEFAULT_MAX_FRAMESKIP = 10;
 
 BaseGameApp::BaseGameApp()
 {
-	m_stop = FALSE;
-	m_isPaused = FALSE;
+	m_stop = false;
+	m_isPaused = false;
 	m_fps = 0;
 	m_frameTime = 0.0f;
 	m_numRenders = 0;
@@ -29,8 +29,8 @@ BaseGameApp::BaseGameApp()
 	m_renderTime = 0;
 	m_updateTime = 0;
 	m_nextUpdateAt = 0;
-	m_isRunningSlowly = FALSE;
-	m_isDirty = FALSE;
+	m_isRunningSlowly = false;
+	m_isDirty = false;
 	m_system = NULL;
 	m_window = NULL;
 	m_graphics = NULL;
@@ -50,7 +50,7 @@ BaseGameApp::~BaseGameApp()
 	SAFE_DELETE(m_graphics);
 }
 
-BOOL BaseGameApp::Start(OperatingSystem *system)
+bool BaseGameApp::Start(OperatingSystem *system)
 {
 	m_system = system;
 
@@ -58,34 +58,34 @@ BOOL BaseGameApp::Start(OperatingSystem *system)
 	if (!OnInit())
 	{
 		LOG_ERROR(LOGCAT_GAMEAPP, "Initialization failed.\n");
-		return FALSE;
+		return false;
 	}
 	LOG_INFO(LOGCAT_GAMEAPP, "Initialization succeeded.\n");
 	OnNewContext();
 	OnResize();
 
-	return TRUE;
+	return true;
 }
 
-BOOL BaseGameApp::Initialize(GameWindowParams *windowParams)
+bool BaseGameApp::Initialize(GameWindowParams *windowParams)
 {
 	LOG_INFO(LOGCAT_GAMEAPP, "Starting initialization.\n");
 
 	if (!m_system->CreateGameWindow(this, windowParams))
-		return FALSE;
+		return false;
 
 	LOG_INFO(LOGCAT_GAMEAPP, "Verifying shader support present.\n");
 	if (!m_system->HasShaderSupport())
 	{
 		LOG_ERROR(LOGCAT_GAMEAPP, "No support for shaders detected. Graphics framework requires hardware shader support. Aborting.\n");
-		return FALSE;
+		return false;
 	}
 
 	m_window = m_system->GetWindow();
 	if (m_window == NULL)
 	{
 		LOG_ERROR(LOGCAT_GAMEAPP, "Not able to get a GameWindow instance.\n");
-		return FALSE;
+		return false;
 	}
 
 	m_graphics = new GraphicsDevice();
@@ -97,7 +97,7 @@ BOOL BaseGameApp::Initialize(GameWindowParams *windowParams)
 
 	LOG_INFO(LOGCAT_GAMEAPP, "Initialization finished.\n");
 
-	return TRUE;
+	return true;
 }
 
 void BaseGameApp::Loop()
@@ -158,15 +158,15 @@ void BaseGameApp::Loop()
 
 			// we're "running slowly" if we're more than one update behind
 			if (currentTime > m_nextUpdateAt + m_ticksPerUpdate)
-				m_isRunningSlowly = TRUE;
+				m_isRunningSlowly = true;
 			else
-				m_isRunningSlowly = FALSE;
+				m_isRunningSlowly = false;
 
 			numUpdatesThisFrame = 0;
 			while (GetTicks() >= m_nextUpdateAt && numUpdatesThisFrame < m_maxFrameSkip)
 			{
 				if (numUpdatesThisFrame > 0)
-					m_isRunningSlowly = TRUE;
+					m_isRunningSlowly = true;
 
 				uint before = GetTicks();
 				OnUpdate(m_fixedUpdateInterval);
@@ -178,7 +178,7 @@ void BaseGameApp::Loop()
 				++m_numUpdates;
 
 				// just updated, so we need to render the new game state
-				m_isDirty = TRUE;
+				m_isDirty = true;
 			}
 
 			if (m_isDirty && m_window->IsActive() && m_window->HasGLContext())
@@ -191,7 +191,7 @@ void BaseGameApp::Loop()
 				++m_numRenders;
 
 				// don't render again until we have something new to show
-				m_isDirty = FALSE;
+				m_isDirty = false;
 			}
 
 			++numLoops;
@@ -206,7 +206,7 @@ void BaseGameApp::Quit()
 	LOG_INFO(LOGCAT_GAMEAPP, "Quit requested.\n");
 	if (!m_system->IsQuitting())
 		m_system->Quit();
-	m_stop = TRUE;
+	m_stop = true;
 }
 
 void BaseGameApp::OnAppGainFocus()
@@ -222,13 +222,13 @@ void BaseGameApp::OnAppLostFocus()
 void BaseGameApp::OnAppPause()
 {
 	LOG_INFO(LOGCAT_GAMEAPP, "Paused.\n");
-	m_isPaused = TRUE;
+	m_isPaused = true;
 }
 
 void BaseGameApp::OnAppResume()
 {
 	LOG_INFO(LOGCAT_GAMEAPP, "Resumed.\n");
-	m_isPaused = FALSE;
+	m_isPaused = false;
 
 	// this makes it so that the main loop won't try to "catch up" thinking that
 	// it's really far behind with updates since m_nextUpdateAt won't have been
@@ -290,10 +290,10 @@ void BaseGameApp::SetUpdateFrequency(uint targetFrequency)
 	m_fixedUpdateInterval = m_ticksPerUpdate / 1000.0f;
 }
 
-BOOL BaseGameApp::IsAppFocused() const
+bool BaseGameApp::IsAppFocused() const
 {
 	if (m_window != NULL)
 		return m_window->IsFocused();
 	else
-		return FALSE;  // if there's no window, it can't be focused!
+		return false;  // if there's no window, it can't be focused!
 }

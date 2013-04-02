@@ -25,12 +25,12 @@ void GwenGameProcess::OnRemove()
 	m_gwenController->OnRemove();
 }
 
-void GwenGameProcess::OnPause(BOOL dueToOverlay)
+void GwenGameProcess::OnPause(bool dueToOverlay)
 {
 	m_gwenController->OnPause(dueToOverlay);
 }
 
-void GwenGameProcess::OnResume(BOOL fromOverlay)
+void GwenGameProcess::OnResume(bool fromOverlay)
 {
 	m_gwenController->OnResume(fromOverlay);
 }
@@ -60,12 +60,12 @@ void GwenGameProcess::OnUpdate(float delta)
 	m_gwenController->OnUpdate(delta);
 }
 
-BOOL GwenGameProcess::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
+bool GwenGameProcess::OnTransition(float delta, bool isTransitioningOut, bool started)
 {
 	return m_gwenController->OnTransition(delta, isTransitioningOut, started);
 }
 
-BOOL GwenGameProcess::Handle(const Event *event)
+bool GwenGameProcess::Handle(const Event *event)
 {
 	// handle events...
 	

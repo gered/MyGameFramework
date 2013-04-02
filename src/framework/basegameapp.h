@@ -27,9 +27,9 @@ public:
 	 * Begins application initialization in preparation for running the
 	 * main loop.
 	 * @param system pre-initialized operating system class
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Start(OperatingSystem *system);
+	bool Start(OperatingSystem *system);
 
 	/**
 	 * Runs the main game loop.
@@ -98,10 +98,10 @@ public:
 	uint GetUpdatesPerSecond() const                       { return m_updatesPerSecond; }
 
 	/**
-	 * @return TRUE if the main loop is running behind 
+	 * @return true if the main loop is running behind 
 	 *         (has to update game logic more then once per frame)
 	 */
-	BOOL IsRunningSlowing() const                          { return m_isRunningSlowly; }
+	bool IsRunningSlowing() const                          { return m_isRunningSlowly; }
 
 	/**
 	 * Sets the desired frames per second to run the main loop at.
@@ -126,23 +126,23 @@ public:
 	 * will render even if a game logic update has not been run since the last render
 	 * was performed.
 	 */
-	void Invalidate()                                      { m_isDirty = TRUE; }
+	void Invalidate()                                      { m_isDirty = true; }
 
 	uint GetTicks() const                                  { return m_system->GetTicks(); }
 	
 	/**
-	 * @return TRUE if the app currently is active and has input focus
+	 * @return true if the app currently is active and has input focus
 	 */
-	BOOL IsAppFocused() const;
+	bool IsAppFocused() const;
 
 protected:
 	/**
 	 * Initializes the game window and the graphics and content management
 	 * sub-systems.
 	 * @param windowParams window creation parameters specific to the platform being run on
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GameWindowParams *windowParams);
+	bool Initialize(GameWindowParams *windowParams);
 
 	/**
 	 * Signals to the main loop that the application should quit as soon as possible.
@@ -173,7 +173,7 @@ public:
 	/**
 	 * Game-specific initialization (before content loading) callback.
 	 */
-	virtual BOOL OnInit() = 0;
+	virtual bool OnInit() = 0;
 
 	/**
 	 * Initial game load after initialization success callback.
@@ -211,8 +211,8 @@ private:
 
 	OperatingSystem *m_system;
 	GameWindow *m_window;
-	BOOL m_stop;
-	BOOL m_isPaused;
+	bool m_stop;
+	bool m_isPaused;
 
 	uint m_fps;
 	float m_frameTime;
@@ -228,9 +228,9 @@ private:
 	uint m_maxFrameSkip;
 	float m_fixedUpdateInterval;
 	uint m_nextUpdateAt;
-	BOOL m_isRunningSlowly;
+	bool m_isRunningSlowly;
 
-	BOOL m_isDirty;
+	bool m_isDirty;
 
 	GraphicsDevice *m_graphics;
 	ContentManager *m_content;

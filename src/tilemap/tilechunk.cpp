@@ -95,12 +95,12 @@ BoundingBox TileChunk::GetBoundingBoxFor(uint x, uint y, uint z) const
 	return box;
 }
 
-BOOL TileChunk::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
+bool TileChunk::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const
 {
 	// make sure that the ray and this chunk can actually collide in the first place
 	Vector3 position;
 	if (!IntersectionTester::Test(ray, m_bounds, &position))
-		return FALSE;
+		return false;
 
 	// convert initial chunk collision point to tile coords (this is in "tilemap space")
 	int currentX = (int)position.x;
@@ -130,7 +130,7 @@ BOOL TileChunk::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) con
 		z = currentZ;
 
 		// and we're done
-		return TRUE;
+		return true;
 	}
 
 	// no collision initially, continue on with the rest ...
@@ -193,8 +193,8 @@ BOOL TileChunk::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) con
 	if (isnan(tDelta.z))
 		tDelta.z = INFINITY;
 
-	BOOL collided = FALSE;
-	BOOL outOfChunk = FALSE;
+	bool collided = false;
+	bool outOfChunk = false;
 	while (!outOfChunk)
 	{
 		// step up to the next tile using the lowest step value
@@ -228,14 +228,14 @@ BOOL TileChunk::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) con
 				currentY < 0 || currentY >= (int)GetHeight() ||
 				currentZ < 0 || currentZ >= (int)GetDepth()
 			)
-			outOfChunk = TRUE;
+			outOfChunk = true;
 		else
 		{
 			// still inside and at the next position, test for a solid tile
 			Tile *tile = Get(currentX, currentY, currentZ);
 			if (IsBitSet(TILE_COLLIDABLE, tile->flags))
 			{
-				collided = TRUE;
+				collided = true;
 
 				// set the tile coords of the collision
 				x = currentX;
@@ -250,19 +250,19 @@ BOOL TileChunk::CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) con
 	return collided;
 }
 
-BOOL TileChunk::CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const
+bool TileChunk::CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const
 {
 	// if the ray doesn't collide with any solid tiles in the first place, then
 	// we can skip this more expensive triangle collision check...
 	if (!CheckForCollision(ray, x, y, z))
-		return FALSE;
+		return false;
 
 	// now perform the per-triangle collision check against the tile position
 	// where the ray ended up at the end of the above CheckForCollision() call
 	return CheckForCollisionWithTile(ray, point, x, y, z);
 }
 
-BOOL TileChunk::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const
+bool TileChunk::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const
 {
 	const Tile *tile = Get(x, y, z);
 	const TileMesh *mesh = m_tileMap->GetMeshes()->Get(tile);
@@ -275,7 +275,7 @@ BOOL TileChunk::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x
 	Vector3 tileWorldPosition = Vector3((float)x, (float)y, (float)z);
 	
 	float closestSquaredDistance = FLT_MAX;
-	BOOL collided = FALSE;
+	bool collided = false;
 	Vector3 collisionPoint = ZERO_VECTOR;
 
 	for (uint i = 0; i < numVertices; i += 3)
@@ -292,7 +292,7 @@ BOOL TileChunk::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x
 
 		if (IntersectionTester::Test(ray, a, b, c, &collisionPoint))
 		{
-			collided = TRUE;
+			collided = true;
 
 			// if this is the closest collision yet, then keep the distance
 			// and point of collision
@@ -308,11 +308,11 @@ BOOL TileChunk::CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x
 	return collided;
 }
 
-BOOL TileChunk::GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
+bool TileChunk::GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const
 {
 	// make sure the given box actually intersects with this chunk in the first place
 	if (!IntersectionTester::Test(m_bounds, box))
-		return FALSE;
+		return false;
 
 	// convert to tile coords (these will be in "tilemap space")
 	// HACK: ceil() calls and "-1"'s keep us from picking up too many/too few
@@ -343,7 +343,7 @@ BOOL TileChunk::GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, u
 	y2 = maxY - (int)GetY();
 	z2 = maxZ - (int)GetZ();
 
-	return TRUE;
+	return true;
 }
 
 Tile* TileChunk::GetWithinSelfOrNeighbour(int x, int y, int z) const
@@ -365,7 +365,7 @@ Tile* TileChunk::GetWithinSelfOrNeighbourSafe(int x, int y, int z) const
 		return m_tileMap->Get(checkX, checkY, checkZ);
 }
 
-void TileChunk::EnableAlphaVertices(BOOL enable)
+void TileChunk::EnableAlphaVertices(bool enable)
 {
 	if (enable)
 	{

@@ -27,14 +27,14 @@ public:
 	SDLSystem();
 	virtual ~SDLSystem();
 
-	BOOL Initialize();
-	BOOL CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params);
+	bool Initialize();
+	bool CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params);
 	void ProcessEvents();
 	void Quit();
 
-	BOOL IsQuitting() const                                { return m_isQuitting; }
+	bool IsQuitting() const                                { return m_isQuitting; }
 
-	BOOL HasShaderSupport() const                          { return m_hasShaderSupport; }
+	bool HasShaderSupport() const                          { return m_hasShaderSupport; }
 	float GetSupportedShaderVersion() const                { return m_supportedShaderVersion; }
 
 	GameWindow* GetWindow() const                          { return m_window; }
@@ -47,14 +47,14 @@ public:
 	void Delay(uint milliseconds) const                    { return SDL_Delay(milliseconds); }
 
 private:
-	BOOL m_isQuitting;
+	bool m_isQuitting;
 
 	SDLGameWindow *m_window;
 	SDLFileSystem *m_filesystem;
 	SDLMouse *m_mouse;
 	SDLKeyboard *m_keyboard;
 
-	BOOL m_hasShaderSupport;
+	bool m_hasShaderSupport;
 	float m_supportedShaderVersion;
 };
 

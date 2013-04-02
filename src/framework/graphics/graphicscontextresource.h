@@ -31,8 +31,8 @@ public:
 	GraphicsDevice* GetGraphicsDevice() const                                   { return m_graphicsDevice; }
 	
 protected:
-	BOOL Initialize();
-	BOOL Initialize(GraphicsDevice *graphicsDevice);
+	bool Initialize();
+	bool Initialize(GraphicsDevice *graphicsDevice);
 	
 private:
 	GraphicsDevice *m_graphicsDevice;

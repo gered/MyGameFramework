@@ -43,9 +43,9 @@ public:
 	void Apply() const;
 
 	/**
-	 * @return TRUE if depth testing is enabled
+	 * @return true if depth testing is enabled
 	 */
-	BOOL GetDepthTesting() const                           { return m_depthTesting; }
+	bool GetDepthTesting() const                           { return m_depthTesting; }
 
 	/**
 	 * @return the depth testing function
@@ -53,9 +53,9 @@ public:
 	DEPTH_FUNCTION GetDepthFunction() const                { return m_depthFunction; }
 
 	/**
-	 * @return TRUE if polygons are being culled based on their vertices winding
+	 * @return true if polygons are being culled based on their vertices winding
 	 */
-	BOOL GetFaceCulling() const                            { return m_faceCulling; }
+	bool GetFaceCulling() const                            { return m_faceCulling; }
 
 	/**
 	 * @return the polygon cull mode
@@ -70,7 +70,7 @@ public:
 	/**
 	 * Toggles depth testing on/off.
 	 */
-	void SetDepthTesting(BOOL enable)                      { m_depthTesting = enable; }
+	void SetDepthTesting(bool enable)                      { m_depthTesting = enable; }
 
 	/**
 	 * Sets the depth testing function.
@@ -80,7 +80,7 @@ public:
 	/**
 	 * Toggles polygon culling based on their vertices winding on/off.
 	 */
-	void SetFaceCulling(BOOL enable)                       { m_faceCulling = enable; }
+	void SetFaceCulling(bool enable)                       { m_faceCulling = enable; }
 
 	/**
 	 * Sets the polygon culling mode.
@@ -97,9 +97,9 @@ private:
 	void SetFaceCulling() const;
 	int FindDepthFunctionValue(DEPTH_FUNCTION function) const;
 
-	BOOL m_depthTesting;
+	bool m_depthTesting;
 	DEPTH_FUNCTION m_depthFunction;
-	BOOL m_faceCulling;
+	bool m_faceCulling;
 	CULL_MODE m_faceCullingMode;
 	float m_lineWidth;
 };

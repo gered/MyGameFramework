@@ -81,21 +81,21 @@ public:
 	 * platform's backing storage.
 	 * @param name the path and filename of the content to retrieve
 	 * @param params content-type-specified parameters used during loading or NULL
-	 * @param preload TRUE to mark the content as preloaded after loading it
+	 * @param preload true to mark the content as preloaded after loading it
 	 * @param <T> the type of content to load
 	 * @return the loaded content or NULL on failure
 	 */
-	virtual T* Get(const stl::string &name, const ContentParam *params, BOOL preload = FALSE) = 0;
+	virtual T* Get(const stl::string &name, const ContentParam *params, bool preload = false) = 0;
 
 	/**
 	 * Frees the specified content object. Content is only actually freed
 	 * when it has no more references to it.
 	 * @param content the content object to be freed
-	 * @param preload TRUE to allow this content to be freed even if it has
+	 * @param preload true to allow this content to be freed even if it has
 	 *                been preloaded
 	 * @param <T> the type of content to be freed
 	 */
-	virtual void Free(T *content, BOOL preload = FALSE) = 0;
+	virtual void Free(T *content, bool preload = false) = 0;
 
 	/**
 	 * Frees the specified content if the content pointed to by the given path
@@ -104,11 +104,11 @@ public:
 	 * @param name the path and filename of the content to free
 	 * @param params content-type-specific parameters that further describe the
 	 *               exact content object to be freed, or NULL
-	 * @param preload TRUE to allow this content to be freed even if it has
+	 * @param preload true to allow this content to be freed even if it has
 	 *                been preloaded
 	 * @param <T> the type of content to be freed
 	 */
-	virtual void Free(const stl::string &name, const ContentParam *params, BOOL preload = FALSE) = 0;
+	virtual void Free(const stl::string &name, const ContentParam *params, bool preload = false) = 0;
 	
 	/**
 	 * Returns the path and filename that the given content object was

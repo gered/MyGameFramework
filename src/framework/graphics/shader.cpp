@@ -32,12 +32,12 @@ STATIC_ASSERT(sizeof(Point3) == 3 * sizeof(int));
 
 Shader::Shader()
 {
-	m_isBound = FALSE;
+	m_isBound = false;
 	m_cachedVertexShaderSource = NULL;
 	m_cachedFragmentShaderSource = NULL;
-	m_vertexShaderCompileStatus = FALSE;
-	m_fragmentShaderCompileStatus = FALSE;
-	m_linkStatus = FALSE;
+	m_vertexShaderCompileStatus = 0;
+	m_fragmentShaderCompileStatus = 0;
+	m_linkStatus = 0;
 	m_vertexShaderId = 0;
 	m_fragmentShaderId = 0;
 	m_programId = 0;
@@ -45,44 +45,44 @@ Shader::Shader()
 	m_numAttributes = 0;
 }
 
-BOOL Shader::Initialize(GraphicsDevice *graphicsDevice)
+bool Shader::Initialize(GraphicsDevice *graphicsDevice)
 {
 	if (!GraphicsContextResource::Initialize(graphicsDevice))
-		return FALSE;
+		return false;
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
+bool Shader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	if (!GraphicsContextResource::Initialize(graphicsDevice))
-		return FALSE;
+		return false;
 	
 	ASSERT(vertexShaderSource != NULL);
 	if (vertexShaderSource == NULL)
-		return FALSE;
+		return false;
 	
 	ASSERT(fragmentShaderSource != NULL);
 	if (fragmentShaderSource == NULL)
-		return FALSE;
+		return false;
 
 	if (!LoadCompileAndLink(vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 	
 	CacheShaderSources(vertexShaderSource, fragmentShaderSource);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Shader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
+bool Shader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
 	ASSERT(vertexShaderSource != NULL && vertexShaderSource->GetLength() > 0);
 	if (vertexShaderSource == NULL || vertexShaderSource->GetLength() == 0)
-		return FALSE;
+		return false;
 	
 	ASSERT(fragmentShaderSource != NULL && fragmentShaderSource->GetLength() > 0);
 	if (fragmentShaderSource == NULL && fragmentShaderSource->GetLength() == 0)
-		return FALSE;
+		return false;
 	
 	return Initialize(graphicsDevice, vertexShaderSource->GetText(), fragmentShaderSource->GetText());
 }
@@ -117,12 +117,12 @@ void Shader::Release()
 		SAFE_DELETE_ARRAY(m_cachedFragmentShaderSource);
 	}
 
-	m_isBound = FALSE;
+	m_isBound = false;
 	m_cachedVertexShaderSource = NULL;
 	m_cachedFragmentShaderSource = NULL;
-	m_vertexShaderCompileStatus = FALSE;
-	m_fragmentShaderCompileStatus = FALSE;
-	m_linkStatus = FALSE;
+	m_vertexShaderCompileStatus = 0;
+	m_fragmentShaderCompileStatus = 0;
+	m_linkStatus = 0;
 	m_vertexShaderId = 0;
 	m_fragmentShaderId = 0;
 	m_programId = 0;
@@ -136,7 +136,7 @@ void Shader::Release()
 	GraphicsContextResource::Release();
 }
 
-BOOL Shader::LoadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource)
+bool Shader::LoadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	const char *vertexShaderToLoad = vertexShaderSource;
 	const char *fragmentShaderToLoad = fragmentShaderSource;
@@ -152,24 +152,24 @@ BOOL Shader::LoadCompileAndLink(const char *vertexShaderSource, const char *frag
 	ASSERT(fragmentShaderToLoad != NULL);
 
 	if (!Compile(vertexShaderToLoad, fragmentShaderToLoad))
-		return FALSE;
+		return false;
 
 	if (!Link())
-		return FALSE;
+		return false;
 
 	LoadUniformInfo();
 	LoadAttributeInfo();
 
-	return TRUE;
+	return true;
 }
 
-BOOL Shader::ReloadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource)
+bool Shader::ReloadCompileAndLink(const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	// clear out data that will be reset during the reload first
-	m_isBound = FALSE;
-	m_vertexShaderCompileStatus = FALSE;
-	m_fragmentShaderCompileStatus = FALSE;
-	m_linkStatus = FALSE;
+	m_isBound = false;
+	m_vertexShaderCompileStatus = 0;
+	m_fragmentShaderCompileStatus = 0;
+	m_linkStatus = 0;
 	m_vertexShaderId = 0;
 	m_fragmentShaderId = 0;
 	m_programId = 0;
@@ -216,7 +216,7 @@ void Shader::CacheShaderSources(const char *vertexShaderSource, const char *frag
 	}
 }
 
-BOOL Shader::Compile(const char *vertexShaderSource, const char *fragmentShaderSource)
+bool Shader::Compile(const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	ASSERT(m_vertexShaderId == 0);
 	ASSERT(m_fragmentShaderId == 0);
@@ -292,12 +292,12 @@ BOOL Shader::Compile(const char *vertexShaderSource, const char *fragmentShaderS
 
 	// only return success if both compiled successfully
 	if (m_fragmentShaderCompileStatus && m_vertexShaderCompileStatus)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL Shader::Link()
+bool Shader::Link()
 {
 	ASSERT(m_vertexShaderId != 0);
 	ASSERT(m_fragmentShaderId != 0);
@@ -434,7 +434,7 @@ void Shader::LoadAttributeInfo()
 		attribute.location = (uint)location;
 		attribute.type = (uint)type;
 		attribute.size = (uint)size;
-		attribute.isTypeBound = FALSE;
+		attribute.isTypeBound = false;
 		stl::string name = attributeName;
 
 		m_attributes[name] = attribute;
@@ -443,13 +443,13 @@ void Shader::LoadAttributeInfo()
 	SAFE_DELETE_ARRAY(attributeName);
 }
 
-BOOL Shader::HasUniform(const stl::string &name) const
+bool Shader::HasUniform(const stl::string &name) const
 {
 	ShaderUniformMap::const_iterator i = m_uniforms.find(name);
 	if (i == m_uniforms.end())
-		return FALSE;
+		return false;
 	else
-		return TRUE;
+		return true;
 }
 
 const ShaderUniform* Shader::GetUniform(const stl::string &name) const
@@ -470,13 +470,13 @@ ShaderUniform* Shader::GetUniform(const stl::string &name)
 		return &i->second;
 }
 
-BOOL Shader::HasAttribute(const stl::string &name) const
+bool Shader::HasAttribute(const stl::string &name) const
 {
 	ShaderAttributeMap::const_iterator i = m_attributes.find(name);
 	if (i == m_attributes.end())
-		return FALSE;
+		return false;
 	else
-		return TRUE;
+		return true;
 }
 
 const ShaderAttribute* Shader::GetAttribute(const stl::string &name) const
@@ -516,7 +516,7 @@ CachedShaderUniform* Shader::GetCachedUniform(const stl::string &name)
 
 void Shader::FlushCachedUniforms()
 {
-	ASSERT(m_isBound == TRUE);
+	ASSERT(m_isBound == true);
 	if (m_cachedUniforms.empty())
 		return;
 
@@ -851,7 +851,7 @@ void Shader::SetUniform(const stl::string &name, const Matrix3x3 &m)
 		const ShaderUniform *uniform = GetUniform(name);
 		ASSERT(uniform != NULL);
 		ASSERT(uniform->size == 1);
-		GL_CALL(glUniformMatrix3fv(uniform->location, 1, FALSE, m.m));
+		GL_CALL(glUniformMatrix3fv(uniform->location, 1, false, m.m));
 	}
 	else
 	{
@@ -869,7 +869,7 @@ void Shader::SetUniform(const stl::string &name, const Matrix4x4 &m)
 		const ShaderUniform *uniform = GetUniform(name);
 		ASSERT(uniform != NULL);
 		ASSERT(uniform->size == 1);
-		GL_CALL(glUniformMatrix4fv(uniform->location, 1, FALSE, m.m));
+		GL_CALL(glUniformMatrix4fv(uniform->location, 1, false, m.m));
 	}
 	else
 	{
@@ -998,7 +998,7 @@ void Shader::SetUniform(const stl::string &name, const Matrix3x3 *m, uint count)
 		ASSERT(uniform != NULL);
 		ASSERT(uniform->size >= count);
 		
-		GL_CALL(glUniformMatrix3fv(uniform->location, count, FALSE, values));
+		GL_CALL(glUniformMatrix3fv(uniform->location, count, false, values));
 	}
 	else
 	{
@@ -1017,7 +1017,7 @@ void Shader::SetUniform(const stl::string &name, const Matrix4x4 *m, uint count)
 		ASSERT(uniform != NULL);
 		ASSERT(uniform->size >= count);
 		
-		GL_CALL(glUniformMatrix4fv(uniform->location, count, FALSE, values));
+		GL_CALL(glUniformMatrix4fv(uniform->location, count, false, values));
 	}
 	else
 	{
@@ -1032,10 +1032,10 @@ void Shader::MapAttributeToVboAttribIndex(const stl::string &name, uint vboAttri
 	ASSERT(attribute->location < m_numAttributes);
 
 	ShaderAttributeMapInfo *mappingInfo = &m_attributeMapping[attribute->location];
-	mappingInfo->usesStandardType = FALSE;
+	mappingInfo->usesStandardType = false;
 	mappingInfo->attribIndex = vboAttribIndex;
 
-	attribute->isTypeBound = TRUE;
+	attribute->isTypeBound = true;
 }
 
 void Shader::MapAttributeToStandardAttribType(const stl::string &name, VERTEX_STANDARD_ATTRIBS standardAttribType)
@@ -1045,10 +1045,10 @@ void Shader::MapAttributeToStandardAttribType(const stl::string &name, VERTEX_ST
 	ASSERT(attribute->location < m_numAttributes);
 
 	ShaderAttributeMapInfo *mappingInfo = &m_attributeMapping[attribute->location];
-	mappingInfo->usesStandardType = TRUE;
+	mappingInfo->usesStandardType = true;
 	mappingInfo->standardType = standardAttribType;
 
-	attribute->isTypeBound = TRUE;
+	attribute->isTypeBound = true;
 }
 
 void Shader::OnNewContext()
@@ -1062,14 +1062,14 @@ void Shader::OnLostContext()
 
 void Shader::OnBind()
 {
-	ASSERT(m_isBound == FALSE);
-	m_isBound = TRUE;
+	ASSERT(m_isBound == false);
+	m_isBound = true;
 	FlushCachedUniforms();
 }
 
 void Shader::OnUnbind()
 {
-	ASSERT(m_isBound == TRUE);
-	m_isBound = FALSE;
+	ASSERT(m_isBound == true);
+	m_isBound = false;
 	m_cachedUniforms.clear();
 }

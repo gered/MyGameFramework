@@ -37,13 +37,13 @@ int _MarmaladeEvent_PassToSystem(MARMALADE_EVENT event, void *systemData, void *
 
 MarmaladeSystem::MarmaladeSystem()
 {
-	m_isQuitting = FALSE;
+	m_isQuitting = false;
 	m_window = NULL;
 	m_filesystem = NULL;
 	m_keyboard = NULL;
 	m_mouse = NULL;
 	m_touchscreen = NULL;
-	m_hasShaderSupport = FALSE;
+	m_hasShaderSupport = false;
 	m_supportedShaderVersion = 0.0f;
 }
 
@@ -65,7 +65,7 @@ MarmaladeSystem::~MarmaladeSystem()
 	SAFE_DELETE(m_touchscreen);
 }
 
-BOOL MarmaladeSystem::Initialize()
+bool MarmaladeSystem::Initialize()
 {
 	LOG_INFO(LOGCAT_SYSTEM, "MarmaladeSystem initialization starting.\n");
 
@@ -95,24 +95,24 @@ BOOL MarmaladeSystem::Initialize()
 	LOG_INFO(LOGCAT_SYSTEM, "Device Memory: %dKB free, %dKB total\n", deviceFreeMemKB, deviceTotalMemKB);
 	LOG_INFO(LOGCAT_SYSTEM, "S3E Memory Heap Size: %d bytes\n", heapSize);
 
-	BOOL keyboardHasAlpha = FALSE;
-	BOOL keyboardHasDirection = FALSE;
+	bool keyboardHasAlpha = false;
+	bool keyboardHasDirection = false;
 	if (s3eKeyboardGetInt(S3E_KEYBOARD_HAS_ALPHA))
 	{
-		keyboardHasAlpha = TRUE;
+		keyboardHasAlpha = true;
 		LOG_INFO(LOGCAT_SYSTEM, "Keyboard property: S3E_KEYBOARD_HAS_ALPHA\n");
 	}
 	if (s3eKeyboardGetInt(S3E_KEYBOARD_HAS_NUMPAD))
 		LOG_INFO(LOGCAT_SYSTEM, "Keyboard property: S3E_KEYBOARD_HAS_NUMPAD\n");
 	if (s3eKeyboardGetInt(S3E_KEYBOARD_HAS_DIRECTION))
 	{
-		keyboardHasDirection = TRUE;
+		keyboardHasDirection = true;
 		LOG_INFO(LOGCAT_SYSTEM, "Keyboard property: S3E_KEYBOARD_HAS_DIRECTION\n");
 	}
 
 	// Android Xperia Play device detection
 	// TODO: any other device ID's we need to worry about?
-	BOOL isXperiaPlay = FALSE;
+	bool isXperiaPlay = false;
 	if (s3eDeviceGetInt(S3E_DEVICE_OS) == S3E_OS_ID_ANDROID)
 	{
 		LOG_INFO(LOGCAT_SYSTEM, "Detected Android as host OS.\n");
@@ -123,16 +123,16 @@ BOOL MarmaladeSystem::Initialize()
 			if (strncmp(deviceID, "R800", 4) == 0)
 			{
 				LOG_INFO(LOGCAT_SYSTEM, "Device is an Xperia Play.\n");
-				isXperiaPlay = TRUE;
+				isXperiaPlay = true;
 			}
 			else
 				LOG_INFO(LOGCAT_SYSTEM, "Device is not an Xperia Play.\n");
 		}
 	}
 
-	BOOL keyboardHasPhysicalGameControls = FALSE;
+	bool keyboardHasPhysicalGameControls = false;
 	if ((keyboardHasAlpha && keyboardHasDirection) || isXperiaPlay)
-		keyboardHasPhysicalGameControls = TRUE;
+		keyboardHasPhysicalGameControls = true;
 
 	if (keyboardHasPhysicalGameControls)
 		LOG_INFO(LOGCAT_SYSTEM, "Keyboard device has enough physical keys for full game controls.\n");
@@ -143,7 +143,7 @@ BOOL MarmaladeSystem::Initialize()
 	ASSERT(m_keyboard != NULL);
 	LOG_INFO(LOGCAT_SYSTEM, "Keyboard input device ready.\n");
 
-	BOOL isMultitouchAvailable = FALSE;
+	bool isMultitouchAvailable = false;
 	if (s3ePointerGetInt(S3E_POINTER_AVAILABLE))
 	{
 		s3ePointerType pointerType = (s3ePointerType)s3ePointerGetInt(S3E_POINTER_TYPE);
@@ -172,7 +172,7 @@ BOOL MarmaladeSystem::Initialize()
 				if (s3ePointerGetInt(S3E_POINTER_MULTI_TOUCH_AVAILABLE))
 				{
 					LOG_INFO(LOGCAT_SYSTEM, "Pointer device supports multitouch.\n");
-					isMultitouchAvailable = TRUE;
+					isMultitouchAvailable = true;
 				}
 				else
 					LOG_INFO(LOGCAT_SYSTEM, "Pointer device does not support multitouch.\n");
@@ -218,10 +218,10 @@ BOOL MarmaladeSystem::Initialize()
 
 	LOG_INFO(LOGCAT_SYSTEM, "Finished initialization.\n");
 
-	return TRUE;
+	return true;
 }
 
-BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
+bool MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 {
 	ASSERT(m_window == NULL);
 
@@ -231,7 +231,7 @@ BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *p
 	if (!window->Create(params))
 	{
 		LOG_ERROR(LOGCAT_SYSTEM, "Failed to create a GameWindow.\n");
-		return FALSE;
+		return false;
 	}
 
 	m_window = window;
@@ -260,7 +260,7 @@ BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *p
 #ifdef GL_ES_VERSION_2_0
 	if (glVersionMajor >= 2)
 	{
-		m_hasShaderSupport = TRUE;
+		m_hasShaderSupport = true;
 
 		// TOD: shader version detection? (who cares?)
 		m_supportedShaderVersion = 0.0f;
@@ -270,7 +270,7 @@ BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *p
 	}
 	else
 	{
-		m_hasShaderSupport = FALSE;
+		m_hasShaderSupport = false;
 		m_supportedShaderVersion = 0.0f;
 
 		LOG_INFO(LOGCAT_SYSTEM, "Version of OpenGL supports fixed function pipeline only.\n");
@@ -279,7 +279,7 @@ BOOL MarmaladeSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *p
 
 	LOG_INFO(LOGCAT_SYSTEM, "GameWindow instance is ready.\n");
 
-	return TRUE;
+	return true;
 }
 
 void MarmaladeSystem::ProcessEvents()
@@ -385,7 +385,7 @@ int MarmaladeSystem::OnEvent(const MarmaladeSystemEvent *eventArgs)
 void MarmaladeSystem::Quit()
 {
 	LOG_INFO(LOGCAT_SYSTEM, "Quit requested.\n");
-	m_isQuitting = TRUE;
+	m_isQuitting = true;
 
 	if (m_window != NULL && !m_window->IsClosing())
 	{

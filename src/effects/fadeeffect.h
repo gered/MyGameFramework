@@ -24,12 +24,12 @@ public:
 	FadeEffect* SetFadeOut(float toAlpha = COLOR_ALPHA_OPAQUE);
 	FadeEffect* SetFadeIn(float toAlpha = COLOR_ALPHA_TRANSPARENT);
 
-	BOOL IsDoneFading() const                              { return m_doneFading; }
+	bool IsDoneFading() const                              { return m_doneFading; }
 
 private:
-	BOOL m_doneFading;
+	bool m_doneFading;
 	float m_fadeSpeed;
-	BOOL m_fadingOut;
+	bool m_fadingOut;
 	float m_alpha;
 	Color m_color;
 	float m_fadeToAlpha;
@@ -49,7 +49,7 @@ inline FadeEffect* FadeEffect::SetFadeSpeed(float speed)
 
 inline FadeEffect* FadeEffect::SetFadeOut(float toAlpha)
 {
-	m_fadingOut = TRUE;
+	m_fadingOut = true;
 	m_alpha = COLOR_ALPHA_TRANSPARENT;
 	m_fadeToAlpha = toAlpha;
 	return this;
@@ -57,7 +57,7 @@ inline FadeEffect* FadeEffect::SetFadeOut(float toAlpha)
 
 inline FadeEffect* FadeEffect::SetFadeIn(float toAlpha)
 {
-	m_fadingOut = FALSE;
+	m_fadingOut = false;
 	m_alpha = COLOR_ALPHA_OPAQUE;
 	m_fadeToAlpha = toAlpha;
 	return this;

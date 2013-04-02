@@ -43,18 +43,18 @@ public:
 	void GetBoundingBoxFor(uint x, uint y, uint z, BoundingBox *box) const;
 	BoundingBox GetBoundingBoxFor(uint x, uint y, uint z) const;
 
-	BOOL CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const;
-	BOOL CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const;
-	BOOL CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const;
-	BOOL GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const;
-	BOOL GetOverlappedChunks(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const;
+	bool CheckForCollision(const Ray &ray, uint &x, uint &y, uint &z) const;
+	bool CheckForCollision(const Ray &ray, Vector3 &point, uint &x, uint &y, uint &z) const;
+	bool CheckForCollisionWithTile(const Ray &ray, Vector3 &point, uint x, uint y, uint z) const;
+	bool GetOverlappedTiles(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const;
+	bool GetOverlappedChunks(const BoundingBox &box, uint &x1, uint &y1, uint &z1, uint &x2, uint &y2, uint &z2) const;
 
 	void UpdateChunkVertices(uint chunkX, uint chunkY, uint chunkZ);
 	void UpdateVertices();
 
 	void UpdateLighting();
 
-	BOOL IsWithinBounds(int x, int y, int z) const;
+	bool IsWithinBounds(int x, int y, int z) const;
 
 	uint GetWidth() const                                  { return m_widthInChunks * m_chunkWidth; }
 	uint GetHeight() const                                 { return m_heightInChunks * m_chunkHeight; }
@@ -197,16 +197,16 @@ inline uint TileMap::GetChunkIndex(uint chunkX, uint chunkY, uint chunkZ) const
 	return (chunkY * m_widthInChunks * m_depthInChunks) + (chunkZ * m_widthInChunks) + chunkX;
 }
 
-inline BOOL TileMap::IsWithinBounds(int x, int y, int z) const
+inline bool TileMap::IsWithinBounds(int x, int y, int z) const
 {
 	if (x < 0 || x >= (int)GetWidth())
-		return FALSE;
+		return false;
 	if (y < 0 || y >= (int)GetHeight())
-		return FALSE;
+		return false;
 	if (z < 0 || z >= (int)GetDepth())
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 #endif
 

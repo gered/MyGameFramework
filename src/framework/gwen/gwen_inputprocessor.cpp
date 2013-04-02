@@ -15,29 +15,29 @@ namespace Gwen
 		{
 			m_gameApp = gameApp;
 			m_canvas = canvas;
-			m_enabled = FALSE;
+			m_enabled = false;
 
-			Enable(TRUE);
+			Enable(true);
 		}
 
 		InputProcessor::~InputProcessor()
 		{
-			Enable(FALSE);
+			Enable(false);
 		}
 
-		BOOL InputProcessor::OnKeyDown(KEYS key)
+		bool InputProcessor::OnKeyDown(KEYS key)
 		{
 			unsigned char gwenKey = ConvertToGwenKey(key);
-			return (BOOL)m_canvas->InputKey(gwenKey, TRUE);
+			return (bool)m_canvas->InputKey(gwenKey, true);
 		}
 
-		BOOL InputProcessor::OnKeyUp(KEYS key)
+		bool InputProcessor::OnKeyUp(KEYS key)
 		{
 			unsigned char gwenKey = ConvertToGwenKey(key);
-			return (BOOL)m_canvas->InputKey(gwenKey, FALSE);
+			return (bool)m_canvas->InputKey(gwenKey, false);
 		}
 
-		BOOL InputProcessor::OnMouseButtonDown(MOUSE_BUTTONS button, uint x, uint y)
+		bool InputProcessor::OnMouseButtonDown(MOUSE_BUTTONS button, uint x, uint y)
 		{
 			int gwenButton = ConvertToGwenButton(button);
 			
@@ -46,14 +46,14 @@ namespace Gwen
 
 			// trigger mouse move event for button events to ensure GWEN
 			// knows where the button event occured at
-			BOOL movedResult = (BOOL)m_canvas->InputMouseMoved(scaledX, scaledY, 0, 0);
-			BOOL clickResult = (BOOL)m_canvas->InputMouseButton(gwenButton, TRUE);
+			bool movedResult = (bool)m_canvas->InputMouseMoved(scaledX, scaledY, 0, 0);
+			bool clickResult = (bool)m_canvas->InputMouseButton(gwenButton, true);
 
 			// TODO: is this really the right way to do this .. ?
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnMouseButtonUp(MOUSE_BUTTONS button, uint x, uint y)
+		bool InputProcessor::OnMouseButtonUp(MOUSE_BUTTONS button, uint x, uint y)
 		{
 			int gwenButton = ConvertToGwenButton(button);
 
@@ -62,14 +62,14 @@ namespace Gwen
 
 			// trigger mouse move event for button events to ensure GWEN
 			// knows where the button event occured at
-			BOOL movedResult = (BOOL)m_canvas->InputMouseMoved(scaledX, scaledY, 0, 0);
-			BOOL clickResult = (BOOL)m_canvas->InputMouseButton(gwenButton, FALSE);
+			bool movedResult = (bool)m_canvas->InputMouseMoved(scaledX, scaledY, 0, 0);
+			bool clickResult = (bool)m_canvas->InputMouseButton(gwenButton, false);
 
 			// TODO: is this really the right way to do this .. ?
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnMouseMove(uint x, uint y, int deltaX, int deltaY)
+		bool InputProcessor::OnMouseMove(uint x, uint y, int deltaX, int deltaY)
 		{
 			// Gwen's input handling only processes coordinates in terms of scale = 1.0f
 			int scaledX = (float)x / m_canvas->Scale();
@@ -77,46 +77,46 @@ namespace Gwen
 			int scaledDeltaX = (float)deltaX / m_canvas->Scale();
 			int scaledDeltaY = (float)deltaY / m_canvas->Scale();
 
-			return (BOOL)m_canvas->InputMouseMoved(scaledX, scaledY, scaledDeltaX, scaledDeltaY);
+			return (bool)m_canvas->InputMouseMoved(scaledX, scaledY, scaledDeltaX, scaledDeltaY);
 		}
 
-		BOOL InputProcessor::OnTouchDown(int id, uint x, uint y, BOOL isPrimary)
+		bool InputProcessor::OnTouchDown(int id, uint x, uint y, bool isPrimary)
 		{
 			if (!isPrimary)
-				return FALSE;
+				return false;
 
 			// Gwen's input handling only processes coordinates in terms of scale = 1.0f
 			int scaledX = (float)x / m_canvas->Scale();
 			int scaledY = (float)y / m_canvas->Scale();
 
-			BOOL movedResult = (BOOL)m_canvas->InputMouseMoved(scaledX, scaledY, 0, 0);
-			BOOL clickResult = (BOOL)m_canvas->InputMouseButton(0, TRUE);
+			bool movedResult = (bool)m_canvas->InputMouseMoved(scaledX, scaledY, 0, 0);
+			bool clickResult = (bool)m_canvas->InputMouseButton(0, true);
 
 			// TODO: is this really the right way to do this .. ?
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnTouchUp(int id, BOOL isPrimary)
+		bool InputProcessor::OnTouchUp(int id, bool isPrimary)
 		{
 			if (!isPrimary)
-				return FALSE;
+				return false;
 
-			BOOL clickResult = (BOOL)m_canvas->InputMouseButton(0, FALSE);
+			bool clickResult = (bool)m_canvas->InputMouseButton(0, false);
 
 			// we do this so that GWEN isn't left thinking that the "mouse" is
 			// hovering over whatever we were just clicking/touching. This is
 			// done because obviously with a touchscreen, you don't hover over
 			// anything unless you are clicking/touching...
-			BOOL movedResult = (BOOL)m_canvas->InputMouseMoved(-1, -1, 0, 0);
+			bool movedResult = (bool)m_canvas->InputMouseMoved(-1, -1, 0, 0);
 
 			// TODO: is this really the right way to do this .. ?
 			return (movedResult || clickResult);
 		}
 
-		BOOL InputProcessor::OnTouchMove(int id, uint x, uint y, int deltaX, int deltaY, BOOL isPrimary)
+		bool InputProcessor::OnTouchMove(int id, uint x, uint y, int deltaX, int deltaY, bool isPrimary)
 		{
 			if (!isPrimary)
-				return FALSE;
+				return false;
 
 			// Gwen's input handling only processes coordinates in terms of scale = 1.0f
 			int scaledX = (float)x / m_canvas->Scale();
@@ -124,14 +124,14 @@ namespace Gwen
 			int scaledDeltaX = (float)deltaX / m_canvas->Scale();
 			int scaledDeltaY = (float)deltaY / m_canvas->Scale();
 			
-			BOOL movedResult = (BOOL)m_canvas->InputMouseMoved(scaledX, scaledY, scaledDeltaX, scaledDeltaY);
-			BOOL clickResult = (BOOL)m_canvas->InputMouseButton(0, TRUE);
+			bool movedResult = (bool)m_canvas->InputMouseMoved(scaledX, scaledY, scaledDeltaX, scaledDeltaY);
+			bool clickResult = (bool)m_canvas->InputMouseButton(0, true);
 
 			// TODO: is this really the right way to do this .. ?
 			return (movedResult || clickResult);
 		}
 
-		void InputProcessor::Enable(BOOL enable)
+		void InputProcessor::Enable(bool enable)
 		{
 			if (IsEnabled() == enable)
 				return;

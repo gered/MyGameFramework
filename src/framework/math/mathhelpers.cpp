@@ -49,13 +49,13 @@ float GetAngleBetweenPoints(float x1, float y1, float x2, float y2)
 	return angle - RADIANS_90;
 }
 
-BOOL GetLowestQuadraticRoot(float a, float b, float c, float maxR, float &root)
+bool GetLowestQuadraticRoot(float a, float b, float c, float maxR, float &root)
 {
 	float determinant = (b * b) - (4.0f * a * c);
 
 	// If the determinant is negative, there is no solution (can't square root a negative)
 	if (determinant < 0.0f)
-		return FALSE;
+		return false;
 
 	float sqrtDeterminant = sqrtf(determinant);
 	float root1 = (-b - sqrtDeterminant) / (2 * a);
@@ -72,17 +72,17 @@ BOOL GetLowestQuadraticRoot(float a, float b, float c, float maxR, float &root)
 	if (root1 > 0 && root1 < maxR)
 	{
 		root = root1;
-		return TRUE;
+		return true;
 	}
 
 	if (root2 > 0 && root2 < maxR)
 	{
 		root = root2;
-		return TRUE;
+		return true;
 	}
 
 	// No valid solutions found
-	return FALSE;
+	return false;
 }
 
 void GetPointOnCircle(float radius, float angle, float &x, float &y)

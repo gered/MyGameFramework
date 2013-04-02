@@ -75,9 +75,9 @@ float GetAngleBetweenPoints(float x1, float y1, float x2, float y2);
  * @param maxR the maximum root value we will accept as an answer.
                anything that is higher will not be accepted as a solution
  * @param root the variable to hold the lowest root value if one is found
- * @return BOOL TRUE if the quadratic could be solved, FALSE if not
+ * @return bool true if the quadratic could be solved, false if not
  */
-BOOL GetLowestQuadraticRoot(float a, float b, float c, float maxR, float &root);
+bool GetLowestQuadraticRoot(float a, float b, float c, float maxR, float &root);
 
 /**
  * Gets the power of two value that comes after the given value.
@@ -129,9 +129,9 @@ inline float DegreesToRadians(float degrees)
  * @param a first value to check
  * @param b second value to check
  * @param tolerance tolerance value to use (e.g. FLT_EPSILON)
- * @return BOOL TRUE if equal, FALSE if not
+ * @return bool true if equal, false if not
  */
-inline BOOL IsCloseEnough(float a, float b, float tolerance = TOLERANCE)
+inline bool IsCloseEnough(float a, float b, float tolerance = TOLERANCE)
 {
 	return fabsf((a - b) / ((b == 0.0f) ? 1.0f : b)) < tolerance;
 }
@@ -139,9 +139,9 @@ inline BOOL IsCloseEnough(float a, float b, float tolerance = TOLERANCE)
 /**
  * Determines if a given number is a power of two.
  * @param n number to check
- * @return BOOL TRUE if a power of two, FALSE if not
+ * @return bool true if a power of two, false if not
  */
-inline BOOL IsPowerOf2(int n)
+inline bool IsPowerOf2(int n)
 {
 	return (n != 0) && !(n & (n - 1));
 }

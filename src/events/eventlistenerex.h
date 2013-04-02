@@ -13,12 +13,12 @@ public:
 	EventListenerEx(EventManager *eventManager);
 	virtual ~EventListenerEx();
 
-	template<class T> BOOL ListenFor();
-	template<class T> BOOL StopListeningFor();
-	BOOL ListenFor(EVENT_TYPE type);
-	BOOL StopListeningFor(EVENT_TYPE type);
+	template<class T> bool ListenFor();
+	template<class T> bool StopListeningFor();
+	bool ListenFor(EVENT_TYPE type);
+	bool StopListeningFor(EVENT_TYPE type);
 
-	virtual BOOL Handle(const Event *event) = 0;
+	virtual bool Handle(const Event *event) = 0;
 
 	EventManager* GetEventManager() const                  { return m_eventManager; }
 
@@ -36,23 +36,23 @@ inline EventListenerEx::~EventListenerEx()
 }
 
 template<class T>
-inline BOOL EventListenerEx::ListenFor()
+inline bool EventListenerEx::ListenFor()
 {
 	return m_eventManager->AddListener<T>(this);
 }
 
 template<class T>
-inline BOOL EventListenerEx::StopListeningFor()
+inline bool EventListenerEx::StopListeningFor()
 {
 	return m_eventManager->RemoveListener<T>(this);
 }
 
-inline BOOL EventListenerEx::ListenFor(EVENT_TYPE type)
+inline bool EventListenerEx::ListenFor(EVENT_TYPE type)
 {
 	return m_eventManager->AddListener(this, type);
 }
 
-inline BOOL EventListenerEx::StopListeningFor(EVENT_TYPE type)
+inline bool EventListenerEx::StopListeningFor(EVENT_TYPE type)
 {
 	return m_eventManager->RemoveListener(this, type);
 }

@@ -20,8 +20,8 @@
 
 SDLSystem::SDLSystem()
 {
-	m_isQuitting = FALSE;
-	m_hasShaderSupport = FALSE;
+	m_isQuitting = false;
+	m_hasShaderSupport = false;
 	m_window = NULL;
 	m_filesystem = NULL;
 	m_mouse = NULL;
@@ -48,7 +48,7 @@ SDLSystem::~SDLSystem()
 	SDL_Quit();
 }
 
-BOOL SDLSystem::Initialize()
+bool SDLSystem::Initialize()
 {
 	LOG_INFO(LOGCAT_SYSTEM, "SDLSystem initialization starting.\n");
 
@@ -58,7 +58,7 @@ BOOL SDLSystem::Initialize()
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_TIMER) == -1)
 	{
 		LOG_ERROR(LOGCAT_SYSTEM, "SDL_Init() failed: %s\n", SDL_GetError());
-		return FALSE;
+		return false;
 	}
 	LOG_INFO(LOGCAT_SYSTEM, "SDL_Init() passed.\n");
 
@@ -66,7 +66,7 @@ BOOL SDLSystem::Initialize()
 	ASSERT(m_mouse != NULL);
 	LOG_INFO(LOGCAT_SYSTEM, "Mouse input device available.\n");
 
-	m_keyboard = new SDLKeyboard(this, TRUE);
+	m_keyboard = new SDLKeyboard(this, true);
 	ASSERT(m_keyboard != NULL);
 	LOG_INFO(LOGCAT_SYSTEM, "Keyboard input device available.\n");
 
@@ -99,10 +99,10 @@ BOOL SDLSystem::Initialize()
 
 	LOG_INFO(LOGCAT_SYSTEM, "Finished SDLSystem initialization.\n");
 
-	return TRUE;
+	return true;
 }
 
-BOOL SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
+bool SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 {
 	ASSERT(m_window == NULL);
 
@@ -112,7 +112,7 @@ BOOL SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 	if (!window->Create(params))
 	{
 		LOG_ERROR(LOGCAT_SYSTEM, "Failed to create a GameWindow.\n");
-		return FALSE;
+		return false;
 	}
 
 	m_window = window;
@@ -123,14 +123,14 @@ BOOL SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 	if (GLEW_OK != err)
 	{
 		LOG_ERROR(LOGCAT_SYSTEM, "GLEW failed to initialize: %s\n", glewGetErrorString(err));
-		return FALSE;
+		return false;
 	}
 	LOG_INFO(LOGCAT_SYSTEM, "GLEW %s initialized. OpenGL extensions loaded.\n", glewGetString(GLEW_VERSION));
 
 	// Determine if shaders are supported by the video card
 	if (GLEW_ARB_vertex_shader || GLEW_ARB_vertex_program)
 	{
-		m_hasShaderSupport = TRUE;
+		m_hasShaderSupport = true;
 
 		// Since shaders are supported, try to determine what the exact shader version that
 		// is supported is by the presence of the different extensions
@@ -148,7 +148,7 @@ BOOL SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 			m_supportedShaderVersion = 4.0f;
 	}
 	else
-		m_hasShaderSupport = FALSE;
+		m_hasShaderSupport = false;
 
 	// display opengl hardware/support information
 	// TODO: probably should just look at the GL_VERSION string since that's
@@ -198,7 +198,7 @@ BOOL SDLSystem::CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params)
 
 	LOG_INFO(LOGCAT_SYSTEM, "GameWindow instance is ready.\n");
 
-	return TRUE;
+	return true;
 }
 
 void SDLSystem::ProcessEvents()
@@ -256,7 +256,7 @@ void SDLSystem::ProcessEvents()
 void SDLSystem::Quit()
 {
 	LOG_INFO(LOGCAT_SYSTEM, "Quit requested.\n");
-	m_isQuitting = TRUE;
+	m_isQuitting = true;
 
 	if (m_window != NULL && !m_window->IsClosing())
 	{

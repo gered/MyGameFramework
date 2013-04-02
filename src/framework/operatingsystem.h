@@ -26,17 +26,17 @@ public:
 	 * Initializes internal platform specific objects that wrap access
 	 * to various operating system features so the game application class
 	 * can make use of them.
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	virtual BOOL Initialize() = 0;
+	virtual bool Initialize() = 0;
 
 	/**
 	 * Creates a game window object for the given game application object.
 	 * @param gameApp the game application object to create the window for
 	 * @param params platform-specific window creation parameters
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	virtual BOOL CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params) = 0;
+	virtual bool CreateGameWindow(BaseGameApp *gameApp, GameWindowParams *params) = 0;
 
 	/**
 	 * Checks for and handles any events raised by the operating system.
@@ -50,14 +50,14 @@ public:
 	virtual void Quit() = 0;
 
 	/**
-	 * @return TRUE if the system has been signaled to quit
+	 * @return true if the system has been signaled to quit
 	 */
-	virtual BOOL IsQuitting() const = 0;
+	virtual bool IsQuitting() const = 0;
 
 	/**
-	 * @return TRUE if hardware support for OpenGL shaders was detected
+	 * @return true if hardware support for OpenGL shaders was detected
 	 */
-	virtual BOOL HasShaderSupport() const = 0;
+	virtual bool HasShaderSupport() const = 0;
 
 	/**
 	 * @return the version of shader support that the OpenGL hardware has

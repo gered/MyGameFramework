@@ -25,13 +25,13 @@ void GwenGameState::OnPop()
 	m_gwenController->OnPop();
 }
 
-void GwenGameState::OnPause(BOOL dueToOverlay)
+void GwenGameState::OnPause(bool dueToOverlay)
 {
 	GameState::OnPause(dueToOverlay);
 	m_gwenController->OnPause(dueToOverlay);
 }
 
-void GwenGameState::OnResume(BOOL fromOverlay)
+void GwenGameState::OnResume(bool fromOverlay)
 {
 	GameState::OnResume(fromOverlay);
 	m_gwenController->OnResume(fromOverlay);
@@ -67,12 +67,12 @@ void GwenGameState::OnUpdate(float delta)
 	m_gwenController->OnUpdate(delta);
 }
 
-BOOL GwenGameState::OnTransition(float delta, BOOL isTransitioningOut, BOOL started)
+bool GwenGameState::OnTransition(float delta, bool isTransitioningOut, bool started)
 {
 	return m_gwenController->OnTransition(delta, isTransitioningOut, started);
 }
 
-BOOL GwenGameState::Handle(const Event *event)
+bool GwenGameState::Handle(const Event *event)
 {
 	// handle events...
 	

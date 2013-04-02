@@ -52,7 +52,7 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint &numVertices, uint &n
 				if (mesh->IsAlpha())
 				{
 					if (!chunk->IsAlphaEnabled())
-						chunk->EnableAlphaVertices(TRUE);
+						chunk->EnableAlphaVertices(true);
 				}
 
 				// "tilemap space" position that this tile is at
@@ -87,54 +87,54 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint &numVertices, uint &n
 					{
 						// left face is visible
 						if (cubeMesh->IsAlpha())
-							numAlphaVertices += AddMesh(cubeMesh, chunk, TRUE, position, transform, color, cubeMesh->GetLeftFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numAlphaVertices += AddMesh(cubeMesh, chunk, true, position, transform, color, cubeMesh->GetLeftFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 						else
-							numVertices += AddMesh(cubeMesh, chunk, FALSE, position, transform, color, cubeMesh->GetLeftFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numVertices += AddMesh(cubeMesh, chunk, false, position, transform, color, cubeMesh->GetLeftFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 					}
 					if ((right == NULL || right->tile == NO_TILE || !tileMap->GetMeshes()->Get(right)->IsOpaque(SIDE_LEFT)) && cubeMesh->HasFace(SIDE_RIGHT))
 					{
 						// right face is visible
 						if (cubeMesh->IsAlpha())
-							numAlphaVertices += AddMesh(cubeMesh, chunk, TRUE, position, transform, color, cubeMesh->GetRightFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numAlphaVertices += AddMesh(cubeMesh, chunk, true, position, transform, color, cubeMesh->GetRightFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 						else
-							numVertices += AddMesh(cubeMesh, chunk, FALSE, position, transform, color, cubeMesh->GetRightFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numVertices += AddMesh(cubeMesh, chunk, false, position, transform, color, cubeMesh->GetRightFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 					}
 					if ((forward == NULL || forward->tile == NO_TILE || !tileMap->GetMeshes()->Get(forward)->IsOpaque(SIDE_BACK)) && cubeMesh->HasFace(SIDE_FRONT))
 					{
 						// front face is visible
 						if (cubeMesh->IsAlpha())
-							numAlphaVertices += AddMesh(cubeMesh, chunk, TRUE, position, transform, color, cubeMesh->GetFrontFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numAlphaVertices += AddMesh(cubeMesh, chunk, true, position, transform, color, cubeMesh->GetFrontFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 						else
-							numVertices += AddMesh(cubeMesh, chunk, FALSE, position, transform, color, cubeMesh->GetFrontFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numVertices += AddMesh(cubeMesh, chunk, false, position, transform, color, cubeMesh->GetFrontFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 					}
 					if ((backward == NULL || backward->tile == NO_TILE || !tileMap->GetMeshes()->Get(backward)->IsOpaque(SIDE_FRONT)) && cubeMesh->HasFace(SIDE_BACK))
 					{
 						// back face is visible
 						if (cubeMesh->IsAlpha())
-							numAlphaVertices += AddMesh(cubeMesh, chunk, TRUE, position, transform, color, cubeMesh->GetBackFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numAlphaVertices += AddMesh(cubeMesh, chunk, true, position, transform, color, cubeMesh->GetBackFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 						else
-							numVertices += AddMesh(cubeMesh, chunk, FALSE, position, transform, color, cubeMesh->GetBackFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numVertices += AddMesh(cubeMesh, chunk, false, position, transform, color, cubeMesh->GetBackFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 					}
 					if ((down == NULL || down->tile == NO_TILE || !tileMap->GetMeshes()->Get(down)->IsOpaque(SIDE_TOP)) && cubeMesh->HasFace(SIDE_BOTTOM))
 					{
 						// bottom face is visible
 						if (cubeMesh->IsAlpha())
-							numAlphaVertices += AddMesh(cubeMesh, chunk, TRUE, position, transform, color, cubeMesh->GetBottomFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numAlphaVertices += AddMesh(cubeMesh, chunk, true, position, transform, color, cubeMesh->GetBottomFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 						else
-							numVertices += AddMesh(cubeMesh, chunk, FALSE, position, transform, color, cubeMesh->GetBottomFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numVertices += AddMesh(cubeMesh, chunk, false, position, transform, color, cubeMesh->GetBottomFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 					}
 					if ((up == NULL || up->tile == NO_TILE || !tileMap->GetMeshes()->Get(up)->IsOpaque(SIDE_BOTTOM)) && cubeMesh->HasFace(SIDE_TOP))
 					{
 						// top face is visible
 						if (cubeMesh->IsAlpha())
-							numAlphaVertices += AddMesh(cubeMesh, chunk, TRUE, position, transform, color, cubeMesh->GetTopFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numAlphaVertices += AddMesh(cubeMesh, chunk, true, position, transform, color, cubeMesh->GetTopFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 						else
-							numVertices += AddMesh(cubeMesh, chunk, FALSE, position, transform, color, cubeMesh->GetTopFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
+							numVertices += AddMesh(cubeMesh, chunk, false, position, transform, color, cubeMesh->GetTopFaceVertexOffset(), CUBE_VERTICES_PER_FACE);
 					}
 				}
 				else
 				{
-					BOOL visible = FALSE;
+					bool visible = false;
 
 					// visibility determination. we check for at least one 
 					// adjacent empty space / non-opaque tile
@@ -154,14 +154,14 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint &numVertices, uint &n
 						(up == NULL || up->tile == NO_TILE || !tileMap->GetMeshes()->Get(up)->IsOpaque(SIDE_BOTTOM)) ||
 						(down == NULL || down->tile == NO_TILE || !tileMap->GetMeshes()->Get(down)->IsOpaque(SIDE_TOP))
 						)
-						visible = TRUE;
+						visible = true;
 
 					if (visible)
 					{
 						if (mesh->IsAlpha())
-							numAlphaVertices += AddMesh(mesh, chunk, TRUE, position, transform, color, 0, mesh->GetBuffer()->GetNumElements());
+							numAlphaVertices += AddMesh(mesh, chunk, true, position, transform, color, 0, mesh->GetBuffer()->GetNumElements());
 						else
-							numVertices += AddMesh(mesh, chunk, FALSE, position, transform, color, 0, mesh->GetBuffer()->GetNumElements());
+							numVertices += AddMesh(mesh, chunk, false, position, transform, color, 0, mesh->GetBuffer()->GetNumElements());
 					}
 				}
 			}
@@ -169,10 +169,10 @@ void ChunkVertexGenerator::Generate(TileChunk *chunk, uint &numVertices, uint &n
 	}
 
 	if (numAlphaVertices == 0)
-		chunk->EnableAlphaVertices(FALSE);
+		chunk->EnableAlphaVertices(false);
 }
 
-uint ChunkVertexGenerator::AddMesh(const TileMesh *mesh, TileChunk *chunk, BOOL isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint firstVertex, uint numVertices)
+uint ChunkVertexGenerator::AddMesh(const TileMesh *mesh, TileChunk *chunk, bool isAlpha, const Point3 &position, const Matrix4x4 *transform, const Color &color, uint firstVertex, uint numVertices)
 {
 	VertexBuffer *sourceBuffer = mesh->GetBuffer();
 	sourceBuffer->MoveToStart();

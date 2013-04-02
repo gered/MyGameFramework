@@ -47,23 +47,23 @@ public:
 	Entity* AddUsingPreset(ENTITYPRESET_TYPE type, EntityPresetArgs *args = NULL);
 	template<class T> Entity* GetWith() const;
 	template<class T> void GetAllWith(EntityList &matches) const;
-	template<class T> BOOL WasCreatedUsingPreset(Entity *entity) const;
-	BOOL WasCreatedUsingPreset(const Entity *entity, ENTITYPRESET_TYPE type) const;
+	template<class T> bool WasCreatedUsingPreset(Entity *entity) const;
+	bool WasCreatedUsingPreset(const Entity *entity, ENTITYPRESET_TYPE type) const;
 	void Remove(Entity *entity);
 	void RemoveAll();
-	BOOL IsValid(const Entity *entity) const;
+	bool IsValid(const Entity *entity) const;
 	uint GetNumEntities() const                        { return m_entities.size(); }
 
 	template<class T> T* AddComponent(Entity *entity);
 	template<class T> T* GetComponent(const Entity *entity) const;
 	template<class T> void RemoveComponent(Entity *entity);
-	template<class T> BOOL HasComponent(const Entity *entity) const;
+	template<class T> bool HasComponent(const Entity *entity) const;
 	void GetAllComponentsFor(const Entity *entity, ComponentList &list) const;
 
 	template<class T> T* AddGlobalComponent();
 	template<class T> T* GetGlobalComponent() const;
 	template<class T> void RemoveGlobalComponent();
-	template<class T> BOOL HasGlobalComponent() const;
+	template<class T> bool HasGlobalComponent() const;
 	void RemoveAllGlobalComponents();
 
 	void OnLostContext();
@@ -201,18 +201,18 @@ void EntityManager::RemoveComponent(Entity *entity)
 }
 
 template<class T>
-BOOL EntityManager::HasComponent(const Entity *entity) const
+bool EntityManager::HasComponent(const Entity *entity) const
 {
 	ComponentStore::const_iterator i = m_components.find(T::GetType());
 	if (i == m_components.end())
-		return FALSE;
+		return false;
 
 	const EntityComponentsMap &entitiesWithComponent = i->second;
 	EntityComponentsMap::const_iterator j = entitiesWithComponent.find(entity);
 	if (j == entitiesWithComponent.end())
-		return FALSE;
+		return false;
 	else
-		return TRUE;
+		return true;
 }
 
 template<class T>
@@ -246,13 +246,13 @@ void EntityManager::RemoveGlobalComponent()
 }
 
 template<class T>
-BOOL EntityManager::HasGlobalComponent() const
+bool EntityManager::HasGlobalComponent() const
 {
 	GlobalComponentStore::const_iterator i = m_globalComponents.find(T::GetType());
 	if (i == m_globalComponents.end())
-		return FALSE;
+		return false;
 	else
-		return TRUE;
+		return true;
 }
 
 template<class T>
@@ -282,7 +282,7 @@ void EntityManager::GetAllWith(EntityList &matches) const
 }
 
 template<class T>
-BOOL EntityManager::WasCreatedUsingPreset(Entity *entity) const
+bool EntityManager::WasCreatedUsingPreset(Entity *entity) const
 {
 	return WasCreatedUsingPreset(entity, T::GetType());
 }

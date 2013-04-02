@@ -14,9 +14,9 @@ RenderState::~RenderState()
 
 void RenderState::Initialize()
 {
-	m_depthTesting = TRUE;
+	m_depthTesting = true;
 	m_depthFunction = DEPTH_LESS;
-	m_faceCulling = TRUE;
+	m_faceCulling = true;
 	m_faceCullingMode = BACK;
 	m_lineWidth = 1.0f;
 }

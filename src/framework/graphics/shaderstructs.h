@@ -25,7 +25,7 @@ struct ShaderAttribute
 	uint location;
 	uint type;
 	uint size;
-	BOOL isTypeBound;
+	bool isTypeBound;
 };
 
 /**
@@ -33,7 +33,7 @@ struct ShaderAttribute
  */
 struct ShaderAttributeMapInfo
 {
-	BOOL usesStandardType;
+	bool usesStandardType;
 	VERTEX_STANDARD_ATTRIBS standardType;
 	uint attribIndex;
 };

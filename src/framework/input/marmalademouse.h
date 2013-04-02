@@ -17,12 +17,12 @@ public:
 
 	void ResetDeltas();
 
-	BOOL OnButtonEvent(const s3ePointerEvent *eventArgs);
-	BOOL OnMotionEvent(const s3ePointerMotionEvent *eventArgs);
+	bool OnButtonEvent(const s3ePointerEvent *eventArgs);
+	bool OnMotionEvent(const s3ePointerMotionEvent *eventArgs);
 
-	BOOL IsDown(MOUSE_BUTTONS button)                      { return m_buttons[button] && !m_lockedButtons[button]; }
-	BOOL IsPressed(MOUSE_BUTTONS button);
-	void Lock(MOUSE_BUTTONS button)                        { m_lockedButtons[button] = TRUE; }
+	bool IsDown(MOUSE_BUTTONS button)                      { return m_buttons[button] && !m_lockedButtons[button]; }
+	bool IsPressed(MOUSE_BUTTONS button);
+	void Lock(MOUSE_BUTTONS button)                        { m_lockedButtons[button] = true; }
 
 	uint GetX() const                                      { return m_x; }
 	uint GetY() const                                      { return m_y; }
@@ -36,8 +36,8 @@ public:
 
 private:
 	stl::set<MouseListener*> m_listeners;
-	BOOL *m_buttons;
-	BOOL *m_lockedButtons;
+	bool *m_buttons;
+	bool *m_lockedButtons;
 
 	uint m_x;
 	uint m_y;

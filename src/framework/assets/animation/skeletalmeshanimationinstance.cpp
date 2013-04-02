@@ -12,12 +12,12 @@ SkeletalMeshAnimationInstance::SkeletalMeshAnimationInstance(SkeletalMesh *mesh)
 {
 	m_currentSequenceStart = 0;
 	m_currentSequenceEnd = 0;
-	m_currentSequenceLoop = FALSE;
+	m_currentSequenceLoop = false;
 	m_thisFrame = 0;
 	m_nextFrame = 0;
 	m_interpolation = 0.0f;
-	m_isRunningTempSequence = FALSE;
-	m_oldSequenceLoop = FALSE;
+	m_isRunningTempSequence = false;
+	m_oldSequenceLoop = false;
 }
 
 SkeletalMeshAnimationInstance::~SkeletalMeshAnimationInstance()
@@ -65,7 +65,7 @@ void SkeletalMeshAnimationInstance::OnUpdate(float delta)
 	}
 }
 
-void SkeletalMeshAnimationInstance::SetSequence(uint startFrame, uint endFrame, BOOL loop)
+void SkeletalMeshAnimationInstance::SetSequence(uint startFrame, uint endFrame, bool loop)
 {
 	m_currentSequenceName.clear();
 	m_currentSequenceStart = startFrame;
@@ -80,7 +80,7 @@ void SkeletalMeshAnimationInstance::SetSequence(uint startFrame, uint endFrame, 
 	m_interpolation = 0.0f;
 }
 
-void SkeletalMeshAnimationInstance::SetSequence(const stl::string &name, BOOL loop)
+void SkeletalMeshAnimationInstance::SetSequence(const stl::string &name, bool loop)
 {
 	if (m_currentSequenceName == name)
 		return;
@@ -98,14 +98,14 @@ void SkeletalMeshAnimationInstance::RunSequenceOnce(const stl::string &name)
 	m_oldSequenceName = m_currentSequenceName;
 	m_oldSequenceLoop = m_currentSequenceLoop;
 	
-	m_isRunningTempSequence = TRUE;
+	m_isRunningTempSequence = true;
 	
-	SetSequence(name, FALSE);
+	SetSequence(name, false);
 }
 
 void SkeletalMeshAnimationInstance::RecoverFromTempSequence()
 {
-	m_isRunningTempSequence = FALSE;
+	m_isRunningTempSequence = false;
 	SetSequence(m_oldSequenceName, m_oldSequenceLoop);
 	m_oldSequenceName.clear();
 	m_oldSequenceLoop = false;

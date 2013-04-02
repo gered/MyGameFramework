@@ -52,7 +52,7 @@ void PositionAndSkyTileMapLighter::SetupSkyLight(TileMap *tileMap)
 	{
 		for (uint z = 0; z < tileMap->GetDepth(); ++z)
 		{
-			BOOL stillSkyLit = TRUE;
+			bool stillSkyLit = true;
 			TILE_LIGHT_VALUE currentSkyLightValue = tileMap->GetSkyLightValue();
 
 			for (int y = tileMap->GetHeight() - 1; y >= 0 && stillSkyLit; --y)
@@ -73,7 +73,7 @@ void PositionAndSkyTileMapLighter::SetupSkyLight(TileMap *tileMap)
 				{
 					// tile is present and is fully solid, sky lighting stops
 					// at the tile above this one
-					stillSkyLit = FALSE;
+					stillSkyLit = false;
 				}
 			}
 		}

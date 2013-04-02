@@ -54,10 +54,10 @@ BillboardSpriteBatch::BillboardSpriteBatch(GraphicsDevice *graphicsDevice)
 	m_blendState = new BLENDSTATE_ALPHABLEND;
 	ASSERT(m_blendState != NULL);
 
-	m_begunRendering = FALSE;
+	m_begunRendering = false;
 
-	m_isRenderStateOverridden = FALSE;
-	m_isBlendStateOverridden = FALSE;
+	m_isRenderStateOverridden = false;
+	m_isBlendStateOverridden = false;
 }
 
 BillboardSpriteBatch::~BillboardSpriteBatch()
@@ -69,7 +69,7 @@ BillboardSpriteBatch::~BillboardSpriteBatch()
 
 void BillboardSpriteBatch::InternalBegin(const RenderState *renderState, const BlendState *blendState, SpriteShader *shader)
 {
-	ASSERT(m_begunRendering == FALSE);
+	ASSERT(m_begunRendering == false);
 
 	m_cameraPosition = m_graphicsDevice->GetViewContext()->GetCamera()->GetPosition();
 	m_cameraForward = m_graphicsDevice->GetViewContext()->GetCamera()->GetForward();
@@ -78,28 +78,28 @@ void BillboardSpriteBatch::InternalBegin(const RenderState *renderState, const B
 		m_shader = m_graphicsDevice->GetSprite3DShader();
 	else
 	{
-		ASSERT(shader->IsReadyForUse() == TRUE);
+		ASSERT(shader->IsReadyForUse() == true);
 		m_shader = shader;
 	}
 
 	if (renderState != NULL)
 	{
-		m_isRenderStateOverridden = TRUE;
+		m_isRenderStateOverridden = true;
 		m_overrideRenderState = *renderState;
 	}
 	else
-		m_isRenderStateOverridden = FALSE;
+		m_isRenderStateOverridden = false;
 
 	if (blendState != NULL)
 	{
-		m_isBlendStateOverridden = TRUE;
+		m_isBlendStateOverridden = true;
 		m_overrideBlendState = *blendState;
 	}
 	else
-		m_isBlendStateOverridden = FALSE;
+		m_isBlendStateOverridden = false;
 
 	m_currentSpritePointer = 0;
-	m_begunRendering = TRUE;
+	m_begunRendering = true;
 }
 
 void BillboardSpriteBatch::Begin(SpriteShader *shader)
@@ -224,7 +224,7 @@ void BillboardSpriteBatch::Printf(const SpriteFont *font, const Vector3 &positio
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *texture, const Vector3 &position, float width, float height, uint sourceLeft, uint sourceTop, uint sourceRight, uint sourceBottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	Matrix4x4 transform = GetTransformFor(type, position);
 
 	// zero vector offset as the transform will translate the billboard to
@@ -234,7 +234,7 @@ void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *t
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *texture, const Vector3 &position, float width, float height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	Matrix4x4 transform = GetTransformFor(type, position);
 
 	// zero vector offset as the transform will translate the billboard to
@@ -244,7 +244,7 @@ void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Texture *t
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Matrix4x4 &transform, const Texture *texture, const Vector3 &offset, float width, float height, uint sourceLeft, uint sourceTop, uint sourceRight, uint sourceBottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	uint sourceWidth = sourceRight - sourceLeft;
 	ASSERT(sourceWidth > 0);
@@ -262,7 +262,7 @@ void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Matrix4x4 
 
 void BillboardSpriteBatch::AddSprite(BILLBOARDSPRITE_TYPE type, const Matrix4x4 &transform, const Texture *texture, const Vector3 &offset, float width, float height, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 	CheckForNewSpriteSpace();
 	SetSpriteInfo(m_currentSpritePointer, type, transform, texture, offset, width, height, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 	++m_currentSpritePointer;
@@ -318,7 +318,7 @@ void BillboardSpriteBatch::SetSpriteInfo(uint spriteIndex, BILLBOARDSPRITE_TYPE 
 
 void BillboardSpriteBatch::End()
 {
-	ASSERT(m_begunRendering == TRUE);
+	ASSERT(m_begunRendering == true);
 
 	if (m_isRenderStateOverridden)
 		m_overrideRenderState.Apply();
@@ -335,7 +335,7 @@ void BillboardSpriteBatch::End()
 	RenderQueue();
 	m_graphicsDevice->UnbindShader();
 
-	m_begunRendering = FALSE;
+	m_begunRendering = false;
 }
 
 void BillboardSpriteBatch::RenderQueue()

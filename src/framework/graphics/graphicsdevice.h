@@ -55,9 +55,9 @@ public:
 	 * Initializes the graphics device object based on a parent window that is
 	 * hosting the OpenGL context.
 	 * @param window a window with an active OpenGL context associated with it
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	BOOL Initialize(GameWindow *window);
+	bool Initialize(GameWindow *window);
 
 	/**
 	 * New OpenGL graphics context creation callback.
@@ -345,15 +345,15 @@ public:
 	DebugShader* GetDebugShader();
 	
 	/**
-	 * @return TRUE if depth textures are supported
+	 * @return true if depth textures are supported
 	 */
-	BOOL IsDepthTextureSupported() const                                        { return m_isDepthTextureSupported; }
+	bool IsDepthTextureSupported() const                                        { return m_isDepthTextureSupported; }
 	
 	/**
-	 * @return TRUE if textures with dimensions that are not a power of two
+	 * @return true if textures with dimensions that are not a power of two
 	 *         are supported
 	 */
-	BOOL IsNonPowerOfTwoTextureSupported() const                                { return m_isNonPowerOfTwoTextureSupported; }
+	bool IsNonPowerOfTwoTextureSupported() const                                { return m_isNonPowerOfTwoTextureSupported; }
 	
 	/**
 	 * @return the parent window object that this graphics device is for
@@ -366,7 +366,7 @@ private:
 	void BindIBO(IndexBuffer *buffer);
 	void BindClientBuffer(IndexBuffer *buffer);
 
-	BOOL IsReadyToRender() const;
+	bool IsReadyToRender() const;
 
 	void SetShaderVertexAttributes();
 	void ClearSetShaderVertexAttributes();
@@ -379,10 +379,10 @@ private:
 	const IndexBuffer *m_boundIndexBuffer;
 	const Texture **m_boundTextures;
 	Shader *m_boundShader;
-	BOOL m_shaderVertexAttribsSet;
+	bool m_shaderVertexAttribsSet;
 	EnabledVertexAttribList m_enabledVertexAttribIndices;
-	BOOL m_isDepthTextureSupported;
-	BOOL m_isNonPowerOfTwoTextureSupported;
+	bool m_isDepthTextureSupported;
+	bool m_isNonPowerOfTwoTextureSupported;
 
 	GameWindow *m_window;
 	ViewContext *m_defaultViewContext;
@@ -401,7 +401,7 @@ private:
 	Sprite3DShader *m_sprite3dShader;
 	DebugShader *m_debugShader;
 	
-	BOOL m_hasNewContextRunYet;
+	bool m_hasNewContextRunYet;
 };
 
 inline void GraphicsDevice::SetTextureParameters(const TextureParameters &params)
@@ -409,12 +409,12 @@ inline void GraphicsDevice::SetTextureParameters(const TextureParameters &params
 	m_currentTextureParams = params;
 }
 
-inline BOOL GraphicsDevice::IsReadyToRender() const
+inline bool GraphicsDevice::IsReadyToRender() const
 {
 	if (m_boundShader != NULL && m_boundVertexBuffer != NULL && m_shaderVertexAttribsSet)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 #endif

@@ -10,7 +10,7 @@ struct OSEvent;
 
 struct GameWindowParams
 {
-	BOOL windowed;
+	bool windowed;
 };
 
 /**
@@ -30,23 +30,23 @@ public:
 	/**
 	 * Creates the game window.
 	 * @param params platform specific window creation parameters
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	virtual BOOL Create(GameWindowParams *params) = 0;
+	virtual bool Create(GameWindowParams *params) = 0;
 
 	/**
 	 * Resizes the window to the given dimensions.
 	 * @param width the new window width
 	 * @param height the new window height
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	virtual BOOL Resize(uint width, uint height) = 0;
+	virtual bool Resize(uint width, uint height) = 0;
 
 	/**
 	 * Toggles between fullscreen and windowed mode.
-	 * @return TRUE if successful, FALSE if not
+	 * @return true if successful, false if not
 	 */
-	virtual BOOL ToggleFullscreen() = 0;
+	virtual bool ToggleFullscreen() = 0;
 
 	/**
 	 * Signals to the underlying system that the window should be closed
@@ -75,9 +75,9 @@ public:
 	virtual uint GetBPP() const = 0;
 
 	/**
-	 * @return TRUE if the current window is windowed, FALSE if fullscreen
+	 * @return true if the current window is windowed, false if fullscreen
 	 */
-	virtual BOOL IsWindowed() const = 0;
+	virtual bool IsWindowed() const = 0;
 
 	/**
 	 * @return the current display rotation angle
@@ -85,24 +85,24 @@ public:
 	virtual SCREEN_ORIENTATION_ANGLE GetScreenOrientation() const = 0;
 
 	/**
-	 * @return TRUE if this window is the currently active one
+	 * @return true if this window is the currently active one
 	 */
-	virtual BOOL IsActive() const = 0;
+	virtual bool IsActive() const = 0;
 	
 	/**
-	 * @return TRUE if this window currently is active and has input focus
+	 * @return true if this window currently is active and has input focus
 	 */
-	virtual BOOL IsFocused() const = 0;
+	virtual bool IsFocused() const = 0;
 
 	/**
-	 * @return TRUE if the window has been signaled that it should close
+	 * @return true if the window has been signaled that it should close
 	 */
-	virtual BOOL IsClosing() const = 0;
+	virtual bool IsClosing() const = 0;
 
 	/**
 	 * @return TRUe if the window currently has an active and usable OpenGL context associated with it
 	 */
-	virtual BOOL HasGLContext() const = 0;
+	virtual bool HasGLContext() const = 0;
 
 	/**
 	 * Performs platform specific processing for an event raised by the operating system.

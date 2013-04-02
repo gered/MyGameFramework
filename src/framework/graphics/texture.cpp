@@ -24,11 +24,11 @@ Texture::~Texture()
 	Release();
 }
 
-BOOL Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
+bool Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
 {
 	ASSERT(m_textureName == 0);
 	if (m_textureName != 0)
-		return FALSE;
+		return false;
 	
 	ASSERT(graphicsDevice != NULL);
 	ASSERT(IsPowerOf2(image->GetWidth()) && IsPowerOf2(image->GetHeight()));
@@ -60,7 +60,7 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
 	}
 	ASSERT(glFormat != 0);
 	if (glFormat == 0)
-		return FALSE;
+		return false;
 
 	m_graphicsDevice = graphicsDevice;
 	m_width = image->GetWidth();
@@ -76,21 +76,21 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, Image *image)
 
 	LOG_INFO(LOGCAT_GRAPHICS, "Created texture from image. ID = %d, bpp = %d, size = %d x %d\n", m_textureName, image->GetBpp(), image->GetWidth(), image->GetHeight());
 	
-	return TRUE;
+	return true;
 }
 
-BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint width, uint height, TEXTURE_FORMAT textureFormat)
+bool Texture::Create(GraphicsDevice *graphicsDevice, uint width, uint height, TEXTURE_FORMAT textureFormat)
 {
 	ASSERT(m_textureName == 0);
 	if (m_textureName != 0)
-		return FALSE;
+		return false;
 		
 	ASSERT(graphicsDevice != NULL);
 	if (!graphicsDevice->IsNonPowerOfTwoTextureSupported())
 	{
 		ASSERT(IsPowerOf2(width) && IsPowerOf2(height));
 		if (!IsPowerOf2(width) || !IsPowerOf2(height))
-			return FALSE;
+			return false;
 	}
 	
 	int bpp = 0;
@@ -99,10 +99,10 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint width, uint height, TE
 	GetTextureSpecsFromFormat(textureFormat, &bpp, &format, &type);
 	ASSERT(format != 0);
 	if (format == 0)
-		return FALSE;
+		return false;
 	ASSERT(type != 0);
 	if (type == 0)
-		return FALSE;
+		return false;
 
 	m_graphicsDevice = graphicsDevice;
 	m_width = width;
@@ -122,7 +122,7 @@ BOOL Texture::Create(GraphicsDevice *graphicsDevice, uint width, uint height, TE
 	else
 		LOG_INFO(LOGCAT_GRAPHICS, "Created uninitialized texture. ID = %d, bpp = %d, size = %d x %d\n", m_textureName, bpp, m_width, m_height);
 
-	return TRUE;
+	return true;
 }
 
 void Texture::Release()
@@ -142,16 +142,16 @@ void Texture::Release()
 	m_format = TEXTURE_FORMAT_NONE;
 }
 
-BOOL Texture::Update(Image *image, uint destX, uint destY)
+bool Texture::Update(Image *image, uint destX, uint destY)
 {
 	ASSERT(m_textureName != 0);
 	if (m_textureName == 0)
-		return FALSE;
+		return false;
 	
 	// TODO: for now ...
 	ASSERT(m_format != TEXTURE_FORMAT_DEPTH);
 	if (m_format == TEXTURE_FORMAT_DEPTH)
-		return FALSE;
+		return false;
 	
 	ASSERT(image != NULL);
 	ASSERT(destX < m_width);
@@ -181,12 +181,12 @@ BOOL Texture::Update(Image *image, uint destX, uint destY)
 	
 	ASSERT(glFormat != 0);
 	if (glFormat == 0)
-		return FALSE;
+		return false;
 	
 	m_graphicsDevice->BindTexture(this, 0);
 	GL_CALL(glTexSubImage2D(GL_TEXTURE_2D, 0, destX, destY, image->GetWidth(), image->GetHeight(), glFormat, glType, pixels));
 	
-	return TRUE;
+	return true;
 }
 
 void Texture::OnLostContext()

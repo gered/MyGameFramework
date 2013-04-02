@@ -42,22 +42,22 @@ ProcessManager::~ProcessManager()
 void ProcessManager::Remove(const stl::string &name)
 {
 	ProcessInfoList::iterator itor = GetProcessItorFor(name);
-	StartTransitionOut(itor, TRUE);
+	StartTransitionOut(itor, true);
 }
 
-BOOL ProcessManager::HasProcess(const stl::string &name) const
+bool ProcessManager::HasProcess(const stl::string &name) const
 {
 	for (ProcessInfoList::const_iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		ProcessInfo *processInfo = *i;
 		if (processInfo->name.length() > 0 && name == processInfo->name)
-			return TRUE;
+			return true;
 	}
 	
-	return FALSE;
+	return false;
 }
 
-void ProcessManager::OnPause(BOOL dueToOverlay)
+void ProcessManager::OnPause(bool dueToOverlay)
 {
 	if (IsEmpty())
 		return;
@@ -71,7 +71,7 @@ void ProcessManager::OnPause(BOOL dueToOverlay)
 			if (!processInfo->isInactive)
 			{
 				LOG_INFO(LOGCAT_PROCESSMANAGER, "Pausing process %s due to parent state overlay.\n", processInfo->GetDescriptor().c_str());
-				processInfo->process->OnPause(TRUE);
+				processInfo->process->OnPause(true);
 			}
 		}
 	}
@@ -82,12 +82,12 @@ void ProcessManager::OnPause(BOOL dueToOverlay)
 		{
 			ProcessInfo *processInfo = *i;
 			if (!processInfo->isInactive)
-				StartTransitionOut(i, FALSE);
+				StartTransitionOut(i, false);
 		}
 	}
 }
 
-void ProcessManager::OnResume(BOOL fromOverlay)
+void ProcessManager::OnResume(bool fromOverlay)
 {
 	if (IsEmpty())
 		return;
@@ -101,7 +101,7 @@ void ProcessManager::OnResume(BOOL fromOverlay)
 			if (!processInfo->isInactive)
 			{
 				LOG_INFO(LOGCAT_PROCESSMANAGER, "Resuming process %s due to overlay state removal.\n", processInfo->GetDescriptor().c_str());
-				processInfo->process->OnResume(TRUE);
+				processInfo->process->OnResume(true);
 			}
 		}
 	}
@@ -114,12 +114,12 @@ void ProcessManager::OnResume(BOOL fromOverlay)
 			if (processInfo->isInactive && !processInfo->isBeingRemoved)
 			{
 				LOG_INFO(LOGCAT_PROCESSMANAGER, "Resuming process %s.\n", processInfo->GetDescriptor().c_str());
-				processInfo->process->OnResume(FALSE);
+				processInfo->process->OnResume(false);
 
-				processInfo->isInactive = FALSE;
-				processInfo->isTransitioning = TRUE;
-				processInfo->isTransitioningOut = FALSE;
-				processInfo->isTransitionStarting = TRUE;
+				processInfo->isInactive = false;
+				processInfo->isTransitioning = true;
+				processInfo->isTransitioningOut = false;
+				processInfo->isTransitionStarting = true;
 				LOG_INFO(LOGCAT_PROCESSMANAGER, "Transition into process %s started.\n", processInfo->GetDescriptor().c_str());
 			}
 		}
@@ -254,10 +254,10 @@ void ProcessManager::CheckForFinishedProcesses()
 		if (!processInfo->isInactive && processInfo->process->IsFinished() && !processInfo->isTransitioning)
 		{
 			LOG_INFO(LOGCAT_PROCESSMANAGER, "Process %s marked as finished.\n", processInfo->GetDescriptor().c_str());
-			processInfo->isTransitioning = TRUE;
-			processInfo->isTransitioningOut = TRUE;
-			processInfo->isTransitionStarting = TRUE;
-			processInfo->isBeingRemoved = TRUE;
+			processInfo->isTransitioning = true;
+			processInfo->isTransitioningOut = true;
+			processInfo->isTransitionStarting = true;
+			processInfo->isBeingRemoved = true;
 			LOG_INFO(LOGCAT_PROCESSMANAGER, "Transition out of process %s started.\n", processInfo->GetDescriptor().c_str());
 		}
 	}
@@ -268,9 +268,9 @@ void ProcessManager::ProcessQueue()
 	while (!m_queue.empty())
 	{
 		ProcessInfo *processInfo = m_queue.front();
-		processInfo->isTransitioning = TRUE;
-		processInfo->isTransitioningOut = FALSE;
-		processInfo->isTransitionStarting = TRUE;
+		processInfo->isTransitioning = true;
+		processInfo->isTransitioningOut = false;
+		processInfo->isTransitionStarting = true;
 
 		LOG_INFO(LOGCAT_PROCESSMANAGER, "Adding process %s from queue.\n", processInfo->GetDescriptor().c_str());
 		processInfo->process->OnAdd();
@@ -291,7 +291,7 @@ void ProcessManager::UpdateTransitions(float delta)
 		ProcessInfo *processInfo = *i;
 		if (processInfo->isTransitioning)
 		{
-			BOOL isDone = processInfo->process->OnTransition(delta, processInfo->isTransitioningOut, processInfo->isTransitionStarting);
+			bool isDone = processInfo->process->OnTransition(delta, processInfo->isTransitioningOut, processInfo->isTransitionStarting);
 			if (isDone)
 			{
 				LOG_INFO(LOGCAT_PROCESSMANAGER, "Transition %s process %s finished.\n", (processInfo->isTransitioningOut ? "out of" : "into"), processInfo->GetDescriptor().c_str());
@@ -308,16 +308,16 @@ void ProcessManager::UpdateTransitions(float delta)
 					else
 					{
 						LOG_INFO(LOGCAT_PROCESSMANAGER, "Pausing process %s.\n", processInfo->GetDescriptor().c_str());
-						processInfo->process->OnPause(FALSE);
+						processInfo->process->OnPause(false);
 					}
-					processInfo->isInactive = TRUE;
+					processInfo->isInactive = true;
 				}
 
 				// done transitioning
-				processInfo->isTransitioning = FALSE;
-				processInfo->isTransitioningOut = FALSE;
+				processInfo->isTransitioning = false;
+				processInfo->isTransitioningOut = false;
 			}
-			processInfo->isTransitionStarting = FALSE;
+			processInfo->isTransitionStarting = false;
 		}
 	}
 }
@@ -329,7 +329,7 @@ void ProcessManager::RemoveAll()
 	{
 		ProcessInfo *processInfo = *i;
 		if (!processInfo->isTransitioning && !processInfo->isInactive)
-			StartTransitionOut(i, TRUE);
+			StartTransitionOut(i, true);
 	}
 }
 
@@ -342,29 +342,29 @@ void ProcessManager::Queue(ProcessInfo *newProcessInfo)
 	m_queue.push_back(newProcessInfo);
 }
 
-void ProcessManager::StartTransitionOut(ProcessInfoList::iterator itor, BOOL forRemoval)
+void ProcessManager::StartTransitionOut(ProcessInfoList::iterator itor, bool forRemoval)
 {
 	ASSERT(itor != m_processes.end());
 	ProcessInfo *processInfo = *itor;
-	ASSERT(processInfo->isInactive == FALSE);
-	ASSERT(processInfo->isTransitioning == FALSE);
-	processInfo->isTransitioning = TRUE;
-	processInfo->isTransitioningOut = TRUE;
-	processInfo->isTransitionStarting = TRUE;
+	ASSERT(processInfo->isInactive == false);
+	ASSERT(processInfo->isTransitioning == false);
+	processInfo->isTransitioning = true;
+	processInfo->isTransitioningOut = true;
+	processInfo->isTransitionStarting = true;
 	processInfo->isBeingRemoved = forRemoval;
 	LOG_INFO(LOGCAT_PROCESSMANAGER, "Transition out of process %s started pending %s.\n", processInfo->GetDescriptor().c_str(), (forRemoval ? "removal" : "pause"));
 }
 
-BOOL ProcessManager::IsTransitioning() const
+bool ProcessManager::IsTransitioning() const
 {
 	for (ProcessInfoList::const_iterator i = m_processes.begin(); i != m_processes.end(); ++i)
 	{
 		const ProcessInfo *processInfo = *i;
 		if (processInfo->isTransitioning)
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 ProcessInfoList::iterator ProcessManager::GetProcessItorFor(const stl::string &name)

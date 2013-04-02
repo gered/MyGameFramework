@@ -12,17 +12,17 @@ class KeyboardListener;
 class MarmaladeKeyboard : public Keyboard
 {
 public:
-	MarmaladeKeyboard(BOOL hasPhysicalKeysForGameControls);
+	MarmaladeKeyboard(bool hasPhysicalKeysForGameControls);
 	virtual ~MarmaladeKeyboard();
 
-	BOOL OnKeyEvent(const s3eKeyboardEvent *eventArgs);
-	BOOL OnKeyCharEvent(const s3eKeyboardCharEvent *eventArgs);
+	bool OnKeyEvent(const s3eKeyboardEvent *eventArgs);
+	bool OnKeyCharEvent(const s3eKeyboardCharEvent *eventArgs);
 
-	BOOL HasPhysicalKeysForGameControls() const            { return m_hasPhysicalKeysForGameControls; }
+	bool HasPhysicalKeysForGameControls() const            { return m_hasPhysicalKeysForGameControls; }
 
-	BOOL IsDown(KEYS key)                                  { return m_keys[key] && !m_lockedKeys[key]; }
-	BOOL IsPressed(KEYS key);
-	void Lock(KEYS key)                                    { m_lockedKeys[key] = TRUE; }
+	bool IsDown(KEYS key)                                  { return m_keys[key] && !m_lockedKeys[key]; }
+	bool IsPressed(KEYS key);
+	void Lock(KEYS key)                                    { m_lockedKeys[key] = true; }
 
 	void Reset();
 
@@ -31,9 +31,9 @@ public:
 
 private:
 	stl::set<KeyboardListener*> m_listeners;
-	BOOL *m_keys;
-	BOOL *m_lockedKeys;
-	BOOL m_hasPhysicalKeysForGameControls;
+	bool *m_keys;
+	bool *m_lockedKeys;
+	bool m_hasPhysicalKeysForGameControls;
 };
 
 #endif

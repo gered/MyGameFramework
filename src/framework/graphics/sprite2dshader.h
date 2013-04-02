@@ -16,7 +16,7 @@ public:
 	Sprite2DShader();
 	virtual ~Sprite2DShader();
 	
-	BOOL Initialize(GraphicsDevice *graphicsDevice);
+	bool Initialize(GraphicsDevice *graphicsDevice);
 
 private:
 	static const char *m_vertexShaderSource;

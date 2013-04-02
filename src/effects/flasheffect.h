@@ -25,7 +25,7 @@ public:
 	FlashEffect* SetMaximumIntensity(float maxIntensity);
 
 private:
-	BOOL m_flashingIn;
+	bool m_flashingIn;
 	float m_flashInSpeed;
 	float m_flashOutSpeed;
 	float m_maximumIntensity;

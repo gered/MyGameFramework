@@ -38,21 +38,21 @@ public:
 	
 	virtual void OnPush();
 	virtual void OnPop();
-	virtual void OnPause(BOOL dueToOverlay);
-	virtual void OnResume(BOOL fromOverlay);
+	virtual void OnPause(bool dueToOverlay);
+	virtual void OnResume(bool fromOverlay);
 	virtual void OnLostContext();
 	virtual void OnNewContext();
 	virtual void OnRender(RenderContext *renderContext);
 	virtual void OnResize();
 	virtual void OnUpdate(float delta);
-	virtual BOOL OnTransition(float delta, BOOL isTransitioningOut, BOOL started);
+	virtual bool OnTransition(float delta, bool isTransitioningOut, bool started);
 	
-	template<class T> BOOL ListenFor();
-	template<class T> BOOL StopListeningFor();
-	BOOL ListenFor(EVENT_TYPE type);
-	BOOL StopListeningFor(EVENT_TYPE type);
+	template<class T> bool ListenFor();
+	template<class T> bool StopListeningFor();
+	bool ListenFor(EVENT_TYPE type);
+	bool StopListeningFor(EVENT_TYPE type);
 	
-	virtual BOOL Handle(const Event *event);
+	virtual bool Handle(const Event *event);
 	
 protected:
 	Gwen::Controls::Canvas* InitializeGwen(const stl::string &skinFilename, const stl::string &fontFilename, uint fontSize);
@@ -61,7 +61,7 @@ protected:
 	GwenGameState* GetGameState() const                                         { return m_gameState; }
 	Gwen::Controls::Canvas* GetCanvas() const                                   { return m_canvas; }
 	
-	void EnableGwenInput(BOOL enable);
+	void EnableGwenInput(bool enable);
 	
 	float GetAlpha() const                                                      { return m_alpha; }
 	float GetScale() const                                                      { return m_scale; }
@@ -89,23 +89,23 @@ private:
 };
 
 template<class T>
-BOOL GwenGameStateUIController::ListenFor()
+bool GwenGameStateUIController::ListenFor()
 {
 	return m_gameState->ListenFor<T>();
 }
 
 template<class T>
-BOOL GwenGameStateUIController::StopListeningFor()
+bool GwenGameStateUIController::StopListeningFor()
 {
 	return m_gameState->StopListeningFor<T>();
 }
 
-inline BOOL GwenGameStateUIController::ListenFor(EVENT_TYPE type)
+inline bool GwenGameStateUIController::ListenFor(EVENT_TYPE type)
 {
 	return m_gameState->ListenFor(type);
 }
 
-inline BOOL GwenGameStateUIController::StopListeningFor(EVENT_TYPE type)
+inline bool GwenGameStateUIController::StopListeningFor(EVENT_TYPE type)
 {
 	return m_gameState->StopListeningFor(type);
 }

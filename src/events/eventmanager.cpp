@@ -13,7 +13,7 @@ EventManager::~EventManager()
 {
 }
 
-BOOL EventManager::AddListener(EventListener *listener, EVENT_TYPE type)
+bool EventManager::AddListener(EventListener *listener, EVENT_TYPE type)
 {
 	// TODO: validate type
 
@@ -22,7 +22,7 @@ BOOL EventManager::AddListener(EventListener *listener, EVENT_TYPE type)
 	{
 		// need to register this listener for the given type
 		EventListenerMapIRes result = m_registry.insert(EventListenerMapEnt(type, EventListenerTable()));
-		ASSERT(result.second != FALSE);
+		ASSERT(result.second != false);
 		ASSERT(result.first != m_registry.end());
 
 		listenerItor = result.first;
@@ -40,19 +40,19 @@ BOOL EventManager::AddListener(EventListener *listener, EVENT_TYPE type)
 	// also update the list of currently registered event types
 	m_typeList.insert(type);
 
-	return TRUE;
+	return true;
 }
 
-BOOL EventManager::RemoveListener(EventListener *listener, EVENT_TYPE type)
+bool EventManager::RemoveListener(EventListener *listener, EVENT_TYPE type)
 {
-	BOOL result = FALSE;
+	bool result = false;
 
 	// TODO: validate type
 
 	// get the list of listeners for the given event type
 	EventListenerMap::iterator itor = m_registry.find(type);
 	if (itor == m_registry.end())
-		return FALSE;
+		return false;
 
 	// check this list for the specified listener
 	EventListenerTable &table = itor->second;
@@ -62,7 +62,7 @@ BOOL EventManager::RemoveListener(EventListener *listener, EVENT_TYPE type)
 		{
 			// found the listener
 			table.erase(j);
-			result = TRUE;
+			result = true;
 
 			// if there are no more listeners for this type, remove the type from the list of registered event types
 			if (table.size() == 0)
@@ -76,7 +76,7 @@ BOOL EventManager::RemoveListener(EventListener *listener, EVENT_TYPE type)
 	return result;
 }
 
-BOOL EventManager::Trigger(const Event *event) const
+bool EventManager::Trigger(const Event *event) const
 {
 	// TODO: validate type
 
@@ -95,9 +95,9 @@ BOOL EventManager::Trigger(const Event *event) const
 	// find the listener list for the event type
 	EventListenerMap::const_iterator itor = m_registry.find(event->GetTypeOf());
 	if (itor == m_registry.end())
-		return FALSE;
+		return false;
 
-	BOOL result = FALSE;
+	bool result = false;
 
 	// trigger the event in each listener
 	const EventListenerTable &table = itor->second;
@@ -106,15 +106,15 @@ BOOL EventManager::Trigger(const Event *event) const
 		EventListener *listener = *i;
 		if (listener->Handle(event))
 		{
-			// only return TRUE if a listener signals they handled the event
-			result = TRUE;
+			// only return true if a listener signals they handled the event
+			result = true;
 		}
 	}
 
 	return result;
 }
 
-BOOL EventManager::Queue(const Event *event)
+bool EventManager::Queue(const Event *event)
 {
 	ASSERT(m_activeQueue >= 0);
 	ASSERT(m_activeQueue < NUM_EVENT_QUEUES);
@@ -129,15 +129,15 @@ BOOL EventManager::Queue(const Event *event)
 		if (wildcardItor == m_registry.end())
 		{
 			// no wildcard listener either... useless event!
-			return FALSE;
+			return false;
 		}
 	}
 
 	m_queues[m_activeQueue].push_back(event);
-	return TRUE;
+	return true;
 }
 
-BOOL EventManager::Abort(EVENT_TYPE type, BOOL allOfType)
+bool EventManager::Abort(EVENT_TYPE type, bool allOfType)
 {
 	ASSERT(m_activeQueue >= 0);
 	ASSERT(m_activeQueue < NUM_EVENT_QUEUES);
@@ -146,9 +146,9 @@ BOOL EventManager::Abort(EVENT_TYPE type, BOOL allOfType)
 
 	EventListenerMap::iterator itor = m_registry.find(type);
 	if (itor == m_registry.end())
-		return FALSE;               // no listeners for this type
+		return false;               // no listeners for this type
 
-	BOOL result = FALSE;
+	bool result = false;
 
 	EventQueue &queue = m_queues[m_activeQueue];
 	for (EventQueue::iterator i = queue.begin(); i != queue.end(); ++i)
@@ -158,7 +158,7 @@ BOOL EventManager::Abort(EVENT_TYPE type, BOOL allOfType)
 		{
 			// found a match, remove it from the queue
 			i = queue.erase(i);
-			result = TRUE;
+			result = true;
 
 			if (!allOfType)
 				break;
@@ -170,7 +170,7 @@ BOOL EventManager::Abort(EVENT_TYPE type, BOOL allOfType)
 	return result;
 }
 
-BOOL EventManager::ProcessQueue()
+bool EventManager::ProcessQueue()
 {
 	EventListenerMap::const_iterator wildcardItor = m_registry.find(EVENT_TYPE_WILDCARD);
 
@@ -227,10 +227,10 @@ BOOL EventManager::ProcessQueue()
 			m_queues[m_activeQueue].push_front(event);
 		}
 
-		return FALSE;
+		return false;
 	}
 	else
-		return TRUE;
+		return true;
 }
 
 EventListenerList EventManager::GetListenerList(EVENT_TYPE type) const

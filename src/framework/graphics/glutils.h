@@ -8,9 +8,9 @@
  * Checks if an OpenGL extension is present in the current
  * implementation. This performs a case-sensitive string match.
  * @param extension the name of the extension to check for.
- * @return TRUE if the extension is present, FALSE if not
+ * @return true if the extension is present, false if not
  */
-BOOL IsGLExtensionPresent(const char* extension);
+bool IsGLExtensionPresent(const char* extension);
 
 /**
  * Converts a OpenGL error code to a string equivalent.

@@ -45,11 +45,11 @@ struct Tile
 	static float GetBrightness(TILE_LIGHT_VALUE light);
 	static TILE_LIGHT_VALUE AdjustLightForTranslucency(TILE_LIGHT_VALUE light, float translucency);
 
-	BOOL IsEmptySpace() const;
-	BOOL IsCollideable() const;
-	BOOL HasCustomColor() const;
-	BOOL IsSlippery() const;
-	BOOL IsSkyLit() const;
+	bool IsEmptySpace() const;
+	bool IsCollideable() const;
+	bool HasCustomColor() const;
+	bool IsSlippery() const;
+	bool IsSkyLit() const;
 
 	TILE_INDEX tile;
 	TILE_FLAG_BITS flags;
@@ -132,27 +132,27 @@ inline TILE_LIGHT_VALUE Tile::AdjustLightForTranslucency(TILE_LIGHT_VALUE light,
 	return (TILE_LIGHT_VALUE)Round((float)light * translucency);
 }
 
-inline BOOL Tile::IsEmptySpace() const
+inline bool Tile::IsEmptySpace() const
 {
 	return this->tile == NO_TILE;
 }
 
-inline BOOL Tile::IsCollideable() const
+inline bool Tile::IsCollideable() const
 {
 	return IsBitSet(TILE_COLLIDABLE, this->flags);
 }
 
-inline BOOL Tile::HasCustomColor() const
+inline bool Tile::HasCustomColor() const
 {
 	return IsBitSet(TILE_CUSTOM_COLOR, this->flags);
 }
 
-inline BOOL Tile::IsSlippery() const
+inline bool Tile::IsSlippery() const
 {
 	return IsBitSet(TILE_FRICTION_SLIPPERY, this->flags);
 }
 
-inline BOOL Tile::IsSkyLit() const
+inline bool Tile::IsSkyLit() const
 {
 	return IsBitSet(TILE_LIGHT_SKY, this->flags);
 }

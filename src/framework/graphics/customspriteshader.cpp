@@ -10,27 +10,27 @@ CustomSpriteShader::~CustomSpriteShader()
 {
 }
 
-BOOL CustomSpriteShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
+bool CustomSpriteShader::Initialize(GraphicsDevice *graphicsDevice, const char *vertexShaderSource, const char *fragmentShaderSource)
 {
 	if (!SpriteShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 	
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetTextureHasAlphaOnlyUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
+	ASSERT(HasUniform(GetTextureHasAlphaOnlyUniform()) == true);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL CustomSpriteShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
+bool CustomSpriteShader::Initialize(GraphicsDevice *graphicsDevice, const Text *vertexShaderSource, const Text *fragmentShaderSource)
 {
 	if (!SpriteShader::Initialize(graphicsDevice, vertexShaderSource, fragmentShaderSource))
-		return FALSE;
+		return false;
 
-	ASSERT(HasUniform(GetModelViewMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetProjectionMatrixUniform()) == TRUE);
-	ASSERT(HasUniform(GetTextureHasAlphaOnlyUniform()) == TRUE);
+	ASSERT(HasUniform(GetModelViewMatrixUniform()) == true);
+	ASSERT(HasUniform(GetProjectionMatrixUniform()) == true);
+	ASSERT(HasUniform(GetTextureHasAlphaOnlyUniform()) == true);
 	
-	return TRUE;
+	return true;
 }
 

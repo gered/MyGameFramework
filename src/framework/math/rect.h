@@ -35,9 +35,9 @@ struct Rect
 	 * Tests if a point is contained inside this rectangle.
 	 * @param x x coordinate of the point to test
 	 * @param y y coordinate of the point to test
-	 * @return TRUE if the point is contained, FALSE if not
+	 * @return true if the point is contained, false if not
 	 */
-	BOOL Contains(int x, int y) const;
+	bool Contains(int x, int y) const;
 
 	/**
 	 * @return the rect's width
@@ -75,12 +75,12 @@ inline void Rect::Set(int left, int top, int right, int bottom)
 	this->bottom = bottom;
 }
 
-inline BOOL Rect::Contains(int x, int y) const
+inline bool Rect::Contains(int x, int y) const
 {
 	if (x >= left && y >= top && x <= right && y <= bottom)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 inline int Rect::GetWidth() const

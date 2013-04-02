@@ -16,8 +16,8 @@ struct TextureAtlasAnimationSequence
 	uint current;
 	float delay;
 	float currentFrameTime;
-	BOOL isAnimating;
-	BOOL loop;
+	bool isAnimating;
+	bool loop;
 	Image *originalAnimatingTile;
 	Image **frames;
 	stl::string name;
@@ -25,7 +25,7 @@ struct TextureAtlasAnimationSequence
 	TextureAtlasAnimationSequence();
 
 	uint GetNumFrames() const;
-	BOOL IsAnimationFinished() const;
+	bool IsAnimationFinished() const;
 };
 
 inline TextureAtlasAnimationSequence::TextureAtlasAnimationSequence()
@@ -37,8 +37,8 @@ inline TextureAtlasAnimationSequence::TextureAtlasAnimationSequence()
 	current = 0;
 	delay = 0.0f;
 	currentFrameTime = 0.0f;
-	isAnimating = FALSE;
-	loop = FALSE;
+	isAnimating = false;
+	loop = false;
 	originalAnimatingTile = NULL;
 	frames = NULL;
 }
@@ -48,12 +48,12 @@ inline uint TextureAtlasAnimationSequence::GetNumFrames() const
 	return stop - start + 1;
 }
 
-inline BOOL TextureAtlasAnimationSequence::IsAnimationFinished() const
+inline bool TextureAtlasAnimationSequence::IsAnimationFinished() const
 {
 	if (isAnimating && !loop && current == stop)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 #endif

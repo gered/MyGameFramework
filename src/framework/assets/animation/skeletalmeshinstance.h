@@ -23,9 +23,9 @@ public:
 	void CalculateJointTransformations(uint startFrame, uint endFrame, float interpolation);
 
 	uint GetNumSubsets() const                             { return m_numSubsets; }
-	BOOL IsSubsetEnabled(uint index) const                 { return m_enabledSubsets[index]; }
-	void EnableSubset(const stl::string &subset, BOOL enable);
-	void EnableSubset(uint index, BOOL enable)             { m_enabledSubsets[index] = enable; }
+	bool IsSubsetEnabled(uint index) const                 { return m_enabledSubsets[index]; }
+	void EnableSubset(const stl::string &subset, bool enable);
+	void EnableSubset(uint index, bool enable)             { m_enabledSubsets[index] = enable; }
 	
 	Texture** GetTextures() const                          { return m_textures; }
 	void SetTexture(uint index, Texture *texture);
@@ -43,8 +43,8 @@ public:
 	BlendState* GetBlendState() const                      { return m_blendState; }
 	BlendState* GetAlphaBlendState() const                 { return m_alphaBlendState; }
 	
-	BOOL GetRenderAllSubsetsAlphaBlended() const           { return m_renderAllSubsetsAlphaBlended; }
-	void SetRenderAllSubsetsAlphaBlended(BOOL enable)      { m_renderAllSubsetsAlphaBlended = enable; }
+	bool GetRenderAllSubsetsAlphaBlended() const           { return m_renderAllSubsetsAlphaBlended; }
+	void SetRenderAllSubsetsAlphaBlended(bool enable)      { m_renderAllSubsetsAlphaBlended = enable; }
 	
 	SkeletalMesh* GetMesh() const                          { return m_mesh; }
 
@@ -53,18 +53,18 @@ private:
 	
 	SkeletalMesh *m_mesh;
 	uint m_numSubsets;
-	BOOL *m_enabledSubsets;
+	bool *m_enabledSubsets;
 	Texture **m_textures;
 	RenderState *m_renderState;
 	BlendState *m_blendState;
 	BlendState *m_alphaBlendState;
-	BOOL m_renderAllSubsetsAlphaBlended;
+	bool m_renderAllSubsetsAlphaBlended;
 	
 	uint m_numJoints;
 	Matrix4x4 *m_jointTransformations;
 	Vector3 *m_jointPositions;
 	Quaternion *m_jointRotations;
-	BOOL m_rootJointHasFixedTransform;
+	bool m_rootJointHasFixedTransform;
 };
 
 #endif

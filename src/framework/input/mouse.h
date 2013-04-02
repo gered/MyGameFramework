@@ -18,9 +18,9 @@ public:
 	/**
 	 * Checks if the button is currently down, but not locked.
 	 * @param button the button to check
-	 * @return TRUE if down and not locked, FALSE if not down or locked
+	 * @return true if down and not locked, false if not down or locked
 	 */
-	virtual BOOL IsDown(MOUSE_BUTTONS button) = 0;
+	virtual bool IsDown(MOUSE_BUTTONS button) = 0;
 
 	/**
 	 * Checks if the button is currently down, but not locked. If so, the 
@@ -28,9 +28,9 @@ public:
 	 * not be registered for this button until it is released and pressed 
 	 * down again.
 	 * @param button the button to check
-	 * @return TRUE if down and not locked, FALSE if not down or locked
+	 * @return true if down and not locked, false if not down or locked
 	 */
-	virtual BOOL IsPressed(MOUSE_BUTTONS button) = 0;
+	virtual bool IsPressed(MOUSE_BUTTONS button) = 0;
 
 	/**
 	 * Locks the button so that it will not be reported as down until it is

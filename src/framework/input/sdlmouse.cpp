@@ -12,8 +12,8 @@ SDLMouse::SDLMouse(SDLSystem *system)
 {
 	m_system = system;
 
-	m_buttons = new BOOL[NUM_BUTTONS];
-	m_lockedButtons = new BOOL[NUM_BUTTONS];
+	m_buttons = new bool[NUM_BUTTONS];
+	m_lockedButtons = new bool[NUM_BUTTONS];
 
 	Reset();
 }
@@ -30,7 +30,7 @@ void SDLMouse::ResetDeltas()
 	m_deltaY = 0;
 }
 
-BOOL SDLMouse::OnButtonEvent(const SDL_MouseButtonEvent *eventArgs)
+bool SDLMouse::OnButtonEvent(const SDL_MouseButtonEvent *eventArgs)
 {
 	// translate from SDL's button values to our own MOUSE_BUTTONS enum
 	int button = (int)eventArgs->button - 1;
@@ -67,14 +67,14 @@ BOOL SDLMouse::OnButtonEvent(const SDL_MouseButtonEvent *eventArgs)
 			}
 		}
 
-		m_buttons[button] = FALSE;
-		m_lockedButtons[button] = FALSE;
+		m_buttons[button] = false;
+		m_lockedButtons[button] = false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL SDLMouse::OnMotionEvent(const SDL_MouseMotionEvent *eventArgs)
+bool SDLMouse::OnMotionEvent(const SDL_MouseMotionEvent *eventArgs)
 {
 	m_deltaX = eventArgs->x - m_x;
 	m_deltaY = eventArgs->y - m_y;
@@ -92,24 +92,24 @@ BOOL SDLMouse::OnMotionEvent(const SDL_MouseMotionEvent *eventArgs)
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL SDLMouse::IsPressed(MOUSE_BUTTONS button)
+bool SDLMouse::IsPressed(MOUSE_BUTTONS button)
 {
 	if (m_buttons[button] && !m_lockedButtons[button])
 	{
-		m_lockedButtons[button] = TRUE;
-		return TRUE;
+		m_lockedButtons[button] = true;
+		return true;
 	}
 	else
-		return FALSE;
+		return false;
 }
 
 void SDLMouse::Reset()
 {
-	memset(m_buttons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
-	memset(m_lockedButtons, FALSE, sizeof(BOOL) * NUM_BUTTONS);
+	memset(m_buttons, false, sizeof(bool) * NUM_BUTTONS);
+	memset(m_lockedButtons, false, sizeof(bool) * NUM_BUTTONS);
 	m_x = 0;
 	m_y = 0;
 	m_deltaX = 0;

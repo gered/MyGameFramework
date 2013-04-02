@@ -22,11 +22,11 @@ public:
 
 	const TextureAtlas* GetTextureAtlas() const            { return m_textureAtlas; }
 
-	uint Add(const StaticMesh *mesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, BOOL alpha = FALSE, float translucency = 1.0f, const Color &color = COLOR_WHITE);
-	uint Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, BOOL alpha = FALSE, float translucency = 1.0f, const Color &color = COLOR_WHITE);
-	uint Add(const StaticMesh *mesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, BOOL alpha = FALSE, float translucency = 1.0f, const Color &color = COLOR_WHITE);
-	uint Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, BOOL alpha = FALSE, float translucency = 1.0f, const Color &color = COLOR_WHITE);
-	uint AddCube(uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, BOOL alpha = FALSE, float translucency = 1.0f, const Color &color = COLOR_WHITE);
+	uint Add(const StaticMesh *mesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, bool alpha = false, float translucency = 1.0f, const Color &color = COLOR_WHITE);
+	uint Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, bool alpha = false, float translucency = 1.0f, const Color &color = COLOR_WHITE);
+	uint Add(const StaticMesh *mesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, bool alpha = false, float translucency = 1.0f, const Color &color = COLOR_WHITE);
+	uint Add(const StaticMesh *mesh, const StaticMesh *collisionMesh, uint *textureIndexes, uint numIndexes, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, bool alpha = false, float translucency = 1.0f, const Color &color = COLOR_WHITE);
+	uint AddCube(uint textureIndex, MESH_SIDES opaqueSides, TILE_LIGHT_VALUE lightValue = 0, bool alpha = false, float translucency = 1.0f, const Color &color = COLOR_WHITE);
 
 	TileMesh* Get(const Tile *tile) const                  { return m_meshes[tile->tile]; }
 	TileMesh* Get(uint index) const                        { return m_meshes[index]; }

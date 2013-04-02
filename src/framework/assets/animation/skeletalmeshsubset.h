@@ -12,16 +12,16 @@ public:
 	SkeletalMeshSubset();
 	virtual ~SkeletalMeshSubset();
 	
-	void Create(const stl::string &name, uint numTriangles, BOOL alpha);
+	void Create(const stl::string &name, uint numTriangles, bool alpha);
 
 	const stl::string& GetName() const                     { return m_name; }
 	IndexBuffer* GetIndices() const                        { return m_indices; }
-	BOOL IsAlphaBlended() const                            { return m_alpha; }
+	bool IsAlphaBlended() const                            { return m_alpha; }
 
 private:
 	stl::string m_name;
 	IndexBuffer *m_indices;
-	BOOL m_alpha;
+	bool m_alpha;
 };
 
 #endif

@@ -18,7 +18,7 @@ struct SDLGameWindowParams : GameWindowParams
 	uint width;
 	uint height;
 	uint bpp;
-	BOOL resizable;
+	bool resizable;
 };
 
 class SDLGameWindow : public GameWindow
@@ -27,34 +27,34 @@ public:
 	SDLGameWindow(BaseGameApp *gameApp);
 	virtual ~SDLGameWindow();
 
-	BOOL Create(GameWindowParams *params);
-	BOOL Resize(uint width, uint height);
-	BOOL ToggleFullscreen();
+	bool Create(GameWindowParams *params);
+	bool Resize(uint width, uint height);
+	bool ToggleFullscreen();
 	void Close();
 
 	uint GetWidth() const                                  { return m_width; }
 	uint GetHeight() const                                 { return m_height; }
 	const Rect& GetRect() const                            { return m_rect; }
 	uint GetBPP() const                                    { return m_bpp; }
-	BOOL IsWindowed() const                                { return m_fullscreen; }
+	bool IsWindowed() const                                { return m_fullscreen; }
 	SCREEN_ORIENTATION_ANGLE GetScreenOrientation() const  { return m_screenOrientation; }
 
-	BOOL IsActive() const                                  { return m_active; }
-	BOOL IsFocused() const                                 { return m_focused; }
-	BOOL IsClosing() const                                 { return m_closing; }
-	BOOL HasGLContext() const                              { return m_hasCurrentGLContext; }
+	bool IsActive() const                                  { return m_active; }
+	bool IsFocused() const                                 { return m_focused; }
+	bool IsClosing() const                                 { return m_closing; }
+	bool HasGLContext() const                              { return m_hasCurrentGLContext; }
 
 	void ProcessEvent(const OSEvent *event);
 	void Flip()                                            { SDL_GL_SwapBuffers(); }
 
 private:
 	void DisplaySdlHardwareInfo();
-	BOOL SetUpWindow(uint width, uint height);
+	bool SetUpWindow(uint width, uint height);
 
-	BOOL m_active;
-	BOOL m_focused;
-	BOOL m_closing;
-	BOOL m_hasCurrentGLContext;
+	bool m_active;
+	bool m_focused;
+	bool m_closing;
+	bool m_hasCurrentGLContext;
 
 	SCREEN_ORIENTATION_ANGLE m_screenOrientation;
 	uint m_SDLflags;
@@ -64,7 +64,7 @@ private:
 	uint m_height;
 	Rect m_rect;
 	uint m_bpp;
-	BOOL m_fullscreen;
+	bool m_fullscreen;
 	SDL_Surface *m_screen;
 };
 
