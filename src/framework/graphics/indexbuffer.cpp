@@ -38,6 +38,9 @@ bool IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, uint numIndices, BU
 	
 	Resize(numIndices);
 	
+	if (graphicsDevice != NULL)
+		CreateOnGpu();
+	
 	return true;
 }
 
@@ -60,9 +63,15 @@ bool IndexBuffer::Initialize(GraphicsDevice *graphicsDevice, const IndexBuffer *
 	if (source->GetNumElements() == 0)
 		return false;
 	
+	if (!BufferObject::Initialize(graphicsDevice, BUFFEROBJECT_TYPE_INDEX, source->GetUsage()))
+		return false;
+	
 	Resize(source->GetNumElements());
 	
-	memcpy(&m_buffer[0], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());	
+	memcpy(&m_buffer[0], source->GetBuffer(), GetNumElements() * GetElementWidthInBytes());
+	
+	if (graphicsDevice != NULL)
+		CreateOnGpu();
 	
 	return true;
 }
