@@ -23,7 +23,11 @@
 #include "../math/rect.h"
 #include "../math/vector3.h"
 
-const size_t PRINTF_BUFFER_SIZE = 8096;
+const uint DEFAULT_SPRITE_COUNT = 128;
+const uint RESIZE_SPRITE_INCREMENT = 16;
+const uint VERTICES_PER_SPRITE = 6;
+
+const size_t PRINTF_BUFFER_SIZE = 8192;
 char __spriteBatch_printfBuffer[PRINTF_BUFFER_SIZE + 1];
 
 SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
@@ -397,8 +401,8 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 			return;
 	}
 
-	if (GetRemainingSpriteSpaces() < 1)
-		AddMoreSpriteSpace(16);
+	if (GetRemainingSpriteSpaces() == 0)
+		AddMoreSpriteSpace(RESIZE_SPRITE_INCREMENT);
 	
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeftF, destTopF, destRightF, destBottomF, texLeft, texTop, texRight, texBottom, color);
 	++m_currentSpritePointer;
@@ -419,8 +423,8 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 			return;
 	}
 
-	if (GetRemainingSpriteSpaces() < 1)
-		AddMoreSpriteSpace(16);
+	if (GetRemainingSpriteSpaces() == 0)
+		AddMoreSpriteSpace(RESIZE_SPRITE_INCREMENT);
 	
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeftF, destTopF, destRightF, destBottomF, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 	++m_currentSpritePointer;
@@ -436,8 +440,8 @@ void SpriteBatch::AddSprite(const Texture *texture, float destLeft, float destTo
 			return;
 	}
 	
-	if (GetRemainingSpriteSpaces() < 1)
-		AddMoreSpriteSpace(16);
+	if (GetRemainingSpriteSpaces() == 0)
+		AddMoreSpriteSpace(RESIZE_SPRITE_INCREMENT);
 
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeft, destTop, destRight, destBottom, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 	++m_currentSpritePointer;
@@ -527,7 +531,7 @@ void SpriteBatch::SetSpriteInfo(uint spriteIndex, const Texture *texture, float 
 	m_vertices->SetColor(base + 5, color);
 
 	// move ahead past this sprite's vertices, so we're ready for the next one
-	m_vertices->Move(6);
+	m_vertices->Move(VERTICES_PER_SPRITE);
 	
 	m_textures[spriteIndex] = texture;
 }
@@ -596,8 +600,8 @@ void SpriteBatch::RenderQueue()
 
 void SpriteBatch::RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex)
 {
-	uint startVertex = firstSpriteIndex * 6;
-	uint lastVertex = (lastSpriteIndex + 1) * 6;  // render up to and including the last sprite
+	uint startVertex = firstSpriteIndex * VERTICES_PER_SPRITE;
+	uint lastVertex = (lastSpriteIndex + 1) * VERTICES_PER_SPRITE;  // render up to and including the last sprite
 	
 	// take the texture from anywhere in this range
 	// (doesn't matter where, should all be the same texture)
@@ -611,13 +615,13 @@ void SpriteBatch::RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex)
 
 uint SpriteBatch::GetRemainingSpriteSpaces() const
 {
-	uint currentMaxSprites = m_vertices->GetNumElements() / 6;
+	uint currentMaxSprites = m_vertices->GetNumElements() / VERTICES_PER_SPRITE;
 	return currentMaxSprites - m_currentSpritePointer;
 }
 
 void SpriteBatch::AddMoreSpriteSpace(uint numSprites)
 {
-	uint numVerticesToAdd = numSprites * 6;
+	uint numVerticesToAdd = numSprites * VERTICES_PER_SPRITE;
 	uint newTextureArraySize = m_textures.size() + numSprites;
 	
 	m_vertices->Extend(numVerticesToAdd);
