@@ -10,6 +10,7 @@
 #include <stl/vector.h>
 
 class GraphicsDevice;
+class IndexBuffer;
 class SpriteFont;
 class SpriteShader;
 class Texture;
@@ -329,6 +330,7 @@ private:
 
 	uint GetRemainingSpriteSpaces() const;
 	void AddMoreSpriteSpace(uint numSprites);
+	void FillSpriteIndicesFor(uint firstSprite, uint lastSprite);
 
 	int FixYCoord(int y, uint sourceHeight) const;
 	float FixYCoord(int y, float sourceHeight) const;
@@ -342,6 +344,7 @@ private:
 	bool m_isBlendStateOverridden;
 	BlendState m_overrideBlendState;
 	VertexBuffer *m_vertices;
+	IndexBuffer *m_indices;
 	stl::vector<const Texture*> m_textures;
 	uint m_currentSpritePointer;
 	Matrix4x4 m_previousProjection;

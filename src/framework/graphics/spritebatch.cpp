@@ -8,6 +8,7 @@
 
 #include "blendstate.h"
 #include "graphicsdevice.h"
+#include "indexbuffer.h"
 #include "renderstate.h"
 #include "shader.h"
 #include "spritefont.h"
@@ -25,7 +26,8 @@
 
 const uint DEFAULT_SPRITE_COUNT = 128;
 const uint RESIZE_SPRITE_INCREMENT = 16;
-const uint VERTICES_PER_SPRITE = 6;
+const uint VERTICES_PER_SPRITE = 4;
+const uint INDICES_PER_SPRITE = 6;
 
 const size_t PRINTF_BUFFER_SIZE = 8192;
 char __spriteBatch_printfBuffer[PRINTF_BUFFER_SIZE + 1];
@@ -45,11 +47,18 @@ SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
 		VERTEX_COLOR,
 		VERTEX_TEXCOORD
 	};
+	
+	uint numSprites = DEFAULT_SPRITE_COUNT;
 
 	m_vertices = new VertexBuffer();
-	m_vertices->Initialize(attribs, 3, DEFAULT_SPRITE_COUNT * VERTICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
+	m_vertices->Initialize(attribs, 3, numSprites * VERTICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
+	
+	m_indices = new IndexBuffer();
+	m_indices->Initialize(numSprites * INDICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
 
-	m_textures.reserve(DEFAULT_SPRITE_COUNT);
+	m_textures.resize(numSprites, NULL);
+	
+	FillSpriteIndicesFor(0, numSprites - 1);
 
 	m_renderState = new RENDERSTATE_DEFAULT;
 	m_renderState->SetDepthTesting(false);
@@ -99,7 +108,6 @@ void SpriteBatch::InternalBegin(const RenderState *renderState, const BlendState
 
 	m_currentSpritePointer = 0;
 	m_begunRendering = true;
-	m_vertices->MoveToStart();
 }
 
 void SpriteBatch::Begin(SpriteShader *shader)
@@ -496,31 +504,22 @@ bool SpriteBatch::ClipSpriteCoords(float &left, float &top, float &right, float 
 
 void SpriteBatch::SetSpriteInfo(uint spriteIndex, const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color)
 {
-	uint base = m_vertices->GetCurrentPosition();
+	uint base = spriteIndex * VERTICES_PER_SPRITE;
 
-	m_vertices->SetPosition2(base, destLeft, destTop);
+	m_vertices->SetPosition2(base + 0, destLeft,  destTop);
 	m_vertices->SetPosition2(base + 1, destRight, destTop);
 	m_vertices->SetPosition2(base + 2, destRight, destBottom);
-	m_vertices->SetPosition2(base + 3, destLeft, destTop);
-	m_vertices->SetPosition2(base + 4, destRight, destBottom);
-	m_vertices->SetPosition2(base + 5, destLeft, destBottom);
-
-	m_vertices->SetTexCoord(base, texCoordLeft, texCoordBottom);
+	m_vertices->SetPosition2(base + 3, destLeft,  destBottom);
+	
+	m_vertices->SetTexCoord(base + 0, texCoordLeft,  texCoordBottom);
 	m_vertices->SetTexCoord(base + 1, texCoordRight, texCoordBottom);
 	m_vertices->SetTexCoord(base + 2, texCoordRight, texCoordTop);
-	m_vertices->SetTexCoord(base + 3, texCoordLeft, texCoordBottom);
-	m_vertices->SetTexCoord(base + 4, texCoordRight, texCoordTop);
-	m_vertices->SetTexCoord(base + 5, texCoordLeft, texCoordTop);
-
-	m_vertices->SetColor(base, color);
+	m_vertices->SetTexCoord(base + 3, texCoordLeft,  texCoordTop);
+	
+	m_vertices->SetColor(base + 0, color);
 	m_vertices->SetColor(base + 1, color);
 	m_vertices->SetColor(base + 2, color);
 	m_vertices->SetColor(base + 3, color);
-	m_vertices->SetColor(base + 4, color);
-	m_vertices->SetColor(base + 5, color);
-
-	// move ahead past this sprite's vertices, so we're ready for the next one
-	m_vertices->Move(VERTICES_PER_SPRITE);
 	
 	m_textures[spriteIndex] = texture;
 }
@@ -561,6 +560,7 @@ void SpriteBatch::End()
 void SpriteBatch::RenderQueue()
 {
 	m_graphicsDevice->BindVertexBuffer(m_vertices);
+	m_graphicsDevice->BindIndexBuffer(m_indices);
 
 	uint firstSpriteIndex = 0;
 	uint lastSpriteIndex = 0;
@@ -584,13 +584,14 @@ void SpriteBatch::RenderQueue()
 	// ended before it was caught by the checks inside the loop)
 	RenderQueueRange(firstSpriteIndex, lastSpriteIndex);
 
+	m_graphicsDevice->UnbindIndexBuffer();
 	m_graphicsDevice->UnbindVertexBuffer();
 }
 
 void SpriteBatch::RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex)
 {
-	uint startVertex = firstSpriteIndex * VERTICES_PER_SPRITE;
-	uint lastVertex = (lastSpriteIndex + 1) * VERTICES_PER_SPRITE;  // render up to and including the last sprite
+	uint startVertexIndex = firstSpriteIndex * INDICES_PER_SPRITE;
+	uint lastVertexIndex = (lastSpriteIndex + 1) * INDICES_PER_SPRITE;  // render up to and including the last sprite
 	
 	// take the texture from anywhere in this range
 	// (doesn't matter where, should all be the same texture)
@@ -599,7 +600,7 @@ void SpriteBatch::RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex)
 	
 	m_graphicsDevice->BindTexture(texture);
 	m_shader->SetTextureHasAlphaOnly(hasAlphaOnly);
-	m_graphicsDevice->RenderTriangles(startVertex, (lastVertex - startVertex) / 3);
+	m_graphicsDevice->RenderTriangles(startVertexIndex, (lastVertexIndex - startVertexIndex) / 3);
 }
 
 uint SpriteBatch::GetRemainingSpriteSpaces() const
@@ -611,10 +612,34 @@ uint SpriteBatch::GetRemainingSpriteSpaces() const
 void SpriteBatch::AddMoreSpriteSpace(uint numSprites)
 {
 	uint numVerticesToAdd = numSprites * VERTICES_PER_SPRITE;
+	uint numIndicesToAdd = numSprites * INDICES_PER_SPRITE;
 	uint newTextureArraySize = m_textures.size() + numSprites;
 	
+	uint oldSpriteCount = m_vertices->GetNumElements() / VERTICES_PER_SPRITE;
+	
 	m_vertices->Extend(numVerticesToAdd);
-	m_textures.resize(newTextureArraySize);
+	m_indices->Extend(numIndicesToAdd);
+	m_textures.resize(newTextureArraySize, NULL);
+
+	uint newSpriteCount = m_vertices->GetNumElements() / VERTICES_PER_SPRITE;
+	
+	FillSpriteIndicesFor(oldSpriteCount - 1, newSpriteCount - 1);
+}
+
+void SpriteBatch::FillSpriteIndicesFor(uint firstSprite, uint lastSprite)
+{
+	for (uint i = firstSprite; i <= lastSprite; ++i)
+	{
+		uint indicesStart = i * INDICES_PER_SPRITE;
+		uint verticesStart = i * VERTICES_PER_SPRITE;
+		
+		m_indices->SetIndex(indicesStart + 0, (uint16_t)(verticesStart + 0));
+		m_indices->SetIndex(indicesStart + 1, (uint16_t)(verticesStart + 1));
+		m_indices->SetIndex(indicesStart + 2, (uint16_t)(verticesStart + 2));
+		m_indices->SetIndex(indicesStart + 3, (uint16_t)(verticesStart + 0));
+		m_indices->SetIndex(indicesStart + 4, (uint16_t)(verticesStart + 2));
+		m_indices->SetIndex(indicesStart + 5, (uint16_t)(verticesStart + 3));
+	}
 }
 
 inline int SpriteBatch::FixYCoord(int y, uint sourceHeight) const
