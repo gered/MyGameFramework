@@ -34,8 +34,10 @@ SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
 {
 	m_graphicsDevice = graphicsDevice;
 	m_shader = NULL;
-
-	// TODO: default size of 1 is best?
+	m_begunRendering = false;
+	m_isRenderStateOverridden = false;
+	m_isBlendStateOverridden = false;
+	m_isClipping = false;
 	m_currentSpritePointer = 0;
 	
 	VERTEX_ATTRIBS attribs[] = {
@@ -44,28 +46,15 @@ SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
 		VERTEX_TEXCOORD
 	};
 
-	// size vertices and texture storage to match m_currentSpriteCapacity
-	// HACK: we initialize the buffer to have a size of "1" simply because we
-	//       can't use a size of 0 with the current VertexBuffer implementation
 	m_vertices = new VertexBuffer();
-	ASSERT(m_vertices != NULL);
-	m_vertices->Initialize(attribs, 3, 1, BUFFEROBJECT_USAGE_STREAM);
+	m_vertices->Initialize(attribs, 3, DEFAULT_SPRITE_COUNT * VERTICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
 
-	m_textures.reserve(1);
+	m_textures.reserve(DEFAULT_SPRITE_COUNT);
 
 	m_renderState = new RENDERSTATE_DEFAULT;
-	ASSERT(m_renderState != NULL);
 	m_renderState->SetDepthTesting(false);
 
 	m_blendState = new BLENDSTATE_ALPHABLEND;
-	ASSERT(m_blendState != NULL);
-
-	m_begunRendering = false;
-
-	m_isRenderStateOverridden = false;
-	m_isBlendStateOverridden = false;
-
-	m_isClipping = false;
 }
 
 SpriteBatch::~SpriteBatch()
