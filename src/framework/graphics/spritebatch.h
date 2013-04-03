@@ -327,7 +327,8 @@ private:
 	void RenderQueue();
 	void RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex);
 
-	void CheckForNewSpriteSpace();
+	uint GetRemainingSpriteSpaces() const;
+	void AddMoreSpriteSpace(uint numSprites);
 
 	int FixYCoord(int y, uint sourceHeight) const;
 	float FixYCoord(int y, float sourceHeight) const;

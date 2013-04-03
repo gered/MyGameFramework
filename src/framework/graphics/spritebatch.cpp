@@ -397,7 +397,9 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 			return;
 	}
 
-	CheckForNewSpriteSpace();
+	if (GetRemainingSpriteSpaces() < 1)
+		AddMoreSpriteSpace(16);
+	
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeftF, destTopF, destRightF, destBottomF, texLeft, texTop, texRight, texBottom, color);
 	++m_currentSpritePointer;
 }
@@ -417,7 +419,9 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 			return;
 	}
 
-	CheckForNewSpriteSpace();
+	if (GetRemainingSpriteSpaces() < 1)
+		AddMoreSpriteSpace(16);
+	
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeftF, destTopF, destRightF, destBottomF, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 	++m_currentSpritePointer;
 }
@@ -431,8 +435,10 @@ void SpriteBatch::AddSprite(const Texture *texture, float destLeft, float destTo
 		if (!ClipSpriteCoords(destLeft, destTop, destRight, destBottom, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom))
 			return;
 	}
+	
+	if (GetRemainingSpriteSpaces() < 1)
+		AddMoreSpriteSpace(16);
 
-	CheckForNewSpriteSpace();
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeft, destTop, destRight, destBottom, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 	++m_currentSpritePointer;
 }
@@ -603,23 +609,19 @@ void SpriteBatch::RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex)
 	m_graphicsDevice->RenderTriangles(startVertex, (lastVertex - startVertex) / 3);
 }
 
-void SpriteBatch::CheckForNewSpriteSpace()
+uint SpriteBatch::GetRemainingSpriteSpaces() const
 {
-	// HACK: the assumption is made here that this will never expand the buffers
-	//       by an amount that could be used to store more then one entity at a
-	//       time. This is because we use std::vector::push_back to expand the
-	//       entity object storage by only one.
+	uint currentMaxSprites = m_vertices->GetNumElements() / 6;
+	return currentMaxSprites - m_currentSpritePointer;
+}
 
-	uint verticesRequired = 6;
-	if (m_vertices->GetRemainingSpace() < verticesRequired)
-	{
-		// need to add more space for a new entity of the specified type to fit
-		m_vertices->Extend(verticesRequired - m_vertices->GetRemainingSpace());
-		ASSERT(m_vertices->GetRemainingSpace() >= verticesRequired);
-
-		m_textures.push_back(NULL);
-		ASSERT(m_currentSpritePointer < m_textures.size());
-	}
+void SpriteBatch::AddMoreSpriteSpace(uint numSprites)
+{
+	uint numVerticesToAdd = numSprites * 6;
+	uint newTextureArraySize = m_textures.size() + numSprites;
+	
+	m_vertices->Extend(numVerticesToAdd);
+	m_textures.resize(newTextureArraySize);
 }
 
 inline int SpriteBatch::FixYCoord(int y, uint sourceHeight) const
