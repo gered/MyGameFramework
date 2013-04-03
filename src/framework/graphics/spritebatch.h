@@ -18,21 +18,6 @@ class VertexBuffer;
 struct Rect;
 struct Vector3;
 
-enum SPRITEBATCH_ENTITY_TYPE
-{
-	SPRITEBATCH_ENTITY_SPRITE,
-	SPRITEBATCH_ENTITY_LINE,
-	SPRITEBATCH_ENTITY_FILLEDBOX
-};
-
-struct SpriteBatchEntity
-{
-	const Texture *texture;
-	SPRITEBATCH_ENTITY_TYPE type;
-	uint firstVertex;
-	uint lastVertex;
-};
-
 /**
  * Wrapper for 2D sprite and text rendering.
  */
@@ -302,50 +287,6 @@ public:
 	void Printf(const SpriteFont *font, const Vector3 &worldPosition, const Color &color, float scale, const char *format, ...);
 
 	/**
-	 * Renders a line between two points.
-	 * @param x1 X coordinate of the first point
-	 * @param y1 Y coordinate of the first point
-	 * @param x2 X coordinate of the second point
-	 * @param y2 Y coordinate of the second point
-	 * @param color the color to render the line with
-	 */
-	void RenderLine(int x1, int y1, int x2, int y2, const Color &color);
-
-	/**
-	 * Renders a box.
-	 * @param left left X coordinate of the box
-	 * @param top top Y coordinate of the box
-	 * @param right right X coordinate of the box
-	 * @param bottom bottom Y coordinate of the box
-	 * @param color the color to render the box with
-	 */
-	void RenderBox(int left, int top, int right, int bottom, const Color &color);
-
-	/**
-	 * Renders a box.
-	 * @param rect the position and dimensions of the box
-	 * @param color the color to render the box with
-	 */
-	void RenderBox(const Rect &rect, const Color &color);
-
-	/**
-	 * Renders a filled box.
-	 * @param left left X coordinate of the box
-	 * @param top top Y coordinate of the box
-	 * @param right right X coordinate of the box
-	 * @param bottom bottom Y coordinate of the box
-	 * @param color the color to render the box with
-	 */
-	void RenderFilledBox(int left, int top, int right, int bottom, const Color &color);
-
-	/**
-	 * Renders a filled box.
-	 * @param rect the position and dimensions of the box
-	 * @param color the color to render the box with
-	 */
-	void RenderFilledBox(const Rect &rect, const Color &color);
-
-	/**
 	 * Ends a rendering block, flushing out all rendering calls made
 	 * since the Begin() call to the video card.
 	 */
@@ -383,20 +324,11 @@ private:
 	bool ClipSpriteCoords(float &left, float &top, float &right, float &bottom, float &texCoordLeft, float &texCoordTop, float &texCoordRight, float &texCoordBottom);
 	void SetSpriteInfo(uint spriteIndex, const Texture *texture, float destLeft, float destTop, float destRight, float destBottom, float texCoordLeft, float texCoordTop, float texCoordRight, float texCoordBottom, const Color &color);
 
-	void AddLine(float x1, float y1, float x2, float y2, const Color &color);
-	void SetLineInfo(uint spriteIndex, float x1, float y1, float x2, float y2, const Color &color);
-	bool ClipLineCoords(float &x1, float &y1, float &x2, float &y2);
-
-	void AddFilledBox(float left, float top, float right, float bottom, const Color &color);
-	void SetFilledBoxInfo(uint spriteIndex, float left, float top, float right, float bottom, const Color &color);
-	bool ClipFilledBoxCoords(float &left, float &top, float &right, float &bottom);
-
 	void RenderQueue();
-	void RenderQueueRange(const SpriteBatchEntity *firstEntity, const SpriteBatchEntity *lastEntity);
+	void RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex);
 
-	void CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_TYPE type);
+	void CheckForNewSpriteSpace();
 
-	uint GetVerticesRequiredFor(SPRITEBATCH_ENTITY_TYPE type);
 	int FixYCoord(int y, uint sourceHeight) const;
 	float FixYCoord(int y, float sourceHeight) const;
 
@@ -409,7 +341,7 @@ private:
 	bool m_isBlendStateOverridden;
 	BlendState m_overrideBlendState;
 	VertexBuffer *m_vertices;
-	stl::vector<SpriteBatchEntity> m_entities;
+	stl::vector<const Texture*> m_textures;
 	uint m_currentSpritePointer;
 	Matrix4x4 m_previousProjection;
 	Matrix4x4 m_previousModelview;

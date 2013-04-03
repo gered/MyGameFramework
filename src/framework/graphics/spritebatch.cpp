@@ -47,7 +47,7 @@ SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
 	ASSERT(m_vertices != NULL);
 	m_vertices->Initialize(attribs, 3, 1, BUFFEROBJECT_USAGE_STREAM);
 
-	m_entities.reserve(1);
+	m_textures.reserve(1);
 
 	m_renderState = new RENDERSTATE_DEFAULT;
 	ASSERT(m_renderState != NULL);
@@ -374,66 +374,6 @@ void SpriteBatch::Printf(const SpriteFont *font, const Vector3 &worldPosition, c
 	Render(font, worldPosition, color, scale, __spriteBatch_printfBuffer);
 }
 
-void SpriteBatch::RenderLine(int x1, int y1, int x2, int y2, const Color &color)
-{
-	y1 = FixYCoord(y1, (uint)1);
-	y2 = FixYCoord(y2, (uint)1);
-
-	AddLine(x1, y1, x2, y2, color);
-}
-
-void SpriteBatch::RenderBox(int left, int top, int right, int bottom, const Color &color)
-{
-	uint height = bottom - top;
-	top = FixYCoord(top, height);
-	bottom = top + height;
-
-	AddLine(left, top, left, bottom, color);
-	AddLine(left, bottom, right, bottom, color);
-	AddLine(right, top, right, bottom, color);
-	AddLine(left, top, right, top, color);
-}
-
-void SpriteBatch::RenderBox(const Rect &rect, const Color &color)
-{
-	int left = (int)rect.left;
-	int top = (int)rect.top;
-	int right = (int)rect.right;
-	int bottom = (int)rect.bottom;
-
-	uint height = bottom - top;
-	top = FixYCoord(top, height);
-	bottom = top + height;
-
-	AddLine(left, top, left, bottom, color);
-	AddLine(left, bottom, right, bottom, color);
-	AddLine(right, top, right, bottom, color);
-	AddLine(left, top, right, top, color);
-}
-
-void SpriteBatch::RenderFilledBox(int left, int top, int right, int bottom, const Color &color)
-{
-	uint height = bottom - top;
-	top = FixYCoord(top, height);
-	bottom = top + height;
-
-	AddFilledBox(left, top, right, bottom, color);
-}
-
-void SpriteBatch::RenderFilledBox(const Rect &rect, const Color &color)
-{
-	int left = (int)rect.left;
-	int top = (int)rect.top;
-	int right = (int)rect.right;
-	int bottom = (int)rect.bottom;
-
-	uint height = bottom - top;
-	top = FixYCoord(top, height);
-	bottom = top + height;
-
-	AddFilledBox(left, top, right, bottom, color);
-}
-
 void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, int destRight, int destBottom, uint sourceLeft, uint sourceTop, uint sourceRight, uint sourceBottom, const Color &color)
 {
 	ASSERT(m_begunRendering == true);
@@ -457,7 +397,7 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 			return;
 	}
 
-	CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_SPRITE);
+	CheckForNewSpriteSpace();
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeftF, destTopF, destRightF, destBottomF, texLeft, texTop, texRight, texBottom, color);
 	++m_currentSpritePointer;
 }
@@ -477,7 +417,7 @@ void SpriteBatch::AddSprite(const Texture *texture, int destLeft, int destTop, i
 			return;
 	}
 
-	CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_SPRITE);
+	CheckForNewSpriteSpace();
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeftF, destTopF, destRightF, destBottomF, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 	++m_currentSpritePointer;
 }
@@ -492,7 +432,7 @@ void SpriteBatch::AddSprite(const Texture *texture, float destLeft, float destTo
 			return;
 	}
 
-	CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_SPRITE);
+	CheckForNewSpriteSpace();
 	SetSpriteInfo(m_currentSpritePointer, texture, destLeft, destTop, destRight, destBottom, texCoordLeft, texCoordTop, texCoordRight, texCoordBottom, color);
 	++m_currentSpritePointer;
 }
@@ -582,146 +522,8 @@ void SpriteBatch::SetSpriteInfo(uint spriteIndex, const Texture *texture, float 
 
 	// move ahead past this sprite's vertices, so we're ready for the next one
 	m_vertices->Move(6);
-
-	// keep info about this entity we just added vertices for
-	SpriteBatchEntity &entity = m_entities[spriteIndex];
-	entity.texture = texture;
-	entity.type = SPRITEBATCH_ENTITY_SPRITE;
-	entity.firstVertex = base;
-	entity.lastVertex = base + 5;
-}
-
-void SpriteBatch::AddLine(float x1, float y1, float x2, float y2, const Color &color)
-{
-	ASSERT(m_begunRendering == true);
-
-	if (m_isClipping)
-	{
-		if (!ClipLineCoords(x1, y1, x2, y2))
-			return;
-	}
-
-	CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_LINE);
-	SetLineInfo(m_currentSpritePointer, x1, y1, x2, y2, color);
-	++m_currentSpritePointer;
-}
-
-void SpriteBatch::SetLineInfo(uint spriteIndex, float x1, float y1, float x2, float y2, const Color &color)
-{
-	uint base = m_vertices->GetCurrentPosition();
-
-	m_vertices->SetPosition2(base, x1, y1);
-	m_vertices->SetPosition2(base + 1, x2, y2);
-
-	// not used
-	m_vertices->SetTexCoord(base, 0.0f, 0.0f);
-	m_vertices->SetTexCoord(base + 1, 0.0f, 0.0f);
-
-	m_vertices->SetColor(base, color);
-	m_vertices->SetColor(base + 1, color);
-
-	// move ahead past this sprite's vertices, so we're ready for the next one
-	m_vertices->Move(2);
-
-	// keep info about this entity we just added vertices for
-	SpriteBatchEntity &entity = m_entities[spriteIndex];
-	entity.texture = NULL;
-	entity.type = SPRITEBATCH_ENTITY_LINE;
-	entity.firstVertex = base;
-	entity.lastVertex = base + 1;
-}
-
-bool SpriteBatch::ClipLineCoords(float &x1, float &y1, float &x2, float &y2)
-{
-	// TODO: implementation
-
-	return true;
-}
-
-void SpriteBatch::AddFilledBox(float left, float top, float right, float bottom, const Color &color)
-{
-	ASSERT(m_begunRendering == true);
-
-	if (m_isClipping)
-	{
-		if (!ClipFilledBoxCoords(left, top, right, bottom))
-			return;
-	}
-
-	CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_FILLEDBOX);
-	SetFilledBoxInfo(m_currentSpritePointer, left, top, right, bottom, color);
-	++m_currentSpritePointer;
-}
-
-void SpriteBatch::SetFilledBoxInfo(uint spriteIndex, float left, float top, float right, float bottom, const Color &color)
-{
-	uint base = m_vertices->GetCurrentPosition();
-
-	m_vertices->SetPosition2(base, left, top);
-	m_vertices->SetPosition2(base + 1, right, top);
-	m_vertices->SetPosition2(base + 2, right, bottom);
-	m_vertices->SetPosition2(base + 3, left, top);
-	m_vertices->SetPosition2(base + 4, right, bottom);
-	m_vertices->SetPosition2(base + 5, left, bottom);
-
-	// not used
-	m_vertices->SetTexCoord(base, 0.0f, 0.0f);
-	m_vertices->SetTexCoord(base + 1, 0.0f, 0.0f);
-	m_vertices->SetTexCoord(base + 2, 0.0f, 0.0f);
-	m_vertices->SetTexCoord(base + 3, 0.0f, 0.0f);
-	m_vertices->SetTexCoord(base + 4, 0.0f, 0.0f);
-	m_vertices->SetTexCoord(base + 5, 0.0f, 0.0f);
-
-	m_vertices->SetColor(base, color);
-	m_vertices->SetColor(base + 1, color);
-	m_vertices->SetColor(base + 2, color);
-	m_vertices->SetColor(base + 3, color);
-	m_vertices->SetColor(base + 4, color);
-	m_vertices->SetColor(base + 5, color);
-
-	// move ahead past this sprite's vertices, so we're ready for the next one
-	m_vertices->Move(6);
-
-	// keep info about this entity we just added vertices for
-	SpriteBatchEntity &entity = m_entities[spriteIndex];
-	entity.texture = NULL;
-	entity.type = SPRITEBATCH_ENTITY_FILLEDBOX;
-	entity.firstVertex = base;
-	entity.lastVertex = base + 5;
-}
-
-bool SpriteBatch::ClipFilledBoxCoords(float &left, float &top, float &right, float &bottom)
-{
-	// check for completely out of bounds scenarios first
-	if (left >= m_clipRegion.right)
-		return false;
-	if (right < m_clipRegion.left)
-		return false;
-	if (top >= m_clipRegion.bottom)
-		return false;
-	if (bottom < m_clipRegion.top)
-		return false;
-
-	float clippedLeft = left;
-	float clippedTop = top;
-	float clippedRight = right;
-	float clippedBottom = bottom;
-
-	if (clippedLeft < m_clipRegion.left)
-		clippedLeft = m_clipRegion.left;
-	if (clippedRight > m_clipRegion.right)
-		clippedRight = m_clipRegion.right;
-	if (clippedTop < m_clipRegion.top)
-		clippedTop = m_clipRegion.top;
-	if (clippedBottom > m_clipRegion.bottom)
-		clippedBottom = m_clipRegion.bottom;
-
-	left = clippedLeft;
-	top = clippedTop;
-	right = clippedRight;
-	bottom = clippedBottom;
-
-	return true;
+	
+	m_textures[spriteIndex] = texture;
 }
 
 void SpriteBatch::End()
@@ -761,101 +563,63 @@ void SpriteBatch::RenderQueue()
 {
 	m_graphicsDevice->BindVertexBuffer(m_vertices);
 
-	const SpriteBatchEntity *firstEntity = &m_entities[0];
-	const SpriteBatchEntity *lastEntity = &m_entities[0];
+	uint firstSpriteIndex = 0;
+	uint lastSpriteIndex = 0;
 
 	for (uint i = 0; i < m_currentSpritePointer; ++i)
 	{
-		if (lastEntity->type != m_entities[i].type)
+		if (m_textures[lastSpriteIndex] != m_textures[i])
 		{
-			// if the next type is different then the last range's type, then
-			// we need to render the last range now
-			RenderQueueRange(firstEntity, lastEntity);
+			// if the next texture is different then the last range's texture,
+			// then we need to render the last range now
+			RenderQueueRange(firstSpriteIndex, lastSpriteIndex);
 
-			// switch to the new range with this new type
-			firstEntity = &m_entities[i];
-		}
-		else
-		{
-			if (lastEntity->texture != m_entities[i].texture)
-			{
-				// if the next texture is different then the last range's
-				// texture, then we need to render the last range now
-				RenderQueueRange(firstEntity, lastEntity);
-
-				// switch to the new range with this new texture
-				firstEntity = &m_entities[i];
-			}
+			// switch to the new range with this new texture
+			firstSpriteIndex = i;
 		}
 
-		lastEntity = &m_entities[i];
+		lastSpriteIndex = i;
 	}
+	
 	// we'll have one last range to render at this point (the loop would have
 	// ended before it was caught by the checks inside the loop)
-	RenderQueueRange(firstEntity, lastEntity);
+	RenderQueueRange(firstSpriteIndex, lastSpriteIndex);
 
 	m_graphicsDevice->UnbindVertexBuffer();
 }
 
-void SpriteBatch::RenderQueueRange(const SpriteBatchEntity *firstEntity, const SpriteBatchEntity *lastEntity)
+void SpriteBatch::RenderQueueRange(uint firstSpriteIndex, uint lastSpriteIndex)
 {
-	uint startVertex = firstEntity->firstVertex;
-	uint lastVertex = lastEntity->lastVertex + 1;
-
-	if (lastEntity->texture != NULL)
-	{
-		m_graphicsDevice->BindTexture(lastEntity->texture);
-		m_shader->SetTextureHasAlphaOnly(lastEntity->texture->GetFormat() == TEXTURE_FORMAT_ALPHA);
-	}
-	else
-		// HACK: probably better idea to use a RenderState to turn texturing off
-		m_graphicsDevice->UnbindTexture();
-
-	switch (lastEntity->type)
-	{
-	case SPRITEBATCH_ENTITY_SPRITE:
-		m_graphicsDevice->RenderTriangles(startVertex, (lastVertex - startVertex) / 3);
-		break;
-	case SPRITEBATCH_ENTITY_LINE:
-		m_graphicsDevice->RenderLines(startVertex, (lastVertex - startVertex) / 2);
-		break;
-	case SPRITEBATCH_ENTITY_FILLEDBOX:
-		m_graphicsDevice->RenderTriangles(startVertex, (lastVertex - startVertex) / 3);
-		break;
-	}
+	uint startVertex = firstSpriteIndex * 6;
+	uint lastVertex = (lastSpriteIndex + 1) * 6;  // render up to and including the last sprite
+	
+	// take the texture from anywhere in this range
+	// (doesn't matter where, should all be the same texture)
+	const Texture *texture = m_textures[firstSpriteIndex];
+	bool hasAlphaOnly = (texture->GetFormat() == TEXTURE_FORMAT_ALPHA ? true : false);
+	
+	m_graphicsDevice->BindTexture(texture);
+	m_shader->SetTextureHasAlphaOnly(hasAlphaOnly);
+	m_graphicsDevice->RenderTriangles(startVertex, (lastVertex - startVertex) / 3);
 }
 
-void SpriteBatch::CheckForNewSpriteSpace(SPRITEBATCH_ENTITY_TYPE type)
+void SpriteBatch::CheckForNewSpriteSpace()
 {
 	// HACK: the assumption is made here that this will never expand the buffers
 	//       by an amount that could be used to store more then one entity at a
 	//       time. This is because we use std::vector::push_back to expand the
 	//       entity object storage by only one.
 
-	uint verticesRequired = GetVerticesRequiredFor(type);
+	uint verticesRequired = 6;
 	if (m_vertices->GetRemainingSpace() < verticesRequired)
 	{
 		// need to add more space for a new entity of the specified type to fit
 		m_vertices->Extend(verticesRequired - m_vertices->GetRemainingSpace());
 		ASSERT(m_vertices->GetRemainingSpace() >= verticesRequired);
 
-		m_entities.push_back(SpriteBatchEntity());
-		ASSERT(m_currentSpritePointer < m_entities.size());
+		m_textures.push_back(NULL);
+		ASSERT(m_currentSpritePointer < m_textures.size());
 	}
-}
-
-inline uint SpriteBatch::GetVerticesRequiredFor(SPRITEBATCH_ENTITY_TYPE type)
-{
-	uint numVerticesRequired = 0;
-	switch (type)
-	{
-	case SPRITEBATCH_ENTITY_SPRITE: numVerticesRequired = 6; break;
-	case SPRITEBATCH_ENTITY_LINE: numVerticesRequired = 2; break;
-	case SPRITEBATCH_ENTITY_FILLEDBOX: numVerticesRequired = 6; break;
-	}
-
-	ASSERT(numVerticesRequired != 0);
-	return numVerticesRequired;
 }
 
 inline int SpriteBatch::FixYCoord(int y, uint sourceHeight) const
