@@ -51,10 +51,10 @@ SpriteBatch::SpriteBatch(GraphicsDevice *graphicsDevice)
 	uint numSprites = DEFAULT_SPRITE_COUNT;
 
 	m_vertices = new VertexBuffer();
-	m_vertices->Initialize(attribs, 3, numSprites * VERTICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
+	m_vertices->Initialize(m_graphicsDevice, attribs, 3, numSprites * VERTICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
 	
 	m_indices = new IndexBuffer();
-	m_indices->Initialize(numSprites * INDICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
+	m_indices->Initialize(m_graphicsDevice, numSprites * INDICES_PER_SPRITE, BUFFEROBJECT_USAGE_STREAM);
 
 	m_textures.resize(numSprites, NULL);
 	
