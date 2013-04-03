@@ -63,6 +63,9 @@ bool VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VERTEX_ATTRI
 	
 	Resize(numVertices);
 	
+	if (graphicsDevice != NULL)
+		CreateOnGpu();
+	
 	return true;
 }
 
@@ -98,6 +101,9 @@ bool VertexBuffer::Initialize(GraphicsDevice *graphicsDevice, const VertexBuffer
 	{
 		Resize(source->GetNumElements());
 		Copy(source, 0);
+		
+		if (graphicsDevice != NULL)
+			CreateOnGpu();
 	}
 	
 	SAFE_DELETE_ARRAY(attribs);
